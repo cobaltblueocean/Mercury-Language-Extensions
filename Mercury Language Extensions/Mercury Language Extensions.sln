@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31205.134
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mercury Language Extensions", "Mercury Language Extensions.csproj", "{C926C33A-6AC0-4046-8A97-F3B9C165CABA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C926C33A-6AC0-4046-8A97-F3B9C165CABA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C926C33A-6AC0-4046-8A97-F3B9C165CABA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C926C33A-6AC0-4046-8A97-F3B9C165CABA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C926C33A-6AC0-4046-8A97-F3B9C165CABA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C6E30D98-4F20-49FB-A6C8-3C8D8164E201}
+	EndGlobalSection
+EndGlobal

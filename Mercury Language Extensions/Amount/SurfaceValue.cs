@@ -28,7 +28,7 @@ namespace Mercury.Language.Amount
 {
     /// <summary>
     /// Object to represent Values linked to a surface (pair of doubles) for which the Values can be added or multiplied by a constant.
-    /// Used for different sensitivities (SABR, FX,..d)d The objects stored as a HashMap(Tuple<Double, Double>, Double?).
+    /// Used for different sensitivities (SABR, FX,..d)d The objects stored as a HashMap(Tuple<Double?, Double?>, Double?).
     /// <summary>
     public class SurfaceValue
     {
@@ -36,24 +36,24 @@ namespace Mercury.Language.Amount
         /// <summary>
         /// The data stored as a mapd Not null.
         /// <summary>
-        private Dictionary<Tuple<Double, Double>, Double?> _data;
+        private Dictionary<Tuple<Double?, Double?>, Double?> _data;
 
         /// <summary>
         /// Constructord Create an empty map.
         /// <summary>
         public SurfaceValue()
         {
-            _data = new Dictionary<Tuple<Double, Double>, Double?>();
+            _data = new Dictionary<Tuple<Double?, Double?>, Double?>();
         }
 
         /// <summary>
         /// Constructor from an existing mapd The map is used in the new object.
         /// <summary>
         /// <param name="map">The map.</param>
-        private SurfaceValue(Dictionary<Tuple<Double, Double>, Double?> map)
+        private SurfaceValue(Dictionary<Tuple<Double?, Double?>, Double?> map)
         {
             // ArgumentChecker.NotNull(map, "Map");
-            _data = new Dictionary<Tuple<Double, Double>, Double?>(map);
+            _data = new Dictionary<Tuple<Double?, Double?>, Double?>(map);
         }
 
         /// <summary>
@@ -62,10 +62,10 @@ namespace Mercury.Language.Amount
         /// <param name="point">The surface point.</param>
         /// <param name="value">The associated value.</param>
         /// <returns>The surface value.</returns>
-        public static SurfaceValue From(Tuple<Double, Double> point, Double? value)
+        public static SurfaceValue From(Tuple<Double?, Double?> point, Double? value)
         {
             // ArgumentChecker.NotNull(point, "Point");
-            var data = new Dictionary<Tuple<Double, Double>, Double?>();
+            var data = new Dictionary<Tuple<Double?, Double?>, Double?>();
             data.AddOrUpdate(point, value);
             return new SurfaceValue(data);
         }
@@ -75,10 +75,10 @@ namespace Mercury.Language.Amount
         /// <summary>
         /// <param name="map">The map.</param>
         /// <returns>The surface value.</returns>
-        public static SurfaceValue From(Dictionary<Tuple<Double, Double>, Double?> map)
+        public static SurfaceValue From(Dictionary<Tuple<Double?, Double?>, Double?> map)
         {
             // ArgumentChecker.NotNull(map, "Map");
-            var data = new Dictionary<Tuple<Double, Double>, Double?>();
+            var data = new Dictionary<Tuple<Double?, Double?>, Double?>();
             data.AddOrUpdateAll(map);
             return new SurfaceValue(data);
         }
@@ -91,7 +91,7 @@ namespace Mercury.Language.Amount
         public static SurfaceValue From(SurfaceValue surface)
         {
             // ArgumentChecker.NotNull(surface, "Surface value");
-            var data = new Dictionary<Tuple<Double, Double>, Double?>();
+            var data = new Dictionary<Tuple<Double?, Double?>, Double?>();
             data.AddOrUpdateAll(surface.GetDictionary());
             return new SurfaceValue(data);
         }
@@ -100,7 +100,7 @@ namespace Mercury.Language.Amount
         /// Gets the underlying map.
         /// <summary>
         /// <returns>The map.</returns>
-        public Dictionary<Tuple<Double, Double>, Double?> GetDictionary()
+        public Dictionary<Tuple<Double?, Double?>, Double?> GetDictionary()
         {
             return _data;
         }
@@ -111,7 +111,7 @@ namespace Mercury.Language.Amount
         /// <summary>
         /// <param name="point">The surface point.</param>
         /// <param name="value">The associated value.</param>
-        public void Add(Tuple<Double, Double> point, Double? value)
+        public void Add(Tuple<Double?, Double?> point, Double? value)
         {
             // ArgumentChecker.NotNull(point, "Point");
             if (_data.ContainsKey(point))
@@ -144,7 +144,7 @@ namespace Mercury.Language.Amount
         {
             // ArgumentChecker.NotNull(value1, "Surface value 1");
             // ArgumentChecker.NotNull(value2, "Surface value 2");
-            var plus = new Dictionary<Tuple<Double, Double>, Double?>(value1._data);
+            var plus = new Dictionary<Tuple<Double?, Double?>, Double?>(value1._data);
             foreach (var p in value2._data.Keys)
             {
                 if (value1._data.ContainsKey(p))
@@ -167,11 +167,11 @@ namespace Mercury.Language.Amount
         /// <param name="point">The surface point.</param>
         /// <param name="value">The associated value.</param>
         /// <returns>The combined/sum surface value.</returns>
-        public static SurfaceValue Plus(SurfaceValue surfaceValue, Tuple<Double, Double> point, Double? value)
+        public static SurfaceValue Plus(SurfaceValue surfaceValue, Tuple<Double?, Double?> point, Double? value)
         {
             // ArgumentChecker.NotNull(surfaceValue, "Surface value");
             // ArgumentChecker.NotNull(point, "Point");
-            var plus = new Dictionary<Tuple<Double, Double>, Double?>(surfaceValue._data);
+            var plus = new Dictionary<Tuple<Double?, Double?>, Double?>(surfaceValue._data);
             if (surfaceValue._data.ContainsKey(point))
             {
                 plus.AddOrUpdate(point, value + surfaceValue._data[point]);
@@ -192,7 +192,7 @@ namespace Mercury.Language.Amount
         public static SurfaceValue MultiplyBy(SurfaceValue surfaceValue, double factor)
         {
             // ArgumentChecker.NotNull(surfaceValue, "Surface value");
-            var multiplied = new Dictionary<Tuple<Double, Double>, Double?>();
+            var multiplied = new Dictionary<Tuple<Double?, Double?>, Double?>();
             foreach (var p in surfaceValue._data.Keys)
             {
                 multiplied.AddOrUpdate(p, surfaceValue._data[p].Value * factor);

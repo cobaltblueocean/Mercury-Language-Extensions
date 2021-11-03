@@ -98,7 +98,21 @@ namespace Mercury.Language.Log
         {
             try
             {
-                using (StreamWriter w = File.AppendText(s_Path + "\\" + "log.txt"))
+                var now = DateTime.Now;
+                String year = now.Year.ToString();
+                String month = now.Month.ToString();
+                String day = now.Day.ToString();
+
+                if (month.Length == 1)
+                {
+                    month = "0" + month;
+                }
+                if (day.Length == 1)
+                {
+                    day = "0" + day;
+                }
+
+                using (StreamWriter w = File.AppendText(s_Path + "\\" + year + "-" + month + "-" + day + ".log"))
                 {
                     Log(logMessage, type, w);
                 }

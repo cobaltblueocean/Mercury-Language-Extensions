@@ -83,5 +83,38 @@ namespace System
             bool originalValue = result == TRUE_VALUE;
             return originalValue == whenValue;
         }
+
+        /// <summary>
+        /// Atomically sets the value to the given updated value
+        /// if the current value {@code ==} the expected value.
+        /// 
+        /// </summary>
+        /// <param name="expect">the expected value</param>
+        /// <param name="update">the new value</param>
+        /// <returns>true if successful. False return indicates that</returns>
+        /// the actual value was not equal to the expected value.
+        public Boolean CompareAndSet(Boolean expect, Boolean update)
+        {
+            int e = expect ? TRUE_VALUE : FALSE_VALUE;
+            int result = Interlocked.CompareExchange(ref zeroOrOne, (update ? TRUE_VALUE : FALSE_VALUE), e);
+            bool originalValue = result == TRUE_VALUE;
+            return originalValue == update;
+        }
+
+        /// <summary>
+        /// Atomically sets to the given value and returns the previous value.
+        /// 
+        /// </summary>
+        /// <param name="newValue">the new value</param>
+        /// <returns>the previous value</returns>
+        public Boolean GetAndSet(Boolean newValue)
+        {
+            for (; ; )
+            {
+                Boolean current = Value;
+                if (CompareAndSet(current, newValue))
+                    return current;
+            }
+        }
     }
 }

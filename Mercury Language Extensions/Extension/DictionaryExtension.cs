@@ -15,6 +15,16 @@ namespace System.Collections.Generic
         {
             return new ReadOnlyDictionary<T1, T2>(originalDictionary);
         }
+
+        public static T2 PutIfAbsent<T1, T2>(this IDictionary<T1, T2> originalDictionary, T1 key, T2 value)
+        {
+            if (!originalDictionary.ContainsKey(key))
+            {
+                originalDictionary.Add(key, value);
+            }
+
+            return originalDictionary[key];
+        }
         #endregion
     }
 }

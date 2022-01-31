@@ -60,6 +60,5 @@ namespace System
                 r += (a[i] * b[i]);
             return r;
         }
-
     }
 }

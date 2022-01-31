@@ -1,4 +1,23 @@
-﻿using System;
+﻿// Copyright (c) 2017 - presented by Kei Nakai
+//
+// Original project is developed and published by Apache Software Foundation (ASF).
+//
+// Licensed to the Apache Software Foundation (ASF) under one or more
+// contributor license agreements.  See the NOTICE file distributed with
+// this work for additional information regarding copyright ownership.
+// The ASF licenses this file to You under the Apache License, Version 2.0
+// (the "License"); you may not use this file except in compliance with
+// the License.  You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+//
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
@@ -26,7 +45,7 @@ namespace Mercury.Language.Math.Decompositions
     /// @see <a href="http://mathworld.wolfram.com/EigenDecomposition.html">MathWorld</a>
     /// @see <a href="http://en.wikipedia.org/wiki/Eigendecomposition_of_a_matrix">Wikipedia</a>
     /// </summary>
-    public class EigenDecomposition
+    public class EigenDecomposition: IEigenDecomposition<Double>
     {
         /// <summary>
         /// Maximum number of iterations accepted in the implicit QL transformation
@@ -61,22 +80,22 @@ namespace Mercury.Language.Math.Decompositions
         /// <summary>
         /// Eigenvectors.
         /// </summary>
-        private DenseVector[] eigenvectors;
+        private MathNet.Numerics.LinearAlgebra.Vector<Double>[] eigenvectors;
 
         /// <summary>
         /// Cached value of V.
         /// </summary>
-        private DenseMatrix cachedV;
+        private Matrix<Double> cachedV;
 
         /// <summary>
         /// Cached value of D.
         /// </summary>
-        private DenseMatrix cachedD;
+        private Matrix<Double> cachedD;
 
         /// <summary>
         /// Cached value of Vt.
         /// </summary>
-        private DenseMatrix cachedVt;
+        private Matrix<Double> cachedVt;
 
         /// <summary>
         /// Is symmetric the Matrix?
@@ -85,7 +104,7 @@ namespace Mercury.Language.Math.Decompositions
 
         //private static uint SGN_MASK_FLOAT = 0x80000000;
 
-        //public EigenDecomposition(DenseMatrix matrix)
+        //public EigenDecomposition(Matrix<Double> matrix)
         //{
         //    double symTol = 10 * matrix.RowCount * matrix.ColumnCount * System.Double.Epsilon;
 
@@ -104,7 +123,7 @@ namespace Mercury.Language.Math.Decompositions
         /// </summary>
         /// <param name="matrix">Matrix to decompose. It must be symmetric.</param>
         /// <param name="splitTolerance">Dummy parameter (present for backward compatibility only).</param>
-        public EigenDecomposition(DenseMatrix matrix, double splitTolerance)// : this(matrix)
+        public EigenDecomposition(Matrix<Double> matrix, double splitTolerance)// : this(matrix)
         {
             if (matrix.IsSymmetric())
             {
@@ -156,17 +175,18 @@ namespace Mercury.Language.Math.Decompositions
         /// or right-handed system).
         /// </summary>
         /// <returns>the V matrix.</returns>
-        public DenseMatrix GetV()
+        public Matrix<Double> GetV()
         {
 
             if (cachedV == null)
             {
                 int m = eigenvectors.Length;
-                cachedV = new DenseMatrix(m, m);
+                DenseMatrix temp = new DenseMatrix(m, m);
                 for (int k = 0; k < m; ++k)
                 {
-                    cachedV.SetColumnVector(k, eigenvectors[k]);
+                    temp.SetColumnVector(k, (DenseVector)eigenvectors[k]);
                 }
+                cachedV = temp;
             }
             // return the cached matrix
             return cachedV;
@@ -179,13 +199,13 @@ namespace Mercury.Language.Math.Decompositions
         /// 2x2 blocks { {real +imaginary}, {-imaginary, real} }.
         /// </summary>
         /// <returns>the D matrix.</returns>
-        public DenseMatrix GetD()
+        public Matrix<Double> GetD()
         {
 
             if (cachedD == null)
             {
                 // cache the matrix for subsequent calls
-                cachedD = new DenseMatrix(realEigenvalues.Length, realEigenvalues.Length);
+                cachedD = Matrix<Double>.Build.Dense(realEigenvalues.Length, realEigenvalues.Length);
 
                 for (int i = 0; i < imagEigenvalues.Length; i++)
                 {
@@ -211,17 +231,19 @@ namespace Mercury.Language.Math.Decompositions
         /// or right-handed system). 
         /// </summary>
         /// <returns>the transpose of the V matrix.</returns>
-        public DenseMatrix GetVT()
+        public Matrix<Double> GetVT()
         {
 
             if (cachedVt == null)
             {
                 int m = eigenvectors.Length;
-                cachedVt = new DenseMatrix(m, m);
+                DenseMatrix temp = new DenseMatrix(m, m);
                 for (int k = 0; k < m; ++k)
                 {
-                    cachedVt.SetRowVector(k, eigenvectors[k]);
+                    temp.SetRowVector(k, (DenseVector)eigenvectors[k]);
                 }
+
+                cachedVt = temp;
             }
 
             // return the cached matrix
@@ -248,9 +270,9 @@ namespace Mercury.Language.Math.Decompositions
         /// <summary>
         /// Gets a copy of the real parts of the eigenvalues of the original matrix.
         /// </summary>
-        public double[] RealEigenvalues
+        public double[] GetRealEigenvalues()
         {
-            get { return realEigenvalues; }
+             return realEigenvalues; 
         }
 
         /// <summary>
@@ -266,9 +288,9 @@ namespace Mercury.Language.Math.Decompositions
         /// <summary>
         /// Gets a copy of the imaginary parts of the eigenvalues of the original matrix.
         /// </summary>
-        public double[] ImagEigenvalues
+        public double[] GetImagEigenvalues()
         {
-            get { return imagEigenvalues; }
+             return imagEigenvalues; 
         }
 
         /// <summary>
@@ -286,7 +308,7 @@ namespace Mercury.Language.Math.Decompositions
         /// </summary>
         /// <param name="i">Index of the eigenvector (counting from 0).</param>
         /// <returns>a copy of the i<sup>th</sup> eigenvector of the original matrix.</returns>
-        public DenseVector GetEigenvector(int i)
+        public MathNet.Numerics.LinearAlgebra.Vector<Double> GetEigenvector(int i)
         {
             return eigenvectors[i];
         }
@@ -295,21 +317,24 @@ namespace Mercury.Language.Math.Decompositions
         /// Computes the determinant of the matrix.
         /// </summary>
         /// <returns>the determinant of the matrix.</returns>
-        public double GetDeterminant()
+        public double Determinant
         {
-            double determinant = 1;
-            foreach (var lambda in realEigenvalues)
+            get
             {
-                determinant *= lambda;
+                double determinant = 1;
+                foreach (var lambda in realEigenvalues)
+                {
+                    determinant *= lambda;
+                }
+                return determinant;
             }
-            return determinant;
         }
 
         /// <summary>
         /// Computes the square root of the matrix.
         /// </summary>
         /// <returns>the square root of the matrix.</returns>
-        public DenseMatrix GetSquareRoot()
+        public Matrix<Double> GetSquareRoot()
         {
             if (!isSymmetric)
             {
@@ -327,16 +352,16 @@ namespace Mercury.Language.Math.Decompositions
                 sqrtEigenValues[i] = System.Math.Sqrt(eigen);
             }
 
-            DenseMatrix sqrtEigen = new DenseMatrix(sqrtEigenValues.Length, sqrtEigenValues.Length);
+            Matrix<Double> sqrtEigen = Matrix<Double>.Build.Dense(sqrtEigenValues.Length, sqrtEigenValues.Length);
             for (int i = 0; i < sqrtEigenValues.Length; i++)
             {
                 sqrtEigen.At(i, i, sqrtEigenValues[i]);
             }
 
-            DenseMatrix v = GetV();
-            DenseMatrix vT = GetVT();
+            Matrix<Double> v = GetV();
+            Matrix<Double> vT = GetVT();
 
-            return (DenseMatrix)v.Multiply(sqrtEigen).Multiply(vT);
+            return (Matrix<Double>)v.Multiply(sqrtEigen).Multiply(vT);
         }
 
         /// <summary>
@@ -356,10 +381,10 @@ namespace Mercury.Language.Math.Decompositions
         /// Transform the Matrix to Tridiagonal
         /// </summary>
         /// <param name="matrix">A Matrix</param>
-        private void TransformToTridiagonal(DenseMatrix matrix)
+        private void TransformToTridiagonal(Matrix<Double> matrix)
         {
             // transform the matrix to tridiagonal
-            transformer = new TriDiagonalTransformer(matrix);
+            transformer = new TriDiagonalTransformer((DenseMatrix)matrix);
             main = transformer.MainDiagonal;
             secondary = transformer.SecondaryDiagonal;
         }
@@ -543,7 +568,7 @@ namespace Mercury.Language.Math.Decompositions
                     }
                 }
             }
-            eigenvectors = new DenseVector[n];
+            eigenvectors = new MathNet.Numerics.LinearAlgebra.Vector<Double>[n];
             double[] tmp = new double[n];
             for (int i = 0; i < n; i++)
             {
@@ -551,7 +576,7 @@ namespace Mercury.Language.Math.Decompositions
                 {
                     tmp[j] = z[j, i];
                 }
-                eigenvectors[i] = new DenseVector(tmp);
+                eigenvectors[i] = MathNet.Numerics.LinearAlgebra.Vector<Double>.Build.Dense(tmp);
             }
         }
 
@@ -568,8 +593,38 @@ namespace Mercury.Language.Math.Decompositions
             return System.Numerics.Complex.Divide(new System.Numerics.Complex(xr, xi), new System.Numerics.Complex(yr, yi));
         }
 
+        public object Clone()
+        {
+            return new EigenDecomposition(this.main, this.secondary);
+        }
+
+        public double[,] Solve(double[,] value)
+        {
+            return GetSolver().Solve(value);
+        }
+
+        public double[] Solve(double[] value)
+        {
+            return GetSolver().Solve(value);
+        }
+
+        public double[,] Inverse()
+        {
+            throw new NotImplementedException();
+        }
+
+        public double[,] GetInformationMatrix()
+        {
+            throw new NotImplementedException();
+        }
+
+        public double[,] Reverse()
+        {
+            throw new NotImplementedException();
+        }
+
         #region Unused methods
-        //private SchurTransformer transformToSchur(DenseMatrix matrix)
+        //private SchurTransformer transformToSchur(Matrix<Double> matrix)
         //{
         //    SchurTransformer schurTransform = new SchurTransformer(matrix);
         //    double[][] matT = schurTransform.getT().getData();
@@ -835,7 +890,7 @@ namespace Mercury.Language.Math.Decompositions
         //        }
         //    }
 
-        //    eigenvectors = new DenseVector[n];
+        //    eigenvectors = new Vector<Double>[n];
         //    double[] tmp = new double[n];
         //    for (int i = 0; i < n; i++)
         //    {
@@ -843,7 +898,7 @@ namespace Mercury.Language.Math.Decompositions
         //        {
         //            tmp[j] = matrixP[j][i];
         //        }
-        //        eigenvectors[i] = new DenseVector(tmp);
+        //        eigenvectors[i] = new Vector<Double>(tmp);
         //    }
         //}
 
@@ -854,23 +909,21 @@ namespace Mercury.Language.Math.Decompositions
         /// </summary>
         public class Solver : IDecompositionSolver
         {
-            /** Real part of the realEigenvalues. */
+            /// <summary>Real part of the realEigenvalues. */
             private double[] realEigenvalues;
-            /** Imaginary part of the realEigenvalues. */
+            /// <summary>Imaginary part of the realEigenvalues. */
             private double[] imagEigenvalues;
-            /** Eigenvectors. */
-            private DenseVector[] eigenvectors;
+            /// <summary>Eigenvectors. */
+            private MathNet.Numerics.LinearAlgebra.Vector<Double>[] eigenvectors;
 
-            /**
-             * Builds a solver from decomposed matrix.
-             *
-             * @param realEigenvalues Real parts of the eigenvalues.
-             * @param imagEigenvalues Imaginary parts of the eigenvalues.
-             * @param eigenvectors Eigenvectors.
-             */
-            public Solver(double[] realEigenvalues,
-                    double[] imagEigenvalues,
-                    DenseVector[] eigenvectors)
+            /// <summary>
+            /// Builds a solver from decomposed matrix.
+            /// 
+            /// </summary>
+            /// <param name="realEigenvalues">Real parts of the eigenvalues.</param>
+            /// <param name="imagEigenvalues">Imaginary parts of the eigenvalues.</param>
+            /// <param name="eigenvectors">Eigenvectors.</param>
+            public Solver(double[] realEigenvalues, double[] imagEigenvalues, MathNet.Numerics.LinearAlgebra.Vector<Double>[] eigenvectors)
             {
                 this.realEigenvalues = realEigenvalues;
                 this.imagEigenvalues = imagEigenvalues;
@@ -884,9 +937,9 @@ namespace Mercury.Language.Math.Decompositions
             /// </summary>
             /// <param name="b">Right-hand side of the equation A &times; X = B.</param>
             /// <returns>a Vector X that minimizes the two norm of A &times; X - B.</returns>
-            public DenseVector Solve(DenseVector b)
+            public MathNet.Numerics.LinearAlgebra.Vector<Double> Solve(MathNet.Numerics.LinearAlgebra.Vector<Double> b)
             {
-                if (!IsNonSingular())
+                if (!IsNonSingular)
                 {
                     throw new SingularMatrixException();
                 }
@@ -900,7 +953,7 @@ namespace Mercury.Language.Math.Decompositions
                 double[] bp = new double[m];
                 for (int i = 0; i < m; ++i)
                 {
-                    DenseVector v = eigenvectors[i];
+                    MathNet.Numerics.LinearAlgebra.Vector<Double> v = eigenvectors[i];
                     double[] vData = v.AsArray();
                     double s = v.DotProduct(b) / realEigenvalues[i];
                     for (int j = 0; j < m; ++j)
@@ -909,7 +962,7 @@ namespace Mercury.Language.Math.Decompositions
                     }
                 }
 
-                return new DenseVector(bp);
+                return MathNet.Numerics.LinearAlgebra.Vector<Double>.Build.Dense(bp);
             }
 
             /// <summary>
@@ -919,10 +972,9 @@ namespace Mercury.Language.Math.Decompositions
             /// </summary>
             /// <param name="b">right-hand side of the equation A &times; X = B</param>
             /// <returns>a matrix X that minimizes the two norm of A &times; X - B</returns>
-            public DenseMatrix Solve(DenseMatrix b)
+            public Matrix<Double> Solve(Matrix<Double> b)
             {
-
-                if (!IsNonSingular())
+                if (!IsNonSingular)
                 {
                     throw new SingularMatrixException();
                 }
@@ -945,7 +997,7 @@ namespace Mercury.Language.Math.Decompositions
                     }
                     for (int i = 0; i < m; ++i)
                     {
-                        DenseVector v = eigenvectors[i];
+                        MathNet.Numerics.LinearAlgebra.Vector<Double> v = eigenvectors[i];
                         double[] vData = v.AsArray();
                         double s = 0;
                         for (int j = 0; j < m; ++j)
@@ -964,37 +1016,39 @@ namespace Mercury.Language.Math.Decompositions
                 ret.Load(bp);
 
                 return ret;
-
             }
 
             /// <summary>
             /// Checks whether the decomposed matrix is non-singular.
             /// </summary>
             /// <returns>true if the decomposed matrix is non-singular.</returns>
-            public Boolean IsNonSingular()
+            public Boolean IsNonSingular
             {
-                double largestEigenvalueNorm = 0.0;
-                // Looping over all values (in case they are not sorted in decreasing
-                // order of their norm).
-                for (int i = 0; i < realEigenvalues.Length; ++i)
+                get
                 {
-                    largestEigenvalueNorm = System.Math.Max(largestEigenvalueNorm, EigenvalueNorm(i));
-                }
-                // Corner case: zero matrix, all exactly 0 eigenvalues
-                if (largestEigenvalueNorm == 0.0)
-                {
-                    return false;
-                }
-                for (int i = 0; i < realEigenvalues.Length; ++i)
-                {
-                    // Looking for eigenvalues that are 0, where we consider anything much much smaller
-                    // than the largest eigenvalue to be effectively 0.
-                    if (Precision.AlmostEqual(EigenvalueNorm(i) / largestEigenvalueNorm, 0, System.Double.Epsilon))
+                    double largestEigenvalueNorm = 0.0;
+                    // Looping over all values (in case they are not sorted in decreasing
+                    // order of their norm).
+                    for (int i = 0; i < realEigenvalues.Length; ++i)
+                    {
+                        largestEigenvalueNorm = System.Math.Max(largestEigenvalueNorm, EigenvalueNorm(i));
+                    }
+                    // Corner case: zero matrix, all exactly 0 eigenvalues
+                    if (largestEigenvalueNorm == 0.0)
                     {
                         return false;
                     }
+                    for (int i = 0; i < realEigenvalues.Length; ++i)
+                    {
+                        // Looking for eigenvalues that are 0, where we consider anything much much smaller
+                        // than the largest eigenvalue to be effectively 0.
+                        if (Precision.AlmostEqual(EigenvalueNorm(i) / largestEigenvalueNorm, 0, System.Double.Epsilon))
+                        {
+                            return false;
+                        }
+                    }
+                    return true;
                 }
-                return true;
             }
 
             /// <summary>
@@ -1013,9 +1067,9 @@ namespace Mercury.Language.Math.Decompositions
             /// Get the inverse of the decomposed matrix.
             /// </summary>
             /// <returns>the inverse matrix.</returns>
-            public DenseMatrix GetInverse()
+            public Matrix<Double> GetInverse()
             {
-                if (!IsNonSingular())
+                if (!IsNonSingular)
                 {
                     throw new SingularMatrixException();
                 }
@@ -1041,6 +1095,82 @@ namespace Mercury.Language.Math.Decompositions
                 retmtx.Load(invData);
 
                 return retmtx;
+            }
+
+            public double[] Solve(double[] b)
+            {
+                if (!IsNonSingular)
+                {
+                    throw new SingularMatrixException();
+                }
+
+                int m = realEigenvalues.Length;
+                if (b.Length != m)
+                {
+                    throw new DimensionMismatchException(b.Length, m);
+                }
+
+                double[] bp = new double[m];
+                for (int i = 0; i < m; ++i)
+                {
+                    MathNet.Numerics.LinearAlgebra.Vector<Double> v = eigenvectors[i];
+                    double[] vData = v.AsArray();
+                    double s = v.DotProduct(MathNet.Numerics.LinearAlgebra.Vector<Double>.Build.Dense(b)) / realEigenvalues[i];
+                    for (int j = 0; j < m; ++j)
+                    {
+                        bp[j] += s * vData[j];
+                    }
+                }
+
+                return bp;
+            }
+
+            public double[][] Solve(double[][] value)
+            {
+                return Solve(value.ToMultidimensional()).ToJagged();
+            }
+
+            public double[,] Solve(double[,] b)
+            {
+                if (!IsNonSingular)
+                {
+                    throw new SingularMatrixException();
+                }
+
+                int m = realEigenvalues.Length;
+                if (b.Length != m)
+                {
+                    throw new DimensionMismatchException(b.Length, m);
+                }
+
+                int nColB = b.GetLength(1);
+                double[,] bp = new double[m, nColB];
+                double[] tmpCol = new double[m];
+                for (int k = 0; k < nColB; ++k)
+                {
+                    for (int i = 0; i < m; ++i)
+                    {
+                        tmpCol[i] = b[i, k];
+                        bp[i, k] = 0;
+                    }
+                    for (int i = 0; i < m; ++i)
+                    {
+                        MathNet.Numerics.LinearAlgebra.Vector<Double> v = eigenvectors[i];
+                        double[] vData = v.AsArray();
+                        double s = 0;
+                        for (int j = 0; j < m; ++j)
+                        {
+                            s += v[j] * tmpCol[j];
+                        }
+                        s /= realEigenvalues[i];
+                        for (int j = 0; j < m; ++j)
+                        {
+                            bp[j, k] += s * vData[j];
+                        }
+                    }
+                }
+
+                return bp;
             }
         }
     }

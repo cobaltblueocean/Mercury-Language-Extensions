@@ -1,55 +1,33 @@
 ﻿// Copyright (c) 2017 - presented by Kei Nakai
 //
-// Original project is developed and published by OpenGamma Inc.
+// Original project is developed and published by Apache Software Foundation (ASF).
 //
-// Copyright (C) 2012 - present by OpenGamma Inc. and the OpenGamma group of companies
+// Licensed to the Apache Software Foundation (ASF) under one or more
+// contributor license agreements.  See the NOTICE file distributed with
+// this work for additional information regarding copyright ownership.
+// The ASF licenses this file to You under the Apache License, Version 2.0
+// (the "License"); you may not use this file except in compliance with
+// the License.  You may obtain a copy of the License at
 //
-// Please see distribution for license.
+//      http://www.apache.org/licenses/LICENSE-2.0
 //
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-// 
-//     http://www.apache.org/licenses/LICENSE-2.0
-//     
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-
-// Accord Math Library
-// The Accord.NET Framework
-// http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2017
-// cesarsouza at gmail.com
-//
-// Original work copyright © Lutz Roeder, 2000
-//  Adapted from Mapack for .NET, September 2000
-//  Adapted from Mapack for COM and Jama routines
-//  http://www.aisto.com/roeder/dotnet
-//
-//    This library is free software; you can redistribute it and/or
-//    modify it under the terms of the GNU Lesser General Public
-//    License as published by the Free Software Foundation; either
-//    version 2.1 of the License, or (at your option) any later version.
-//
-//    This library is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-//    Lesser General Public License for more details.
-//
-//    You should have received a copy of the GNU Lesser General Public
-//    License along with this library; if not, write to the Free Software
-//    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MathNet.Numerics.LinearAlgebra;
+using MathNet.Numerics.LinearAlgebra.Double;
+using MathNet.Numerics.LinearAlgebra.Storage;
 using Mercury.Language.Exception;
+using Mercury.Language.Math.Matrix;
+using Mercury.Language.Math.Analysis.Solver;
 
 namespace Mercury.Language.Math.Decompositions
 {
@@ -86,7 +64,7 @@ namespace Mercury.Language.Math.Decompositions
     /// <seealso cref="JaggedEigenvalueDecomposition"/>
     /// <seealso cref="JaggedSingularValueDecomposition"/>
     /// 
-    public sealed class LUDecomposition : ICloneable, ISolverMatrixDecomposition<Double>
+    public sealed class LUDecomposition : ILUDecomposition<Double>
     {
         private int rows;
         private int cols;
@@ -102,6 +80,20 @@ namespace Mercury.Language.Math.Decompositions
         private Double[,] lowerTriangularFactor;
         private Double[,] upperTriangularFactor;
 
+        // Default bound to determine effective singularity in LU decomposition 
+        private static double DEFAULT_TOO_SMALL = 10E-12;
+
+        // Parity of the permutation associated with the LU decomposition 
+        private Boolean even;
+
+        // Cached value of L. 
+        private Matrix<Double> cachedL;
+
+        // Cached value of U. 
+        private Matrix<Double> cachedU;
+
+        // Cached value of P. 
+        private Matrix<Double> cachedP;
 
         /// <summary>
         ///   Constructs a new LU decomposition.
@@ -109,7 +101,18 @@ namespace Mercury.Language.Math.Decompositions
         /// <param name="value">The matrix A to be decomposed.</param>
         /// 
         public LUDecomposition(Double[,] value)
-            : this(value, false)
+            : this(value, DEFAULT_TOO_SMALL)
+        {
+        }
+
+        /// <summary>
+        ///   Constructs a new LU decomposition.
+        /// </summary>    
+        /// <param name="value">The matrix A to be decomposed.</param>
+        /// <param name="singularityThreshold">THreshold value to check the singularity
+        /// 
+        public LUDecomposition(Double[,] value, double singularityThreshold)
+            : this(value, singularityThreshold, false)
         {
         }
 
@@ -121,7 +124,7 @@ namespace Mercury.Language.Math.Decompositions
         /// the transpose of A rather than A itself, false otherwise. Default is false.</param>
         /// 
         public LUDecomposition(Double[,] value, bool transpose)
-            : this(value, transpose, false)
+            : this(value, DEFAULT_TOO_SMALL, transpose, false)
         {
         }
 
@@ -129,13 +132,27 @@ namespace Mercury.Language.Math.Decompositions
         ///   Constructs a new LU decomposition.
         /// </summary>    
         /// <param name="value">The matrix A to be decomposed.</param>
+        /// <param name="singularityThreshold">THreshold value to check the singularity
+        /// <param name="transpose">True if the decomposition should be performed on
+        /// the transpose of A rather than A itself, false otherwise. Default is false.</param>
+        /// 
+        public LUDecomposition(Double[,] value, double singularityThreshold, bool transpose)
+            : this(value, singularityThreshold, transpose, false)
+        {
+        }
+
+        /// <summary>
+        ///   Constructs a new LU decomposition.
+        /// </summary>    
+        /// <param name="value">The matrix A to be decomposed.</param>
+        /// <param name="singularityThreshold">THreshold value to check the singularity
         /// <param name="transpose">True if the decomposition should be performed on
         /// the transpose of A rather than A itself, false otherwise. Default is false.</param>
         /// <param name="inPlace">True if the decomposition should be performed over the
         /// <paramref name="value"/> matrix rather than on a copy of it. If true, the
         /// matrix will be destroyed during the decomposition. Default is false.</param>
         /// 
-        public LUDecomposition(Double[,] value, bool transpose, bool inPlace)
+        public LUDecomposition(Double[,] value, double singularityThreshold, bool transpose, bool inPlace)
         {
             if (value == null)
             {
@@ -155,83 +172,164 @@ namespace Mercury.Language.Math.Decompositions
             this.cols = lu.GetLength(1);
             this.pivotSign = 1;
 
-            this.pivotVector = new int[rows];
-            for (int i = 0; i < rows; i++)
-                pivotVector[i] = i;
 
-            var LUcolj = new Double[rows];
+            int m = this.lu.GetMaxColumnLength();
+            this.pivotVector = new int[m];
+            cachedL = null;
+            cachedU = null;
+            cachedP = null;
 
-            // Outer loop.
-            for (int j = 0; j < cols; j++)
+            // Initialize permutation array and parity
+            for (int row = 0; row < m; row++)
             {
-                // Make a copy of the j-th column to localize references.
-                for (int i = 0; i < rows; i++)
-                    LUcolj[i] = lu[i, j];
+                this.pivotVector[row] = row;
+            }
+            even = true;
+            Boolean singular = false;
 
-                /// Original Code
-                /// Apply previous transformations.
-                // for (int i = 0; i < rows; i++)
-                // {
-                //     Double s = 0;
+            // Loop over columns
+            for (int col = 0; col < m; col++)
+            {
 
-                //     // Most of the time is spent in
-                //     // the following dot product:
-                //     int kmax = Math.Min(i, j);
-                //     Double* LUrowi = &LU[i * cols];
-                //     for (int k = 0; k < kmax; k++)
-                //         s += LUrowi[k] * LUcolj[k];
+                double sum = 0;
 
-                //     LUrowi[j] = LUcolj[i] -= s;
-                // }
-
-
-                // Apply previous transformations.
-                for (int i = 0; i < rows; i++)
+                // upper
+                for (int row = 0; row < col; row++)
                 {
-                    Double s = 0;
-
-                    // Most of the time is spent in
-                    // the following dot product:
-                    int kmax = System.Math.Min(i, j);
-                    //Double[] LUrowi = new Double[i * cols];
-                    Double[] LUrowi = new Double[i * cols + 1];
-                    for (int k = 0; k < kmax; k++)
-                        s += LUrowi[k] * LUcolj[k];
-
-                    LUrowi[j] = LUcolj[i] -= s;
-                }
-
-                // Find pivot and exchange if necessary.
-                int p = j;
-                for (int i = j + 1; i < rows; i++)
-                {
-                    if (System.Math.Abs(LUcolj[i]) > System.Math.Abs(LUcolj[p]))
-                        p = i;
-                }
-
-                if (p != j)
-                {
-                    for (int k = 0; k < cols; k++)
+                    double[] luRow = lu.GetRow(row);
+                    sum = luRow[col];
+                    for (int i = 0; i < row; i++)
                     {
-                        var t = lu[p, k];
-                        lu[p, k] = lu[j, k];
-                        lu[j, k] = t;
+                        sum -= luRow[i] * lu[i, col];
                     }
-
-                    int v = pivotVector[p];
-                    pivotVector[p] = pivotVector[j];
-                    pivotVector[j] = v;
-
-                    pivotSign = -pivotSign;
+                    luRow[col] = sum;
                 }
 
-                // Compute multipliers.
-                if (j < rows && lu[j, j] != 0)
+                // lower
+                int max = col; // permutation row
+                double largest = Double.NegativeInfinity;
+                for (int row = col; row < m; row++)
                 {
-                    for (int i = j + 1; i < rows; i++)
-                        lu[i, j] /= lu[j, j];
+                    double[] luRow = lu.GetRow(row);
+                    sum = luRow[col];
+                    for (int i = 0; i < col; i++)
+                    {
+                        sum -= luRow[i] * lu[i, col];
+                    }
+                    luRow[col] = sum;
+
+                    // maintain best permutation choice
+                    if (Math2.Abs(sum) > largest)
+                    {
+                        largest = Math2.Abs(sum);
+                        max = row;
+                    }
+                }
+
+                // Singularity check
+                if (Math2.Abs(lu[max, col]) < singularityThreshold)
+                {
+                    singular = false;
+                    return;
+                }
+
+                // Pivot if necessary
+                if (max != col)
+                {
+                    double tmp = 0;
+                    double[] luMax = lu.GetRow(max);
+                    double[] luCol = lu.GetRow(col);
+                    for (int i = 0; i < m; i++)
+                    {
+                        tmp = luMax[i];
+                        luMax[i] = luCol[i];
+                        luCol[i] = tmp;
+                    }
+                    int temp = this.pivotVector[max];
+                    this.pivotVector[max] = this.pivotVector[col];
+                    this.pivotVector[col] = temp;
+                    even = !even;
+                }
+
+                // Divide the lower elements by the "winning" diagonal elt.
+                double luDiag = lu[col, col];
+                for (int row = col + 1; row < m; row++)
+                {
+                    lu[row, col] /= luDiag;
                 }
             }
+
+            this.nonsingular = !singular;
+        }
+
+        /// <summary>
+        /// Returns the matrix L of the decomposition.
+        /// <p>L is an lower-triangular matrix</p>
+        /// </summary>
+        /// <returns>the L matrix (or null if decomposed matrix is singular)</returns>
+        public Matrix<Double> GetL()
+        {
+            if ((cachedL == null) && nonsingular.Value)
+            {
+                int m = pivotVector.Length;
+                cachedL = MatrixUtils.CreateMatrix(m, m);
+                for (int i = 0; i < m; ++i)
+                {
+                    double[] luI = lu.GetRow(i);
+                    for (int j = 0; j < i; ++j)
+                    {
+                        cachedL[i, j] = luI[j];
+                    }
+                    cachedL[i, i] = 1.0;
+                }
+            }
+            return cachedL;
+        }
+
+        /// <summary>
+        /// Returns the matrix U of the decomposition.
+        /// <p>U is an upper-triangular matrix</p>
+        /// </summary>
+        /// <returns>the U matrix (or null if decomposed matrix is singular)</returns>
+        public Matrix<Double> GetU()
+        {
+            if ((cachedU == null) && nonsingular.Value)
+            {
+                int m = pivotVector.Length;
+                cachedU = MatrixUtils.CreateMatrix(m, m);
+                for (int i = 0; i < m; ++i)
+                {
+                    double[] luI = lu.GetRow(i);
+                    for (int j = i; j < m; ++j)
+                    {
+                        cachedU[i, j] = luI[j];
+                    }
+                }
+            }
+            return cachedU;
+        }
+
+        /// <summary>
+        /// Returns the P rows permutation matrix.
+        /// <p>P is a sparse matrix with exactly one element set to 1.0 in
+        /// each row and each column, all other elements being set to 0.0.</p>
+        /// <p>The positions of the 1 elements are given by the {@link #getPivot()
+        /// pivot permutation vector}.</p>
+        /// </summary>
+        /// <returns>the P rows permutation matrix (or null if decomposed matrix is singular)</returns>
+        /// <see cref="#getPivot()"></see>
+        public Matrix<Double> GetP()
+        {
+            if ((cachedP == null) && nonsingular.Value)
+            {
+                int m = pivotVector.Length;
+                cachedP = MatrixUtils.CreateMatrix(m, m);
+                for (int i = 0; i < m; ++i)
+                {
+                    cachedP[i, pivotVector[i]] = 1.0;
+                }
+            }
+            return cachedP;
         }
 
         /// <summary>
@@ -432,48 +530,18 @@ namespace Mercury.Language.Math.Decompositions
             return X;
         }
 
-        /// <summary>
-        ///   Solves a set of equation systems of type <c>A * X = B</c>.
-        /// </summary>
-        /// <param name="value">Right hand side matrix with as many rows as <c>A</c> and any number of columns.</param>
-        /// <returns>Matrix <c>X</c> so that <c>L * U * X = B</c>.</returns>
-        /// 
-        public Double[,] Solve(Double[,] value)
+
+        public double[,] Solve(double[,] value)
         {
-            if (value == null)
-                throw new ArgumentNullException("value");
-
-            if (value.GetLength(0) != rows)
-                throw new DimensionMismatchException("The matrix should have the same number of rows as the decomposition.");
-
-            if (!Nonsingular)
-                throw new InvalidOperationException("Matrix is singular.");
-
-
-            // Copy right hand side with pivoting
-            int count = value.GetLength(1);
-            Double[,] X = value.Get(pivotVector, null);
-
-
-            // Solve L*Y = B(piv,:)
-            for (int k = 0; k < cols; k++)
-                for (int i = k + 1; i < cols; i++)
-                    for (int j = 0; j < count; j++)
-                        X[i, j] -= X[k, j] * lu[i, k];
-
-            // Solve U*X = Y;
-            for (int k = cols - 1; k >= 0; k--)
-            {
-                for (int j = 0; j < count; j++)
-                    X[k, j] /= lu[k, k];
-
-                for (int i = 0; i < k; i++)
-                    for (int j = 0; j < count; j++)
-                        X[i, j] -= X[k, j] * lu[i, k];
-            }
-
-            return X;
+            return GetSolver().Solve(value);
         }
+
+        public double[] Solve(double[] value)
+        {
+            return GetSolver().Solve(value);
+        }
+
+
 
         /// <summary>
         ///   Solves a set of equation systems of type <c>X * A = B</c>.
@@ -519,51 +587,6 @@ namespace Mercury.Language.Math.Decompositions
         }
 
         /// <summary>
-        ///   Solves a set of equation systems of type <c>A * X = B</c>.
-        /// </summary>
-        /// <param name="value">Right hand side column vector with as many rows as <c>A</c>.</param>
-        /// <returns>Matrix <c>X</c> so that <c>L * U * X = B</c>.</returns>
-        /// 
-        public Double[] Solve(Double[] value)
-        {
-            if (value == null)
-                throw new ArgumentNullException("value");
-
-            if (value.Length != rows)
-                throw new DimensionMismatchException("The vector should have the same length as rows in the decomposition.");
-
-            if (!Nonsingular)
-                throw new InvalidOperationException("Matrix is singular.");
-
-
-            // Copy right hand side with pivoting
-            int count = value.Length;
-            var b = new Double[count];
-            for (int i = 0; i < b.Length; i++)
-                b[i] = value[pivotVector[i]];
-
-
-            // Solve L*Y = B
-            var X = new Double[count];
-            for (int i = 0; i < rows; i++)
-            {
-                X[i] = b[i];
-                for (int j = 0; j < i; j++)
-                    X[i] -= lu[i, j] * X[j];
-            }
-
-            // Solve U*X = Y;
-            for (int i = rows - 1; i >= 0; i--)
-            {
-                for (int j = rows - 1; j > i; j--)
-                    X[i] -= lu[i, j] * X[j];
-                X[i] /= lu[i, i];
-            }
-
-            return X;
-        }
-
-        /// <summary>
         ///   Reverses the decomposition, reconstructing the original matrix <c>X</c>.
         /// </summary>
         /// 
@@ -586,6 +609,163 @@ namespace Mercury.Language.Math.Decompositions
             return X.TransposeAndDot(X).Inverse();
         }
 
+        public IDecompositionSolver GetSolver()
+        {
+            return new Solver(lu, pivotVector, !Nonsingular);
+        }
+
+        public class Solver : IDecompositionSolver
+        {
+            /// <summary>Entries of LU decomposition. /// </summary>
+            private double[,] lu;
+
+            /// <summary>
+            /// Pivot permutation associated with LU decomposition. /// </summary>
+            private int[] pivot;
+
+            /// <summary>Singularity indicator. /// </summary>
+            private Boolean singular;
+
+            /// <summary>
+            /// Build a solver from decomposed matrix.
+            /// </summary>
+            /// <param name="lu">entries of LU decomposition</param>
+            /// <param name="pivot">pivot permutation associated with LU decomposition</param>
+            /// <param name="singular">singularity indicator</param>
+            public Solver(double[,] lu, int[] pivot, Boolean singular)
+            {
+                this.lu = lu;
+                this.pivot = pivot;
+                this.singular = singular;
+            }
+
+            public bool IsNonSingular
+            {
+                get { return !this.singular; }
+            }
+
+            public Matrix<double> GetInverse()
+            {
+                return Solve(MatrixUtils.CreateRealIdentityMatrix(pivot.Length));
+            }
+
+            /// <summary>
+            ///   Solves a set of equation systems of type <c>A * X = B</c>.
+            /// </summary>
+            /// <param name="value">Right hand side column vector with as many rows as <c>A</c>.</param>
+            /// <returns>Matrix <c>X</c> so that <c>L * U * X = B</c>.</returns>
+            /// 
+            public double[] Solve(double[] value)
+            {
+                if (value == null)
+                    throw new ArgumentNullException("value");
+
+                int m = pivot.Length;
+                if (value.Length != m)
+                    throw new DimensionMismatchException("The vector should have the same length as rows in the decomposition.");
+
+                if (this.singular)
+                    throw new InvalidOperationException("Matrix is singular.");
+
+
+                // Copy right hand side with pivoting
+                int count = value.Length;
+                var bp = new Double[count];
+                for (int row = 0; row < bp.Length; row++)
+                    bp[row] = value[pivot[row]];
+
+
+                // Solve L*Y = B
+                for (int col = 0; col < m; col++)
+                {
+                    bp[col] = bp[col];
+                    for (int j = 0; j < col; j++)
+                        bp[col] -= lu[col, j] * bp[j];
+                }
+
+                // Solve U*X = Y;
+                for (int col = m - 1; col >= 0; col--)
+                {
+                    for (int j = m - 1; j > col; j--)
+                        bp[col] -= lu[col, j] * bp[j];
+                    bp[col] /= lu[col, col];
+                }
+
+                return bp;
+            }
+
+            /// <summary>
+            /// Solve the linear equation A &times; X = B.
+            /// <p>The A matrix is implicit here. It is </p>
+            /// </summary>
+            /// <param name="b">right-hand side of the equation A &times; X = B</param>
+            /// <returns>a vector X such that A &times; X = B</returns>
+            public Vector<double> Solve(Vector<double> b)
+            {
+                return Vector<double>.Build.Dense(Solve(b.AsArray()));
+            }
+
+            public Matrix<double> Solve(Matrix<double> b)
+            {
+                DenseColumnMajorMatrixStorage<double> storage = DenseColumnMajorMatrixStorage<double>.OfArray(Solve(b.AsArray()));
+                return Matrix<double>.Build.Dense(storage);
+            }
+
+            /// <summary>
+            ///   Solves a set of equation systems of type <c>A * X = B</c>.
+            /// </summary>
+            /// <param name="value">Right hand side matrix with as many rows as <c>A</c> and any number of columns.</param>
+            /// <returns>Matrix <c>X</c> so that <c>L * U * X = B</c>.</returns>
+            public Double[][] Solve(Double[][] value)
+            {
+                return Solve(value.ToMultidimensional()).ToJagged();
+            }
+
+
+            /// <summary>
+            ///   Solves a set of equation systems of type <c>A * X = B</c>.
+            /// </summary>
+            /// <param name="value">Right hand side matrix with as many rows as <c>A</c> and any number of columns.</param>
+            /// <returns>Matrix <c>X</c> so that <c>L * U * X = B</c>.</returns>
+            /// 
+            public Double[,] Solve(Double[,] value)
+            {
+                if (value == null)
+                    throw new ArgumentNullException("value");
+
+                int m = pivot.Length;
+                if (value.GetLength(0) != m)
+                    throw new DimensionMismatchException("The matrix should have the same number of rows as the decomposition.");
+
+                if (!this.singular)
+                    throw new InvalidOperationException("Matrix is singular.");
+
+
+                // Copy right hand side with pivoting
+                int count = value.GetLength(1);
+                Double[,] X = value.Get(pivot, null);
+
+
+                // Solve L*Y = B(piv,:)
+                for (int k = 0; k < m; k++)
+                    for (int i = k + 1; i < m; i++)
+                        for (int j = 0; j < count; j++)
+                            X[i, j] -= X[k, j] * lu[i, k];
+
+                // Solve U*X = Y;
+                for (int k = m - 1; k >= 0; k--)
+                {
+                    for (int j = 0; j < count; j++)
+                        X[k, j] /= lu[k, k];
+
+                    for (int i = 0; i < k; i++)
+                        for (int j = 0; j < count; j++)
+                            X[i, j] -= X[k, j] * lu[i, k];
+                }
+
+                return X;
+            }
+        }
 
         #region ICloneable Members
 
@@ -610,8 +790,6 @@ namespace Mercury.Language.Math.Decompositions
             lud.pivotVector = (int[])this.pivotVector;
             return lud;
         }
-
         #endregion
-
     }
 }

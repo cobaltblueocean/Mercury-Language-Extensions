@@ -4,8 +4,8 @@
     <TargetFramework>netstandard2.1</TargetFramework>
     <RootNamespace>Mercury.Language</RootNamespace>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <AssemblyVersion>0.8.1.2</AssemblyVersion>
-    <FileVersion>0.8.1.2</FileVersion>
+    <AssemblyVersion>0.8.1.7</AssemblyVersion>
+    <FileVersion>0.8.1.7</FileVersion>
     <Description>This is a package to extended libraries to enhance C# programming, especially easier migrate from Java.</Description>
     <Copyright>Kei Nakai</Copyright>
     <PackageProjectUrl>https://github.com/cobaltblueocean/Mercury-Language-Extensions</PackageProjectUrl>
@@ -14,7 +14,7 @@
     <PackageId>Mercury.Language.Extensions</PackageId>
     <Authors>Kei Nakai</Authors>
     <Company />
-    <Version>0.8.1.2</Version>
+    <Version>0.8.1.7</Version>
   </PropertyGroup>
 
   <ItemGroup>
@@ -25,11 +25,11 @@
     <PackageReference Include="Cern.Colt.NET" Version="0.9.1.1" />
     <PackageReference Include="MathNet.Numerics" Version="4.15.0" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
-    <PackageReference Include="NodaTime" Version="3.0.5" />
-    <PackageReference Include="System.Collections.Immutable" Version="5.0.0" />
-    <PackageReference Include="System.Configuration.ConfigurationManager" Version="5.0.0" />
-    <PackageReference Include="System.Diagnostics.EventLog" Version="5.0.1" />
-    <PackageReference Include="System.Drawing.Common" Version="5.0.1" />
+    <PackageReference Include="NodaTime" Version="3.0.9" />
+    <PackageReference Include="System.Collections.Immutable" Version="6.0.0" />
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="6.0.0" />
+    <PackageReference Include="System.Diagnostics.EventLog" Version="6.0.0" />
+    <PackageReference Include="System.Drawing.Common" Version="6.0.0" />
   </ItemGroup>
 
   <ItemGroup>

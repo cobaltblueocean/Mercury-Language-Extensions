@@ -857,9 +857,9 @@ namespace Mercury.Language.Math.Decompositions
             /// <returns>a vector X that minimizes the two norm of A &times; X - B</returns>
             /// <exception cref="org.apache.commons.math3.exception.DimensionMismatchException"></exception>
             /// if the matrices dimensions do not match.
-            public DenseVector Solve(DenseVector b)
+            public Vector<Double> Solve(Vector<Double> b)
             {
-                return pseudoInverse.Operate(b);
+                return pseudoInverse.Operate((DenseVector)b);
             }
 
             /// <summary>
@@ -874,7 +874,7 @@ namespace Mercury.Language.Math.Decompositions
             /// <returns>a matrix X that minimizes the two norm of A &times; X - B</returns>
             /// <exception cref="org.apache.commons.math3.exception.DimensionMismatchException"></exception>
             /// if the matrices dimensions do not match.
-            public DenseMatrix Solve(DenseMatrix b)
+            public Matrix<Double> Solve(Matrix<Double> b)
             {
                 return (DenseMatrix)pseudoInverse.Multiply(b);
             }
@@ -884,9 +884,9 @@ namespace Mercury.Language.Math.Decompositions
             /// 
             /// </summary>
             /// <returns>{@code true} if the decomposed matrix is non-singular.</returns>
-            public Boolean IsNonSingular()
+            public Boolean IsNonSingular
             {
-                return nonSingular;
+                get { return nonSingular; }
             }
 
             /// <summary>
@@ -897,6 +897,27 @@ namespace Mercury.Language.Math.Decompositions
             public DenseMatrix GetInverse()
             {
                 return pseudoInverse;
+            }
+
+            public double[] Solve(double[] b)
+            {
+                return Solve(Vector<Double>.Build.Dense(b)).AsArray();
+            }
+
+            public double[][] Solve(double[][] b)
+            {
+                return Solve(b.ToMultidimensional()).ToJagged();
+            }
+
+            public double[,] Solve(double[,] b)
+            {
+                MathNet.Numerics.LinearAlgebra.Storage.DenseColumnMajorMatrixStorage<Double> storage = MathNet.Numerics.LinearAlgebra.Storage.DenseColumnMajorMatrixStorage<Double>.OfArray(b);
+                return pseudoInverse.Multiply(Matrix<Double>.Build.Dense(storage)).AsArray();
+            }
+
+            Matrix<double> IDecompositionSolver.GetInverse()
+            {
+                return (Matrix<double>)pseudoInverse;
             }
         }
     }

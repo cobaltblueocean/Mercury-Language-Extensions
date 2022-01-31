@@ -1,57 +1,67 @@
 ﻿// Copyright (c) 2017 - presented by Kei Nakai
 //
-// Original project is developed and published by System.Math.Decompositions Inc.
+// Original project is developed and published by Apache Software Foundation (ASF).
 //
-// Copyright (C) 2012 - present by System.Math.Decompositions Inc. and the System.Math.Decompositions group of companies
+// Licensed to the Apache Software Foundation (ASF) under one or more
+// contributor license agreements.  See the NOTICE file distributed with
+// this work for additional information regarding copyright ownership.
+// The ASF licenses this file to You under the Apache License, Version 2.0
+// (the "License"); you may not use this file except in compliance with
+// the License.  You may obtain a copy of the License at
 //
-// Please see distribution for license.
+//      http://www.apache.org/licenses/LICENSE-2.0
 //
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-// 
-//     http://www.apache.org/licenses/LICENSE-2.0
-//     
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+//
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MathNet.Numerics.LinearAlgebra;
+using MathNet.Numerics.LinearAlgebra.Double;
+using MathNet.Numerics.LinearAlgebra.Storage;
 using Mercury.Language.Exception;
+using Mercury.Language.Math.Matrix;
+using Mercury.Language.Math.Analysis.Solver;
 
 namespace Mercury.Language.Math.Decompositions
 {
     /// <summary>
-    ///   Cholesky Decomposition of a symmetric, positive definite matrix.
+    /// Calculates the Cholesky decomposition of a matrix.
+    /// <p>The Cholesky decomposition of a real symmetric positive-definite
+    /// matrix A consists of a lower triangular matrix L with same size that
+    /// satisfy: A = LL<sup>T</sup>Q = I)d In a sense, this is the square root of A.</p>
+    /// 
     /// </summary>
-    ///
-    /// <remarks>
-    ///   <para>
-    ///     For a symmetric, positive definite matrix <c>A</c>, the Cholesky decomposition is a
-    ///     lower triangular matrix <c>L</c> so that <c>A = L * L'</c>.
-    ///     If the matrix is not positive definite, the constructor returns a partial 
-    ///     decomposition and sets two internal variables that can be queried using the
-    ///     <see cref="IsUndefined"/> and <see cref="IsPositiveDefinite"/> properties.</para>
-    ///   <para>
-    ///     Any square matrix A with non-zero pivots can be written as the product of a
-    ///     lower triangular matrix L and an upper triangular matrix U; this is called
-    ///     the LU decomposition. However, if A is symmetric and positive definite, we
-    ///     can choose the factors such that U is the transpose of L, and this is called
-    ///     the Cholesky decomposition. Both the LU and the Cholesky decomposition are
-    ///     used to solve systems of linear equations.</para>
-    ///   <para>
-    ///     When it is applicable, the Cholesky decomposition is twice as efficient
-    ///     as the LU decomposition.</para>
-    ///    </remarks>
-    ///    
+    /// <see cref="<a">href="http://mathworld.wolfram.com/CholeskyDecomposition.html">MathWorld</a> </see>
+    /// <see cref="<a">href="http://en.wikipedia.org/wiki/Cholesky_decomposition">Wikipedia</a> </see>
+    /// @version $Revision: 990655 $ $Date: 2010-08-29 23:49:40 +0200 (dimd 29 août 2010) $
+    /// @since 2.0
     [Serializable]
-    public sealed class CholeskyDecomposition : ICloneable, ISolverMatrixDecomposition<Double>
+    public sealed class CholeskyDecomposition : ICholeskyDecomposition<Double>
     {
+        /// <summary>Default threshold above which off-diagonal elements are considered too different
+        /// and matrix not symmetricd /// </summary>
+        public static double DEFAULT_RELATIVE_SYMMETRY_THRESHOLD = 1.0e-15;
+
+        /// <summary>Default threshold below which diagonal elements are considered null
+        /// and matrix not positive definited /// </summary>
+        public static double DEFAULT_ABSOLUTE_POSITIVITY_THRESHOLD = 1.0e-10;
+
+        /// <summary>Row-oriented storage for L<sup>T</sup> matrix datad */
+        private double[][] lTData;
+
+        /// <summary>Cached value of Ld */
+        private Matrix<Double> cachedL;
+
+        /// <summary>Cached value of LTd */
+        private Matrix<Double> cachedLT;
+
         private Double[,] L;
         private Double[] D;
         private int n;
@@ -69,46 +79,146 @@ namespace Mercury.Language.Math.Decompositions
         private double? lndeterminant;
         private bool? nonsingular;
 
+        /// <summary>
+        /// Calculates the Cholesky decomposition of the given matrix.
+        /// <p>
+        /// Calling this constructor is equivalent to call {@link
+        /// #CholeskyDecompositionImpl(Matrix<Double>, double, double)} with the
+        /// thresholds set to the default values {@link
+        /// #DEFAULT_RELATIVE_SYMMETRY_THRESHOLD} and {@link
+        /// #DEFAULT_ABSOLUTE_POSITIVITY_THRESHOLD}
+        /// </p>
+        /// </summary>
+        /// <param Name="matrix">the matrix to decompose</param>
+        /// <exception cref="NonSquareMatrixException">if matrix is not square </exception>
+        /// <exception cref="NotSymmetricMatrixException">if matrix is not symmetric </exception>
+        /// <exception cref="NotPositiveDefiniteMatrixException">if the matrix is not </exception>
+        /// strictly positive definite
+        /// <see cref="#CholeskyDecompositionImpl(Matrix<Double>,">double, double) </see>
+        /// <see cref="#DEFAULT_RELATIVE_SYMMETRY_THRESHOLD"></see>
+        /// <see cref="#DEFAULT_ABSOLUTE_POSITIVITY_THRESHOLD"></see>
+        public CholeskyDecomposition(Matrix<Double> matrix) : this(matrix, DEFAULT_RELATIVE_SYMMETRY_THRESHOLD,
+             DEFAULT_ABSOLUTE_POSITIVITY_THRESHOLD)
+        {
+
+        }
 
         /// <summary>
-        ///   Constructs a new Cholesky Decomposition.
+        /// Calculates the Cholesky decomposition of the given matrix.
         /// </summary>
-        /// 
-        /// <param name="value">
-        ///   The symmetric matrix, given in upper triangular form, to be decomposed.</param>
-        /// <param name="robust">
-        ///   True to perform a square-root free LDLt decomposition, false otherwise.</param>
-        /// <param name="inPlace">
-        ///   True to perform the decomposition in place, storing the factorization in the
-        ///   lower triangular part of the given matrix.</param>
-        /// <param name="valueType">
-        ///   How to interpret the matrix given to be decomposed. Using this parameter, a lower or
-        ///   upper-triangular matrix can be interpreted as a symmetric matrix by assuming both lower
-        ///   and upper parts contain the same elements. Use this parameter in conjunction with inPlace
-        ///   to save memory by storing the original matrix and its decomposition at the same memory
-        ///   location (lower part will contain the decomposition's L matrix, upper part will contains 
-        ///   the original matrix).</param>
-        /// 
-        public CholeskyDecomposition(Double[,] value, bool robust = false,
-            bool inPlace = false, MatrixType valueType = MatrixType.UpperTriangular)
+        /// <param Name="matrix">the matrix to decompose</param>
+        /// <param Name="relativeSymmetryThreshold">threshold above which off-diagonal</param>
+        /// elements are considered too different and matrix not symmetric
+        /// <param Name="absolutePositivityThreshold">threshold below which diagonal</param>
+        /// elements are considered null and matrix not positive definite
+        /// <exception cref="NonSquareMatrixException">if matrix is not square </exception>
+        /// <exception cref="NotSymmetricMatrixException">if matrix is not symmetric </exception>
+        /// <exception cref="NotPositiveDefiniteMatrixException">if the matrix is not </exception>
+        /// strictly positive definite
+        /// <see cref="#CholeskyDecompositionImpl(Matrix<Double>)"></see>
+        /// <see cref="#DEFAULT_RELATIVE_SYMMETRY_THRESHOLD"></see>
+        /// <see cref="#DEFAULT_ABSOLUTE_POSITIVITY_THRESHOLD"></see>
+        public CholeskyDecomposition(Matrix<Double> matrix, double relativeSymmetryThreshold, double absolutePositivityThreshold)
         {
-            if (value.Rows() != value.Columns())
-                throw new DimensionMismatchException("Matrix is not square.");
 
-            if (!inPlace)
-                value = value.Copy();
+            if (!matrix.IsSquare())
+            {
+                throw new NonSquareMatrixException(matrix.RowCount, matrix.ColumnCount);
+            }
+
+            int order = matrix.RowCount;
+            Double[,] value = matrix.AsArray();
+            lTData = matrix.AsArray().ToJagged();
+            cachedL = null;
+            cachedLT = null;
+
+            // check the matrix before transformation
+            for (int i = 0; i < order; ++i)
+            {
+
+                double[] lI = lTData[i];
+
+                // check off-diagonal elements (and reset them to 0)
+                for (int j = i + 1; j < order; ++j)
+                {
+                    double[] lJ = lTData[j];
+                    double lIJ = lI[j];
+                    double lJI = lJ[i];
+                    double maxDelta =
+                        relativeSymmetryThreshold * System.Math.Max(Math2.Abs(lIJ), Math2.Abs(lJI));
+                    if (Math2.Abs(lIJ - lJI) > maxDelta)
+                    {
+                        throw new NonSymmetricMatrixException(String.Format(LocalizedResources.Instance().NON_SYMMETRIC_MATRIX, i, j, Math2.Abs(lIJ - lJI) - maxDelta));
+                    }
+                    lJ[i] = 0;
+                }
+            }
+
+            // transform the matrix
+            for (int i = 0; i < order; ++i)
+            {
+                double[] ltI = lTData[i];
+
+                // check diagonal element
+                if (ltI[i] < absolutePositivityThreshold)
+                {
+                    throw new NonPositiveDefiniteMatrixException();
+                }
+
+                ltI[i] = Math2.SquareRoot(ltI[i]);
+                double inverse = 1.0 / ltI[i];
+
+                for (int q = order - 1; q > i; --q)
+                {
+                    ltI[q] *= inverse;
+                    double[] ltQ = lTData[q];
+                    for (int p = q; p < order; ++p)
+                    {
+                        ltQ[p] -= ltI[q] * ltI[p];
+                    }
+                }
+            }
 
             this.n = value.Rows();
-            this.L = value.ToUpperTriangular(valueType, result: value);
-            this.robust = robust;
+            this.L = value.ToUpperTriangular(MatrixType.UpperTriangular, result: value);
+        }
 
-            if (robust)
+        /// <summary>{@inheritDoc} */
+        public Matrix<Double> GetL()
+        {
+            if (cachedL == null)
             {
-                LDLt(); // Compute square-root free decomposition
+                cachedL = GetLT().Transpose();
             }
-            else
+            return cachedL;
+        }
+
+        /// <summary>{@inheritDoc} */
+        public Matrix<Double> GetLT()
+        {
+
+            if (cachedLT == null)
             {
-                LLt(); // Compute standard Cholesky decomposition
+                cachedLT = MatrixUtils.CreateMatrix(lTData);
+            }
+
+            // return the cached matrix
+            return cachedLT;
+
+        }
+
+        /// <summary>{@inheritDoc} */
+        public double Determinant
+        {
+            get
+            {
+                double determinant = 1.0;
+                for (int i = 0; i < lTData.Length; ++i)
+                {
+                    double lTii = lTData[i][i];
+                    determinant *= lTii * lTii;
+                }
+                return determinant;
             }
         }
 
@@ -194,7 +304,7 @@ namespace Mercury.Language.Math.Decompositions
                 {
                     if (destroyed)
                         throw new InvalidOperationException("The decomposition has been destroyed.");
-                   
+
                     diagonalMatrix = MatrixUtility.Diagonal<Double>(D);
                 }
 
@@ -209,39 +319,6 @@ namespace Mercury.Language.Math.Decompositions
         public Double[] Diagonal
         {
             get { return D; }
-        }
-
-        /// <summary>
-        ///   Gets the determinant of the decomposed matrix.
-        /// </summary>
-        /// 
-        public Double Determinant
-        {
-            get
-            {
-                if (!determinant.HasValue)
-                {
-                    if (destroyed)
-                        throw new InvalidOperationException("The decomposition has been destroyed.");
-
-                    if (undefined)
-                        throw new InvalidOperationException("The decomposition is undefined (zero in diagonal).");
-
-                    Double detL = 1, detD = 1;
-                    for (int i = 0; i < n; i++)
-                        detL *= L[i, i];
-
-                    if (D != null)
-                    {
-                        for (int i = 0; i < n; i++)
-                            detD *= D[i];
-                    }
-
-                    determinant = detL * detL * detD;
-                }
-
-                return determinant.Value;
-            }
         }
 
         /// <summary>
@@ -379,161 +456,17 @@ namespace Mercury.Language.Math.Decompositions
                 L[i, i] = 1;
         }
 
-        /// <summary>
-        ///   Solves a set of equation systems of type <c>A * X = B</c>.
-        /// </summary>
-        /// 
-        /// <param name="value">Right hand side matrix with as many rows as <c>A</c> and any number of columns.</param>
-        /// <returns>Matrix <c>X</c> so that <c>L * L' * X = B</c>.</returns>
-        /// <exception cref="T:System.ArgumentException">Matrix dimensions do not match.</exception>
-        /// <exception cref="T:System.NonSymmetricMatrixException">Matrix is not symmetric.</exception>
-        /// <exception cref="T:System.NonPositiveDefiniteMatrixException">Matrix is not positive-definite.</exception>
-        /// 
-        public Double[,] Solve(Double[,] value)
+        public double[,] Solve(double[,] value)
         {
-            return Solve(value, false);
+            return GetSolver().Solve(value);
         }
 
-        /// <summary>
-        ///   Solves a set of equation systems of type <c>A * X = B</c>.
-        /// </summary>
-        /// 
-        /// <param name="value">Right hand side matrix with as many rows as <c>A</c> and any number of columns.</param>
-        /// <returns>Matrix <c>X</c> so that <c>L * L' * X = B</c>.</returns>
-        /// <exception cref="T:System.ArgumentException">Matrix dimensions do not match.</exception>
-        /// <exception cref="T:System.NonSymmetricMatrixException">Matrix is not symmetric.</exception>
-        /// <exception cref="T:System.NonPositiveDefiniteMatrixException">Matrix is not positive-definite.</exception>
-        /// <param name="inPlace">True to compute the solving in place, false otherwise.</param>
-        /// 
-        public Double[,] Solve(Double[,] value, bool inPlace)
+        public double[] Solve(double[] value)
         {
-            if (value == null)
-                throw new ArgumentNullException("value");
-
-            if (value.Rows() != n)
-                throw new ArgumentException("Argument matrix should have the same number of rows as the decomposed matrix.", "value");
-
-            if (!robust && !positiveDefinite)
-                throw new NonPositiveDefiniteMatrixException("Decomposed matrix is not positive definite.");
-
-            if (undefined)
-                throw new InvalidOperationException("The decomposition is undefined (zero in diagonal).");
-
-            if (destroyed)
-                throw new InvalidOperationException("The decomposition has been destroyed.");
-
-            // int count = value.Columns();
-            var B = inPlace ? value : value.MemberwiseClone();
-            int m = B.Columns();
-
-            // Solve L*Y = B;
-            for (int k = 0; k < n; k++)
-            {
-                for (int j = 0; j < m; j++)
-                {
-                    for (int i = 0; i < k; i++)
-                        B[k, j] -= B[i, j] * L[k, i];
-                    B[k, j] /= L[k, k];
-                }
-            }
-
-            if (robust)
-            {
-                for (int k = 0; k < D.Length; k++)
-                    for (int j = 0; j < m; j++)
-                        B[k, j] /= D[k];
-            }
-
-            // Solve L'*X = Y;
-            for (int k = n - 1; k >= 0; k--)
-            {
-                for (int j = 0; j < m; j++)
-                {
-                    for (int i = k + 1; i < n; i++)
-                        B[k, j] -= B[i, j] * L[i, k];
-
-                    B[k, j] /= L[k, k];
-                }
-            }
-
-            return B;
+            return GetSolver().Solve(value);
         }
 
-        /// <summary>
-        ///   Solves a set of equation systems of type <c>A * x = b</c>.
-        /// </summary>
-        /// 
-        /// <param name="value">Right hand side column vector with as many rows as <c>A</c>.</param>
-        /// <returns>Vector <c>x</c> so that <c>L * L' * x = b</c>.</returns>
-        /// <exception cref="T:System.ArgumentException">Matrix dimensions do not match.</exception>
-        /// <exception cref="T:System.NonSymmetricMatrixException">Matrix is not symmetric.</exception>
-        /// <exception cref="T:System.NonPositiveDefiniteMatrixException">Matrix is not positive-definite.</exception>
-        /// 
-        public Double[] Solve(Double[] value)
-        {
-            return Solve(value, false);
-        }
-
-        /// <summary>
-        ///   Solves a set of equation systems of type <c>A * x = b</c>.
-        /// </summary>
-        /// 
-        /// <param name="value">Right hand side column vector with as many rows as <c>A</c>.</param>
-        /// <returns>Vector <c>x</c> so that <c>L * L' * x = b</c>.</returns>
-        /// <exception cref="T:System.ArgumentException">Matrix dimensions do not match.</exception>
-        /// <exception cref="T:System.NonSymmetricMatrixException">Matrix is not symmetric.</exception>
-        /// <exception cref="T:System.NonPositiveDefiniteMatrixException">Matrix is not positive-definite.</exception>
-        /// <param name="inPlace">True to compute the solving in place, false otherwise.</param>
-        /// 
-        public Double[] Solve(Double[] value, bool inPlace)
-        {
-            if (value == null)
-                throw new ArgumentNullException("value");
-
-            if (value.Length != n)
-                throw new ArgumentException("Argument vector should have the same length as rows in the decomposed matrix.", "value");
-
-            if (!robust && !positiveDefinite)
-                throw new NonPositiveDefiniteMatrixException("Decomposed matrix is not positive definite.");
-
-            if (undefined)
-                throw new InvalidOperationException("The decomposition is undefined (zero in diagonal).");
-
-            if (destroyed)
-                throw new InvalidOperationException("The decomposition has been destroyed.");
-
-            var B = inPlace ? value : value.Copy();
-
-            // Solve L*Y = B;
-            for (int k = 0; k < n; k++)
-            {
-                for (int i = 0; i < k; i++)
-                    B[k] -= B[i] * L[k, i];
-                B[k] /= L[k, k];
-            }
-
-            if (robust)
-            {
-                for (int k = 0; k < D.Length; k++)
-                    B[k] /= D[k];
-            }
-
-            // Solve L'*X = Y;
-            for (int k = n - 1; k >= 0; k--)
-            {
-                for (int i = k + 1; i < n; i++)
-                    B[k] -= B[i] * L[i, k];
-                B[k] /= L[k, k];
-            }
-
-            return B;
-        }
-
-        /// <summary>
-        ///   Solves a set of equation systems of type <c>A * X = I</c>.
-        /// </summary>
-        /// 
-        public Double[,] Inverse()
+        public double[,] Inverse()
         {
             return Solve(MatrixUtility.Identity<Double>(n));
         }
@@ -692,11 +625,13 @@ namespace Mercury.Language.Math.Decompositions
             return trace;
         }
 
-        /// <summary>
-        ///   Reverses the decomposition, reconstructing the original matrix <c>X</c>.
-        /// </summary>
-        /// 
-        public Double[,] Reverse()
+        public double[,] GetInformationMatrix()
+        {
+            var X = Reverse();
+            return X.TransposeAndDot(X).Inverse();
+        }
+
+        public double[,] Reverse()
         {
             if (destroyed)
                 throw new InvalidOperationException("The decomposition has been destroyed.");
@@ -707,19 +642,6 @@ namespace Mercury.Language.Math.Decompositions
             if (robust)
                 return LeftTriangularFactor.Dot(DiagonalMatrix).DotWithTransposed(LeftTriangularFactor);
             return LeftTriangularFactor.DotWithTransposed(LeftTriangularFactor);
-        }
-
-        /// <summary>
-        ///   Computes <c>(Xt * X)^1</c> (the inverse of the covariance matrix). This
-        ///   matrix can be used to determine standard errors for the coefficients when
-        ///   solving a linear set of equations through any of the <see cref="Solve(Double[,])"/>
-        ///   methods.
-        /// </summary>
-        /// 
-        public Double[,] GetInformationMatrix()
-        {
-            var X = Reverse();
-            return X.TransposeAndDot(X).Inverse();
         }
 
         /// <summary>
@@ -744,7 +666,7 @@ namespace Mercury.Language.Math.Decompositions
             return new T[rows, columns];
         }
 
-        public static T[] Ones<T>(int size) where T: struct
+        public static T[] Ones<T>(int size) where T : struct
         {
             return Create(size, 1.To<T>());
         }
@@ -755,6 +677,197 @@ namespace Mercury.Language.Math.Decompositions
             for (int i = 0; i < v.Length; i++)
                 v[i] = value;
             return v;
+        }
+
+        /// <summary>{@inheritDoc} */
+        public IDecompositionSolver GetSolver()
+        {
+            return new Solver(lTData);
+        }
+
+        /// <summary>Specialized solverd */
+        public class Solver : IDecompositionSolver
+        {
+
+            /// <summary>Row-oriented storage for L<sup>T</sup> matrix datad */
+            private double[][] lTData;
+
+            /// <summary>
+            /// Build a solver from decomposed matrix.
+            /// </summary>
+            /// <param Name="lTData">row-oriented storage for L<sup>T</sup> matrix data</param>
+            public Solver(double[][] lTData)
+            {
+                this.lTData = lTData;
+            }
+
+            /// <summary>{@inheritDoc} */
+            public Boolean IsNonSingular
+            {
+                get
+                {
+                    // if we get this far, the matrix was positive definite, hence non-singular
+                    return true;
+                }
+            }
+
+            /// <summary>{@inheritDoc} */
+            public double[] Solve(double[] b)
+            {
+
+                int m = lTData.Length;
+                if (b.Length != m)
+                {
+                    throw MathRuntimeException.CreateArithmeticException(
+                           String.Format(LocalizedResources.Instance().VECTOR_LENGTH_MISMATCH,
+                            b.Length, m));
+                }
+
+                double[] x = b.CloneExact();
+
+                // Solve LY = b
+                AutoParallel.AutoParallelFor(0, m, (j) =>
+                {
+                    double[] lJ = lTData[j];
+                    x[j] /= lJ[j];
+                    double xJ = x[j];
+                    for (int i = j + 1; i < m; i++)
+                    {
+                        x[i] -= xJ * lJ[i];
+                    }
+                });
+
+                // Solve LTX = Y
+                for (int j = m - 1; j >= 0; j--)
+                {
+                    x[j] /= lTData[j][j];
+                    double xJ = x[j];
+                    AutoParallel.AutoParallelFor(0, j, (i) =>
+                     {
+                         x[i] -= xJ * lTData[i][j];
+                     });
+                }
+
+                return x;
+
+            }
+
+            /// <summary>Solve the linear equation A &times; X = B.
+            /// <p>The A matrix is implicit hered It is </p>
+            /// </summary>
+            /// <param Name="b">right-hand side of the equation A &times; X = B</param>
+            /// <returns>a vector X such that A &times; X = B</returns>
+            /// <exception cref="ArgumentException">if matrices dimensions don't match </exception>
+            /// <exception cref="InvalidMatrixException">if decomposed matrix is singular </exception>
+            public Vector<Double> Solve(Vector<Double> b)
+            {
+                int m = lTData.Length;
+                if (b.Count != m)
+                {
+                    throw MathRuntimeException.CreateArithmeticException(String.Format(LocalizedResources.Instance().VECTOR_LENGTH_MISMATCH, b.Count, m));
+                }
+
+                double[] x = b.AsArray();
+
+                // Solve LY = b
+                AutoParallel.AutoParallelFor(0, m, (j) =>
+                {
+                    double[] lJ = lTData[j];
+                    x[j] /= lJ[j];
+                    double xJ = x[j];
+                    for (int i = j + 1; i < m; i++)
+                    {
+                        x[i] -= xJ * lJ[i];
+                    }
+                });
+
+                // Solve LTX = Y
+                for (int j = m - 1; j >= 0; j--)
+                {
+                    x[j] /= lTData[j][j];
+                    double xJ = x[j];
+                    for (int i = 0; i < j; i++)
+                    {
+                        x[i] -= xJ * lTData[i][j];
+                    }
+                }
+
+                return Vector<Double>.Build.Dense(x);
+            }
+
+            /// <summary>{@inheritDoc} */
+            public Matrix<Double> Solve(Matrix<Double> b)
+            {
+
+                int m = lTData.Length;
+                if (b.RowCount != m)
+                {
+                    throw MathRuntimeException.CreateArithmeticException(String.Format(LocalizedResources.Instance().DIMENSIONS_MISMATCH_2x2, b.RowCount, b.ColumnCount, m, "n"));
+                }
+
+                int nColB = b.ColumnCount;
+                double[][] x = b.AsArray().ToJagged();
+
+                // Solve LY = b
+                AutoParallel.AutoParallelFor(0, m, (j) =>
+                {
+                    double[] lJ = lTData[j];
+                    double lJJ = lJ[j];
+                    double[] xJ = x[j];
+                    for (int k = 0; k < nColB; ++k)
+                    {
+                        xJ[k] /= lJJ;
+                    }
+                    for (int i = j + 1; i < m; i++)
+                    {
+                        double[] xI = x[i];
+                        double lJI = lJ[i];
+                        for (int k = 0; k < nColB; ++k)
+                        {
+                            xI[k] -= xJ[k] * lJI;
+                        }
+                    }
+                });
+
+                // Solve LTX = Y
+                for (int j = m - 1; j >= 0; j--)
+                {
+                    double lJJ = lTData[j][j];
+                    double[] xJ = x[j];
+                    for (int k = 0; k < nColB; ++k)
+                    {
+                        xJ[k] /= lJJ;
+                    }
+                    for (int i = 0; i < j; i++)
+                    {
+                        double[] xI = x[i];
+                        double lIJ = lTData[i][j];
+                        for (int k = 0; k < nColB; ++k)
+                        {
+                            xI[k] -= xJ[k] * lIJ;
+                        }
+                    }
+                }
+
+                return MatrixUtils.CreateMatrix(x);
+
+            }
+
+            /// <summary>{@inheritDoc} */
+            public Matrix<Double> GetInverse()
+            {
+                return Solve(MatrixUtils.CreateRealIdentityMatrix(lTData.Length));
+            }
+
+            public double[][] Solve(double[][] value)
+            {
+                throw new NotImplementedException();
+            }
+
+            public double[,] Solve(double[,] value)
+            {
+                throw new NotImplementedException();
+            }
         }
 
 
@@ -773,17 +886,8 @@ namespace Mercury.Language.Math.Decompositions
         /// 
         public object Clone()
         {
-            var clone = new CholeskyDecomposition();
-            clone.L = L.MemberwiseClone();
-            clone.D = (Double[])D.Clone();
-            clone.destroyed = destroyed;
-            clone.n = n;
-            clone.undefined = undefined;
-            clone.robust = robust;
-            clone.positiveDefinite = positiveDefinite;
-            return clone;
+            return new CholeskyDecomposition(MatrixUtils.CreateMatrix(lTData));
         }
-
         #endregion
     }
 }

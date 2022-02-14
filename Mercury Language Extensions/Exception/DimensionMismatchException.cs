@@ -14,7 +14,7 @@ namespace Mercury.Language.Exception
         /// <summary>
         /// Creates an exception
         /// </summary>
-        public DimensionMismatchException()
+        public DimensionMismatchException(): base()
         { }
 
         /// <summary>

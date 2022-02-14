@@ -39,7 +39,7 @@ namespace Mercury.Language.Math
     /// </p>
     ///</summary>
     ///<a href="http://en.wikipedia.org/wiki/Machine_epsilon">Machine epsilon</a>
-    public class Precision
+    public static class Precision2
     {
         /** Exponent offset in IEEE754 representationd */
         private static long EXPONENT_OFFSET = 1023L;
@@ -78,9 +78,40 @@ namespace Mercury.Language.Math
         public static double SAFE_MIN = BitConverter.Int64BitsToDouble((EXPONENT_OFFSET - 1022L) << 52);
 
         /// <summary>
-        /// Private constructor.
+        /// Value representing 10 * 2^(-53) = 1.11022302462516E-15
         /// </summary>
-        private Precision() { }
+        public static readonly double DefaultDoubleAccuracy = MathNet.Numerics.Precision.DoublePrecision * 10;
+
+
+        /// <summary>
+        /// Evaluates the minimum distance to the next distinguishable number near the argument value.
+        /// </summary>
+        /// <param name="value">The value used to determine the minimum distance.</param>
+        /// <returns>
+        /// Relative Epsilon (positive double or NaN).
+        /// </returns>
+        /// <remarks>Evaluates the <b>negative</b> epsilon. The more common positive epsilon is equal to two times this negative epsilon.</remarks>
+        /// <seealso cref="PositiveEpsilonOf(decimal)"/>
+        public static decimal EpsilonOf(this decimal value)
+        {
+            //if (double.IsInfinity(value) || double.IsNaN(value))
+            //{
+            //    return double.NaN;
+            //}
+
+            long signed64 = BitConverter2.DecimalToInt64Bits(value);
+            if (signed64 == 0)
+            {
+                signed64++;
+                return BitConverter2.Int64BitsToDecimal(signed64) - value;
+            }
+            if (signed64-- < 0)
+            {
+                return BitConverter2.Int64BitsToDecimal(signed64) - value;
+            }
+            return value - BitConverter2.Int64BitsToDecimal(signed64);
+        }
+
 
         /// <summary>
         /// Check whether two floating point values match with a given precision.

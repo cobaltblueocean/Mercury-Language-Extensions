@@ -17,20 +17,48 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Mercury.Language.Exception;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
+using System.Numerics;
 
 namespace System
 {
     /// <summary>
-    /// BitConverter2 Description
-    /// </summary>
+    /// The BitConverter class contains methods for
+    /// converting an array of bytes to one of the base data
+    /// types, as well as for converting a base data type to an
+    /// array of bytes.    /// </summary>
     public static class BitConverter2
     {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static unsafe long DecimalToInt64Bits(decimal value)
+        {
+            // Workaround for https://github.com/dotnet/runtime/issues/11413
+            // Since System.Runtime.Intrinsics.X86 Namespace is not available in .NET Standard 2.1, unused this code.
+            //if (Sse2.X64.IsSupported)
+            //{
+            //    Vector128<long> vec = Vector128.CreateScalarUnsafe(value).AsInt64();
+            //    return Sse2.X64.ConvertToInt64(vec);
+            //}
+
+            return *((long*)&value);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static unsafe decimal Int64BitsToDecimal(long value)
+        {
+            // Workaround for https://github.com/dotnet/runtime/issues/11413
+            // Since System.Runtime.Intrinsics.X86 Namespace is not available in .NET Standard 2.1, unused this code.
+            //if (Sse2.X64.IsSupported)
+            //{
+            //    Vector128<double> vec = Vector128.CreateScalarUnsafe(value).AsDouble();
+            //    return vec.ToScalar();
+            //}
+
+            return *((decimal*)&value);
+        }
+
+
         public static int FloatToRawIntBits(float value)
         {
             byte[] bytes = BitConverter.GetBytes(value);

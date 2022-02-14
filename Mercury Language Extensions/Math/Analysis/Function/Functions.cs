@@ -1496,7 +1496,7 @@ namespace Mercury.Language.Math.Analysis.Function
                 p[0] = 1;
                 double u2 = u * u;
                 double coeff = norm * System.Math.Exp(-0.5 * u2);
-                if (coeff <= Precision.SAFE_MIN)
+                if (coeff <= Precision2.SAFE_MIN)
                 {
                     f.Fill(0.0);
                 }

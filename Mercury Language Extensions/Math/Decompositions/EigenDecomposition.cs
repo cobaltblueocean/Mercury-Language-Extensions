@@ -209,11 +209,11 @@ namespace Mercury.Language.Math.Decompositions
 
                 for (int i = 0; i < imagEigenvalues.Length; i++)
                 {
-                    if (Precision.CompareTo(imagEigenvalues[i], 0.0, System.Double.Epsilon) > 0)
+                    if (Precision2.CompareTo(imagEigenvalues[i], 0.0, System.Double.Epsilon) > 0)
                     {
                         cachedD.At(i, i + 1, imagEigenvalues[i]);
                     }
-                    else if (Precision.CompareTo(imagEigenvalues[i], 0.0, System.Double.Epsilon) < 0)
+                    else if (Precision2.CompareTo(imagEigenvalues[i], 0.0, System.Double.Epsilon) < 0)
                     {
                         cachedD.At(i, i - 1, imagEigenvalues[i]);
                     }
@@ -1042,7 +1042,7 @@ namespace Mercury.Language.Math.Decompositions
                     {
                         // Looking for eigenvalues that are 0, where we consider anything much much smaller
                         // than the largest eigenvalue to be effectively 0.
-                        if (Precision.AlmostEqual(EigenvalueNorm(i) / largestEigenvalueNorm, 0, System.Double.Epsilon))
+                        if (Precision2.AlmostEqual(EigenvalueNorm(i) / largestEigenvalueNorm, 0, System.Double.Epsilon))
                         {
                             return false;
                         }

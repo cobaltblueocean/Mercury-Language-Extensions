@@ -18,6 +18,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -31,11 +32,12 @@ namespace System
 {
     /// <summary>
     /// Math2 Description
+    /// Additionally, added Decimal math logics ported from CSharp-Helper-Classes (Ramin Rahimzada)
     /// </summary>
+    /// <see cref="https://github.com/raminrahimzada/CSharp-Helper-Classes/blob/master/Math/DecimalMath/DecimalMath.cs"/>
     public static class Math2
     {
         #region Local Variables
-
         public static double TWO_PI = 2 * System.Math.PI;
         public static double PI_SQUARED = System.Math.PI * System.Math.PI;
         public static double E = 2850325.0 / 1048576.0 + 8.254840070411028747e-8;
@@ -43,6 +45,45 @@ namespace System
         public static double PI = 105414357.0 / 33554432.0 + 1.984187159361080883e-9;
         public static long SIGN_BIT_MASK = unchecked((long)0x8000000000000000); //0x8000000000000000L;
         public static long SIGNIF_BIT_MASK = 0x000FFFFFFFFFFFFfL;
+        public static double EXP_LIMIT_H = 709.782712893384;
+        public static double EXP_LIMIT_L = -745.1332191019411;
+        public static double LN2 = 0.6931471805599453;
+        public static double LN2_H = 0.6931471803691238;
+        public static double LN2_L = 1.9082149292705877e-10;
+        public static double INV_LN2 = 1.4426950408889634;
+        public static double INV_LN2_H = 1.4426950216293335;
+        public static double INV_LN2_L = 1.9259629911266175e-8;
+
+        public static double TWO_16 = 0x10000; // Long bits 0x40f0000000000000L.
+        public static double TWO_20 = 0x100000; // Long bits 0x4130000000000000L.
+        public static double TWO_24 = 0x1000000; // Long bits 0x4170000000000000L.
+        public static double TWO_27 = 0x8000000; // Long bits 0x41a0000000000000L.
+        public static double TWO_28 = 0x10000000; // Long bits 0x41b0000000000000L.
+        public static double TWO_29 = 0x20000000; // Long bits 0x41c0000000000000L.
+        public static double TWO_31 = 0x80000000L; // Long bits 0x41e0000000000000L.
+        public static double TWO_49 = 0x2000000000000L; // Long bits 0x4300000000000000L.
+        public static double TWO_52 = 0x10000000000000L; // Long bits 0x4330000000000000L.
+        public static double TWO_54 = 0x40000000000000L; // Long bits 0x4350000000000000L.
+        public static double TWO_57 = 0x200000000000000L; // Long bits 0x4380000000000000L.
+        public static double TWO_60 = 0x1000000000000000L; // Long bits 0x43b0000000000000L.
+        public static double TWO_64 = 1.8446744073709552e19; // Long bits 0x43f0000000000000L.
+        public static double TWO_66 = 7.378697629483821e19; // Long bits 0x4410000000000000L.
+        public static double TWO_1023 = 8.98846567431158e307; // Long bits 0x7fe0000000000000L.
+
+        public static double L1 = 0.5999999999999946; // Long bits 0x3fe3333333333303L.
+        public static double L2 = 0.4285714285785502; // Long bits 0x3fdb6db6db6fabffL.
+        public static double L3 = 0.33333332981837743; // Long bits 0x3fd55555518f264dL.
+        public static double L4 = 0.272728123808534; // Long bits 0x3fd17460a91d4101L.
+        public static double L5 = 0.23066074577556175; // Long bits 0x3fcd864a93c9db65L.
+        public static double L6 = 0.20697501780033842; // Long bits 0x3fca7e284a454eefL.
+        public static double P1 = 0.16666666666666602; // Long bits 0x3fc555555555553eL.
+        public static double P2 = -2.7777777777015593e-3; // Long bits 0xbf66c16c16bebd93L.
+        public static double P3 = 6.613756321437934e-5; // Long bits 0x3f11566aaf25de2cL.
+        public static double P4 = -1.6533902205465252e-6; // Long bits 0xbebbbd41c5d26bf1L.
+        public static double P5 = 4.1381367970572385e-8; // Long bits 0x3e66376972bea4d0L.
+        public static double DP_H = 0.5849624872207642; // Long bits 0x3fe2b80340000000L.
+        public static double DP_L = 1.350039202129749e-8; // Long bits 0x3e4cfdeb43cfd006L.
+        public static double OVT = 8.008566259537294e-17; // Long bits 0x3c971547652b82feL.
 
         /** Archimede's constant PI, ratio of circle circumference to diameterd */
         /** Napier's constant e, base of the natural logarithmd */
@@ -358,6 +399,69 @@ namespace System
         /** Coefficients for slowLog. */
 
         #endregion Local Variables
+
+        #region "Decimal Math Helper Variables"
+        /// <summary>
+        /// represents PI
+        /// </summary>
+        public const decimal Pi = 3.14159265358979323846264338327950288419716939937510M;
+
+        /// <summary>
+        /// represents PI
+        /// </summary>
+        public const decimal Epsilon = 0.0000000000000000001M;
+
+        /// <summary>
+        /// represents 2*PI
+        /// </summary>
+        private const decimal PIx2 = 6.28318530717958647692528676655900576839433879875021M;
+
+        /// <summary>
+        /// represents E
+        /// </summary>
+        public const decimal DE = 2.7182818284590452353602874713526624977572470936999595749M;
+
+        /// <summary>
+        /// represents PI/2
+        /// </summary>
+        private const decimal PIdiv2 = 1.570796326794896619231321691639751442098584699687552910487M;
+
+        /// <summary>
+        /// represents PI/4
+        /// </summary>
+        private const decimal PIdiv4 = 0.785398163397448309615660845819875721049292349843776455243M;
+
+        /// <summary>
+        /// represents 1.0/E
+        /// </summary>
+        private const decimal Einv = 0.3678794411714423215955237701614608674458111310317678M;
+
+        /// <summary>
+        /// log(10,E) factor
+        /// </summary>
+        private const decimal Log10Inv = 0.434294481903251827651128918916605082294397005803666566114M;
+
+        /// <summary>
+        /// Zero
+        /// </summary>
+        public const decimal Zero = 0.0M;
+
+        /// <summary>
+        /// One
+        /// </summary>
+        public const decimal One = 1.0M;
+
+        /// <summary>
+        /// Represents 0.5M
+        /// </summary>
+        private const decimal Half = 0.5M;
+
+        /// <summary>
+        /// Max iterations count in Taylor series
+        /// </summary>
+        private const int MaxIteration = 100;
+        #endregion
+
 
         #region trigonometric function
 
@@ -2211,19 +2315,19 @@ namespace System
             //}
             //else
             //{
-                const long signMask = 1L << 63;
+            const long signMask = 1L << 63;
 
-                // This method is required to work for all inputs,
-                // including NaN, so we operate on the raw bits.
-                long xbits = BitConverter.DoubleToInt64Bits(magnitude);
-                long ybits = BitConverter.DoubleToInt64Bits(sign);
+            // This method is required to work for all inputs,
+            // including NaN, so we operate on the raw bits.
+            long xbits = BitConverter.DoubleToInt64Bits(magnitude);
+            long ybits = BitConverter.DoubleToInt64Bits(sign);
 
-                // Remove the sign from x, and remove everything but the sign from y
-                xbits &= ~signMask;
-                ybits &= signMask;
+            // Remove the sign from x, and remove everything but the sign from y
+            xbits &= ~signMask;
+            ybits &= signMask;
 
-                // Simply OR them to get the correct sign
-                return BitConverter.Int64BitsToDouble(xbits | ybits);
+            // Simply OR them to get the correct sign
+            return BitConverter.Int64BitsToDouble(xbits | ybits);
             //}
         }
 
@@ -2365,7 +2469,660 @@ namespace System
 
         public static double Exp(double x)
         {
-            return Exp(x, 0.0, null);
+            // Deprecated
+            //return Exp(x, 0.0, null);
+
+            if (x != x)
+                return x;
+            if (x > EXP_LIMIT_H)
+                return Double.PositiveInfinity;
+            if (x < EXP_LIMIT_L)
+                return 0;
+
+            // Argument reduction.
+            double hi;
+            double lo;
+            int k;
+            double t = Math.Abs(x);
+            if (t > 0.5 * LN2)
+            {
+                if (t < 1.5 * LN2)
+                {
+                    hi = t - LN2_H;
+                    lo = LN2_L;
+                    k = 1;
+                }
+                else
+                {
+                    k = (int)(INV_LN2 * t + 0.5);
+                    hi = t - k * LN2_H;
+                    lo = k * LN2_L;
+                }
+                if (x < 0)
+                {
+                    hi = -hi;
+                    lo = -lo;
+                    k = -k;
+                }
+                x = hi - lo;
+            }
+            else if (t < 1 / TWO_28)
+                return 1;
+            else
+                lo = hi = k = 0;
+
+            // Now x is in primary range.
+            t = x * x;
+            double c = x - t * (P1 + t * (P2 + t * (P3 + t * (P4 + t * P5))));
+            if (k == 0)
+                return 1 - (x * c / (c - 2) - x);
+            double y = 1 - (lo - x * c / (2 - c) - hi);
+            return Scale(y, k);
+        }
+
+        /// <summary>
+        /// Helper method for scaling a double by a power of 2.
+        /// </summary>
+        /// <param name="x">the double</param>
+        /// <param name="n">the scale; |n| < 2048</param>
+        /// <returns>x * 2**n</returns>
+        private static double Scale(double x, int n)
+        {
+
+            Boolean isDebug = false;
+
+#if DEBUG
+            isDebug = true;
+#endif
+
+
+            if (isDebug && Abs(n) >= 2048)
+                throw new MathArgumentException("Assertion failure", Abs(n));
+            if (x == 0 || x == Double.NegativeInfinity
+                || !(x < Double.PositiveInfinity) || n == 0)
+                return x;
+            long bits = BitConverter.DoubleToInt64Bits(x);
+            int exp = (int)(bits >> 52) & 0x7ff;
+            if (exp == 0) // Subnormal x.
+            {
+                x *= TWO_54;
+                exp = ((int)(BitConverter.DoubleToInt64Bits(x) >> 52) & 0x7ff) - 54;
+            }
+            exp += n;
+            if (exp > 0x7fe) // Overflow.
+                return Double.PositiveInfinity * x;
+            if (exp > 0) // Normal.
+                return BitConverter.Int64BitsToDouble((long)(((ulong)bits & 0x800fffffffffffffL) | ((ulong)exp << 52)));
+            if (exp <= -54)
+                return 0 * x; // Underflow.
+            exp += 54; // Subnormal result.
+            x = BitConverter.Int64BitsToDouble((long)(((ulong)bits & 0x800fffffffffffffL) | ((ulong)exp << 52)));
+            return x * (1 / TWO_54);
+        }
+
+        /// <summary>
+        /// The number of binary digits used to represent the binary number for a decimal precision floating
+        /// point value. i.e. there are this many digits used to represent the
+        /// actual number, where in a number as: 0.134556 * 10^5 the digits are 0.134556 and the exponent is 5.
+        /// </summary>
+        const int DecimalWidth = 65;
+
+        /// <summary>
+        /// Standard epsilon, the maximum relative precision of IEEE 754 double-precision floating numbers (64 bit).
+        /// According to the definition of Prof. Demmel and used in LAPACK and Scilab.
+        /// Taking x86 extended precision, 64 bit Significand field and total 80 bit
+        /// </summary>
+        /// <see cref="https://en.wikipedia.org/wiki/Floating-point_arithmetic"/>
+        public static readonly decimal DecimalPrecision = Math2.Pow(2M, -DecimalWidth);
+
+        public static readonly decimal DecimalSqrt2 = 1.4142156862745098039M;
+
+        /// <summary>
+        /// The size of a double in bytes.
+        /// </summary>
+        public const int SizeOfDecimal = sizeof(decimal);
+
+        public static decimal Ceiling(decimal x)
+        {
+            return System.Decimal.Ceiling(x);
+        }
+
+        public static decimal Floor(decimal x)
+        {
+            return System.Decimal.Floor(x);
+        }
+
+        public static decimal Sqrt(decimal x)
+        {
+            return Sqrt(x, Zero);
+        }
+
+
+        public static decimal Min(decimal a, decimal b)
+        {
+            if (a > b)
+            {
+                return b;
+            }
+            if (a < b)
+            {
+                return a;
+            }
+            /* if either arg is NaN, return NaN */
+            // Since Decimal has no concept of NaN, this cannot be happened.
+            // https://csharpindepth.com/articles/Decimal
+            //if (a != b)
+            //{
+            //    return DecimalNaN;
+            //}
+            /* min(+0.0,-0.0) == -0.0 */
+            /* 0x8000000000000000L == BitConverter.DoubleToInt64Bits(-0.0d) */
+            //long zero = BitConverter2.DecimalToInt64Bits(0M);
+            //long bits = BitConverter.DoubleToInt64Bits(a);
+            long bits = BitConverter2.DecimalToInt64Bits(a);
+            if ((ulong)bits == 0x8000000000000000L)
+            {
+                return a;
+            }
+            return b;
+        }
+
+        public static decimal Max(decimal a, decimal b)
+        {
+            return System.Math.Max(a, b);
+        }
+
+        public static decimal Round(decimal x)
+        {
+            return System.Decimal.Round(x);
+        }
+
+        public static decimal Round(decimal x, int decimals)
+        {
+            return System.Decimal.Round(x, decimals);
+        }
+
+        public static decimal Round(decimal x, MidpointRounding mode)
+        {
+            return System.Decimal.Round(x, mode);
+        }
+
+        public static decimal Round(decimal x, int decimals, MidpointRounding mode)
+        {
+            return System.Decimal.Round(x, decimals, mode);
+        }
+
+        /// <summary>
+        /// Analogy of Math.Exp method
+        /// </summary>
+        /// <param name="x"></param>
+        /// <returns></returns>
+        public static decimal Exp(decimal x)
+        {
+            var count = 0;
+
+            if (x > One)
+            {
+                count = decimal.ToInt32(decimal.Truncate(x));
+                x -= decimal.Truncate(x);
+            }
+
+            if (x < Zero)
+            {
+                count = decimal.ToInt32(decimal.Truncate(x) - 1);
+                x = One + (x - decimal.Truncate(x));
+            }
+
+            var iteration = 1;
+            var result = One;
+            var factorial = One;
+            decimal cachedResult;
+            do
+            {
+                cachedResult = result;
+                factorial *= x / iteration++;
+                result += factorial;
+            } while (cachedResult != result);
+
+            if (count == 0)
+                return result;
+            return result * PowN(DE, count);
+        }
+
+        /// <summary>
+        /// Analogy of Math.Pow method
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="pow"></param>
+        /// <returns></returns>
+        public static decimal Pow(decimal value, decimal pow)
+        {
+            if (pow == Zero) return One;
+            if (pow == One) return value;
+            if (value == One) return One;
+
+            if (value == Zero)
+            {
+                if (pow > Zero)
+                {
+                    return Zero;
+                }
+
+                throw new Exception("Invalid Operation: zero base and negative power");
+            }
+
+            if (pow == -One) return One / value;
+
+            var isPowerInteger = IsInteger(pow);
+            if (value < Zero && !isPowerInteger)
+            {
+                throw new Exception("Invalid Operation: negative base and non-integer power");
+            }
+
+            if (isPowerInteger && value > Zero)
+            {
+                int powerInt = (int)pow;
+                return PowN(value, powerInt);
+            }
+
+            if (isPowerInteger && value < Zero)
+            {
+                int powerInt = (int)pow;
+                if (powerInt % 2 == 0)
+                {
+                    return Exp(pow * Log(-value));
+                }
+
+                return -Exp(pow * Log(-value));
+            }
+
+            return Exp(pow * Log(value));
+        }
+
+        private static bool IsInteger(decimal value)
+        {
+            var longValue = (long)value;
+            return Abs(value - longValue) <= Epsilon;
+        }
+
+        /// <summary>
+        /// Power to the integer value
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="power"></param>
+        /// <returns></returns>
+        public static decimal PowN(decimal value, int power)
+        {
+            while (true)
+            {
+                if (power == Zero) return One;
+                if (power < Zero)
+                {
+                    value = One / value;
+                    power = -power;
+                    continue;
+                }
+
+                var q = power;
+                var prod = One;
+                var current = value;
+                while (q > 0)
+                {
+                    if (q % 2 == 1)
+                    {
+                        // detects the 1s in the binary expression of power
+                        prod = current * prod; // picks up the relevant power
+                        q--;
+                    }
+
+                    current *= current; // value^i -> value^(2*i)
+                    q >>= 1;
+                }
+
+                return prod;
+            }
+        }
+
+        /// <summary>
+        /// Analogy of Math.Log10
+        /// </summary>
+        /// <param name="x"></param>
+        /// <returns></returns>
+        public static decimal Log10(decimal x)
+        {
+            return Log(x) * Log10Inv;
+        }
+
+        /// <summary>
+        /// Analogy of Math.Log
+        /// </summary>
+        /// <param name="x"></param>
+        /// <returns></returns>
+        public static decimal Log(decimal x)
+        {
+            if (x <= Zero)
+            {
+                throw new ArgumentException("x must be greater than zero");
+            }
+            var count = 0;
+            while (x >= One)
+            {
+                x *= Einv;
+                count++;
+            }
+            while (x <= Einv)
+            {
+                x *= DE;
+                count--;
+            }
+            x--;
+            if (x == Zero) return count;
+            var result = Zero;
+            var iteration = 0;
+            var y = One;
+            var cacheResult = result - One;
+            while (cacheResult != result && iteration < MaxIteration)
+            {
+                iteration++;
+                cacheResult = result;
+                y *= -x;
+                result += y / iteration;
+            }
+            return count - result;
+        }
+
+        /// <summary>
+        /// Analogy of Math.Cos
+        /// </summary>
+        /// <param name="x"></param>
+        /// <returns></returns>
+        public static decimal Cos(decimal x)
+        {
+            //truncating to  [-2*PI;2*PI]
+            TruncateToPeriodicInterval(ref x);
+
+            // now x in (-2pi,2pi)
+            if (x >= Pi && x <= PIx2)
+            {
+                return -Cos(x - Pi);
+            }
+            if (x >= -PIx2 && x <= -Pi)
+            {
+                return -Cos(x + Pi);
+            }
+
+            x *= x;
+            //y=1-x/2!+x^2/4!-x^3/6!...
+            var xx = -x * Half;
+            var y = One + xx;
+            var cachedY = y - One;//init cache  with different value
+            for (var i = 1; cachedY != y && i < MaxIteration; i++)
+            {
+                cachedY = y;
+                decimal factor = i * ((i << 1) + 3) + 1; //2i^2+2i+i+1=2i^2+3i+1
+                factor = -Half / factor;
+                xx *= x * factor;
+                y += xx;
+            }
+            return y;
+        }
+
+        /// <summary>
+        /// Analogy of Math.Tan
+        /// </summary>
+        /// <param name="x"></param>
+        /// <returns></returns>
+        public static decimal Tan(decimal x)
+        {
+            var cos = Cos(x);
+            if (cos == Zero) throw new ArgumentException(nameof(x));
+            //calculate sin using cos
+            var sin = CalculateSinFromCos(x, cos);
+            return sin / cos;
+        }
+        /// <summary>
+        /// Helper function for calculating sin(x) from cos(x)
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="cos"></param>
+        /// <returns></returns>
+        private static decimal CalculateSinFromCos(decimal x, decimal cos)
+        {
+            var moduleOfSin = Sqrt(One - (cos * cos));
+            var sineIsPositive = IsSignOfSinePositive(x);
+            if (sineIsPositive) return moduleOfSin;
+            return -moduleOfSin;
+        }
+        /// <summary>
+        /// Analogy of Math.Sin
+        /// </summary>
+        /// <param name="x"></param>
+        /// <returns></returns>
+        public static decimal Sin(decimal x)
+        {
+            var cos = Cos(x);
+            return CalculateSinFromCos(x, cos);
+        }
+
+
+        /// <summary>
+        /// Truncates to  [-2*PI;2*PI]
+        /// </summary>
+        /// <param name="x"></param>
+        private static void TruncateToPeriodicInterval(ref decimal x)
+        {
+            while (x >= PIx2)
+            {
+                var divide = Math.Abs(decimal.ToInt32(x / PIx2));
+                x -= divide * PIx2;
+            }
+
+            while (x <= -PIx2)
+            {
+                var divide = Math.Abs(decimal.ToInt32(x / PIx2));
+                x += divide * PIx2;
+            }
+        }
+
+
+        private static bool IsSignOfSinePositive(decimal x)
+        {
+            //truncating to  [-2*PI;2*PI]
+            TruncateToPeriodicInterval(ref x);
+
+            //now x in [-2*PI;2*PI]
+            if (x >= -PIx2 && x <= -Pi) return true;
+            if (x >= -Pi && x <= Zero) return false;
+            if (x >= Zero && x <= Pi) return true;
+            if (x >= Pi && x <= PIx2) return false;
+
+            //will not be reached
+            throw new ArgumentException(nameof(x));
+        }
+
+        /// <summary>
+        /// Analogy of Math.Sqrt
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="epsilon">lasts iteration while error less than this epsilon</param>
+        /// <returns></returns>
+        public static decimal Sqrt(decimal x, decimal epsilon = Zero)
+        {
+            if (x < Zero) throw new OverflowException("Cannot calculate square root from a negative number");
+            //initial approximation
+            decimal current = (decimal)Math.Sqrt((double)x), previous;
+            do
+            {
+                previous = current;
+                if (previous == Zero) return Zero;
+                current = (previous + x / previous) * Half;
+            } while (Abs(previous - current) > epsilon);
+            return current;
+        }
+
+        /// <summary>
+        /// Analogy of Math.Sinh
+        /// </summary>
+        /// <param name="x"></param>
+        /// <returns></returns>
+        public static decimal Sinh(decimal x)
+        {
+            var y = Exp(x);
+            var yy = One / y;
+            return (y - yy) * Half;
+        }
+
+        /// <summary>
+        /// Analogy of Math.Cosh
+        /// </summary>
+        /// <param name="x"></param>
+        /// <returns></returns>
+        public static decimal Cosh(decimal x)
+        {
+            var y = Exp(x);
+            var yy = One / y;
+            return (y + yy) * Half;
+        }
+
+        /// <summary>
+        /// Analogy of Math.Sign
+        /// </summary>
+        /// <param name="x"></param>
+        /// <returns></returns>
+        public static int Sign(decimal x)
+        {
+            return x < Zero ? -1 : (x > Zero ? 1 : 0);
+        }
+
+        /// <summary>
+        /// Analogy of Math.Tanh
+        /// </summary>
+        /// <param name="x"></param>
+        /// <returns></returns>
+        public static decimal Tanh(decimal x)
+        {
+            var y = Exp(x);
+            var yy = One / y;
+            return (y - yy) / (y + yy);
+        }
+
+        /// <summary>
+        /// Analogy of Math.Abs
+        /// </summary>
+        /// <param name="x"></param>
+        /// <returns></returns>
+        public static decimal Abs(decimal x)
+        {
+            if (x <= Zero)
+            {
+                return -x;
+            }
+            return x;
+        }
+
+        /// <summary>
+        /// Analogy of Math.Asin
+        /// </summary>
+        /// <param name="x"></param>
+        /// <returns></returns>
+        public static decimal Asin(decimal x)
+        {
+            if (x > One || x < -One)
+            {
+                throw new ArgumentException("x must be in [-1,1]");
+            }
+            //known values
+            if (x == Zero) return Zero;
+            if (x == One) return PIdiv2;
+            //asin function is odd function
+            if (x < Zero) return -Asin(-x);
+
+            //my optimize trick here
+
+            // used a math formula to speed up :
+            // asin(x)=0.5*(pi/2-asin(1-2*x*x)) 
+            // if x>=0 is true
+
+            var newX = One - 2 * x * x;
+
+            //for calculating new value near to zero than current
+            //because we gain more speed with values near to zero
+            if (Abs(x) > Abs(newX))
+            {
+                var t = Asin(newX);
+                return Half * (PIdiv2 - t);
+            }
+            var y = Zero;
+            var result = x;
+            decimal cachedResult;
+            var i = 1;
+            y += result;
+            var xx = x * x;
+            do
+            {
+                cachedResult = result;
+                result *= xx * (One - Half / (i));
+                y += result / ((i << 1) + 1);
+                i++;
+            } while (cachedResult != result);
+            return y;
+        }
+
+        /// <summary>
+        /// Analogy of Math.Atan
+        /// </summary>
+        /// <param name="x"></param>
+        /// <returns></returns>
+        public static decimal Atan(decimal x)
+        {
+            if (x == Zero) return Zero;
+            if (x == One) return PIdiv4;
+            return Asin(x / Sqrt(One + x * x));
+        }
+        /// <summary>
+        /// Analogy of Math.Acos
+        /// </summary>
+        /// <param name="x"></param>
+        /// <returns></returns>
+        public static decimal Acos(decimal x)
+        {
+            if (x == Zero) return PIdiv2;
+            if (x == One) return Zero;
+            if (x < Zero) return Pi - Acos(-x);
+            return PIdiv2 - Asin(x);
+        }
+
+        /// <summary>
+        /// Analogy of Math.Atan2
+        /// for more see this
+        /// <seealso cref="http://i.imgur.com/TRLjs8R.png"/>
+        /// </summary>
+        /// <param name="y"></param>
+        /// <param name="x"></param>
+        /// <returns></returns>
+        public static decimal Atan2(decimal y, decimal x)
+        {
+            if (x > Zero)
+            {
+                return Atan(y / x);
+            }
+            if (x < Zero && y >= Zero)
+            {
+                return Atan(y / x) + Pi;
+            }
+            if (x < Zero && y < Zero)
+            {
+                return Atan(y / x) - Pi;
+            }
+            if (x == Zero && y > Zero)
+            {
+                return PIdiv2;
+            }
+            if (x == Zero && y < Zero)
+            {
+                return -PIdiv2;
+            }
+            throw new ArgumentException("invalid atan2 arguments");
         }
 
         public static double Expm1(double x)
@@ -3468,7 +4225,7 @@ namespace System
 
         private static double DoubleHighPart(double d)
         {
-            if (d > -Precision.SAFE_MIN && d < Precision.SAFE_MIN)
+            if (d > -Precision2.SAFE_MIN && d < Precision2.SAFE_MIN)
             {
                 return d; // These are un-normalised - don't try to convert
             }

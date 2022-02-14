@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Numerics;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MathNet.Numerics;
+using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Double;
 
 namespace System
@@ -17,7 +20,7 @@ namespace System
         /// <param name="b">A vector.</param>
         /// 
         /// <returns>The inner product of the multiplication of the vectors.</returns>
-        public static int Dot(this Vector v, int[] b)
+        public static int Dot(this MathNet.Numerics.LinearAlgebra.Double.Vector v, int[] b)
         {
             var a = v.AsArray();
             int r = 0;
@@ -34,7 +37,7 @@ namespace System
         /// <param name="b">The right double array.</param>
         ///
         /// <returns>The inner product of the multiplication of the vectors.</returns>
-        public static double Dot(this Vector v, double[] b)
+        public static double Dot(this MathNet.Numerics.LinearAlgebra.Double.Vector v, double[] b)
         {
             var a = v.AsArray();
             double r = 0;
@@ -51,7 +54,7 @@ namespace System
         /// <param name="v2">A vector.</param>
         /// 
         /// <returns>The inner product of the multiplication of the vectors.</returns>
-        public static double Dot(this Vector v1, Vector v2)
+        public static double Dot(this MathNet.Numerics.LinearAlgebra.Double.Vector v1, MathNet.Numerics.LinearAlgebra.Double.Vector v2)
         {
             var a = v1.AsArray();
             var b = v2.AsArray();
@@ -59,6 +62,16 @@ namespace System
             for (int i = 0; i < a.Length; i++)
                 r += (a[i] * b[i]);
             return r;
+        }
+
+        public static MathNet.Numerics.LinearAlgebra.Vector<DecimalComplex> ToDecimalComplexVector(this MathNet.Numerics.LinearAlgebra.Vector<Complex> vector)
+        {
+            return MathNet.Numerics.LinearAlgebra.Vector<DecimalComplex>.Build.Dense(vector.AsArray().Select(x => new DecimalComplex((decimal)x.Real, (decimal)x.Imaginary)).ToArray());
+        }
+
+        public static MathNet.Numerics.LinearAlgebra.Vector<Complex> ToComplexVector(this MathNet.Numerics.LinearAlgebra.Vector<DecimalComplex> vector)
+        {
+            return MathNet.Numerics.LinearAlgebra.Vector<Complex>.Build.Dense(vector.AsArray().Select(x => new Complex((double)x.Real, (double)x.Imaginary)).ToArray());
         }
     }
 }

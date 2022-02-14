@@ -586,7 +586,7 @@ namespace Mercury.Language.Math.Decompositions
             }
 
             // Set the small value tolerance used to calculate rank and pseudo-inverse
-            tol = System.Math.Max(m * singularValues[0] * EPS, System.Math.Sqrt(Precision.SAFE_MIN));
+            tol = System.Math.Max(m * singularValues[0] * EPS, System.Math.Sqrt(Precision2.SAFE_MIN));
 
             if (!transposed)
             {

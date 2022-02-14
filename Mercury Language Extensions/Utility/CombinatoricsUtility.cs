@@ -227,7 +227,7 @@ namespace System
             }
             if ((k == 1) || (k == n - 1))
             {
-                return Math2.Log(n);
+                return Math.Log(n);
             }
 
             /*
@@ -236,7 +236,7 @@ namespace System
              */
             if (n < 67)
             {
-                return Math2.Log(BinomialCoefficient(n, k));
+                return Math.Log(BinomialCoefficient(n, k));
             }
 
             /*
@@ -261,13 +261,13 @@ namespace System
             // n!/(n-k)!
             for (int i = n - k + 1; i <= n; i++)
             {
-                logSum += Math2.Log(i);
+                logSum += Math.Log(i);
             }
 
             // divide by k!
             for (int i = 2; i <= k; i++)
             {
-                logSum -= Math2.Log(i);
+                logSum -= Math.Log(i);
             }
 
             return logSum;
@@ -354,12 +354,12 @@ namespace System
             }
             if (n < 21)
             {
-                return Math2.Log(FACTORIALS[n]);
+                return Math.Log(FACTORIALS[n]);
             }
             double logSum = 0;
             for (int i = 2; i <= n; i++)
             {
-                logSum += Math2.Log(i);
+                logSum += Math.Log(i);
             }
             return logSum;
         }

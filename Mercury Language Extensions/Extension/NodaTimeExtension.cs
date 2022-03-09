@@ -631,7 +631,6 @@ namespace NodaTime
             return t.Days;
         }
 
-
         public static long ToEpochMonths(this ZonedDateTime now)
         {
             long y = now.Year;
@@ -656,6 +655,11 @@ namespace NodaTime
             System.Globalization.Calendar cal = System.Globalization.CultureInfo.CurrentCulture.Calendar;
 
             return new LocalDate(now.Year, now.Month, now.Day, now.Calendar);
+        }
+
+        public static LocalTime ToLocalTime(this ZonedDateTime now)
+        {
+            return new LocalTime(now.Hour, now.Minute, now.Second, now.Millisecond);
         }
 
         public static ZonedDateTime ToZonedDateTimeUtc(this ZonedDateTime now)
@@ -870,8 +874,6 @@ namespace NodaTime
             return unit.AddTo(new Temporal(now), amountToAdd);
         }
         #endregion
-
-
 
         #region LodalDateTime methods
         public static int CompareTo(this LocalDateTime now, LocalDateTime target)
@@ -1543,7 +1545,6 @@ namespace NodaTime
         }
         #endregion
 
-
         #region LodalDate methods
 
         public static ZonedDateTime AtZone(this LocalDate now, DateTimeZone zone)
@@ -1710,6 +1711,26 @@ namespace NodaTime
         public static ZonedDateTime ToZonedDateTimeUtc(this LocalDate now)
         {
             return now.ToDateTimeUnspecified().ToUniversalTime().ToZonedDateTime();
+        }
+
+        public static ZonedDateTime ToZonedDateTimeUnspecified(this LocalDate now)
+        {
+            return now.ToDateTimeUnspecified().ToZonedDateTime();
+        }
+
+        public static ZonedDateTime ToZonedDateTime(this LocalDate now, LocalTime time)
+        {
+            return (new DateTime(now.Year, now.Month, now.Day, time.Hour, time.Minute, time.Second, time.Millisecond, DateTimeKind.Local)).ToZonedDateTime();
+        }
+
+        public static ZonedDateTime ToZonedDateTimeUtc(this LocalDate now, LocalTime time)
+        {
+            return (new DateTime(now.Year, now.Month, now.Day, time.Hour, time.Minute, time.Second, time.Millisecond, DateTimeKind.Utc)).ToZonedDateTime();
+        }
+
+        public static ZonedDateTime ToZonedDateTimeUnspecified(this LocalDate now, LocalTime time)
+        {
+            return (new DateTime(now.Year, now.Month, now.Day, time.Hour, time.Minute, time.Second, time.Millisecond, DateTimeKind.Unspecified)).ToZonedDateTime();
         }
 
         public static long ToEpochDay(this LocalDate now)

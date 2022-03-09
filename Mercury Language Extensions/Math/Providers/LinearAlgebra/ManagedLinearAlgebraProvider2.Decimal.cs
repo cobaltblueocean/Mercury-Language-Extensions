@@ -29,6 +29,7 @@
 
 using System;
 using Mercury.Language.Threading;
+using Complex = System.Numerics.Complex;
 using DecimalComplex = System.Numerics.DecimalComplex;
 using QRMethod = MathNet.Numerics.LinearAlgebra.Factorization.QRMethod;
 using static System.FormattableString;
@@ -2485,6 +2486,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
             }
         }
 
+
         /// <summary>
         /// Computes the eigenvalues and eigenvectors of a matrix.
         /// </summary>
@@ -2494,7 +2496,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         /// <param name="matrixEv">On output, the matrix contains the eigen vectors. The length of the array must be order * order.</param>
         /// <param name="vectorEv">On output, the eigen values (λ) of matrix in ascending value. The length of the array must <paramref name="order"/>.</param>
         /// <param name="matrixD">On output, the block diagonal eigenvalue matrix. The length of the array must be order * order.</param>
-        public void EigenDecomp(bool isSymmetric, int order, decimal[] matrix, decimal[] matrixEv, DecimalComplex[] vectorEv, decimal[] matrixD)
+        public void EigenDecomp(bool isSymmetric, int order, decimal[] matrix, decimal[] matrixEv, Complex[] vectorEv, decimal[] matrixD)
         {
             if (matrix == null)
             {
@@ -2561,7 +2563,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
 
             for (var i = 0; i < order; i++)
             {
-                vectorEv[i] = new DecimalComplex(d[i], e[i]);
+                vectorEv[i] = new Complex((double)d[i], (double)e[i]);
 
                 var io = i * order;
                 matrixD[io + i] = d[i];

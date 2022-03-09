@@ -286,10 +286,10 @@ namespace System
             CheckEqualLength(a, b, true);
         }
 
-        public static T[] CloneExact<T>(this T[] originalArray)
-        {
-            return (T[])originalArray.Clone();
-        }
+        //public static T[] CloneExact<T>(this T[] originalArray)
+        //{
+        //    return (T[])originalArray.Clone();
+        //}
 
         /// <summary>
         /// Specification of ordering direction.

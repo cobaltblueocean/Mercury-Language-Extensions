@@ -32,8 +32,11 @@
 // </copyright>
 
 using System;
+using System.Numerics;
+using System.Linq;
 using Mercury.Language.Threading;
 using DecimalComplex = System.Numerics.DecimalComplex;
+using Complex = System.Numerics.Complex;
 using QRMethod = MathNet.Numerics.LinearAlgebra.Factorization.QRMethod;
 using static System.FormattableString;
 
@@ -2441,7 +2444,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         /// <param name="matrixEv">On output, the matrix contains the eigen vectors. The length of the array must be order * order.</param>
         /// <param name="vectorEv">On output, the eigen values (λ) of matrix in ascending value. The length of the array must <paramref name="order"/>.</param>
         /// <param name="matrixD">On output, the block diagonal eigenvalue matrix. The length of the array must be order * order.</param>
-        public void EigenDecomp(bool isSymmetric, int order, DecimalComplex[] matrix, DecimalComplex[] matrixEv, DecimalComplex[] vectorEv, DecimalComplex[] matrixD)
+        public void EigenDecomp(bool isSymmetric, int order, DecimalComplex[] matrix, DecimalComplex[] matrixEv, Complex[] vectorEv, DecimalComplex[] matrixD)
         {
             if (matrix == null)
             {
@@ -2497,18 +2500,18 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
 
                 for (var i = 0; i < order; i++)
                 {
-                    vectorEv[i] = new DecimalComplex(d[i], e[i]);
+                    vectorEv[i] = new Complex((double)d[i], (double)e[i]);
                 }
             }
             else
             {
                 NonsymmetricReduceToHessenberg(matrixEv, matrixCopy, order);
-                NonsymmetricReduceHessenberToRealSchur(vectorEv, matrixEv, matrixCopy, order);
+                NonsymmetricReduceHessenberToRealSchur(vectorEv.ToDecimalComplexArray(), matrixEv, matrixCopy, order);
             }
 
             for (var i = 0; i < order; i++)
             {
-                matrixD[i * order + i] = vectorEv[i];
+                matrixD[i * order + i] = vectorEv[i].ToDecimalComplex();
             }
         }
 

@@ -2439,16 +2439,12 @@ namespace System
             }
         }
 
-        /**
-         * Returns the first argument with the sign of the second argument.
-         *
-         * @param magnitude Magnitude of the returned value.
-         * @param sign Sign of the returned value.
-         * @return a value with magnitude equal to {@code magnitude} and with the
-         * same sign as the {@code sign} argument.
-         * @throws MathArithmeticException if {@code magnitude == long.MinValue}
-         * and {@code sign >= 0}.
-         */
+        /// <summary>
+        /// Returns the first argument with the sign of the second argument.
+        /// </summary>
+        /// <param name="magnitude">Magnitude of the returned value.</param>
+        /// <param name="sign">Sign of the returned value.</param>
+        /// <returns>a value with magnitude equal to {@code magnitude} and with the same sign as the {@code sign} argument.</returns>
         public static long CopySign(long magnitude, long sign)
         {
             if ((magnitude >= 0 && sign >= 0) ||
@@ -2467,6 +2463,7 @@ namespace System
             }
         }
 
+        [Obsolete("Deprecatred")]
         public static double Exp(double x)
         {
             // Deprecated
@@ -2519,6 +2516,7 @@ namespace System
             double y = 1 - (lo - x * c / (2 - c) - hi);
             return Scale(y, k);
         }
+      
 
         /// <summary>
         /// Helper method for scaling a double by a power of 2.
@@ -3283,13 +3281,11 @@ namespace System
             return ((int)(UInt64.Parse(BitConverter2.FloatToRawIntBits(f).ToString()) >> 23) & 0xff) - 127;
         }
 
-        /**
-         * Returns an int hash code representing the given double array.
-         *
-         * @param value the value to be hashed (may be null)
-         * @return the hash code
-         * @since 1.2
-         */
+        /// <summary>
+        /// 
+        /// </summary>Returns an int hash code representing the given double array.
+        /// <param name="value">the value to be hashed (may be null)</param>
+        /// <returns>the hash code</returns>
         public static int Hash(double[] value)
         {
             return value.GetHashCode();
@@ -3646,25 +3642,24 @@ namespace System
             return NextAfter(a, float.PositiveInfinity);
         }
 
-        /**
- * Normalize an angle in a 2&pi; wide interval around a center value.
- * <p>This method has three main uses:</p>
- * <ul>
- *   <li>normalize an angle between 0 and 2&pi;:<br/>
- *       {@code a = MathUtils.normalizeAngle(a, System.Math.PI);}</li>
- *   <li>normalize an angle between -&pi; and +&pi;<br/>
- *       {@code a = MathUtils.normalizeAngle(a, 0.0);}</li>
- *   <li>compute the angle between two defining angular positions:<br>
- *       {@code angle = MathUtils.normalizeAngle(end, start) - start;}</li>
- * </ul>
- * <p>Note that due to numerical accuracy and since &pi; cannot be represented
- * exactly, the result interval is <em>closed</em>, it cannot be half-closed
- * as would be more satisfactory in a purely mathematical view.</p>
- * @param a angle to normalize
- * @param center center of the desired 2&pi; interval for the result
- * @return a-2k&pi; with int k and center-&pi; &lt;= a-2k&pi; &lt;= center+&pi;
- * @since 1.2
- */
+        /// <summary>
+        /// Normalize an angle in a 2&pi; wide interval around a center value.
+        /// <p>This method has three main uses:</p>
+        /// <ul>
+        ///   <li>normalize an angle between 0 and 2&pi;:<br/>
+        ///       {@code a = MathUtils.normalizeAngle(a, System.Math.PI);}</li>
+        ///   <li>normalize an angle between -&pi; and +&pi;<br/>
+        ///       {@code a = MathUtils.normalizeAngle(a, 0.0);}</li>
+        ///   <li>compute the angle between two defining angular positions:<br>
+        ///       {@code angle = MathUtils.normalizeAngle(end, start) - start;}</li>
+        /// </ul>
+        /// <p>Note that due to numerical accuracy and since &pi; cannot be represented
+        /// exactly, the result interval is <em>closed</em>, it cannot be half-closed
+        /// as would be more satisfactory in a purely mathematical view.</p>
+        /// </summary>
+        /// <param name="a">angle to normalize</param>
+        /// <param name="center">center of the desired 2&pi; interval for the result</param>
+        /// <returns>a-2k&pi; with int k and center-&pi; &lt;= a-2k&pi; &lt;= center+&pi;</returns>
         public static double NormalizeAngle(double a, double center)
         {
             return a - TWO_PI * System.Math.Floor((a + System.Math.PI - center) / TWO_PI);
@@ -3863,22 +3858,19 @@ namespace System
             }
         }
 
-        /**
-         * <p>Reduce {@code |a - offset|} to the primary interval
-         * {@code [0, |period|)}.</p>
-         *
-         * <p>Specifically, the value returned is <br/>
-         * {@code a - |period| * floor((a - offset) / |period|) - offset}.</p>
-         *
-         * <p>If any of the parameters are {@code NaN} or infinite, the result is
-         * {@code NaN}.</p>
-         *
-         * @param a Value to reduce.
-         * @param period Period.
-         * @param offset Value that will be mapped to {@code 0}.
-         * @return the value, within the interval {@code [0 |period|)},
-         * that corresponds to {@code a}.
-         */
+        /// <summary>
+        /// <p>Reduce {@code |a - offset|} to the primary interval {@code [0, |period|)}.</p>
+        /// <p>Specifically, the value returned is <br/>
+        /// {@code a - |period| * floor((a - offset) / |period|) - offset}.</p>
+        /// <p>If any of the parameters are {@code NaN} or infinite, the result is {@code NaN}.</p>
+        /// 
+        /// 
+        /// 
+        /// </summary>
+        /// <param name="a">Value to reduce.</param>
+        /// <param name="period">Period.</param>
+        /// <param name="offset">Value that will be mapped to {@code 0}.</param>
+        /// <returns>the value, within the interval {@code [0 |period|)}, that corresponds to {@code a}.</returns>
         public static double Reduce(double a, double period, double offset)
         {
             double p = System.Math.Abs(period);

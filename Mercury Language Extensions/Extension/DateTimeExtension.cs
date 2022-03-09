@@ -26,7 +26,7 @@ using NodaTime;
 
 namespace System
 {
-    public static class DateTimeExt
+    public static class DateTimeExtension
     {
 
         /// <summary>
@@ -175,5 +175,12 @@ namespace System
             double nanos = System.Math.Round(1e9 * SECONDS_PER_YEAR * yearFraction);
             return startDate.AddNanos(nanos);
         }
+
+        private static readonly DateTime Jan1st1970 = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+        public static long CurrentTimeMillis(this DateTime dt)
+        {
+            return (long)(dt.ToUniversalTime() - Jan1st1970).TotalMilliseconds;
+        }
+
     }
 }

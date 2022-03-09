@@ -55,43 +55,7 @@ namespace System
 
         public static dynamic NewInstance(this Type type)
         {
-            Object[] paramValues = null;
-
-            if (type.IsGenericType)
-            {
-                List<Type> typeParams = GetGenericTypeParameter(type);
-                Type constructedType = type.MakeGenericType(typeParams.ToArray());
-                var c = constructedType.GetConstructor(BindingFlags.Instance | BindingFlags.Public, null, CallingConventions.HasThis, typeParams.ToArray(), null);
-                if (c != null)
-                {
-                    paramValues = new Object[typeParams.Count];
-                    for (int i = 0; i < typeParams.Count; i++)
-                    {
-                        Type p = typeParams[i];
-                        paramValues[i] = default;
-                    }
-
-                }
-                return Activator.CreateInstance(constructedType, paramValues);
-            }
-            else
-            {
-                var methods = type.GetMethods();
-                var constructor = methods.FirstOrDefault(x => x.IsConstructor);
-                if (constructor != null)
-                {
-                    var cParams = constructor.GetParameters();
-                    var tParams = cParams.Select(x => x.ParameterType).ToArray();
-
-                    paramValues = new Object[cParams.Length];
-                    for (int i = 0; i < cParams.Length; i++)
-                    {
-                        Type p = cParams[i].ParameterType;
-                        paramValues[i] = default;
-                    }
-                }
-                return Activator.CreateInstance(type, paramValues);
-            }
+            return Core.CreateInstanceFromType(type);
         }
 
         public static T NewInstance<T>(this Type type, Object[] paramValues)
@@ -101,16 +65,7 @@ namespace System
 
         public static dynamic NewInstance(this Type type, Object[] paramValues)
         {
-            if (type.IsGenericType)
-            {
-                List<Type> typeParams = GetGenericTypeParameter(type);
-                Type constructedType = type.MakeGenericType(typeParams.ToArray());
-                return Activator.CreateInstance(constructedType, paramValues);
-            }
-            else
-            {
-                return Activator.CreateInstance(type, paramValues);
-            }
+            return Core.CreateInstanceFromType(type, paramValues);
         }
 
         public static void SetFieldValue<T, V>(this T target, String property, V value)

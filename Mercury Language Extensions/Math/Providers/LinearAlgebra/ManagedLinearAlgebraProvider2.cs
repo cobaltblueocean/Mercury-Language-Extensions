@@ -32,6 +32,7 @@
 // </copyright>
 
 using System;
+using System.Numerics;
 
 namespace MathNet.Numerics.Providers.LinearAlgebra
 {

@@ -96,7 +96,7 @@ namespace MathNet.Numerics.LinearAlgebra.Decimal.Factorization
                     break;
             }
 
-            LinearAlgebraControl2.Provider.EigenDecomp(isSymmetric, order, matrix.Values, eigenVectors.Values, eigenValues.Values.ToDecimalComplexArray(), blockDiagonal.Values);
+            LinearAlgebraControl2.Provider.EigenDecomp(isSymmetric, order, matrix.Values, eigenVectors.Values, eigenValues.Values, blockDiagonal.Values);
 
             return new DenseEvd(eigenVectors, eigenValues, blockDiagonal, isSymmetric);
         }

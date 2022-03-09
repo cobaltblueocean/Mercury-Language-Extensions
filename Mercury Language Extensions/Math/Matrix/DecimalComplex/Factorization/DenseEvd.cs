@@ -28,6 +28,7 @@
 // </copyright>
 
 using System;
+using System.Linq;
 using MathNet.Numerics.Providers.LinearAlgebra;
 
 namespace MathNet.Numerics.LinearAlgebra.DecimalComplex.Factorization
@@ -87,7 +88,7 @@ namespace MathNet.Numerics.LinearAlgebra.DecimalComplex.Factorization
                     break;
             }
 
-            LinearAlgebraControl2.Provider.EigenDecomp(isSymmetric, order, matrix.Values, eigenVectors.Values, eigenValues.Values, blockDiagonal.Values);
+            LinearAlgebraControl2.Provider.EigenDecomp(isSymmetric, order, matrix.Values, eigenVectors.Values, eigenValues.Values.Select(x => x.ToComplex()).ToArray(), blockDiagonal.Values);
 
             return new DenseEvd(eigenVectors, eigenValues, blockDiagonal, isSymmetric);
         }

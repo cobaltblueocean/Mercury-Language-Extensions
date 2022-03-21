@@ -140,7 +140,7 @@ namespace System.Collections.Generic
             if (array == null)
                 throw new ArgumentNullException("array");
             else if (array.Length < this.Count + arrayIndex)
-                throw new ArgumentException("array not sufficient size");
+                throw new ArgumentException(Mercury.Language.LocalizedResources.Instance().TREEDICTIONARY_ARRAY_NOT_SUFFICIENT_SIZE);
 
             foreach (var item in this)
             {
@@ -240,7 +240,7 @@ namespace System.Collections.Generic
             if (_root == -1)
                 Add(key, value, -1, 0);
             else if ((cmp = Find(ref index, key)) == 0)
-                throw new ArgumentException("An element with the same key already exists in the dictionary");
+                throw new ArgumentException(Mercury.Language.LocalizedResources.Instance().TREEDICTIONARY_AN_ELEMENT_WITH_THE_SAME_KEY_ALREADY_EXISTS);
             else
                 Add(key, value, index, cmp);
         }

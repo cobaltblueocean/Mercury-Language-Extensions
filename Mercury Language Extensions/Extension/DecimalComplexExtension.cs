@@ -37,6 +37,7 @@ using System.Linq;
 using System.Collections.Generic;
 using DecimalComplex = System.Numerics.DecimalComplex;
 using System.Runtime;
+using Mercury.Language;
 using Mercury.Language.Math;
 using Mercury.Language.Exception;
 
@@ -211,7 +212,7 @@ namespace MathNet.Numerics
                     //return exponent.Imaginary == 0M
                     //    ? new DecimalComplex(double.PositiveInfinity, 0M)
                     //    : new DecimalComplex(decimal.PositiveInfinity, decimal.PositiveInfinity);
-                    throw new MathArgumentException("Cannot operate with this condition. {0}", exponent);
+                    throw new MathArgumentException(LocalizedResources.Instance().DECIMAL_COMPLEX_CANNOT_OPERATE_WITH_THIS_CONDITION, exponent);
                 }
             }
 

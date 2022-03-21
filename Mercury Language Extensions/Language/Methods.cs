@@ -22,6 +22,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Mercury.Language;
 
 namespace System
 {
@@ -47,7 +48,7 @@ namespace System
         {
             if (value == null)
             {
-                throw new NullReferenceException("Value must not be null");
+                throw new NullReferenceException(LocalizedResources.Instance().METHOD_VALUE_MUST_NOT_BE_NULL);
             }
             return value;
         }
@@ -63,7 +64,7 @@ namespace System
         {
             if (value == null)
             {
-                throw new NullReferenceException(parameterName + " must not be null");
+                throw new NullReferenceException(String.Format(LocalizedResources.Instance().METHOD_PARAMETER_MUST_NOT_BE_NULL, parameterName));
             }
             return value;
         }
@@ -118,7 +119,7 @@ namespace System
             // check for a change of sign in the result when the inputs have the same sign
             if ((a ^ sum) < 0 && (a ^ b) >= 0)
             {
-                throw new ArithmeticException("Addition overflows an int: " + a + " + " + b);
+                throw new ArithmeticException(String.Format(LocalizedResources.Instance().METHOD_ADDITION_OVERFLOWS_INT, a, b));
             }
             return sum;
         }
@@ -135,7 +136,7 @@ namespace System
             // check for a change of sign in the result when the inputs have the same sign
             if ((a ^ sum) < 0 && (a ^ b) >= 0)
             {
-                throw new ArithmeticException("Addition overflows a long: " + a + " + " + b);
+                throw new ArithmeticException(String.Format(LocalizedResources.Instance().METHOD_ADDITION_OVERFLOWS_LONG, a, b));
             }
             return sum;
         }
@@ -152,7 +153,7 @@ namespace System
             // check for a change of sign in the result when the inputs have the different signs
             if ((a ^ result) < 0 && (a ^ b) < 0)
             {
-                throw new ArithmeticException("Subtraction overflows an int: " + a + " - " + b);
+                throw new ArithmeticException(String.Format(LocalizedResources.Instance().METHOD_SUBTRACTION_OVERFLOWS_INT, a, b));
             }
             return result;
         }
@@ -169,7 +170,7 @@ namespace System
             // check for a change of sign in the result when the inputs have the different signs
             if ((a ^ result) < 0 && (a ^ b) < 0)
             {
-                throw new ArithmeticException("Subtraction overflows a long: " + a + " - " + b);
+                throw new ArithmeticException(String.Format(LocalizedResources.Instance().METHOD_SUBTRACTION_OVERFLOWS_LONG, a, b));
             }
             return result;
         }
@@ -185,7 +186,7 @@ namespace System
             long total = (long)a * (long)b;
             if (total < int.MinValue || total > int.MaxValue)
             {
-                throw new ArithmeticException("Multiplication overflows an int: " + a + " * " + b);
+                throw new ArithmeticException(String.Format(LocalizedResources.Instance().METHOD_MULTIPLICTION_OVERFLOWS_INT, a, b));
             }
             return (int)total;
         }
@@ -203,7 +204,7 @@ namespace System
                 case -1:
                     if (a == long.MinValue)
                     {
-                        throw new ArithmeticException("Multiplication overflows a long: " + a + " * " + b);
+                        throw new ArithmeticException(String.Format(LocalizedResources.Instance().METHOD_MULTIPLICTION_OVERFLOWS_LONG, a, b));
                     }
                     return -a;
                 case 0:
@@ -214,7 +215,7 @@ namespace System
             long total = a * b;
             if (total / b != a)
             {
-                throw new ArithmeticException("Multiplication overflows a long: " + a + " * " + b);
+                throw new ArithmeticException(String.Format(LocalizedResources.Instance().METHOD_MULTIPLICTION_OVERFLOWS_LONG, a, b));
             }
             return total;
         }
@@ -242,7 +243,7 @@ namespace System
             long total = a * b;
             if (total / b != a || (a == long.MinValue && b == -1) || (b == long.MinValue && a == -1))
             {
-                throw new ArithmeticException("Multiplication overflows a long: " + a + " * " + b);
+                throw new ArithmeticException(String.Format(LocalizedResources.Instance().METHOD_MULTIPLICTION_OVERFLOWS_LONG, a, b));
             }
             return total;
         }
@@ -256,7 +257,7 @@ namespace System
         {
             if (value > int.MaxValue || value < int.MinValue)
             {
-                throw new ArithmeticException("Calculation overflows an int: " + value);
+                throw new ArithmeticException(String.Format(LocalizedResources.Instance().METHOD_CALCULACTION_OVERFLOWS_INT, value));
             }
             return (int)value;
         }

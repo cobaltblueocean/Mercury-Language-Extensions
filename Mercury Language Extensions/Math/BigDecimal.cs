@@ -349,7 +349,7 @@ namespace System.Numerics
             var scaledValue = BigInteger.Divide(this._unscaledValue, scaleDivisor);
 
             if (scaledValue > new BigInteger(Decimal.MaxValue))
-                throw new ArgumentOutOfRangeException("value", "The value " + this._unscaledValue + " cannot fit into " + conversionType.Name + ".");
+                throw new ArgumentOutOfRangeException("value", String.Format(Mercury.Language.LocalizedResources.Instance().BIGDECIMAL_THE_VALUE_CANNOT_FIT_INTO, this._unscaledValue, conversionType.Name));
 
             var leftOfDecimal = (decimal)scaledValue;
             var rightOfDecimal = ((decimal)remainder) / ((decimal)scaleDivisor);
@@ -478,12 +478,12 @@ namespace System.Numerics
 
         char IConvertible.ToChar(IFormatProvider provider)
         {
-            throw new InvalidCastException("Cannot cast BigDecimal to Char");
+            throw new InvalidCastException(Mercury.Language.LocalizedResources.Instance().BIGDECIMAL_CANNOT_CAST_TO_CHAR);
         }
 
         DateTime IConvertible.ToDateTime(IFormatProvider provider)
         {
-            throw new InvalidCastException("Cannot cast BigDecimal to DateTime");
+            throw new InvalidCastException(Mercury.Language.LocalizedResources.Instance().BIGDECIMAL_CANNOT_CAST_TO_DATETIME);
         }
 
         decimal IConvertible.ToDecimal(IFormatProvider provider)
@@ -560,7 +560,7 @@ namespace System.Numerics
                 return 1;
 
             if (!(obj is BigDecimal))
-                throw new ArgumentException("Compare to object must be a BigDecimal", "obj");
+                throw new ArgumentException(Mercury.Language.LocalizedResources.Instance().BIGDECIMAL_COMPARE_TO_OBJECT_MUST_BE_A_BIGDECIMAL, "obj");
 
             return CompareTo((BigDecimal)obj);
         }

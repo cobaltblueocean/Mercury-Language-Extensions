@@ -23,6 +23,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NodaTime;
+using Mercury.Language;
 
 namespace System
 {
@@ -146,11 +147,11 @@ namespace System
         {
             if (startDate == null)
             {
-                throw new ArgumentNullException("Start date was null");
+                throw new ArgumentNullException(LocalizedResources.Instance().START_DATE_WAS_NULL);
             }
             if (endDate == null)
             {
-                throw new ArgumentNullException("End date was null");
+                throw new ArgumentNullException(LocalizedResources.Instance().END_DATE_WAS_NULL);
             }
 
             return (double)(Instant.Subtract(endDate, startDate).TotalMilliseconds) / MILLISECONDS_PER_MONTH;
@@ -170,7 +171,7 @@ namespace System
         {
             if (startDate == null)
             {
-                throw new ArgumentNullException("Date was null");
+                throw new ArgumentNullException(LocalizedResources.Instance().DATE_WAS_NULL);
             }
             double nanos = System.Math.Round(1e9 * SECONDS_PER_YEAR * yearFraction);
             return startDate.AddNanos(nanos);

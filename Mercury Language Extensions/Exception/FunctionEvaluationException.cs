@@ -46,7 +46,7 @@ namespace Mercury.Language.Exception
         /// Construct an exception indicating the argument value that caused the function evaluation to fail.
         /// </summary>
         /// <param name="argument">the failing function argument</param>
-        public FunctionEvaluationException(double argument): base(String.Format("evaluation failed for argument = {0}", argument))
+        public FunctionEvaluationException(double argument): base(String.Format(Mercury.Language.LocalizedResources.Instance().EVALUATION_FAILED_FOR_ARGUMENT, argument))
         {
             this.argument = new double[] { argument };
         }
@@ -55,7 +55,7 @@ namespace Mercury.Language.Exception
         /// Construct an exception indicating the argument value that caused the function evaluation to fail.
         /// </summary>
         /// <param name="argument">the failing function argument</param>
-        public FunctionEvaluationException(double[] argument): base(String.Format("evaluation failed for argument = {0}", argument.ToString()))
+        public FunctionEvaluationException(double[] argument): base(String.Format(Mercury.Language.LocalizedResources.Instance().EVALUATION_FAILED_FOR_ARGUMENT, argument.ToString()))
         {
             this.argument = (double[])argument.Clone();
         }
@@ -89,7 +89,7 @@ namespace Mercury.Language.Exception
         /// </summary>
         /// <param name="argument">the failing function argument</param>
         /// <param name="cause">the exception or error that caused this exception to be thrown</param>
-        public FunctionEvaluationException(double argument, System.Exception cause): base(String.Format("evaluation failed for argument = {0}", argument), cause)
+        public FunctionEvaluationException(double argument, System.Exception cause): base(String.Format(Mercury.Language.LocalizedResources.Instance().EVALUATION_FAILED_FOR_ARGUMENT, argument), cause)
         {
             this.argument = new double[] { argument };
         }
@@ -99,7 +99,7 @@ namespace Mercury.Language.Exception
         /// </summary>
         /// <param name="argument">the failing function argument</param>
         /// <param name="cause">the exception or error that caused this exception to be thrown</param>
-        public FunctionEvaluationException(double[] argument, System.Exception cause) : base(String.Format("evaluation failed for argument = {0}", argument.ToString()), cause)
+        public FunctionEvaluationException(double[] argument, System.Exception cause) : base(String.Format(Mercury.Language.LocalizedResources.Instance().EVALUATION_FAILED_FOR_ARGUMENT, argument.ToString()), cause)
         {
             this.argument = (double[])argument.Clone();
         }

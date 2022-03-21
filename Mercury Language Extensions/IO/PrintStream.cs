@@ -182,8 +182,8 @@ namespace System.IO
             }
             catch (System.Exception ex)
             {
-                EventLog e = new EventLog("Print Error");
-                e.WriteEntry("Failed in Printing, Reason:" + ex.Message);
+                EventLog e = new EventLog(Mercury.Language.LocalizedResources.Instance().PRINT_ERROR);
+                e.WriteEntry(String.Format(Mercury.Language.LocalizedResources.Instance().PRINT_FAILED_IN_PRINTING, ex.Message));
             }
         }
 

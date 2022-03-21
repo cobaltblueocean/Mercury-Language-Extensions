@@ -23,6 +23,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Mercury.Language;
 using Mercury.Language.Exception;
 
 namespace MathNet.Numerics.LinearAlgebra.Double
@@ -53,7 +54,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             var col = data.GetLength(1);
 
             if ((dm.RowCount != row) || (dm.ColumnCount != col))
-                throw new IndexOutOfRangeException("Row count and/or Column count not match with loading data matrix.");
+                throw new IndexOutOfRangeException(LocalizedResources.Instance().DENSE_MATRIX_ROW_COUNT_COLUMN_COUNT_NOT_MATCH);
 
             for (int i = 0; i < row; i++)
             {

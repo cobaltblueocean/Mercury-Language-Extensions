@@ -24,7 +24,7 @@ using System.Collections.Concurrent;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Mercury.Language.Exception;
+using Mercury.Language;
 
 namespace System.Collections.Immutable
 {
@@ -74,7 +74,7 @@ namespace System.Collections.Immutable
         public static ImmutableDictionary<T, V> AddRange<T, V>(this ImmutableDictionary<T, V> immutableDictionary, ICollection<T> keys, ICollection<V> values)
         {
             if (keys.Count != values.Count)
-                throw new ArgumentException("Number of Keys and Values not match.");
+                throw new ArgumentException(LocalizedResources.Instance().NUMBERS_OF_KEYS_AND_VALUE_NOT_MATCH);
 
             var originalKeys = new List<T>(immutableDictionary.Keys);
             var originalValues = new List<V>(immutableDictionary.Values);

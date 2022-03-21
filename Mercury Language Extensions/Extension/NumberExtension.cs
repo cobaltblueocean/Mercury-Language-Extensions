@@ -203,7 +203,7 @@ namespace System
 
             if (n <= 0)
             {
-                throw new ArgumentException("n must be positive int");
+                throw new ArgumentException(Mercury.Language.LocalizedResources.Instance().n_MUST_BE_POSITIVE_INT);
             }
 
             for (int i = 0; i < factors.Length && reminder != 1L; i++)

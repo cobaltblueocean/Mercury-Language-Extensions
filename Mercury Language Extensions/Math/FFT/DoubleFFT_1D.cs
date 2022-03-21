@@ -127,7 +127,7 @@ namespace Mercury.Language.Math
         {
             if (n < 1)
             {
-                throw new ArgumentException("n must be greater than 0");
+                throw new ArgumentException(LocalizedResources.Instance().n_MUST_BE_GREATER_THAN_ZERO);
             }
             this.useLargeArrays = (isUseLargeArrays || 2 * n > LargeArray<Int64>.MaxSizeOf32bitArray);
             this.n = (int)n;

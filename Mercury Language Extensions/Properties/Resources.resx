@@ -1167,4 +1167,226 @@
   <data name="ZERO_NOT_ALLOWED" xml:space="preserve">
     <value>zero not allowed here</value>
   </data>
+  <data name="DATE_WAS_NULL" xml:space="preserve">
+    <value>Date was null</value>
+  </data>
+  <data name="END_DATE_WAS_NULL" xml:space="preserve">
+    <value>End date was null</value>
+  </data>
+  <data name="FIELD_TOO_LARGE_FOR_AN_INT" xml:space="preserve">
+    <value>Field too large for an int: {0}</value>
+  </data>
+  <data name="INVALID_DATE_DAYOFYEAR366_IS_NOT_A_LEAP_YEAR" xml:space="preserve">
+    <value>Invalid date 'DayOfYear 366' as '{0}' is not a leap year</value>
+  </data>
+  <data name="MICRO_SECOND_BASE_IS_NOT_SUPPORTED" xml:space="preserve">
+    <value>Micro second base is not supported</value>
+  </data>
+  <data name="NANO_SECOND_BASE_IS_NOT_SUPPORTED" xml:space="preserve">
+    <value>Nano second base is not supported</value>
+  </data>
+  <data name="START_DATE_WAS_NULL" xml:space="preserve">
+    <value>Start date was null</value>
+  </data>
+  <data name="UNSUPPORTED_FIELD" xml:space="preserve">
+    <value>Unsupported field: {0}</value>
+  </data>
+  <data name="UNSUPPORTED_UNIT" xml:space="preserve">
+    <value>Unsupported unit: {0}</value>
+  </data>
+  <data name="ARRAY_INVALID_ORDER_DIRECTION" xml:space="preserve">
+    <value>Invalid Order Direction</value>
+  </data>
+  <data name="ARRAY_ORDER" xml:space="preserve">
+    <value>order</value>
+  </data>
+  <data name="ARRAY_THE_ARRAY_IS_NON_MONOTONIC_SEQUENCE" xml:space="preserve">
+    <value>The array is non monotonic sequence, the value {0} is smaller than the previous value {1} of order by {2}, {3}.</value>
+  </data>
+  <data name="BIGINTEGER_VALUE" xml:space="preserve">
+    <value>value</value>
+  </data>
+  <data name="BITARRAY_FROMINDEX_IS_NEGATIVE" xml:space="preserve">
+    <value>fromIndex &lt; 0:</value>
+  </data>
+  <data name="CORE_SOURCE_DESTINATION_OBJECTS_ARE_NULL" xml:space="preserve">
+    <value>Source or/and Destination Objects are null</value>
+  </data>
+  <data name="DECIMAL_COMPLEX_CANNOT_OPERATE_WITH_THIS_CONDITION" xml:space="preserve">
+    <value>Cannot operate with this condition. {0}</value>
+  </data>
+  <data name="DENSE_MATRIX_ROW_COUNT_COLUMN_COUNT_NOT_MATCH" xml:space="preserve">
+    <value>Row count and/or Column count not match with loading data matrix.</value>
+  </data>
+  <data name="EVALUATION_FAILED_FOR_ARGUMENT" xml:space="preserve">
+    <value>evaluation failed for argument = {0}</value>
+  </data>
+  <data name="FUNCTION_GIVEN_DATA_IS_EMPTY" xml:space="preserve">
+    <value>Given data is empty.</value>
+  </data>
+  <data name="INVALID_INT_VALUE_FOR_FIELD" xml:space="preserve">
+    <value>Invalid int value for {0}: {1}</value>
+  </data>
+  <data name="INVALID_VALUE_FOR_FIELD_VALID_VALUE_RANGE" xml:space="preserve">
+    <value>Invalid value for {0} (valid values {1}): {2}</value>
+  </data>
+  <data name="INVALID_VALUE_VALID_RANGE" xml:space="preserve">
+    <value>Invalid value (valid values {0}): {1}</value>
+  </data>
+  <data name="LARGEARRAY_CONSTANT_ARRAYS_CANNOT_BE_MODIFIED" xml:space="preserve">
+    <value>Constant arrays cannot be modified.</value>
+  </data>
+  <data name="LARGEARRAY_DESTPOS_SIZE_ERROR" xml:space="preserve">
+    <value>destPos &lt; 0 || destPos &gt;= destination.Capacity</value>
+  </data>
+  <data name="LARGEARRAY_LENGTH_ERROR" xml:space="preserve">
+    <value>Length &lt; 0</value>
+  </data>
+  <data name="LARGEARRAY_SRCPOS_SIZE_ERROR" xml:space="preserve">
+    <value>srcPos &lt; 0 || srcPos &gt;= source.Capacity</value>
+  </data>
+  <data name="LINKEDDICTIONARY_COULD_NOT_FIND_THE_KEY" xml:space="preserve">
+    <value>Could not find the key.</value>
+  </data>
+  <data name="LINKEDHASHSET_OTHER_CANNOT_BE_NULL" xml:space="preserve">
+    <value>other cannot be null</value>
+  </data>
+  <data name="METHOD_ADDITION_OVERFLOWS_INT" xml:space="preserve">
+    <value>Addition overflows an int: {0} + {1}</value>
+  </data>
+  <data name="METHOD_ADDITION_OVERFLOWS_LONG" xml:space="preserve">
+    <value>Addition overflows a long: {0} + {1}</value>
+  </data>
+  <data name="METHOD_CALCULACTION_OVERFLOWS_INT" xml:space="preserve">
+    <value>Calculation overflows an int: {0}</value>
+  </data>
+  <data name="METHOD_MULTIPLICTION_OVERFLOWS_INT" xml:space="preserve">
+    <value>Multiplication overflows an int: {0} * {1}</value>
+  </data>
+  <data name="METHOD_MULTIPLICTION_OVERFLOWS_LONG" xml:space="preserve">
+    <value>Multiplication overflows a long: {0} * {1}</value>
+  </data>
+  <data name="METHOD_PARAMETER_MUST_NOT_BE_NULL" xml:space="preserve">
+    <value>{0}  must not be null</value>
+  </data>
+  <data name="METHOD_SUBTRACTION_OVERFLOWS_INT" xml:space="preserve">
+    <value>Subtraction overflows an int: {0} - {1}</value>
+  </data>
+  <data name="METHOD_SUBTRACTION_OVERFLOWS_LONG" xml:space="preserve">
+    <value>Subtraction overflows a long: {0} - {1}</value>
+  </data>
+  <data name="METHOD_VALUE_MUST_NOT_BE_NULL" xml:space="preserve">
+    <value>Value must not be null</value>
+  </data>
+  <data name="NUMBERS_OF_KEYS_AND_VALUE_NOT_MATCH" xml:space="preserve">
+    <value>Number of Keys and Values not match.</value>
+  </data>
+  <data name="n_MUST_BE_POSITIVE_INT" xml:space="preserve">
+    <value>n must be positive int</value>
+  </data>
+  <data name="OPTIMIZATION_EXCEPTION" xml:space="preserve">
+    <value>Optimization Exception</value>
+  </data>
+  <data name="PRINT_ERROR" xml:space="preserve">
+    <value>Print Error</value>
+  </data>
+  <data name="PRINT_FAILED_IN_PRINTING" xml:space="preserve">
+    <value>Failed in Printing, Reason: {0}</value>
+  </data>
+  <data name="RANDOM_DIMENSION_MUST_BE_GREATER_THAN_ZERO" xml:space="preserve">
+    <value>Dimension must be greater than zero</value>
+  </data>
+  <data name="RANDOM_NUMBER_OF_VALUES_MUST_BE_GREATER_THAN_ZERO" xml:space="preserve">
+    <value>Number of values must be greater than zero</value>
+  </data>
+  <data name="TREEDICTIONARY_AN_ELEMENT_WITH_THE_SAME_KEY_ALREADY_EXISTS" xml:space="preserve">
+    <value>An element with the same key already exists in the dictionary</value>
+  </data>
+  <data name="TREEDICTIONARY_ARRAY_NOT_SUFFICIENT_SIZE" xml:space="preserve">
+    <value>Array not sufficient size</value>
+  </data>
+  <data name="ARRAY_ONLY_SUPPORTED_THIS_TIME" xml:space="preserve">
+    <value>Only LowerTriangular, UpperTriangular and Diagonal matrices are supported at this time.</value>
+  </data>
+  <data name="ASSERTION_FAILURE" xml:space="preserve">
+    <value>Assertion failure</value>
+  </data>
+  <data name="BIGDECIMAL_CANNOT_CAST_TO_CHAR" xml:space="preserve">
+    <value>Cannot cast BigDecimal to Char</value>
+  </data>
+  <data name="BIGDECIMAL_CANNOT_CAST_TO_DATETIME" xml:space="preserve">
+    <value>Cannot cast BigDecimal to DateTime</value>
+  </data>
+  <data name="BIGDECIMAL_COMPARE_TO_OBJECT_MUST_BE_A_BIGDECIMAL" xml:space="preserve">
+    <value>Compare to object must be a BigDecimal</value>
+  </data>
+  <data name="BIGDECIMAL_THE_VALUE_CANNOT_FIT_INTO" xml:space="preserve">
+    <value>The value {0} cannot fit into {1}.</value>
+  </data>
+  <data name="CANNOT_CALCULATE_SQUARE_ROOT_FROM_A_NEGATIVE_NUMBER" xml:space="preserve">
+    <value>Cannot calculate square root from a negative number</value>
+  </data>
+  <data name="DATA_ARRAY_IS_TOO_BIG" xml:space="preserve">
+    <value>The data array is too big.</value>
+  </data>
+  <data name="DECOMPOSITION_DESTROYED" xml:space="preserve">
+    <value>The decomposition has been destroyed.</value>
+  </data>
+  <data name="DECOMPOSITION_UNDEFINED" xml:space="preserve">
+    <value>The decomposition is undefined (zero in diagonal).</value>
+  </data>
+  <data name="DSCOMPLIER_NOT_POSITIVE" xml:space="preserve">
+    <value>Not Positive</value>
+  </data>
+  <data name="INVALID_OPERATION_NEGATIVE_BASE_AND_NON_INTEGER_POWER" xml:space="preserve">
+    <value>Invalid Operation: negative base and non-integer power</value>
+  </data>
+  <data name="INVALID_OPERATION_ZERO_BASE_AND_NEGATIVE_POWER" xml:space="preserve">
+    <value>Invalid Operation: zero base and negative power</value>
+  </data>
+  <data name="MATRIX_CANNOT_BE_NULL" xml:space="preserve">
+    <value>Matrix {0} cannot be null.</value>
+  </data>
+  <data name="MATRIX_DIMENSIONS_DO_NOT_MATCH" xml:space="preserve">
+    <value>Matrix dimensions do not match</value>
+  </data>
+  <data name="MATRIX_HAS_MORE_COLUMN_TNAN_ROWS" xml:space="preserve">
+    <value>Matrix has more columns than rows.</value>
+  </data>
+  <data name="MATRIX_IS_NOT_A_SQUARE_MATRIX" xml:space="preserve">
+    <value>Matrix is not a square matrix.</value>
+  </data>
+  <data name="MATRIX_IS_NOT_POSITIVE_DEFINITE" xml:space="preserve">
+    <value>Matrix is not positive definite.</value>
+  </data>
+  <data name="MATRIX_IS_RANK_DEFICIENT" xml:space="preserve">
+    <value>Matrix is rank deficient.</value>
+  </data>
+  <data name="MATRIX_IS_SINGULAR" xml:space="preserve">
+    <value>Matrix is singular.</value>
+  </data>
+  <data name="MATRIX_MUST_BE_SQUARE" xml:space="preserve">
+    <value>Matrix must be square.</value>
+  </data>
+  <data name="MATRIX_ROW_DIMENSIONS_MUST_AGREE" xml:space="preserve">
+    <value>Matrix row dimensions must agree.</value>
+  </data>
+  <data name="MATRIX_SHOULD_HAVE_THE_SAME_NUMBER_OF_ROWS" xml:space="preserve">
+    <value>The matrix should have the same number of rows as the decomposition.</value>
+  </data>
+  <data name="n_MUST_BE_GREATER_THAN_ZERO" xml:space="preserve">
+    <value>n must be greater than 0</value>
+  </data>
+  <data name="PARAMETER_IS_OUT_OF_RANGE" xml:space="preserve">
+    <value>{0} is out of range.</value>
+  </data>
+  <data name="PARAMETER_MUST_BE_HIGHER_THAN" xml:space="preserve">
+    <value>Parameter {0} must be higher than {1}.</value>
+  </data>
+  <data name="PARAMETER_MUST_BE_IN" xml:space="preserve">
+    <value>{0} must be in [{1},{2}]</value>
+  </data>
+  <data name="VECTOR_SHOULD_HAVE_THE_SAME_LENGTH_AS_ROW" xml:space="preserve">
+    <value>The vector should have the same length as rows in the decomposition.</value>
+  </data>
 </root>

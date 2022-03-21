@@ -58,11 +58,11 @@ namespace System
         {
             if (dimension < 0)
             {
-                throw new ArgumentException("Dimension must be greater than zero");
+                throw new ArgumentException(Mercury.Language.LocalizedResources.Instance().RANDOM_DIMENSION_MUST_BE_GREATER_THAN_ZERO);
             }
             if (n < 0)
             {
-                throw new ArgumentException("Number of values must be greater than zero");
+                throw new ArgumentException(Mercury.Language.LocalizedResources.Instance().RANDOM_NUMBER_OF_VALUES_MUST_BE_GREATER_THAN_ZERO);
             }
             List<double[]> result = new List<double[]>(n);
             double[] x;

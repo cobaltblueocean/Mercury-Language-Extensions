@@ -32,19 +32,19 @@ namespace Mercury.Language.Math.Decompositions
         public EigenValueDecomposition(double[,] a, double[,] b, bool sort = false)
         {
             if (a == null)
-                throw new ArgumentNullException("a", "Matrix A cannot be null.");
+                throw new ArgumentNullException("a", String.Format(LocalizedResources.Instance().MATRIX_CANNOT_BE_NULL, "A"));
 
             if (b == null)
-                throw new ArgumentNullException("b", "Matrix B cannot be null.");
+                throw new ArgumentNullException("b", String.Format(LocalizedResources.Instance().MATRIX_CANNOT_BE_NULL, "B"));
 
             if (a.GetLength(0) != a.GetLength(1))
-                throw new ArgumentException("Matrix is not a square matrix.", "a");
+                throw new ArgumentException(LocalizedResources.Instance().MATRIX_IS_NOT_A_SQUARE_MATRIX, "a");
 
             if (b.GetLength(0) != b.GetLength(1))
-                throw new ArgumentException("Matrix is not a square matrix.", "b");
+                throw new ArgumentException(LocalizedResources.Instance().MATRIX_IS_NOT_A_SQUARE_MATRIX, "b");
 
             if (a.GetLength(0) != b.GetLength(0) || a.GetLength(1) != b.GetLength(1))
-                throw new ArgumentException("Matrix dimensions do not match", "b");
+                throw new ArgumentException(LocalizedResources.Instance().MATRIX_DIMENSIONS_DO_NOT_MATCH, "b");
 
 
             n = a.GetLength(0);

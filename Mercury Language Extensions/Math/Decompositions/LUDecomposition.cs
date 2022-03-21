@@ -156,7 +156,7 @@ namespace Mercury.Language.Math.Decompositions
         {
             if (value == null)
             {
-                throw new ArgumentNullException("value", "Matrix cannot be null.");
+                throw new ArgumentNullException("value", String.Format(LocalizedResources.Instance().MATRIX_CANNOT_BE_NULL, "value"));
             }
 
             if (transpose)
@@ -360,7 +360,7 @@ namespace Mercury.Language.Math.Decompositions
                 if (!nonsingular.HasValue)
                 {
                     if (rows != cols)
-                        throw new InvalidOperationException("Matrix must be square.");
+                        throw new InvalidOperationException(LocalizedResources.Instance().MATRIX_MUST_BE_SQUARE);
 
                     bool nonSingular = true;
                     for (int i = 0; i < rows && nonSingular; i++)
@@ -384,7 +384,7 @@ namespace Mercury.Language.Math.Decompositions
                 if (!determinant.HasValue)
                 {
                     if (rows != cols)
-                        throw new InvalidOperationException("Matrix must be square.");
+                        throw new InvalidOperationException(LocalizedResources.Instance().MATRIX_MUST_BE_SQUARE);
 
                     Double det = pivotSign;
                     for (int i = 0; i < rows; i++)
@@ -408,7 +408,7 @@ namespace Mercury.Language.Math.Decompositions
                 if (!lndeterminant.HasValue)
                 {
                     if (rows != cols)
-                        throw new InvalidOperationException("Matrix must be square.");
+                        throw new InvalidOperationException(LocalizedResources.Instance().MATRIX_MUST_BE_SQUARE);
 
                     double lndet = 0;
                     for (int i = 0; i < rows; i++)
@@ -497,7 +497,7 @@ namespace Mercury.Language.Math.Decompositions
         public Double[,] Inverse()
         {
             if (!Nonsingular)
-                throw new SingularMatrixException("Matrix is singular.");
+                throw new SingularMatrixException(LocalizedResources.Instance().MATRIX_IS_SINGULAR);
 
 
             int count = rows;
@@ -555,10 +555,10 @@ namespace Mercury.Language.Math.Decompositions
                 throw new ArgumentNullException("value");
 
             if (value.GetLength(0) != rows)
-                throw new DimensionMismatchException("The matrix should have the same number of rows as the decomposition.");
+                throw new DimensionMismatchException(LocalizedResources.Instance().MATRIX_SHOULD_HAVE_THE_SAME_NUMBER_OF_ROWS);
 
             if (!Nonsingular)
-                throw new SingularMatrixException("Matrix is singular.");
+                throw new SingularMatrixException(LocalizedResources.Instance().MATRIX_IS_SINGULAR);
 
 
             // Copy right hand side with pivoting
@@ -662,10 +662,10 @@ namespace Mercury.Language.Math.Decompositions
 
                 int m = pivot.Length;
                 if (value.Length != m)
-                    throw new DimensionMismatchException("The vector should have the same length as rows in the decomposition.");
+                    throw new DimensionMismatchException(LocalizedResources.Instance().VECTOR_SHOULD_HAVE_THE_SAME_LENGTH_AS_ROW);
 
                 if (this.singular)
-                    throw new InvalidOperationException("Matrix is singular.");
+                    throw new InvalidOperationException(LocalizedResources.Instance().MATRIX_IS_SINGULAR);
 
 
                 // Copy right hand side with pivoting
@@ -735,10 +735,10 @@ namespace Mercury.Language.Math.Decompositions
 
                 int m = pivot.Length;
                 if (value.GetLength(0) != m)
-                    throw new DimensionMismatchException("The matrix should have the same number of rows as the decomposition.");
+                    throw new DimensionMismatchException(LocalizedResources.Instance().MATRIX_SHOULD_HAVE_THE_SAME_NUMBER_OF_ROWS);
 
                 if (!this.singular)
-                    throw new InvalidOperationException("Matrix is singular.");
+                    throw new InvalidOperationException(LocalizedResources.Instance().MATRIX_IS_SINGULAR);
 
 
                 // Copy right hand side with pivoting

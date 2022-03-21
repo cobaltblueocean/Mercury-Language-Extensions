@@ -199,7 +199,7 @@ namespace Mercury.Language.Math
                 }
                 else
                 {
-                    throw new ArgumentException("The data array is too big.");
+                    throw new ArgumentException(LocalizedResources.Instance().DATA_ARRAY_IS_TOO_BIG);
                 }
             }
             else
@@ -614,7 +614,7 @@ namespace Mercury.Language.Math
         //        }
         //        else
         //        {
-        //            throw new ArgumentException("The data array is too big.");
+        //            throw new ArgumentException(LocalizedResources.Instance().DATA_ARRAY_IS_TOO_BIG);
         //        }
         //    }
         //    else

@@ -196,7 +196,7 @@ namespace NodaTime
         {
             if (startDate == null)
             {
-                throw new ArgumentNullException("Date was null");
+                throw new ArgumentNullException(Mercury.Language.LocalizedResources.Instance().DATE_WAS_NULL);
             }
             double nanos = System.Math.Round(1e9 * NodaTimeUtility.SECONDS_PER_YEAR * yearFraction);
             return startDate.PlusNanos(nanos);
@@ -356,7 +356,7 @@ namespace NodaTime
                 {
                     return now.With(ChronoField.ERA, Math2.SafeAdd(now.GetLong(ChronoField.ERA), amountToAdd));
                 }
-                throw new NotSupportedException("Unsupported unit: " + unit);
+                throw new NotSupportedException(String.Format(Mercury.Language.LocalizedResources.Instance().UNSUPPORTED_UNIT, unit));
             }
             return unit.AddTo(new Temporal(now), amountToAdd);
         }
@@ -437,7 +437,7 @@ namespace NodaTime
                     return (now.GetLong(ChronoField.ERA) == newValue ? now : now.WithYear(1 - now.Year));
                 }
 
-                throw new NotSupportedException("Unsupported field: " + field);
+                throw new NotSupportedException(String.Format(Mercury.Language.LocalizedResources.Instance().UNSUPPORTED_FIELD, field));
             }
 
             return field.AdjustInto(new Temporal(now), newValue).GetOriginal();
@@ -536,7 +536,7 @@ namespace NodaTime
             Boolean leap = IsoChronology.GetInstance().IsLeapYear(year);
             if (dayOfYear == 366 && leap == false)
             {
-                throw new DateTimeException("Invalid date 'DayOfYear 366' as '" + year + "' is not a leap year");
+                throw new DateTimeException(String.Format(Mercury.Language.LocalizedResources.Instance().INVALID_DATE_DAYOFYEAR366_IS_NOT_A_LEAP_YEAR, year));
             }
             Month moy = Month.Of((dayOfYear - 1) / 31 + 1);
             int monthEnd = moy.firstDayOfYear(leap) + moy.Length(leap) - 1;
@@ -594,7 +594,7 @@ namespace NodaTime
             }
             else
             {
-                throw new NotSupportedException("Unsupported field: " + field);
+                throw new NotSupportedException(String.Format(Mercury.Language.LocalizedResources.Instance().UNSUPPORTED_FIELD, field));
             }
         }
 
@@ -727,7 +727,7 @@ namespace NodaTime
             }
             if (field == ChronoField.EPOCH_DAY)
             {
-                throw new DateTimeException("Field too large for an int: " + field);
+                throw new DateTimeException(String.Format(Mercury.Language.LocalizedResources.Instance().FIELD_TOO_LARGE_FOR_AN_INT, field));
             }
             if (field == ChronoField.ALIGNED_WEEK_OF_MONTH)
             {
@@ -743,7 +743,7 @@ namespace NodaTime
             }
             else if (field == ChronoField.PROLEPTIC_MONTH)
             {
-                throw new DateTimeException("Field too large for an int: " + field);
+                throw new DateTimeException(String.Format(Mercury.Language.LocalizedResources.Instance().FIELD_TOO_LARGE_FOR_AN_INT, field));
             }
             else if (field == ChronoField.YEAR_OF_ERA)
             {
@@ -759,7 +759,7 @@ namespace NodaTime
             }
             else
             {
-                throw new NotSupportedException("Unsupported field: " + field);
+                throw new NotSupportedException(String.Format(Mercury.Language.LocalizedResources.Instance().UNSUPPORTED_FIELD, field));
             }
         }
 
@@ -824,7 +824,7 @@ namespace NodaTime
                     }
                     return field.Range;
                 }
-                throw new NotSupportedException("Unsupported field: " + field);
+                throw new NotSupportedException(String.Format(Mercury.Language.LocalizedResources.Instance().UNSUPPORTED_FIELD, field));
             }
             return field.RangeRefinedBy(new Temporal(now));
         }
@@ -868,7 +868,7 @@ namespace NodaTime
                 {
                     return now.With(ChronoField.ERA, Math2.SafeAdd((int)now.GetLong(ChronoField.ERA), amountToAdd));
                 }
-                throw new NotSupportedException("Unsupported unit: " + unit);
+                throw new NotSupportedException(String.Format(Mercury.Language.LocalizedResources.Instance().UNSUPPORTED_UNIT, unit));
 
             }
             return unit.AddTo(new Temporal(now), amountToAdd);
@@ -977,9 +977,9 @@ namespace NodaTime
         public static int PeriodUntil(this LocalDateTime now, LocalDateTime end, ChronoUnit span)
         {
             if (span == ChronoUnit.NANOS)
-                throw new NotSupportedException("Nano second base is not supported");
+                throw new NotSupportedException(Mercury.Language.LocalizedResources.Instance().NANO_SECOND_BASE_IS_NOT_SUPPORTED);
             if (span == ChronoUnit.MICROS)
-                throw new NotSupportedException("Micro second base is not supported");
+                throw new NotSupportedException(Mercury.Language.LocalizedResources.Instance().MICRO_SECOND_BASE_IS_NOT_SUPPORTED);
             if (span == ChronoUnit.MILLIS)
                 return (int)(now.ToDateTimeUnspecified().Date - end.ToDateTimeUnspecified().Date).TotalMilliseconds;
             if (span == ChronoUnit.SECONDS)
@@ -1173,7 +1173,7 @@ namespace NodaTime
                 }
 
 
-                throw new NotSupportedException("Unsupported field: " + field);
+                throw new NotSupportedException(String.Format(Mercury.Language.LocalizedResources.Instance().UNSUPPORTED_FIELD, field));
             }
             return field.AdjustInto(new Temporal(now.ToZonedDateTime()), newValue).GetOriginal();
         }
@@ -1264,7 +1264,7 @@ namespace NodaTime
                 {
                     return now.With(ChronoField.ERA, Math2.SafeAdd(now.GetLong(ChronoField.ERA), amountToAdd));
                 }
-                throw new NotSupportedException("Unsupported unit: " + unit);
+                throw new NotSupportedException(String.Format(Mercury.Language.LocalizedResources.Instance().UNSUPPORTED_UNIT, unit));
             }
             return unit.AddTo(new Temporal(now.ToZonedDateTime()), amountToAdd);
         }
@@ -1281,7 +1281,7 @@ namespace NodaTime
             Boolean leap = IsoChronology.GetInstance().IsLeapYear(year);
             if (dayOfYear == 366 && leap == false)
             {
-                throw new DateTimeException("Invalid date 'DayOfYear 366' as '" + year + "' is not a leap year");
+                throw new DateTimeException(String.Format(Mercury.Language.LocalizedResources.Instance().INVALID_DATE_DAYOFYEAR366_IS_NOT_A_LEAP_YEAR, year ));
             }
             Month moy = Month.Of((dayOfYear - 1) / 31 + 1);
             int monthEnd = moy.firstDayOfYear(leap) + moy.Length(leap) - 1;
@@ -1337,7 +1337,7 @@ namespace NodaTime
             }
             else
             {
-                throw new NotSupportedException("Unsupported field: " + field);
+                throw new NotSupportedException(String.Format(Mercury.Language.LocalizedResources.Instance().UNSUPPORTED_FIELD, field));
             }
         }
 
@@ -1378,7 +1378,7 @@ namespace NodaTime
             }
             if (field == ChronoField.EPOCH_DAY)
             {
-                throw new DateTimeException("Field too large for an int: " + field);
+                throw new DateTimeException(String.Format(Mercury.Language.LocalizedResources.Instance().FIELD_TOO_LARGE_FOR_AN_INT, field));
             }
             if (field == ChronoField.ALIGNED_WEEK_OF_MONTH)
             {
@@ -1394,7 +1394,7 @@ namespace NodaTime
             }
             else if (field == ChronoField.PROLEPTIC_MONTH)
             {
-                throw new DateTimeException("Field too large for an int: " + field);
+                throw new DateTimeException(String.Format(Mercury.Language.LocalizedResources.Instance().FIELD_TOO_LARGE_FOR_AN_INT, field));
             }
             else if (field == ChronoField.YEAR_OF_ERA)
             {
@@ -1410,7 +1410,7 @@ namespace NodaTime
             }
             else
             {
-                throw new NotSupportedException("Unsupported field: " + field);
+                throw new NotSupportedException(String.Format(Mercury.Language.LocalizedResources.Instance().UNSUPPORTED_FIELD, field));
             }
         }
 
@@ -1494,7 +1494,7 @@ namespace NodaTime
                     }
                     return field.Range;
                 }
-                throw new NotSupportedException("Unsupported field: " + field);
+                throw new NotSupportedException(String.Format(Mercury.Language.LocalizedResources.Instance().UNSUPPORTED_FIELD, field));
             }
             return field.RangeRefinedBy(new Temporal(now.ToZonedDateTime()));
         }
@@ -1538,7 +1538,7 @@ namespace NodaTime
                 {
                     return now.With(ChronoField.ERA, Math2.SafeAdd((int)now.GetLong(ChronoField.ERA), amountToAdd));
                 }
-                throw new NotSupportedException("Unsupported unit: " + unit);
+                throw new NotSupportedException(String.Format(Mercury.Language.LocalizedResources.Instance().UNSUPPORTED_UNIT, unit));
 
             }
             return unit.AddTo(new Temporal(now.ToZonedDateTime()), amountToAdd);
@@ -1653,9 +1653,9 @@ namespace NodaTime
         public static int PeriodUntil(this LocalDate now, LocalDate end, ChronoUnit span)
         {
             if (span == ChronoUnit.NANOS)
-                throw new NotSupportedException("Nano second base is not supported");
+                throw new NotSupportedException(Mercury.Language.LocalizedResources.Instance().NANO_SECOND_BASE_IS_NOT_SUPPORTED);
             if (span == ChronoUnit.MICROS)
-                throw new NotSupportedException("Micro second base is not supported");
+                throw new NotSupportedException(Mercury.Language.LocalizedResources.Instance().MICRO_SECOND_BASE_IS_NOT_SUPPORTED);
             if (span == ChronoUnit.MILLIS)
                 return (int)(now.ToDateTimeUnspecified().Date - end.ToDateTimeUnspecified().Date).TotalMilliseconds;
             if (span == ChronoUnit.SECONDS)
@@ -1874,7 +1874,7 @@ namespace NodaTime
                 }
 
 
-                throw new NotSupportedException("Unsupported field: " + field);
+                throw new NotSupportedException(String.Format(Mercury.Language.LocalizedResources.Instance().UNSUPPORTED_FIELD, field));
             }
             return field.AdjustInto(new Temporal(now), newValue).GetOriginal();
         }
@@ -1965,7 +1965,7 @@ namespace NodaTime
                 {
                     return now.With(ChronoField.ERA, Math2.SafeAdd(now.GetLong(ChronoField.ERA), amountToAdd));
                 }
-                throw new NotSupportedException("Unsupported unit: " + unit);
+                throw new NotSupportedException(String.Format(Mercury.Language.LocalizedResources.Instance().UNSUPPORTED_UNIT, unit));
             }
             return unit.AddTo(new Temporal(now), amountToAdd);
         }
@@ -1982,7 +1982,7 @@ namespace NodaTime
             Boolean leap = IsoChronology.GetInstance().IsLeapYear(year);
             if (dayOfYear == 366 && leap == false)
             {
-                throw new DateTimeException("Invalid date 'DayOfYear 366' as '" + year + "' is not a leap year");
+                throw new DateTimeException(String.Format(Mercury.Language.LocalizedResources.Instance().INVALID_DATE_DAYOFYEAR366_IS_NOT_A_LEAP_YEAR, year));
             }
             Month moy = Month.Of((dayOfYear - 1) / 31 + 1);
             int monthEnd = moy.firstDayOfYear(leap) + moy.Length(leap) - 1;
@@ -2038,7 +2038,7 @@ namespace NodaTime
             }
             else
             {
-                throw new NotSupportedException("Unsupported field: " + field);
+                throw new NotSupportedException(String.Format(Mercury.Language.LocalizedResources.Instance().UNSUPPORTED_FIELD, field));
             }
         }
 
@@ -2123,7 +2123,7 @@ namespace NodaTime
                 {
                     return now.ToEpochYears();
                 }
-                throw new NotSupportedException("Unsupported field: " + field);
+                throw new NotSupportedException(String.Format(Mercury.Language.LocalizedResources.Instance().UNSUPPORTED_FIELD, field));
             }
         }
 
@@ -2209,7 +2209,7 @@ namespace NodaTime
                     }
                     return field.Range;
                 }
-                throw new NotSupportedException("Unsupported field: " + field);
+                throw new NotSupportedException(String.Format(Mercury.Language.LocalizedResources.Instance().UNSUPPORTED_FIELD, field));
             }
             return field.RangeRefinedBy(new Temporal(now));
         }
@@ -2253,7 +2253,7 @@ namespace NodaTime
                 {
                     return now.With(ChronoField.ERA, Math2.SafeAdd((int)now.GetLong(ChronoField.ERA), amountToAdd));
                 }
-                throw new NotSupportedException("Unsupported unit: " + unit);
+                throw new NotSupportedException(String.Format(Mercury.Language.LocalizedResources.Instance().UNSUPPORTED_UNIT, unit));
 
             }
             return unit.AddTo(new Temporal(now), amountToAdd);
@@ -2321,11 +2321,11 @@ namespace NodaTime
         {
             if (startDate == null)
             {
-                throw new ArgumentNullException("Start date was null");
+                throw new ArgumentNullException(Mercury.Language.LocalizedResources.Instance().START_DATE_WAS_NULL);
             }
             if (endDate == null)
             {
-                throw new ArgumentNullException("End date was null");
+                throw new ArgumentNullException(Mercury.Language.LocalizedResources.Instance().END_DATE_WAS_NULL);
             }
 
             return (double)(Instant.Subtract(endDate, startDate).TotalMilliseconds) / NodaTimeUtility.MILLISECONDS_PER_DAY;
@@ -2335,11 +2335,11 @@ namespace NodaTime
         {
             if (startDate == null)
             {
-                throw new ArgumentNullException("Start date was null");
+                throw new ArgumentNullException(Mercury.Language.LocalizedResources.Instance().START_DATE_WAS_NULL);
             }
             if (endDate == null)
             {
-                throw new ArgumentNullException("End date was null");
+                throw new ArgumentNullException(Mercury.Language.LocalizedResources.Instance().END_DATE_WAS_NULL);
             }
 
             return (double)(Instant.Subtract(endDate, startDate).TotalMilliseconds) / NodaTimeUtility.MILLISECONDS_PER_MONTH;
@@ -2349,11 +2349,11 @@ namespace NodaTime
         {
             if (startDate == null)
             {
-                throw new ArgumentNullException("Start date was null");
+                throw new ArgumentNullException(Mercury.Language.LocalizedResources.Instance().START_DATE_WAS_NULL);
             }
             if (endDate == null)
             {
-                throw new ArgumentNullException("End date was null");
+                throw new ArgumentNullException(Mercury.Language.LocalizedResources.Instance().END_DATE_WAS_NULL);
             }
 
             return (double)(Instant.Subtract(endDate, startDate).TotalMilliseconds) / NodaTimeUtility.MILLISECONDS_PER_YEAR;
@@ -2369,11 +2369,11 @@ namespace NodaTime
         {
             if (startDate == null)
             {
-                throw new ArgumentNullException("Start date was null");
+                throw new ArgumentNullException(Mercury.Language.LocalizedResources.Instance().START_DATE_WAS_NULL);
             }
             if (endDate == null)
             {
-                throw new ArgumentNullException("End date was null");
+                throw new ArgumentNullException(Mercury.Language.LocalizedResources.Instance().END_DATE_WAS_NULL);
             }
             return (endDate.GetEpochSecond() - startDate.GetEpochSecond()) / (double)NodaTimeUtility.SECONDS_PER_DAY;
         }
@@ -2382,11 +2382,11 @@ namespace NodaTime
         {
             if (startDate == null)
             {
-                throw new ArgumentNullException("Start date was null");
+                throw new ArgumentNullException(Mercury.Language.LocalizedResources.Instance().START_DATE_WAS_NULL);
             }
             if (endDate == null)
             {
-                throw new ArgumentNullException("End date was null");
+                throw new ArgumentNullException(Mercury.Language.LocalizedResources.Instance().END_DATE_WAS_NULL);
             }
             int daysBetween = (int)Math.Abs(startDate.GetDifferenceInDays(endDate));
             if (includeStart && includeEnd)
@@ -2525,11 +2525,11 @@ namespace NodaTime
             {
                 if (field != null)
                 {
-                    throw new DateTimeException("Invalid value for " + field + " (valid values " + range + "): " + value);
+                    throw new DateTimeException(String.Format(Mercury.Language.LocalizedResources.Instance().INVALID_VALUE_FOR_FIELD_VALID_VALUE_RANGE, field , range , value));
                 }
                 else
                 {
-                    throw new DateTimeException("Invalid value (valid values " + range + "): " + value);
+                    throw new DateTimeException(String.Format(Mercury.Language.LocalizedResources.Instance().INVALID_VALUE_VALID_RANGE, range , value));
                 }
             }
             return value;
@@ -2550,7 +2550,7 @@ namespace NodaTime
         {
             if (range.IsValidIntValue(value) == false)
             {
-                throw new DateTimeException("Invalid int value for " + field + ": " + value);
+                throw new DateTimeException(String.Format(Mercury.Language.LocalizedResources.Instance().INVALID_INT_VALUE_FOR_FIELD, field, value));
             }
             return (int)value;
         }

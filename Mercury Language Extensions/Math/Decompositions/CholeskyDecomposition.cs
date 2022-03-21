@@ -25,6 +25,7 @@ using System.Threading.Tasks;
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Double;
 using MathNet.Numerics.LinearAlgebra.Storage;
+using Mercury.Language;
 using Mercury.Language.Exception;
 using Mercury.Language.Math.Matrix;
 using Mercury.Language.Math.Analysis.Solver;
@@ -257,10 +258,10 @@ namespace Mercury.Language.Math.Decompositions
                 if (leftTriangularFactor == null)
                 {
                     if (destroyed)
-                        throw new InvalidOperationException("The decomposition has been destroyed.");
+                        throw new InvalidOperationException(LocalizedResources.Instance().DECOMPOSITION_DESTROYED);
 
                     if (undefined)
-                        throw new InvalidOperationException("The decomposition is undefined (zero in diagonal).");
+                        throw new InvalidOperationException(LocalizedResources.Instance().DECOMPOSITION_UNDEFINED);
 
                     leftTriangularFactor = L.GetLowerTriangle();
                 }
@@ -280,10 +281,10 @@ namespace Mercury.Language.Math.Decompositions
                 if (upperTriangularFactor == null)
                 {
                     if (destroyed)
-                        throw new InvalidOperationException("The decomposition has been destroyed.");
+                        throw new InvalidOperationException(LocalizedResources.Instance().DECOMPOSITION_DESTROYED);
 
                     if (undefined)
-                        throw new InvalidOperationException("The decomposition is undefined (zero in diagonal).");
+                        throw new InvalidOperationException(LocalizedResources.Instance().DECOMPOSITION_UNDEFINED);
 
                     upperTriangularFactor = L.GetUpperTriangle();
                 }
@@ -303,7 +304,7 @@ namespace Mercury.Language.Math.Decompositions
                 if (diagonalMatrix == null)
                 {
                     if (destroyed)
-                        throw new InvalidOperationException("The decomposition has been destroyed.");
+                        throw new InvalidOperationException(LocalizedResources.Instance().DECOMPOSITION_DESTROYED);
 
                     diagonalMatrix = MatrixUtility.Diagonal<Double>(D);
                 }
@@ -333,10 +334,10 @@ namespace Mercury.Language.Math.Decompositions
                 if (!lndeterminant.HasValue)
                 {
                     if (destroyed)
-                        throw new InvalidOperationException("The decomposition has been destroyed.");
+                        throw new InvalidOperationException(LocalizedResources.Instance().DECOMPOSITION_DESTROYED);
 
                     if (undefined)
-                        throw new InvalidOperationException("The decomposition is undefined (zero in diagonal).");
+                        throw new InvalidOperationException(LocalizedResources.Instance().DECOMPOSITION_UNDEFINED);
 
                     double detL = 0, detD = 0;
                     for (int i = 0; i < n; i++)
@@ -367,10 +368,10 @@ namespace Mercury.Language.Math.Decompositions
                 if (!nonsingular.HasValue)
                 {
                     if (destroyed)
-                        throw new InvalidOperationException("The decomposition has been destroyed.");
+                        throw new InvalidOperationException(LocalizedResources.Instance().DECOMPOSITION_DESTROYED);
 
                     if (undefined)
-                        throw new InvalidOperationException("The decomposition is undefined (zero in diagonal).");
+                        throw new InvalidOperationException(LocalizedResources.Instance().DECOMPOSITION_UNDEFINED);
 
                     bool nonSingular = true;
                     for (int i = 0; i < n && nonSingular; i++)
@@ -494,13 +495,13 @@ namespace Mercury.Language.Math.Decompositions
         public Double[] InverseDiagonal(Double[] result, bool destroy = false)
         {
             if (!robust && !positiveDefinite)
-                throw new NonPositiveDefiniteMatrixException("Matrix is not positive definite.");
+                throw new NonPositiveDefiniteMatrixException(LocalizedResources.Instance().MATRIX_IS_NOT_POSITIVE_DEFINITE);
 
             if (undefined)
-                throw new InvalidOperationException("The decomposition is undefined (zero in diagonal).");
+                throw new InvalidOperationException(LocalizedResources.Instance().DECOMPOSITION_UNDEFINED);
 
             if (destroyed)
-                throw new InvalidOperationException("The decomposition has been destroyed.");
+                throw new InvalidOperationException(LocalizedResources.Instance().DECOMPOSITION_DESTROYED);
 
             Double[,] S;
 
@@ -568,13 +569,13 @@ namespace Mercury.Language.Math.Decompositions
         public Double InverseTrace(bool destroy = false)
         {
             if (!robust && !positiveDefinite)
-                throw new NonPositiveDefiniteMatrixException("Matrix is not positive definite.");
+                throw new NonPositiveDefiniteMatrixException(LocalizedResources.Instance().MATRIX_IS_NOT_POSITIVE_DEFINITE);
 
             if (undefined)
-                throw new InvalidOperationException("The decomposition is undefined (zero in diagonal).");
+                throw new InvalidOperationException(LocalizedResources.Instance().DECOMPOSITION_UNDEFINED);
 
             if (destroyed)
-                throw new InvalidOperationException("The decomposition has been destroyed.");
+                throw new InvalidOperationException(LocalizedResources.Instance().DECOMPOSITION_DESTROYED);
 
             Double[,] S;
 
@@ -634,10 +635,10 @@ namespace Mercury.Language.Math.Decompositions
         public double[,] Reverse()
         {
             if (destroyed)
-                throw new InvalidOperationException("The decomposition has been destroyed.");
+                throw new InvalidOperationException(LocalizedResources.Instance().DECOMPOSITION_DESTROYED);
 
             if (undefined)
-                throw new InvalidOperationException("The decomposition is undefined (zero in diagonal).");
+                throw new InvalidOperationException(LocalizedResources.Instance().DECOMPOSITION_UNDEFINED);
 
             if (robust)
                 return LeftTriangularFactor.Dot(DiagonalMatrix).DotWithTransposed(LeftTriangularFactor);

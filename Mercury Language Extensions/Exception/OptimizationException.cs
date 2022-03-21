@@ -41,7 +41,7 @@ namespace Mercury.Language.Exception
             
         }
 
-        public OptimizationException(System.Exception cause): base("Optimization Exception", cause)
+        public OptimizationException(System.Exception cause): base(Mercury.Language.LocalizedResources.Instance().OPTIMIZATION_EXCEPTION, cause)
         {
             
         }

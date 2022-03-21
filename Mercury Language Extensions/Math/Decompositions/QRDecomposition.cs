@@ -96,7 +96,7 @@ namespace Mercury.Language.Math.Decompositions
         {
             if (value == null)
             {
-                throw new ArgumentNullException("value", "Matrix cannot be null.");
+                throw new ArgumentNullException("value", String.Format(LocalizedResources.Instance().MATRIX_CANNOT_BE_NULL, "value"));
             }
 
             if ((!transpose && value.Rows() < value.Columns()) ||
@@ -186,13 +186,13 @@ namespace Mercury.Language.Math.Decompositions
         public Double[,] Solve(Double[,] value)
         {
             if (value == null)
-                throw new ArgumentNullException("value", "Matrix cannot be null.");
+                throw new ArgumentNullException("value", String.Format(LocalizedResources.Instance().MATRIX_CANNOT_BE_NULL, "value"));
 
             if (value.Rows() != n)
-                throw new ArgumentException("Matrix row dimensions must agree.");
+                throw new ArgumentException(LocalizedResources.Instance().MATRIX_ROW_DIMENSIONS_MUST_AGREE);
 
             if (!this.FullRank)
-                throw new InvalidOperationException("Matrix is rank deficient.");
+                throw new InvalidOperationException(LocalizedResources.Instance().MATRIX_IS_RANK_DEFICIENT);
 
             // Copy right hand side
             int count = value.Columns();
@@ -235,13 +235,13 @@ namespace Mercury.Language.Math.Decompositions
         public Double[,] SolveTranspose(Double[,] value)
         {
             if (value == null)
-                throw new ArgumentNullException("value", "Matrix cannot be null.");
+                throw new ArgumentNullException("value", String.Format(LocalizedResources.Instance().MATRIX_CANNOT_BE_NULL, "value"));
 
             if (value.Columns() != qr.Rows())
-                throw new ArgumentException("Matrix row dimensions must agree.");
+                throw new ArgumentException(LocalizedResources.Instance().MATRIX_ROW_DIMENSIONS_MUST_AGREE);
 
             if (!this.FullRank)
-                throw new InvalidOperationException("Matrix is rank deficient.");
+                throw new InvalidOperationException(LocalizedResources.Instance().MATRIX_IS_RANK_DEFICIENT);
 
             // Copy right hand side
             int count = value.Rows();
@@ -287,10 +287,10 @@ namespace Mercury.Language.Math.Decompositions
                 throw new ArgumentNullException("value");
 
             if (value.Length != qr.Rows())
-                throw new ArgumentException("Matrix row dimensions must agree.");
+                throw new ArgumentException(LocalizedResources.Instance().MATRIX_ROW_DIMENSIONS_MUST_AGREE);
 
             if (!this.FullRank)
-                throw new InvalidOperationException("Matrix is rank deficient.");
+                throw new InvalidOperationException(LocalizedResources.Instance().MATRIX_IS_RANK_DEFICIENT);
 
             // Copy right hand side
             var X = value.Copy();
@@ -511,7 +511,7 @@ namespace Mercury.Language.Math.Decompositions
         public Double[,] Inverse()
         {
             if (!this.FullRank)
-                throw new InvalidOperationException("Matrix is rank deficient.");
+                throw new InvalidOperationException(LocalizedResources.Instance().MATRIX_IS_RANK_DEFICIENT);
 
             return Solve(MatrixUtility.Diagonal(n, n, (Double)1));
         }

@@ -1980,7 +1980,7 @@ namespace System
             // check for a change of sign in the result when the inputs have the same sign
             if ((a ^ sum) < 0 && (a ^ b) >= 0)
             {
-                throw new ArithmeticException("Addition overflows an int: " + a + " + " + b);
+                throw new ArithmeticException(String.Format(LocalizedResources.Instance().METHOD_ADDITION_OVERFLOWS_INT, a, b));
             }
             return sum;
         }
@@ -1998,7 +1998,7 @@ namespace System
             // check for a change of sign in the result when the inputs have the same sign
             if ((a ^ sum) < 0 && (a ^ b) >= 0)
             {
-                throw new ArithmeticException("Addition overflows a long: " + a + " + " + b);
+                throw new ArithmeticException(String.Format(LocalizedResources.Instance().METHOD_ADDITION_OVERFLOWS_LONG, a, b));
             }
             return sum;
         }
@@ -2016,7 +2016,7 @@ namespace System
             // check for a change of sign in the result when the inputs have the different signs
             if ((a ^ result) < 0 && (a ^ b) < 0)
             {
-                throw new ArithmeticException("Subtraction overflows an int: " + a + " - " + b);
+                throw new ArithmeticException(String.Format(LocalizedResources.Instance().METHOD_SUBTRACTION_OVERFLOWS_INT, a, b));
             }
             return result;
         }
@@ -2034,7 +2034,7 @@ namespace System
             // check for a change of sign in the result when the inputs have the different signs
             if ((a ^ result) < 0 && (a ^ b) < 0)
             {
-                throw new ArithmeticException("Subtraction overflows a long: " + a + " - " + b);
+                throw new ArithmeticException(String.Format(LocalizedResources.Instance().METHOD_SUBTRACTION_OVERFLOWS_LONG, a, b));
             }
             return result;
         }
@@ -2051,7 +2051,7 @@ namespace System
             long total = (long)a * (long)b;
             if (total < int.MinValue || total > int.MaxValue)
             {
-                throw new ArithmeticException("Multiplication overflows an int: " + a + " * " + b);
+                throw new ArithmeticException(String.Format(LocalizedResources.Instance().METHOD_MULTIPLICTION_OVERFLOWS_INT, a, b));
             }
             return (int)total;
         }
@@ -2070,7 +2070,7 @@ namespace System
                 case -1:
                     if (a == long.MinValue)
                     {
-                        throw new ArithmeticException("Multiplication overflows a long: " + a + " * " + b);
+                        throw new ArithmeticException(String.Format(LocalizedResources.Instance().METHOD_MULTIPLICTION_OVERFLOWS_LONG, a, b));
                     }
                     return -a;
                 case 0:
@@ -2081,7 +2081,7 @@ namespace System
             long total = a * b;
             if (total / b != a)
             {
-                throw new ArithmeticException("Multiplication overflows a long: " + a + " * " + b);
+                throw new ArithmeticException(String.Format(LocalizedResources.Instance().METHOD_MULTIPLICTION_OVERFLOWS_LONG, a, b));
             }
             return total;
         }
@@ -2110,7 +2110,7 @@ namespace System
             long total = a * b;
             if (total / b != a || (a == long.MinValue && b == -1) || (b == long.MinValue && a == -1))
             {
-                throw new ArithmeticException("Multiplication overflows a long: " + a + " * " + b);
+                throw new ArithmeticException(String.Format(LocalizedResources.Instance().METHOD_MULTIPLICTION_OVERFLOWS_LONG, a, b));
             }
             return total;
         }
@@ -2535,7 +2535,7 @@ namespace System
 
 
             if (isDebug && Abs(n) >= 2048)
-                throw new MathArgumentException("Assertion failure", Abs(n));
+                throw new MathArgumentException(LocalizedResources.Instance().ASSERTION_FAILURE, Abs(n));
             if (x == 0 || x == Double.NegativeInfinity
                 || !(x < Double.PositiveInfinity) || n == 0)
                 return x;
@@ -2706,7 +2706,7 @@ namespace System
                     return Zero;
                 }
 
-                throw new Exception("Invalid Operation: zero base and negative power");
+                throw new Exception(LocalizedResources.Instance().INVALID_OPERATION_ZERO_BASE_AND_NEGATIVE_POWER);
             }
 
             if (pow == -One) return One / value;
@@ -2714,7 +2714,7 @@ namespace System
             var isPowerInteger = IsInteger(pow);
             if (value < Zero && !isPowerInteger)
             {
-                throw new Exception("Invalid Operation: negative base and non-integer power");
+                throw new Exception(LocalizedResources.Instance().INVALID_OPERATION_NEGATIVE_BASE_AND_NON_INTEGER_POWER);
             }
 
             if (isPowerInteger && value > Zero)
@@ -2800,7 +2800,7 @@ namespace System
         {
             if (x <= Zero)
             {
-                throw new ArgumentException("x must be greater than zero");
+                throw new ArgumentException(String.Format(LocalizedResources.Instance().Utility_ArgumentChecker_Double_AlmostNotNegative_InputParameterMustBeGreaterThanZero, "x"));
             }
             var count = 0;
             while (x >= One)
@@ -2946,7 +2946,7 @@ namespace System
         /// <returns></returns>
         public static decimal Sqrt(decimal x, decimal epsilon = Zero)
         {
-            if (x < Zero) throw new OverflowException("Cannot calculate square root from a negative number");
+            if (x < Zero) throw new OverflowException(LocalizedResources.Instance().CANNOT_CALCULATE_SQUARE_ROOT_FROM_A_NEGATIVE_NUMBER);
             //initial approximation
             decimal current = (decimal)Math.Sqrt((double)x), previous;
             do
@@ -3027,7 +3027,7 @@ namespace System
         {
             if (x > One || x < -One)
             {
-                throw new ArgumentException("x must be in [-1,1]");
+                throw new ArgumentException(String.Format(LocalizedResources.Instance().PARAMETER_MUST_BE_IN, "x", "-1","1"));
             }
             //known values
             if (x == Zero) return Zero;

@@ -129,8 +129,7 @@ namespace Mercury.Language.Math
         public static double Multivariate(double x, int p)
         {
             if (p < 1)
-                throw new ArgumentOutOfRangeException("p",
-                    "Parameter p must be higher than 1.");
+                throw new ArgumentOutOfRangeException("p", String.Format(LocalizedResources.Instance().PARAMETER_MUST_BE_HIGHER_THAN, "p", "1"));
 
             if (p == 1)
                 return Function(x);
@@ -587,7 +586,7 @@ namespace Mercury.Language.Math
         public static double Log(double x, int p)
         {
             if (p < 1)
-                throw new ArgumentOutOfRangeException("p", "Parameter p must be higher than 1.");
+                throw new ArgumentOutOfRangeException("p", String.Format(LocalizedResources.Instance().PARAMETER_MUST_BE_HIGHER_THAN, "p", "1"));
 
             if (p == 1)
                 return Log(x);

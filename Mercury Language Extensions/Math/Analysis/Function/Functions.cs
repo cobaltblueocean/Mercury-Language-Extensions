@@ -252,7 +252,7 @@ namespace Mercury.Language.Math.Analysis.Function
                 if (x.Length == 0 ||
                     y.Length == 0)
                 {
-                    throw new DataNotFoundException("Given data is empty.");
+                    throw new DataNotFoundException(Mercury.Language.LocalizedResources.Instance().FUNCTION_GIVEN_DATA_IS_EMPTY);
                 }
                 if (y.Length != x.Length)
                 {

@@ -186,7 +186,7 @@ namespace System.Collections.Generic
                 }
                 else
                 {
-                    throw new InvalidOperationException("Could not find the key.");
+                    throw new InvalidOperationException(Mercury.Language.LocalizedResources.Instance().LINKEDDICTIONARY_COULD_NOT_FIND_THE_KEY);
                 }
             }
             set
@@ -205,7 +205,7 @@ namespace System.Collections.Generic
                 }
                 else
                 {
-                    throw new InvalidOperationException("Could not find the key.");
+                    throw new InvalidOperationException(Mercury.Language.LocalizedResources.Instance().LINKEDDICTIONARY_COULD_NOT_FIND_THE_KEY);
                 }
             }
         }

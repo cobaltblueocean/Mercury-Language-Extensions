@@ -2229,7 +2229,7 @@ namespace Mercury.Language.Math.Analysis.Differentiation
                         catch (NotStrictlyPositiveException e)
                         {
                             // this cannot happen
-                            throw new MathArithmeticException("Not Positive", e);
+                            throw new MathArithmeticException(Mercury.Language.LocalizedResources.Instance().DSCOMPLIER_NOT_POSITIVE, e);
                         }
                     }
                 }

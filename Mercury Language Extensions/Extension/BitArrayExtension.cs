@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Mercury.Language;
 
 namespace System
 {
@@ -70,7 +71,7 @@ namespace System
         public static int NextSetBit(this BitArray bitArray, int fromIndex)
         {
             if (fromIndex < 0)
-                throw new IndexOutOfRangeException("fromIndex < 0: " + fromIndex);
+                throw new IndexOutOfRangeException(String.Format(LocalizedResources.Instance().BITARRAY_FROMINDEX_IS_NEGATIVE, fromIndex));
 
             int ret = -1;
 
@@ -100,7 +101,7 @@ namespace System
         {
 
             if (fromIndex < 0)
-                throw new IndexOutOfRangeException("fromIndex < 0: " + fromIndex);
+                throw new IndexOutOfRangeException(String.Format(LocalizedResources.Instance().BITARRAY_FROMINDEX_IS_NEGATIVE, fromIndex));
 
             int ret = -1;
 
@@ -140,7 +141,7 @@ namespace System
         {
 
             if (fromIndex < 0)
-                throw new IndexOutOfRangeException("fromIndex < 0: " + fromIndex);
+                throw new IndexOutOfRangeException(String.Format(LocalizedResources.Instance().BITARRAY_FROMINDEX_IS_NEGATIVE, fromIndex));
 
             int ret = -1;
 
@@ -170,7 +171,7 @@ namespace System
         public static int PreviousClearBit(this BitArray bitArray, int fromIndex)
         {
             if (fromIndex < 0)
-                throw new IndexOutOfRangeException("fromIndex < 0: " + fromIndex);
+                throw new IndexOutOfRangeException(String.Format(LocalizedResources.Instance().BITARRAY_FROMINDEX_IS_NEGATIVE, fromIndex));
 
             int ret = -1;
 

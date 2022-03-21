@@ -121,7 +121,7 @@
     <value>引数 {0} は [{1} ; {2}] の範囲を超えています。</value>
   </data>
   <data name="ARG_CANNOT_BE_NaN" xml:space="preserve">
-    <value>Period は数字でない浮動小数点型の値を受け入れることは出来ません。</value>
+    <value>Period は数字でません。浮動小数点型の値を受け入れることは出来ません。</value>
   </data>
   <data name="ARG_MUST_BE_PERIOD" xml:space="preserve">
     <value>オブジェクトの型はPeriod型でなくてはなりません。</value>
@@ -142,7 +142,7 @@
     <value>配列の合計が0です。</value>
   </data>
   <data name="ARRAY_ZERO_LENGTH_OR_NULL_NOT_ALLOWED" xml:space="preserve">
-    <value>nullまたは長さゼロの配列は許可されません</value>
+    <value>nullまたは長さゼロの配列は許可されません。</value>
   </data>
   <data name="ASSYMETRIC_EIGEN_NOT_SUPPORTED" xml:space="preserve">
     <value>非対称配列の固有値分解はまだサポートされていません。</value>
@@ -172,7 +172,7 @@
     <value>N = {0} を得る二項係数 (N, K) には n &gt;= 0 は必須です。</value>
   </data>
   <data name="BOBYQA_BOUND_DIFFERENCE_CONDITION" xml:space="preserve">
-    <value>上限と下限の差は、最初の信頼領域半径 ({0})の2倍より大きくなければなりません</value>
+    <value>上限と下限の差は、最初の信頼領域半径 ({0})の2倍より大きくなければなりません。</value>
   </data>
   <data name="CANNOT_CLEAR_STATISTIC_CONSTRUCTED_FROM_EXTERNAL_MOMENTS" xml:space="preserve">
     <value>外部モーメントによって構築された統計はクリアできません。</value>
@@ -181,7 +181,7 @@
     <value>単一性の0次根は不確定な結果となるため計算できません。</value>
   </data>
   <data name="CANNOT_COMPUTE_BETA_DENSITY_AT_0_FOR_SOME_ALPHA" xml:space="preserve">
-    <value>alpha = {0, number}のときベータ密度を0で計算することはできません</value>
+    <value>alpha = {0, number}のときベータ密度を0で計算することはできません。</value>
   </data>
   <data name="CANNOT_COMPUTE_BETA_DENSITY_AT_1_FOR_SOME_BETA" xml:space="preserve">
     <value>beta = %.3gのときベータ密度を1で計算することはできません。</value>
@@ -214,7 +214,7 @@
     <value>文字列\ "{0} \"を解析不能 (位置{1}から)</value>
   </data>
   <data name="CANNOT_PARSE_AS_TYPE" xml:space="preserve">
-    <value>型{2}のオブジェクトとして解釈できない (位置{1}の)文字列\ "{0} \"</value>
+    <value>型{2}のオブジェクトとして解釈できません。 (位置{1}の)文字列\ "{0} \"</value>
   </data>
   <data name="CANNOT_RETRIEVE_AT_NEGATIVE_INDEX" xml:space="preserve">
     <value>負の配列インデックス{0}から要素を取り出すことはできません。</value>
@@ -223,7 +223,7 @@
     <value>負のインデックス{0}に要素を設定できません。</value>
   </data>
   <data name="CANNOT_SUBSTITUTE_ELEMENT_FROM_EMPTY_ARRAY" xml:space="preserve">
-    <value>空の配列から要素を置換することはできません</value>
+    <value>空の配列から要素を置換することはできません。</value>
   </data>
   <data name="CANNOT_TRANSFORM_TO_DOUBLE" xml:space="preserve">
     <value>Transformation時の変換例外：{0}</value>
@@ -289,7 +289,7 @@
     <value>他の行は長さが{1}である中、長さが{0}の行があります。</value>
   </data>
   <data name="DIGEST_NOT_INITIALIZED" xml:space="preserve">
-    <value>ダイジェストは初期化されていません</value>
+    <value>ダイジェストは初期化されていません。</value>
   </data>
   <data name="DIMENSION" xml:space="preserve">
     <value>次元 ({0})</value>
@@ -334,7 +334,7 @@
     <value>虚数への空文字です。</value>
   </data>
   <data name="ENDPOINTS_NOT_AN_INTERVAL" xml:space="preserve">
-    <value>端点が区間を特定しません：[{0}, {1}]</value>
+    <value>端点が区間を特定しません。：[{0}, {1}]</value>
   </data>
   <data name="EQUAL_VERTICES_IN_SIMPLEX" xml:space="preserve">
     <value>単体構成に等しい頂点{0}と{1}があります。</value>
@@ -430,7 +430,7 @@
     <value>無限の値を変換することはできません。</value>
   </data>
   <data name="INITIAL_CAPACITY_NOT_POSITIVE" xml:space="preserve">
-    <value>初期容量 ({0}) が正ではありません</value>
+    <value>初期容量 ({0}) が正ではありません。</value>
   </data>
   <data name="INITIAL_COLUMN_AFTER_FINAL_COLUMN" xml:space="preserve">
     <value>最終列{0}の後が最初の列{1}となっています。</value>
@@ -442,7 +442,7 @@
     <value>入力配列</value>
   </data>
   <data name="INPUT_DATA_FROM_UNSUPPORTED_DATASOURCE" xml:space="preserve">
-    <value>入力データは、サポートされていないデータソースです。：{0}、サポートされているソース：{1}, {2}</value>
+    <value>入力データは、サポートされていません。データソースです。：{0}、サポートされているソース：{1}, {2}</value>
   </data>
   <data name="INSTANCES_NOT_COMPARABLE_TO_EXISTING_VALUES" xml:space="preserve">
     <value>クラス{0} のインスタンスは既存の値と比較できません。</value>
@@ -484,7 +484,7 @@
     <value>{0}に必要な機能がありません。</value>
   </data>
   <data name="INVALID_INTERVAL_INITIAL_VALUE_PARAMETERS" xml:space="preserve">
-    <value>無効なインターバル、初期値パラメータ：lower = {0}、initial = {1}、upper = {2}</value>
+    <value>無効なインターバル、初期値パラメータです。：lower = {0}、initial = {1}、upper = {2}</value>
   </data>
   <data name="INVALID_ITERATIONS_LIMITS" xml:space="preserve">
     <value>無効な反復制限です。：min = {0}、max = {1}</value>
@@ -499,7 +499,7 @@
     <value>回帰配列の長さ= {0}がモデルの変数の数= {1}と一致しません。</value>
   </data>
   <data name="INVALID_ROUNDING_METHOD" xml:space="preserve">
-    <value>無効な丸めメソッド{0}、有効なメソッド：{1} ({2}) 、{3} ({4})、{5} ({6})、{7} ({8})、{9} ({10})、{11} ({12})、{13} ({14})、{15} ({16})</value>
+    <value>無効な丸めメソッド{0}、有効なメソッドです。：{1} ({2}) 、{3} ({4})、{5} ({6})、{7} ({8})、{9} ({10})、{11} ({12})、{13} ({14})、{15} ({16})</value>
   </data>
   <data name="ITERATIONS" xml:space="preserve">
     <value>反復子</value>
@@ -526,13 +526,13 @@
     <value>下限 ({0})は上限 ({1})より厳密に小さくなければなりません。</value>
   </data>
   <data name="LOWER_ENDPOINT_ABOVE_UPPER_ENDPOINT" xml:space="preserve">
-    <value>下端 ({0})は上端 ({1})以下でなければなりません</value>
+    <value>下端 ({0})は上端 ({1})以下でなければなりません。</value>
   </data>
   <data name="MAP_MODIFIED_WHILE_ITERATING" xml:space="preserve">
-    <value>マップが反復処理中に変更されました</value>
+    <value>マップが反復処理中に変更されました。</value>
   </data>
   <data name="MAX_COUNT_EXCEEDED" xml:space="preserve">
-    <value>最大数 ({0})を超えました</value>
+    <value>最大数 ({0})を超えました。</value>
   </data>
   <data name="MAX_ITERATIONS_EXCEEDED" xml:space="preserve">
     <value>maximal number of iterations ({0}) exceeded</value>
@@ -541,7 +541,7 @@
     <value>平均 ({0})</value>
   </data>
   <data name="MINIMAL_STEPSIZE_REACHED_DURING_INTEGRATION" xml:space="preserve">
-    <value>最小ステップサイズ ({1,number,0.00E00})に達しました、統合ニーズは{0,number,0.00E00}</value>
+    <value>最小ステップサイズ ({1,number,0.00E00})に達しました。、統合ニーズは{0,number,0.00E00}</value>
   </data>
   <data name="MISMATCHED_LOESS_ABSCISSA_ORDINATE_ARRAYS" xml:space="preserve">
     <value>Loessは、横座標と縦座標配列が同じサイズであると予測しますが、横座標が{0}、縦座標が{1}です。</value>
@@ -550,13 +550,13 @@
     <value>突然変異率 ({0})</value>
   </data>
   <data name="NAN_ELEMENT_AT_INDEX" xml:space="preserve">
-    <value>要素{0}はNaNです</value>
+    <value>要素{0}はNaNです。</value>
   </data>
   <data name="NAN_NOT_ALLOWED" xml:space="preserve">
-    <value>NaNは許可されません</value>
+    <value>NaNは許可されません。</value>
   </data>
   <data name="NAN_VALUE_CONVERSION" xml:space="preserve">
-    <value>NaN値を変換できません</value>
+    <value>NaN値を変換できません。</value>
   </data>
   <data name="NEGATIVE_BRIGHTNESS_EXPONENT" xml:space="preserve">
     <value>輝度指数は正または負でなければなりませんが、{0}が得られました。</value>
@@ -568,49 +568,49 @@
     <value>要素 ({0}, {1})が負の場合：{2}</value>
   </data>
   <data name="NEGATIVE_ELEMENT_AT_INDEX" xml:space="preserve">
-    <value>要素{0}は負の数です：{1}</value>
+    <value>要素{0}は負の数です。：{1}</value>
   </data>
   <data name="NEGATIVE_NUMBER_OF_SUCCESSES" xml:space="preserve">
-    <value>成功回数は非負 ({0})でなければなりません</value>
+    <value>成功回数は非負 ({0})でなければなりません。</value>
   </data>
   <data name="NEGATIVE_NUMBER_OF_TRIALS" xml:space="preserve">
-    <value>試行回数は負でなくてはならない ({0})</value>
+    <value>試行回数は負でなくてはならません。 ({0})</value>
   </data>
   <data name="NON_CONVERGENT_CONTINUED_FRACTION" xml:space="preserve">
-    <value>継続的な小数点の収束は、値{1}の収束に失敗した ({0回未満の反復で)</value>
+    <value>継続的な小数点の収束は、値{1}の収束に失敗しました。 ({0回未満の反復で)</value>
   </data>
   <data name="NON_INVERTIBLE_TRANSFORM" xml:space="preserve">
-    <value>非可逆アフィン変換は、いくつかの線を単一点に崩壊させる</value>
+    <value>非可逆アフィン変換は、いくつかの線を単一点に崩壊させます。</value>
   </data>
   <data name="NON_POSITIVE_DEFINITE_MATRIX" xml:space="preserve">
-    <value>正定値行列ではない： ({1}, {1})の対角要素が{2}より小さい ({0})</value>
+    <value>正定値行列ではません。： ({1}, {1})の対角要素が{2}より小さい ({0})</value>
   </data>
   <data name="NON_POSITIVE_DEFINITE_OPERATOR" xml:space="preserve">
     <value>非正定値線形演算子</value>
   </data>
   <data name="NON_POSITIVE_MICROSPHERE_ELEMENTS" xml:space="preserve">
-    <value>微小球要素の数は正でなければならないが、{0}</value>
+    <value>微小球要素の数は正でなければならませんが、{0}でした。</value>
   </data>
   <data name="NON_POSITIVE_POLYNOMIAL_DEGREE" xml:space="preserve">
-    <value>多項式次数は正でなければなりません：degree = {0}</value>
+    <value>多項式次数は正でなければなりません。：degree = {0}</value>
   </data>
   <data name="NON_REAL_FINITE_ABSCISSA" xml:space="preserve">
-    <value>すべての横座標は有限の実数でなければならないが、{0}は{1}</value>
+    <value>すべての横座標は有限の実数でなければならませんが、{0}は{1}でした。</value>
   </data>
   <data name="NON_REAL_FINITE_ORDINATE" xml:space="preserve">
-    <value>すべての序数は有限の実数でなければならないが、{0}は{1}</value>
+    <value>すべての序数は有限の実数でなければならませんが、{0}は{1}でした。</value>
   </data>
   <data name="NON_REAL_FINITE_WEIGHT" xml:space="preserve">
-    <value>すべての重みは有限の実数でなければならないが、{0}は{1}</value>
+    <value>すべての重みは有限の実数でなければならませんが、{0}は{1}でした。</value>
   </data>
   <data name="NON_SELF_ADJOINT_OPERATOR" xml:space="preserve">
-    <value>非自己随伴線形演算子</value>
+    <value>非自己随伴線形演算子です。</value>
   </data>
   <data name="NON_SQUARE_MATRIX" xml:space="preserve">
     <value>{0}行{1}列の正方行列ではありません。</value>
   </data>
   <data name="NON_SQUARE_OPERATOR" xml:space="preserve">
-    <value>非正方形 ({0} x {1})線形演算子</value>
+    <value>非正方形 ({0} x {1})線形演算子です。</value>
   </data>
   <data name="NON_SYMMETRIC_MATRIX" xml:space="preserve">
     <value>{0}行{1}列と{1}行{0}列の値の差が{2}よりも大きい為、非対称行列です。</value>
@@ -619,133 +619,133 @@
     <value>ノルム ({0})</value>
   </data>
   <data name="NORMALIZE_INFINITE" xml:space="preserve">
-    <value>無限の値に正規化できません</value>
+    <value>無限の値に正規化できません。</value>
   </data>
   <data name="NORMALIZE_NAN" xml:space="preserve">
-    <value>NaNに正規化できません</value>
+    <value>NaNに正規化できません。</value>
   </data>
   <data name="NOT_ADDITION_COMPATIBLE_MATRICES" xml:space="preserve">
-    <value>{0} x {1}と{2} x {3}行列は加算互換ではありません</value>
+    <value>{0} x {1}と{2} x {3}行列は加算互換ではありません。</value>
   </data>
   <data name="NOT_CONVEX" xml:space="preserve">
-    <value>頂点はCCW巻線に凸包を形成しない</value>
+    <value>頂点はCCW巻線に凸包を形成していません。</value>
   </data>
   <data name="NOT_DECREASING_NUMBER_OF_POINTS" xml:space="preserve">
-    <value>点{0}と{1}は減少していません ({2} &lt;{3})</value>
+    <value>点{0}と{1}は減少していません。 ({2} &lt;{3})</value>
   </data>
   <data name="NOT_DECREASING_SEQUENCE" xml:space="preserve">
-    <value>ポイント{3}と{2}は減少していません ({1} &lt;{0})</value>
+    <value>ポイント{3}と{2}は減少していません。 ({1} &lt;{0})</value>
   </data>
   <data name="NOT_ENOUGH_DATA_FOR_NUMBER_OF_PREDICTORS" xml:space="preserve">
-    <value>この多くのプレディクタ ({1}プレディクタ)のデータ ({0}行)が不十分です</value>
+    <value>この多くのプレディクタ ({1}プレディクタ)のデータ ({0}行)が不十分です。</value>
   </data>
   <data name="NOT_ENOUGH_DATA_REGRESSION" xml:space="preserve">
     <value>観察の回数が回帰を行うには不十分です。</value>
   </data>
   <data name="NOT_ENOUGH_POINTS_IN_SPLINE_PARTITION" xml:space="preserve">
-    <value>スプラインパーティションには少なくとも{0}点が必要で、{1}</value>
+    <value>スプラインパーティションには少なくとも{0}点が必要で、{1}しかありません。</value>
   </data>
   <data name="NOT_FINITE_NUMBER" xml:space="preserve">
     <value>{0}は有限数ではありません。</value>
   </data>
   <data name="NOT_INCREASING_NUMBER_OF_POINTS" xml:space="preserve">
-    <value>ポイント{0}と{1}は増加していません ({2}&gt; {3})</value>
+    <value>ポイント{0}と{1}は増加していません。 ({2}&gt; {3})</value>
   </data>
   <data name="NOT_INCREASING_SEQUENCE" xml:space="preserve">
-    <value>ポイント{3}と{2}は増加していません ({1}&gt; {0})</value>
+    <value>ポイント{3}と{2}は増加していません。 ({1}&gt; {0})</value>
   </data>
   <data name="NOT_MULTIPLICATION_COMPATIBLE_MATRICES" xml:space="preserve">
-    <value>{0} x {1}と{2} x {3}行列は乗算に対応していません</value>
+    <value>{0} x {1}と{2} x {3}行列は乗算に対応していません。</value>
   </data>
   <data name="NOT_POSITIVE_DEFINITE_MATRIX" xml:space="preserve">
-    <value>正定値行列ではない</value>
+    <value>正定値行列ではありません。</value>
   </data>
   <data name="NOT_POSITIVE_DEGREES_OF_FREEDOM" xml:space="preserve">
-    <value>自由度は正 ({0})でなければなりません</value>
+    <value>自由度は正 ({0})でなければなりません。</value>
   </data>
   <data name="NOT_POSITIVE_ELEMENT_AT_INDEX" xml:space="preserve">
-    <value>要素{0}は正ではありません：{1}</value>
+    <value>要素{0}は正ではありません。：{1}</value>
   </data>
   <data name="NOT_POSITIVE_EXPONENT" xml:space="preserve">
-    <value>無効な指数{0} (正でなければならない)</value>
+    <value>無効な指数{0} (正でなければなりません。)</value>
   </data>
   <data name="NOT_POSITIVE_LENGTH" xml:space="preserve">
-    <value>長さは正 ({0})でなければなりません</value>
+    <value>長さは正 ({0})でなければなりません。</value>
   </data>
   <data name="NOT_POSITIVE_MEAN" xml:space="preserve">
-    <value>平均は正 ({0})でなければなりません</value>
+    <value>平均は正 ({0})でなければなりません。</value>
   </data>
   <data name="NOT_POSITIVE_NUMBER_OF_SAMPLES" xml:space="preserve">
-    <value>サンプル数が正でない：{0}</value>
+    <value>サンプル数が正でありません。：{0}</value>
   </data>
   <data name="NOT_POSITIVE_PERMUTATION" xml:space="preserve">
-    <value>置換k ({0})は正でなければならない</value>
+    <value>置換k ({0})は正でなければならません。</value>
   </data>
   <data name="NOT_POSITIVE_POISSON_MEAN" xml:space="preserve">
-    <value>ポアソン平均は正 ({0})でなければならない</value>
+    <value>ポアソン平均は正 ({0})でなければならません。</value>
   </data>
   <data name="NOT_POSITIVE_POPULATION_SIZE" xml:space="preserve">
-    <value>母集団サイズは正 ({0})でなければなりません</value>
+    <value>母集団サイズは正 ({0})でなければなりません。</value>
   </data>
   <data name="NOT_POSITIVE_ROW_DIMENSION" xml:space="preserve">
     <value>無効な行の次元：{0} (正である必要があります)</value>
   </data>
   <data name="NOT_POSITIVE_SAMPLE_SIZE" xml:space="preserve">
-    <value>サンプルサイズは正 ({0})でなければなりません</value>
+    <value>サンプルサイズは正 ({0})でなければなりません。</value>
   </data>
   <data name="NOT_POSITIVE_SCALE" xml:space="preserve">
-    <value>スケールは正 ({0})でなければなりません</value>
+    <value>スケールは正 ({0})でなければなりません。</value>
   </data>
   <data name="NOT_POSITIVE_SHAPE" xml:space="preserve">
-    <value>形状は正 ({0})でなければなりません</value>
+    <value>形状は正 ({0})でなければなりません。</value>
   </data>
   <data name="NOT_POSITIVE_STANDARD_DEVIATION" xml:space="preserve">
-    <value>標準偏差は正 ({0})でなければなりません</value>
+    <value>標準偏差は正 ({0})でなければなりません。</value>
   </data>
   <data name="NOT_POSITIVE_UPPER_BOUND" xml:space="preserve">
-    <value>上限は正 ({0})でなければなりません</value>
+    <value>上限は正 ({0})でなければなりません。</value>
   </data>
   <data name="NOT_POSITIVE_WINDOW_SIZE" xml:space="preserve">
-    <value>ウィンドウサイズは正 ({0})でなければなりません</value>
+    <value>ウィンドウサイズは正 ({0})でなければなりません。</value>
   </data>
   <data name="NOT_POWER_OF_TWO" xml:space="preserve">
-    <value>{0}は2の累乗ではありません</value>
+    <value>{0}は2の累乗ではありません。</value>
   </data>
   <data name="NOT_POWER_OF_TWO_CONSIDER_PADDING" xml:space="preserve">
-    <value>{0}は2の累乗ではありません。修正のためにパディングを考慮してください</value>
+    <value>{0}は2の累乗ではありません。修正のためにパディングを考慮してください。</value>
   </data>
   <data name="NOT_POWER_OF_TWO_PLUS_ONE" xml:space="preserve">
-    <value>{0}は2プラス1の累乗ではありません</value>
+    <value>{0}は2プラス1の累乗ではありません。</value>
   </data>
   <data name="NOT_STRICTLY_DECREASING_NUMBER_OF_POINTS" xml:space="preserve">
-    <value>ポイント{0}と{1}は厳密に減少していません ({2} &lt;= {3})</value>
+    <value>ポイント{0}と{1}は厳密に減少していません。 ({2} &lt;= {3})</value>
   </data>
   <data name="NOT_STRICTLY_DECREASING_SEQUENCE" xml:space="preserve">
-    <value>ポイント{3}と{2}は厳密に減少していません ({1} &lt;= {0})</value>
+    <value>ポイント{3}と{2}は厳密に減少していません。 ({1} &lt;= {0})</value>
   </data>
   <data name="NOT_STRICTLY_INCREASING_KNOT_VALUES" xml:space="preserve">
-    <value>結び目の値は厳密に増加しなければならない</value>
+    <value>結び目の値は厳密に増加しなければならません。</value>
   </data>
   <data name="NOT_STRICTLY_INCREASING_NUMBER_OF_POINTS" xml:space="preserve">
-    <value>ポイント{0}と{1}は厳密には増加していません ({2}&gt; = {3})</value>
+    <value>ポイント{0}と{1}は厳密には増加していません。 ({2}&gt; = {3})</value>
   </data>
   <data name="NOT_STRICTLY_INCREASING_SEQUENCE" xml:space="preserve">
-    <value>ポイント{3}と{2}は厳密には増加していません ({1}&gt; = {0})</value>
+    <value>ポイント{3}と{2}は厳密には増加していません。 ({1}&gt; = {0})</value>
   </data>
   <data name="NOT_SUBTRACTION_COMPATIBLE_MATRICES" xml:space="preserve">
-    <value>{0} x {1}と{2} x {3}行列は減算に対応していません</value>
+    <value>{0} x {1}と{2} x {3}行列は減算に対応していません。</value>
   </data>
   <data name="NOT_SUPPORTED_IN_DIMENSION_N" xml:space="preserve">
-    <value>メソッドがディメンション{0}でサポートされていません</value>
+    <value>メソッドがディメンション{0}でサポートされていません。</value>
   </data>
   <data name="NOT_SYMMETRIC_MATRIX" xml:space="preserve">
     <value>対称行列ではありません。</value>
   </data>
   <data name="NO_BIN_SELECTED" xml:space="preserve">
-    <value>選択されたビンがない</value>
+    <value>選択されたビンがません。</value>
   </data>
   <data name="NO_CONVERGENCE_WITH_ANY_START_POINT" xml:space="preserve">
-    <value>{0}の開始点のいずれも収束につながりません</value>
+    <value>{0}の開始点のいずれも収束につながりません。</value>
   </data>
   <data name="NO_DATA" xml:space="preserve">
     <value>データなし</value>
@@ -754,28 +754,28 @@
     <value>自由度なし ({0}測定値、{1}パラメータ)</value>
   </data>
   <data name="NO_DENSITY_FOR_THIS_DISTRIBUTION" xml:space="preserve">
-    <value>この分布には密度関数は実装されていません</value>
+    <value>この分布には密度関数は実装されていません。</value>
   </data>
   <data name="NO_FEASIBLE_SOLUTION" xml:space="preserve">
     <value>実現可能な解決策</value>
   </data>
   <data name="NO_OPTIMUM_COMPUTED_YET" xml:space="preserve">
-    <value>最適値はまだ計算されていない</value>
+    <value>最適値はまだ計算されていません。</value>
   </data>
   <data name="NO_REGRESSORS" xml:space="preserve">
-    <value>回帰モデルには少なくとも1つの回帰子が含まれていなければなりません</value>
+    <value>回帰モデルには少なくとも1つの回帰子が含まれていなければなりません。</value>
   </data>
   <data name="NO_RESULT_AVAILABLE" xml:space="preserve">
-    <value>結果がありません</value>
+    <value>結果がありません。</value>
   </data>
   <data name="NO_SUCH_MATRIX_ENTRY" xml:space="preserve">
-    <value>{2} x {3}行列のインデックス ({0}, {1})にはエントリがありません</value>
+    <value>{2} x {3}行列のインデックス ({0}, {1})にはエントリがありません。</value>
   </data>
   <data name="NULL_NOT_ALLOWED" xml:space="preserve">
-    <value>nullは許可されません</value>
+    <value>nullは許可されません。</value>
   </data>
   <data name="NUMBER_OF_ELEMENTS_SHOULD_BE_POSITIVE" xml:space="preserve">
-    <value>要素の数は正 ({0})でなければなりません</value>
+    <value>要素の数は正 ({0})でなければなりません。</value>
   </data>
   <data name="NUMBER_OF_INTERPOLATION_POINTS" xml:space="preserve">
     <value>補間点の数 ({0})</value>
@@ -790,7 +790,7 @@
     <value>成功回数 ({0})</value>
   </data>
   <data name="NUMBER_OF_SUCCESS_LARGER_THAN_POPULATION_SIZE" xml:space="preserve">
-    <value>成功数 ({0})は母集団サイズ ({1})以下でなければなりません</value>
+    <value>成功数 ({0})は母集団サイズ ({1})以下でなければなりません。</value>
   </data>
   <data name="NUMBER_OF_TRIALS" xml:space="preserve">
     <value>トライアル数 ({0})</value>
@@ -817,19 +817,19 @@
     <value>オーバーフロー、乗算後に大きすぎる分子：{0}</value>
   </data>
   <data name="N_POINTS_GAUSS_LEGENDRE_INTEGRATOR_NOT_SUPPORTED" xml:space="preserve">
-    <value>{0}点ルジャンドルガウス積分器はサポートされていませんが、点数は{1} - {2}の範囲になければなりません</value>
+    <value>{0}点ルジャンドルガウス積分器はサポートされていませんが、点数は{1} - {2}の範囲になければなりません。</value>
   </data>
   <data name="OBJECT_TRANSFORMATION" xml:space="preserve">
     <value>変換時の変換例外</value>
   </data>
   <data name="OBSERVED_COUNTS_ALL_ZERO" xml:space="preserve">
-    <value>観測された配列{0}の観測されたカウントはすべて0です</value>
+    <value>観測された配列{0}の観測されたカウントはすべて0です。</value>
   </data>
   <data name="OBSERVED_COUNTS_BOTTH_ZERO_FOR_ENTRY" xml:space="preserve">
-    <value>観測されたカウントは、エントリ{0}</value>
+    <value>観測されたカウントは、エントリ{0}です。</value>
   </data>
   <data name="OUTLINE_BOUNDARY_LOOP_OPEN" xml:space="preserve">
-    <value>アウトライン境界ループが開いている</value>
+    <value>アウトライン境界ループが開いています。</value>
   </data>
   <data name="OUT_OF_BOUNDS_CONFIDENCE_LEVEL" xml:space="preserve">
     <value>範囲外の信頼水準{0}は{1}から{2}の間でなければなりません。</value>
@@ -841,16 +841,16 @@
     <value>範囲外の重要度レベル{0}は{1}から{2}の間でなければなりません。</value>
   </data>
   <data name="OUT_OF_ORDER_ABSCISSA_ARRAY" xml:space="preserve">
-    <value>横座標アレイは、厳密に増加する順序でソートされなければならないが、{0}番目の要素は{1}であり、{2}番目は{3}</value>
+    <value>横座標アレイは、厳密に増加する順序でソートされなければならませんが、{0}番目の要素は{1}であり、{2}番目は{3}</value>
   </data>
   <data name="OUT_OF_RANGE" xml:space="preserve">
-    <value>範囲外</value>
+    <value>範囲外です。</value>
   </data>
   <data name="OUT_OF_RANGE_LEFT" xml:space="preserve">
-    <value>{0} ({1}, {2})の範囲外</value>
+    <value>{0} ({1}, {2})の範囲外です。</value>
   </data>
   <data name="OUT_OF_RANGE_RIGHT" xml:space="preserve">
-    <value>[{1}, {2})範囲外の{0}</value>
+    <value>[{1}, {2})範囲外の{0}です。</value>
   </data>
   <data name="OUT_OF_RANGE_ROOT_OF_UNITY_INDEX" xml:space="preserve">
     <value>ユニティインデックス{0}の範囲外ルート ([{1}; {2}]にある必要があります)</value>
@@ -868,7 +868,7 @@
     <value>さらにオーバーフローする：{0} + {1}</value>
   </data>
   <data name="OVERFLOW_IN_FRACTION" xml:space="preserve">
-    <value>小数{0} / {1}でオーバーフローし、ネゲートできません</value>
+    <value>小数{0} / {1}でオーバーフローし、ネゲートできません。</value>
   </data>
   <data name="OVERFLOW_IN_MULTIPLICATION" xml:space="preserve">
     <value>乗算のオーバーフロー：{0} * {1}</value>
@@ -883,13 +883,13 @@
     <value>長さが長過ぎるため、TimeSpanはオーバーフローしました。</value>
   </data>
   <data name="PERCENTILE_IMPLEMENTATION_CANNOT_ACCESS_METHOD" xml:space="preserve">
-    <value>パーセンタイル実装{1}の{0}メソッドにアクセスできません</value>
+    <value>パーセンタイル実装{1}の{0}メソッドにアクセスできません。</value>
   </data>
   <data name="PERCENTILE_IMPLEMENTATION_UNSUPPORTED_METHOD" xml:space="preserve">
-    <value>パーセンタイル実装{0}は{1}をサポートしていません</value>
+    <value>パーセンタイル実装{0}は{1}をサポートしていません。</value>
   </data>
   <data name="PERMUTATION_EXCEEDS_N" xml:space="preserve">
-    <value>パーミュテーションサイズ ({0})がパーミッションドメインを超えています</value>
+    <value>パーミュテーションサイズ ({0})がパーミッションドメインを超えています。</value>
   </data>
   <data name="PERMUTATION_SIZE" xml:space="preserve">
     <value>置換サイズ ({0}</value>
@@ -901,19 +901,19 @@
     <value>多項式補間の数は、セグメント数 ({0}！= {1} - 1)と一致する必要があります。</value>
   </data>
   <data name="POPULATION_LIMIT_NOT_POSITIVE" xml:space="preserve">
-    <value>人口制限は正でなければならない</value>
+    <value>人口制限は正でなければなりません。</value>
   </data>
   <data name="POPULATION_SIZE" xml:space="preserve">
     <value>母集団サイズ ({0})</value>
   </data>
   <data name="POWER_NEGATIVE_PARAMETERS" xml:space="preserve">
-    <value>負のパワー ({0} ^ {1})に積分値を上げることはできません</value>
+    <value>負のパワー ({0} ^ {1})に積分値を上げることはできません。</value>
   </data>
   <data name="PROPAGATION_DIRECTION_MISMATCH" xml:space="preserve">
-    <value>伝播方向の不一致</value>
+    <value>伝播方向の不一致です。</value>
   </data>
   <data name="RANDOMKEY_MUTATION_WRONG_CLASS" xml:space="preserve">
-    <value>RandomKeyMutationは{0}ではなくRandomKeysでのみ機能します</value>
+    <value>RandomKeyMutationは{0}ではなくRandomKeysでのみ機能します。</value>
   </data>
   <data name="REAL_FORMAT" xml:space="preserve">
     <value>実際のフォーマット</value>
@@ -922,10 +922,10 @@
     <value>ロバストネス反復回数 ({0})</value>
   </data>
   <data name="ROOTS_OF_UNITY_NOT_COMPUTED_YET" xml:space="preserve">
-    <value>統一のルーツはまだ計算されていない</value>
+    <value>統一のルーツはまだ計算されていません。</value>
   </data>
   <data name="ROTATION_MATRIX_DIMENSIONS" xml:space="preserve">
-    <value>{0} x {1}の行列を回転行列にすることはできません</value>
+    <value>{0} x {1}の行列を回転行列にすることはできません。</value>
   </data>
   <data name="ROW_INDEX" xml:space="preserve">
     <value>行インデックス ({0})</value>
@@ -934,13 +934,13 @@
     <value>行インデックス{0}は許容範囲 [{1}, {2}] を超えています。 </value>
   </data>
   <data name="SAME_SIGN_AT_ENDPOINTS" xml:space="preserve">
-    <value>[{0}, {1}]、値：[{2}, {3}]エンドポイントの関数値には異なる符号、エンドポイントはありません</value>
+    <value>[{0}, {1}]、値：[{2}, {3}]エンドポイントの関数値には異なる符号、エンドポイントはありません。</value>
   </data>
   <data name="SAMPLE_SIZE_EXCEEDS_COLLECTION_SIZE" xml:space="preserve">
-    <value>サンプルサイズ ({0})がコレクションサイズ ({1})を超えています</value>
+    <value>サンプルサイズ ({0})がコレクションサイズ ({1})を超えています。</value>
   </data>
   <data name="SAMPLE_SIZE_LARGER_THAN_POPULATION_SIZE" xml:space="preserve">
-    <value>サンプルサイズ ({0})は母集団サイズ ({1})以下でなければなりません</value>
+    <value>サンプルサイズ ({0})は母集団サイズ ({1})以下でなければなりません。</value>
   </data>
   <data name="SCALE" xml:space="preserve">
     <value>スケール ({0})</value>
@@ -952,7 +952,7 @@
     <value>有意水準 ({0})</value>
   </data>
   <data name="SIMPLEX_NEED_ONE_POINT" xml:space="preserve">
-    <value>シンプレックスには最低1つのポイントが必要です</value>
+    <value>シンプレックスには最低1つのポイントが必要です。</value>
   </data>
   <data name="SIMPLE_MESSAGE" xml:space="preserve">
     <value>{0}</value>
@@ -970,22 +970,22 @@
     <value>開始位置 ({0})</value>
   </data>
   <data name="SUBARRAY_ENDS_AFTER_ARRAY_END" xml:space="preserve">
-    <value>サブ配列は配列の終わりの後に終了する</value>
+    <value>サブ配列は配列の終わりの後に終了しています。</value>
   </data>
   <data name="TOO_LARGE_CUTOFF_SINGULAR_VALUE" xml:space="preserve">
-    <value>カットオフ特異値は{0}、最大で{1}</value>
+    <value>カットオフ特異値は{0}、最大で{1}です。</value>
   </data>
   <data name="TOO_LARGE_TOURNAMENT_ARITY" xml:space="preserve">
-    <value>トーナメント・アリティ ({0})は、母項数のサイズ ({1})より大きくすることはできません</value>
+    <value>トーナメント・アリティ ({0})は、母項数のサイズ ({1})より大きくすることはできません。</value>
   </data>
   <data name="TOO_MANY_ELEMENTS_TO_DISCARD_FROM_ARRAY" xml:space="preserve">
-    <value>{1}要素配列から{0}個の要素を捨てることはできません</value>
+    <value>{1}要素配列から{0}個の要素を捨てることはできません。</value>
   </data>
   <data name="TOO_MANY_REGRESSORS" xml:space="preserve">
-    <value>あまりにも多くの回帰子 ({0})が指定されました。モデルの{1}のみ</value>
+    <value>あまりにも多くの回帰子 ({0})が指定されました。モデルの{1}のみです。</value>
   </data>
   <data name="TOO_SMALL_COST_RELATIVE_TOLERANCE" xml:space="preserve">
-    <value>コストの相対許容誤差が小さすぎる ({0})場合、二乗和のさらなる減少は不可能です</value>
+    <value>コストの相対許容誤差が小さすぎる ({0})場合、二乗和のさらなる減少は不可能です。</value>
   </data>
   <data name="TOO_SMALL_INTEGRATION_INTERVAL" xml:space="preserve">
     <value>長すぎる積分間隔：長さ= {0}</value>
@@ -994,34 +994,34 @@
     <value>直交性の許容差が小さすぎる ({0})、解がヤコビ行列に直交する</value>
   </data>
   <data name="TOO_SMALL_PARAMETERS_RELATIVE_TOLERANCE" xml:space="preserve">
-    <value>パラメータの相対許容誤差が小さすぎると ({0})、近似解はそれ以上改善できません</value>
+    <value>パラメータの相対許容誤差が小さすぎると ({0})、近似解はそれ以上改善できません。</value>
   </data>
   <data name="TRUST_REGION_STEP_FAILED" xml:space="preserve">
-    <value>信頼領域ステップがQを減少させることができなかった</value>
+    <value>信頼領域ステップがQを減少させることができません。でした。</value>
   </data>
   <data name="TWO_OR_MORE_CATEGORIES_REQUIRED" xml:space="preserve">
     <value>2つ以上のカテゴリが必要です。{0}</value>
   </data>
   <data name="TWO_OR_MORE_VALUES_IN_CATEGORY_REQUIRED" xml:space="preserve">
-    <value>各カテゴリに2つ以上の値が必要ですが、1つは{0}</value>
+    <value>各カテゴリに2つ以上の値が必要です。が、1つは{0}</value>
   </data>
   <data name="UNABLE_TO_BRACKET_OPTIMUM_IN_LINE_SEARCH" xml:space="preserve">
-    <value>ライン検索で最適な括弧で囲まれない</value>
+    <value>ライン検索で最適な括弧で囲まれません。</value>
   </data>
   <data name="UNABLE_TO_COMPUTE_COVARIANCE_SINGULAR_PROBLEM" xml:space="preserve">
-    <value>共分散を計算することができない：特異問題</value>
+    <value>共分散を計算することができません。：特異問題</value>
   </data>
   <data name="UNABLE_TO_FIRST_GUESS_HARMONIC_COEFFICIENTS" xml:space="preserve">
-    <value>最初に高調波係数を推測することができない</value>
+    <value>最初に高調波係数を推測することができません。</value>
   </data>
   <data name="UNABLE_TO_ORTHOGONOLIZE_MATRIX" xml:space="preserve">
-    <value>{0}回の反復で行列を直交化できません</value>
+    <value>{0}回の反復で行列を直交化できません。</value>
   </data>
   <data name="UNABLE_TO_PERFORM_QR_DECOMPOSITION_ON_JACOBIAN" xml:space="preserve">
-    <value>{0} x {1}のヤコビ行列でQ.R分解を実行できません</value>
+    <value>{0} x {1}のヤコビ行列でQ.R分解を実行できません。</value>
   </data>
   <data name="UNABLE_TO_SOLVE_SINGULAR_PROBLEM" xml:space="preserve">
-    <value>解決できない問題：特異問題</value>
+    <value>解決できません。問題：特異問題</value>
   </data>
   <data name="UNBOUNDED_SOLUTION" xml:space="preserve">
     <value>無制限のソリューション</value>
@@ -1033,25 +1033,25 @@
     <value>未知パラメータ{0}</value>
   </data>
   <data name="UNMATCHED_ODE_IN_EXPANDED_SET" xml:space="preserve">
-    <value>odeが拡張セットの主なodeと一致しません</value>
+    <value>odeが拡張セットの主なodeと一致しません。</value>
   </data>
   <data name="UNPARSEABLE_3D_VECTOR" xml:space="preserve">
     <value>解析不能な3Dベクトル：\ "{0} \"</value>
   </data>
   <data name="UNPARSEABLE_COMPLEX_NUMBER" xml:space="preserve">
-    <value>解析できない複素数：\ "{0} \"</value>
+    <value>解析できません。複素数：\ "{0} \"</value>
   </data>
   <data name="UNPARSEABLE_REAL_VECTOR" xml:space="preserve">
-    <value>解析できない実ベクトル：\ "{0} \"</value>
+    <value>解析できません。実ベクトル：\ "{0} \"</value>
   </data>
   <data name="UNSUPPORTED_EXPANSION_MODE" xml:space="preserve">
-    <value>サポートされていない拡張モード{0}、サポートされているモードは{1} ({2})、{3} ({4})です</value>
+    <value>サポートされていません。拡張モード{0}、サポートされているモードは{1} ({2})、{3} ({4})です。</value>
   </data>
   <data name="UNSUPPORTED_OPERATION" xml:space="preserve">
-    <value>サポートされていない操作</value>
+    <value>サポートされていません。操作です。</value>
   </data>
   <data name="URL_CONTAINS_NO_DATA" xml:space="preserve">
-    <value>URL {0}にはデータがありません</value>
+    <value>URL {0}にはデータがありません。</value>
   </data>
   <data name="USER_EXCEPTION" xml:space="preserve">
     <value>ユーザーコードで生成された例外</value>
@@ -1060,7 +1060,7 @@
     <value>マトリックスタイプは、LowerTriangularまたはUpperTriangulerのいずれかです。</value>
   </data>
   <data name="Utility_Extension_Array_SetRow_TheValueArrayMustBeSameLengthOfTheTargetArraysRow" xml:space="preserve">
-    <value>入力する値配列の長さは対象配列の列数と一致していなければなりません</value>
+    <value>入力する値配列の長さは対象配列の列数と一致していなければなりません。</value>
   </data>
   <data name="Utility_Extension_Array_ToUpperTriangular_OnlyLowerTriangularUpperTriangularAndDiagonalMatricesAreSupportedAtThisTime" xml:space="preserve">
     <value>現時点では、LowerTriangular、UpperTriangular、およびDiagonal行列のみがサポートされています。</value>
@@ -1072,70 +1072,70 @@
     <value>指定されたオブジェクトは、System.Arrayから継承する必要があります。</value>
   </data>
   <data name="Utility_ArgumentChecker_Array_NotEmpty_InputParameterArrayMustNotBeEmpty" xml:space="preserve">
-    <value>入力パラメータ配列 '{0}'は空であってはなりません</value>
+    <value>入力パラメータ配列 '{0}'は空であってはなりません。</value>
   </data>
   <data name="Utility_ArgumentChecker_Collection_NotEmpty_InputParameterCollectionMustNotBeEmpty" xml:space="preserve">
-    <value>入力パラメータコレクション '{0}'は空であってはなりません</value>
+    <value>入力パラメータコレクション '{0}'は空であってはなりません。</value>
   </data>
   <data name="Utility_ArgumentChecker_Double_AlmostNotNegative_InputParameterMustBeGreaterThanZero" xml:space="preserve">
-    <value>入力パラメータ「{0}」はゼロより大きくなければなりません</value>
+    <value>入力パラメータ「{0}」はゼロより大きくなければなりません。</value>
   </data>
   <data name="Utility_ArgumentChecker_Double_AlmostNotZero_InputParameterMustNotBeZero" xml:space="preserve">
-    <value>入力パラメータ「{0}」はゼロであってはなりません</value>
+    <value>入力パラメータ「{0}」はゼロであってはなりません。</value>
   </data>
   <data name="Utility_ArgumentChecker_Double_NotNegativeOrZero_InputParameterMustNotBeNegativeOrZero" xml:space="preserve">
-    <value>入力パラメータ「{0}」は負またはゼロであってはなりません</value>
+    <value>入力パラメータ「{0}」は負またはゼロであってはなりません。</value>
   </data>
   <data name="Utility_ArgumentChecker_DynamicArray_NoNulls_InputParameterArrayMustNotContainNullAtIndex" xml:space="preserve">
-    <value>入力パラメータ配列 '{0}'のインデックス{1}にnullを含めることはできません</value>
+    <value>入力パラメータ配列 '{0}'のインデックス{1}にnullを含めることはできません。</value>
   </data>
   <data name="Utility_ArgumentChecker_DynamicList_NoNulls_InputParameterListMustNotContainNullAtIndex" xml:space="preserve">
-    <value>入力パラメータリスト '{0}'のインデックス{1}にnullを含めることはできません</value>
+    <value>入力パラメータリスト '{0}'のインデックス{1}にnullを含めることはできません。</value>
   </data>
   <data name="Utility_ArgumentChecker_Enumerable_NotEmpty_InputParameterIterableMustNotBeEmpty" xml:space="preserve">
-    <value>入力パラメータの反復可能 '{0}'は空であってはなりません</value>
+    <value>入力パラメータの反復可能 '{0}'は空であってはなりません。</value>
   </data>
   <data name="Utility_ArgumentChecker_GenericArray2D_NoNulls_InputParameter2DArrayMustNotContainNullAtIndex" xml:space="preserve">
-    <value>入力パラメータ2D配列 '{0}'のインデックス{1}にnullを含めることはできません</value>
+    <value>入力パラメータ2D配列 '{0}'のインデックス{1}にnullを含めることはできません。</value>
   </data>
   <data name="Utility_ArgumentChecker_GenericArray_NoNulls_InputParameterArrayMustNotContainNullAtIndex" xml:space="preserve">
-    <value>入力パラメータ配列 '{0}'のインデックス{1}にnullを含めることはできません</value>
+    <value>入力パラメータ配列 '{0}'のインデックス{1}にnullを含めることはできません。</value>
   </data>
   <data name="Utility_ArgumentChecker_GenericEnumerable_NoNulls_InputParameterEnumerableMustNotContainNullAtIndex" xml:space="preserve">
-    <value>入力パラメータの列挙可能な「{0}」には、インデックス{1}にnullを含めることはできません</value>
+    <value>入力パラメータの列挙可能な「{0}」には、インデックス{1}にnullを含めることはできません。</value>
   </data>
   <data name="Utility_ArgumentChecker_GenericList_NoNulls_InputParameterListMustNotContainNullAtIndex" xml:space="preserve">
-    <value>入力パラメータリスト '{0}'のインデックス{1}にnullを含めることはできません</value>
+    <value>入力パラメータリスト '{0}'のインデックス{1}にnullを含めることはできません。</value>
   </data>
   <data name="Utility_ArgumentChecker_Generic_InOrderOrEqual_InputParameterMustBeBefore" xml:space="preserve">
-    <value>入力パラメータ「{0}」は「{1}」の前にある必要があります </value>
+    <value>入力パラメータ「{0}」は「{1}」の前にある必要があります。</value>
   </data>
   <data name="Utility_ArgumentChecker_Generic_NotNullInjected_InjectedInputParameterMustNotBeNull" xml:space="preserve">
-    <value>挿入された入力パラメーター '{0}'はnullであってはなりません</value>
+    <value>挿入された入力パラメーター '{0}'はnullであってはなりません。</value>
   </data>
   <data name="Utility_ArgumentChecker_Generic_NotNull_InputParameterMustNotBeNull" xml:space="preserve">
-    <value>入力パラメータ「{0}」はnullであってはなりません</value>
+    <value>入力パラメータ「{0}」はnullであってはなりません。</value>
   </data>
   <data name="Utility_ArgumentChecker_Long_NotNegativeOrZero_InputParameterMustNotBeNegativeOrZero" xml:space="preserve">
-    <value>入力パラメータ「{0}」は負またはゼロであってはなりません</value>
+    <value>入力パラメータ「{0}」は負またはゼロであってはなりません。</value>
   </data>
   <data name="Utility_ArgumentChecker_String_NotEmpty_InputParameterMustNotBeEmpty" xml:space="preserve">
-    <value>入力パラメータ「{0}」は空であってはなりません</value>
+    <value>入力パラメータ「{0}」は空であってはなりません。</value>
   </data>
   <data name="Utility_FFT_Double1D_ComplexForward_TheDataArrayIsTooBig" xml:space="preserve">
     <value>配列が大きすぎます。</value>
   </data>
   <data name="VALUES_ADDED_BEFORE_CONFIGURING_STATISTIC" xml:space="preserve">
-    <value>統計が設定される前に{0}の値が追加されました</value>
+    <value>統計が設定される前に{0}の値が追加されました。</value>
   </data>
   <data name="VECTOR_LENGTH_MISMATCH" xml:space="preserve">
-    <value>ベクトルの長さの不一致：{0}がありますが{1}が予想されます</value>
+    <value>ベクトルの長さの不一致：{0}がありますが{1}が予想されます。</value>
   </data>
   <data name="VECTOR_MUST_HAVE_AT_LEAST_ONE_ELEMENT" xml:space="preserve">
-    <value>vectorには少なくとも1つの要素が必要です</value>
+    <value>vectorには少なくとも1つの要素が必要です。</value>
   </data>
   <data name="WEIGHT_AT_LEAST_ONE_NON_ZERO" xml:space="preserve">
-    <value>weigth配列には少なくとも1つの非ゼロ値が含まれていなければなりません</value>
+    <value>weigth配列には少なくとも1つの非ゼロ値が含まれていなければなりません。</value>
   </data>
   <data name="WHOLE_FORMAT" xml:space="preserve">
     <value>全フォーマット</value>
@@ -1144,10 +1144,10 @@
     <value>間違った配列形状 (ブロック長= {0}、期待値{1})</value>
   </data>
   <data name="WRONG_NUMBER_OF_POINTS" xml:space="preserve">
-    <value>{0}ポイントは必須で、{1}しか獲得できません</value>
+    <value>{0}ポイントは必須で、{1}しか獲得できません。</value>
   </data>
   <data name="ZERO_DENOMINATOR" xml:space="preserve">
-    <value>分母は0とは異なる必要があります</value>
+    <value>分母は0とは異なる必要があります。</value>
   </data>
   <data name="ZERO_DENOMINATOR_IN_FRACTION" xml:space="preserve">
     <value>小数{0} / {1}の分母がゼロ</value>
@@ -1165,6 +1165,228 @@
     <value>回転定義ベクトルのノルム</value>
   </data>
   <data name="ZERO_NOT_ALLOWED" xml:space="preserve">
-    <value>ゼロは許されません</value>
+    <value>ゼロは許されていません。</value>
+  </data>
+  <data name="MICRO_SECOND_BASE_IS_NOT_SUPPORTED" xml:space="preserve">
+    <value>マイクロ秒ベースはサポートされていません。</value>
+  </data>
+  <data name="NANO_SECOND_BASE_IS_NOT_SUPPORTED" xml:space="preserve">
+    <value>ナノ秒ベースはサポートされていません。</value>
+  </data>
+  <data name="UNSUPPORTED_FIELD" xml:space="preserve">
+    <value>フィールドはサポートされていません。: {0}</value>
+  </data>
+  <data name="UNSUPPORTED_UNIT" xml:space="preserve">
+    <value>ユニットはサポートされていません。: {0}</value>
+  </data>
+  <data name="DATE_WAS_NULL" xml:space="preserve">
+    <value>日付がNULLです。</value>
+  </data>
+  <data name="END_DATE_WAS_NULL" xml:space="preserve">
+    <value>終了日がNULLです。</value>
+  </data>
+  <data name="FIELD_TOO_LARGE_FOR_AN_INT" xml:space="preserve">
+    <value>整数型に対して Field が大きすぎます。: {0}</value>
+  </data>
+  <data name="INVALID_DATE_DAYOFYEAR366_IS_NOT_A_LEAP_YEAR" xml:space="preserve">
+    <value>無効な日付 '{0}' の 'DayOfYear 366' はうるう年ではありません。</value>
+  </data>
+  <data name="START_DATE_WAS_NULL" xml:space="preserve">
+    <value>開始日がNULLです。</value>
+  </data>
+  <data name="ARRAY_INVALID_ORDER_DIRECTION" xml:space="preserve">
+    <value>無効な順方向です。</value>
+  </data>
+  <data name="ARRAY_ORDER" xml:space="preserve">
+    <value>順序</value>
+  </data>
+  <data name="ARRAY_THE_ARRAY_IS_NON_MONOTONIC_SEQUENCE" xml:space="preserve">
+    <value>配列は非単調シーケンスです。値 {0} はソート順 {2}、{3} のその前の値  {1} よりも小さい。</value>
+  </data>
+  <data name="BIGINTEGER_VALUE" xml:space="preserve">
+    <value>値</value>
+  </data>
+  <data name="BITARRAY_FROMINDEX_IS_NEGATIVE" xml:space="preserve">
+    <value>fromIndex &lt; 0:</value>
+  </data>
+  <data name="CORE_SOURCE_DESTINATION_OBJECTS_ARE_NULL" xml:space="preserve">
+    <value>ソース、もしくはコピー先のオブジェクトがNULLです。</value>
+  </data>
+  <data name="DECIMAL_COMPLEX_CANNOT_OPERATE_WITH_THIS_CONDITION" xml:space="preserve">
+    <value>この条件では操作できません。 {0}</value>
+  </data>
+  <data name="DENSE_MATRIX_ROW_COUNT_COLUMN_COUNT_NOT_MATCH" xml:space="preserve">
+    <value>読み込もうとしているデータ行列の行数、列数が合っていません。</value>
+  </data>
+  <data name="EVALUATION_FAILED_FOR_ARGUMENT" xml:space="preserve">
+    <value>引数 {0} で評価に失敗しました。</value>
+  </data>
+  <data name="FUNCTION_GIVEN_DATA_IS_EMPTY" xml:space="preserve">
+    <value>与えられたデータが空です。</value>
+  </data>
+  <data name="INVALID_INT_VALUE_FOR_FIELD" xml:space="preserve">
+    <value>{0} に対する不正な整数値です。: {1}</value>
+  </data>
+  <data name="INVALID_VALUE_FOR_FIELD_VALID_VALUE_RANGE" xml:space="preserve">
+    <value>{0} (有効値 {1})に対する不正な値です。 : {2}</value>
+  </data>
+  <data name="INVALID_VALUE_VALID_RANGE" xml:space="preserve">
+    <value>不正な値です。 (有効値 {0}): {1}</value>
+  </data>
+  <data name="LARGEARRAY_CONSTANT_ARRAYS_CANNOT_BE_MODIFIED" xml:space="preserve">
+    <value>定数配列は変更ができません。</value>
+  </data>
+  <data name="LARGEARRAY_DESTPOS_SIZE_ERROR" xml:space="preserve">
+    <value>destPos &lt; 0 || destPos &gt;= destination.Capacity</value>
+  </data>
+  <data name="LARGEARRAY_LENGTH_ERROR" xml:space="preserve">
+    <value>Length &lt; 0</value>
+  </data>
+  <data name="LARGEARRAY_SRCPOS_SIZE_ERROR" xml:space="preserve">
+    <value>srcPos &lt; 0 || srcPos &gt;= source.Capacity</value>
+  </data>
+  <data name="LINKEDDICTIONARY_COULD_NOT_FIND_THE_KEY" xml:space="preserve">
+    <value>キーを見つけることができませんでした。</value>
+  </data>
+  <data name="LINKEDHASHSET_OTHER_CANNOT_BE_NULL" xml:space="preserve">
+    <value>他方はNULLであってはいけません。</value>
+  </data>
+  <data name="METHOD_ADDITION_OVERFLOWS_INT" xml:space="preserve">
+    <value>加算が整数値をオーバーフローさせました。: {0} + {1}</value>
+  </data>
+  <data name="METHOD_ADDITION_OVERFLOWS_LONG" xml:space="preserve">
+    <value>加算が長整数値をオーバーフローさせました。: {0} + {1}</value>
+  </data>
+  <data name="METHOD_CALCULACTION_OVERFLOWS_INT" xml:space="preserve">
+    <value>演算が整数値をオーバーフローさせました。: {0}</value>
+  </data>
+  <data name="METHOD_MULTIPLICTION_OVERFLOWS_INT" xml:space="preserve">
+    <value>乗算が整数値をオーバーフローさせました。: {0} * {1}</value>
+  </data>
+  <data name="METHOD_MULTIPLICTION_OVERFLOWS_LONG" xml:space="preserve">
+    <value>乗算が長整数値をオーバーフローさせました。: {0} * {1}</value>
+  </data>
+  <data name="METHOD_PARAMETER_MUST_NOT_BE_NULL" xml:space="preserve">
+    <value>{0} はNULLであってはいけません。</value>
+  </data>
+  <data name="METHOD_SUBTRACTION_OVERFLOWS_INT" xml:space="preserve">
+    <value>減算が整数値をオーバーフローさせました。: {0} - {1}</value>
+  </data>
+  <data name="METHOD_SUBTRACTION_OVERFLOWS_LONG" xml:space="preserve">
+    <value>減算が長整数値をオーバーフローさせました。: {0} - {1}</value>
+  </data>
+  <data name="METHOD_VALUE_MUST_NOT_BE_NULL" xml:space="preserve">
+    <value>値はNULLであってはいけません。</value>
+  </data>
+  <data name="NUMBERS_OF_KEYS_AND_VALUE_NOT_MATCH" xml:space="preserve">
+    <value>キーと値の数が合致しません。</value>
+  </data>
+  <data name="n_MUST_BE_POSITIVE_INT" xml:space="preserve">
+    <value>n は正の整数でなくてはなりません。</value>
+  </data>
+  <data name="OPTIMIZATION_EXCEPTION" xml:space="preserve">
+    <value>最適化の例外です。</value>
+  </data>
+  <data name="PRINT_ERROR" xml:space="preserve">
+    <value>印刷エラー</value>
+  </data>
+  <data name="PRINT_FAILED_IN_PRINTING" xml:space="preserve">
+    <value>印刷に失敗しました。理由: {0}</value>
+  </data>
+  <data name="RANDOM_DIMENSION_MUST_BE_GREATER_THAN_ZERO" xml:space="preserve">
+    <value>次元は必ず０より大きな数でなければなりません。</value>
+  </data>
+  <data name="RANDOM_NUMBER_OF_VALUES_MUST_BE_GREATER_THAN_ZERO" xml:space="preserve">
+    <value>値数は必ず０より大きな数でなければなりません。</value>
+  </data>
+  <data name="TREEDICTIONARY_AN_ELEMENT_WITH_THE_SAME_KEY_ALREADY_EXISTS" xml:space="preserve">
+    <value>辞書の中に同じキーの要素が既に存在します。</value>
+  </data>
+  <data name="TREEDICTIONARY_ARRAY_NOT_SUFFICIENT_SIZE" xml:space="preserve">
+    <value>配列のサイズが足りません。</value>
+  </data>
+  <data name="ARRAY_ONLY_SUPPORTED_THIS_TIME" xml:space="preserve">
+    <value>今は LowerTriangular、UpperTriangular と Diagonal 行列だけがサポートされています。</value>
+  </data>
+  <data name="ASSERTION_FAILURE" xml:space="preserve">
+    <value>確認に失敗しました。</value>
+  </data>
+  <data name="BIGDECIMAL_CANNOT_CAST_TO_CHAR" xml:space="preserve">
+    <value>BigDecimal は Char 型にキャストできません。</value>
+  </data>
+  <data name="BIGDECIMAL_CANNOT_CAST_TO_DATETIME" xml:space="preserve">
+    <value>BigDecimal は DateTime 型にキャストできません。</value>
+  </data>
+  <data name="BIGDECIMAL_COMPARE_TO_OBJECT_MUST_BE_A_BIGDECIMAL" xml:space="preserve">
+    <value>BigDecimal型のオブジェクトと比較しなければなりません。</value>
+  </data>
+  <data name="BIGDECIMAL_THE_VALUE_CANNOT_FIT_INTO" xml:space="preserve">
+    <value>値 {0} は {1} に適していません。</value>
+  </data>
+  <data name="CANNOT_CALCULATE_SQUARE_ROOT_FROM_A_NEGATIVE_NUMBER" xml:space="preserve">
+    <value>負の数字から平方根は計算できません。</value>
+  </data>
+  <data name="DATA_ARRAY_IS_TOO_BIG" xml:space="preserve">
+    <value>データ配列が大き過ぎます。</value>
+  </data>
+  <data name="DECOMPOSITION_DESTROYED" xml:space="preserve">
+    <value>その分解は破棄されました。</value>
+  </data>
+  <data name="DECOMPOSITION_UNDEFINED" xml:space="preserve">
+    <value>その分解は未定義です。 (対角線にゼロがあります)。</value>
+  </data>
+  <data name="DSCOMPLIER_NOT_POSITIVE" xml:space="preserve">
+    <value>ポジティブではありません。</value>
+  </data>
+  <data name="INVALID_OPERATION_NEGATIVE_BASE_AND_NON_INTEGER_POWER" xml:space="preserve">
+    <value>不正な操作：負の基数と非整数の塁上です。</value>
+  </data>
+  <data name="INVALID_OPERATION_ZERO_BASE_AND_NEGATIVE_POWER" xml:space="preserve">
+    <value>不正な操作：ゼロの基数と負の累乗です</value>
+  </data>
+  <data name="MATRIX_CANNOT_BE_NULL" xml:space="preserve">
+    <value>行列 {0} はNULLであってはいけません。</value>
+  </data>
+  <data name="MATRIX_DIMENSIONS_DO_NOT_MATCH" xml:space="preserve">
+    <value>行列の次元が一致していません。</value>
+  </data>
+  <data name="MATRIX_HAS_MORE_COLUMN_TNAN_ROWS" xml:space="preserve">
+    <value>行列の列が行数を超えています。</value>
+  </data>
+  <data name="MATRIX_IS_NOT_A_SQUARE_MATRIX" xml:space="preserve">
+    <value>行列は正方行列ではありません。</value>
+  </data>
+  <data name="MATRIX_IS_NOT_POSITIVE_DEFINITE" xml:space="preserve">
+    <value>行列は正定値ではありません。</value>
+  </data>
+  <data name="MATRIX_IS_RANK_DEFICIENT" xml:space="preserve">
+    <value>行列の階数が足りません。</value>
+  </data>
+  <data name="MATRIX_IS_SINGULAR" xml:space="preserve">
+    <value>行列は単数形です。</value>
+  </data>
+  <data name="MATRIX_MUST_BE_SQUARE" xml:space="preserve">
+    <value>行列は正方でなければなりません。</value>
+  </data>
+  <data name="MATRIX_ROW_DIMENSIONS_MUST_AGREE" xml:space="preserve">
+    <value>行列の行次元は合致している必要があります。</value>
+  </data>
+  <data name="MATRIX_SHOULD_HAVE_THE_SAME_NUMBER_OF_ROWS" xml:space="preserve">
+    <value>その行列は分解として同じ数の行を持っていなければなりません。</value>
+  </data>
+  <data name="n_MUST_BE_GREATER_THAN_ZERO" xml:space="preserve">
+    <value>n はゼロよりも大きくなければなりません。</value>
+  </data>
+  <data name="PARAMETER_IS_OUT_OF_RANGE" xml:space="preserve">
+    <value>{0} は範囲外です。</value>
+  </data>
+  <data name="PARAMETER_MUST_BE_HIGHER_THAN" xml:space="preserve">
+    <value>パラメーター {0} は {1} よりも大きくなければなりません。</value>
+  </data>
+  <data name="PARAMETER_MUST_BE_IN" xml:space="preserve">
+    <value>{0} は必ず [{1},{2}] の範囲になければなりません。</value>
+  </data>
+  <data name="VECTOR_SHOULD_HAVE_THE_SAME_LENGTH_AS_ROW" xml:space="preserve">
+    <value>そのベクトルは分解として同じ長さを列として持っていなければなりません。</value>
   </data>
 </root>

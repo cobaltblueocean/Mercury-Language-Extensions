@@ -359,7 +359,7 @@ namespace System
                         break;
                     default:
                         // Should never happen.
-                        throw new MathArithmeticException("Invalid Order Direction");
+                        throw new MathArithmeticException(Mercury.Language.LocalizedResources.Instance().ARRAY_INVALID_ORDER_DIRECTION);
                 }
 
                 previous = val[index];
@@ -374,7 +374,7 @@ namespace System
             // Loop early exit means wrong ordering.
             if (abort)
             {
-                throw new MathArgumentException("The array is non monotonic sequence, the value {0} is smaller than the previous value {1} of order by {2}, {3}.", new Object[]{ val[index], previous, index, dir, strict });
+                throw new MathArgumentException(Mercury.Language.LocalizedResources.Instance().ARRAY_THE_ARRAY_IS_NON_MONOTONIC_SEQUENCE, new Object[]{ val[index], previous, index, dir, strict });
             }
             else
             {
@@ -710,7 +710,7 @@ namespace System
         //            break;
 
         //        default:
-        //            throw new ArgumentException("Only LowerTriangular, UpperTriangular and Diagonal matrices are supported at this time.", "matrixType");
+        //            throw new ArgumentException(LocalizedResources.Instance().ARRAY_ONLY_SUPPORTED_THIS_TIME, "matrixType");
         //    }
 
         //    return result;
@@ -737,7 +737,7 @@ namespace System
         //            break;
 
         //        default:
-        //            throw new ArgumentException("Only LowerTriangular, UpperTriangular and Diagonal matrices are supported at this time.", "matrixType");
+        //            throw new ArgumentException(LocalizedResources.Instance().ARRAY_ONLY_SUPPORTED_THIS_TIME, "matrixType");
         //    }
 
         //    return result;
@@ -1645,7 +1645,7 @@ namespace System
         public static Array Transpose(this Array array, int[] order)
         {
             if (order.Length != array.Rank)
-                throw new ArgumentException("order");
+                throw new ArgumentException(LocalizedResources.Instance().ARRAY_ORDER);
 
             if (array.Length == 1 || array.Length == 0)
                 return array;

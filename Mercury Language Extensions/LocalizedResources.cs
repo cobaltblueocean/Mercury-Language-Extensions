@@ -1466,5 +1466,354 @@ namespace Mercury.Language
         {
             get { return Properties.Resources.Utility_FFT_Double1D_ComplexForward_TheDataArrayIsTooBig; }
         }
+
+        public String NANO_SECOND_BASE_IS_NOT_SUPPORTED
+        {
+            get { return Properties.Resources.NANO_SECOND_BASE_IS_NOT_SUPPORTED; }
+        }
+
+        public String MICRO_SECOND_BASE_IS_NOT_SUPPORTED
+        {
+            get { return Properties.Resources.MICRO_SECOND_BASE_IS_NOT_SUPPORTED; }
+        }
+
+        public String UNSUPPORTED_UNIT
+        {
+            get { return Properties.Resources.UNSUPPORTED_UNIT; }
+        }
+
+        public String UNSUPPORTED_FIELD
+        {
+            get { return Properties.Resources.UNSUPPORTED_FIELD; }
+        }
+
+        public String INVALID_DATE_DAYOFYEAR366_IS_NOT_A_LEAP_YEAR
+        {
+            get { return Properties.Resources.INVALID_DATE_DAYOFYEAR366_IS_NOT_A_LEAP_YEAR; }
+        }
+
+        public String FIELD_TOO_LARGE_FOR_AN_INT
+        {
+            get { return Properties.Resources.FIELD_TOO_LARGE_FOR_AN_INT; }
+        }
+
+        public String START_DATE_WAS_NULL
+        {
+            get { return Properties.Resources.START_DATE_WAS_NULL; }
+        }
+
+        public String END_DATE_WAS_NULL
+        {
+            get { return Properties.Resources.END_DATE_WAS_NULL; }
+        }
+
+        public String DATE_WAS_NULL
+        {
+            get { return Properties.Resources.DATE_WAS_NULL; }
+        }
+        public String INVALID_VALUE_FOR_FIELD_VALID_VALUE_RANGE
+        {
+            get { return Properties.Resources.INVALID_VALUE_FOR_FIELD_VALID_VALUE_RANGE; }
+        }
+        public String INVALID_VALUE_VALID_RANGE
+        {
+            get { return Properties.Resources.INVALID_VALUE_VALID_RANGE; }
+        }
+        public String INVALID_INT_VALUE_FOR_FIELD
+        {
+            get { return Properties.Resources.INVALID_INT_VALUE_FOR_FIELD; }
+        }
+        public String EVALUATION_FAILED_FOR_ARGUMENT
+        {
+            get { return Properties.Resources.EVALUATION_FAILED_FOR_ARGUMENT; }
+        }
+        public String CORE_SOURCE_DESTINATION_OBJECTS_ARE_NULL
+        {
+            get { return Properties.Resources.CORE_SOURCE_DESTINATION_OBJECTS_ARE_NULL; }
+        }
+        public String OPTIMIZATION_EXCEPTION
+        {
+            get { return Properties.Resources.OPTIMIZATION_EXCEPTION; }
+        }
+        public String ARRAY_INVALID_ORDER_DIRECTION
+        {
+            get { return Properties.Resources.ARRAY_INVALID_ORDER_DIRECTION; }
+        }
+        public String ARRAY_THE_ARRAY_IS_NON_MONOTONIC_SEQUENCE
+        {
+            get { return Properties.Resources.ARRAY_THE_ARRAY_IS_NON_MONOTONIC_SEQUENCE; }
+        }
+        public String ARRAY_ORDER
+        {
+            get { return Properties.Resources.ARRAY_ORDER; }
+        }
+        public String BIGINTEGER_VALUE
+        {
+            get { return Properties.Resources.BIGINTEGER_VALUE; }
+        }
+
+        public String BITARRAY_FROMINDEX_IS_NEGATIVE
+        {
+            get { return Properties.Resources.BITARRAY_FROMINDEX_IS_NEGATIVE; }
+        }
+
+        public String DECIMAL_COMPLEX_CANNOT_OPERATE_WITH_THIS_CONDITION
+        {
+            get { return Properties.Resources.DECIMAL_COMPLEX_CANNOT_OPERATE_WITH_THIS_CONDITION; }
+        }
+
+        public String DENSE_MATRIX_ROW_COUNT_COLUMN_COUNT_NOT_MATCH
+        {
+            get { return Properties.Resources.DENSE_MATRIX_ROW_COUNT_COLUMN_COUNT_NOT_MATCH; }
+        }
+
+        public String NUMBERS_OF_KEYS_AND_VALUE_NOT_MATCH
+        {
+            get { return Properties.Resources.NUMBERS_OF_KEYS_AND_VALUE_NOT_MATCH; }
+        }
+
+        public String n_MUST_BE_POSITIVE_INT
+        {
+            get { return Properties.Resources.n_MUST_BE_POSITIVE_INT; }
+        }
+
+        public String RANDOM_DIMENSION_MUST_BE_GREATER_THAN_ZERO
+        {
+            get { return Properties.Resources.RANDOM_DIMENSION_MUST_BE_GREATER_THAN_ZERO; }
+        }
+
+        public String RANDOM_NUMBER_OF_VALUES_MUST_BE_GREATER_THAN_ZERO
+        {
+            get { return Properties.Resources.RANDOM_NUMBER_OF_VALUES_MUST_BE_GREATER_THAN_ZERO; }
+        }
+
+        public String PRINT_ERROR
+        {
+            get { return Properties.Resources.PRINT_ERROR; }
+        }
+
+        public String PRINT_FAILED_IN_PRINTING
+        {
+            get { return Properties.Resources.PRINT_FAILED_IN_PRINTING; }
+        }
+        public String LARGEARRAY_SRCPOS_SIZE_ERROR
+        {
+            get { return Properties.Resources.LARGEARRAY_SRCPOS_SIZE_ERROR; }
+        }
+        public String LARGEARRAY_DESTPOS_SIZE_ERROR
+        {
+            get { return Properties.Resources.LARGEARRAY_DESTPOS_SIZE_ERROR; }
+        }
+        public String LARGEARRAY_LENGTH_ERROR
+        {
+            get { return Properties.Resources.LARGEARRAY_LENGTH_ERROR; }
+        }
+        public String LARGEARRAY_CONSTANT_ARRAYS_CANNOT_BE_MODIFIED
+        {
+            get { return Properties.Resources.LARGEARRAY_CONSTANT_ARRAYS_CANNOT_BE_MODIFIED; }
+        }
+
+        public String LINKEDDICTIONARY_COULD_NOT_FIND_THE_KEY
+        {
+            get { return Properties.Resources.LINKEDDICTIONARY_COULD_NOT_FIND_THE_KEY; }
+        }
+
+        public String LINKEDHASHSET_OTHER_CANNOT_BE_NULL
+        {
+            get { return Properties.Resources.LINKEDHASHSET_OTHER_CANNOT_BE_NULL; }
+        }
+
+        public String METHOD_VALUE_MUST_NOT_BE_NULL
+        {
+            get { return Properties.Resources.METHOD_VALUE_MUST_NOT_BE_NULL; }
+        }
+
+        public String METHOD_ADDITION_OVERFLOWS_INT
+        {
+            get { return Properties.Resources.METHOD_ADDITION_OVERFLOWS_INT; }
+        }
+
+        public String METHOD_ADDITION_OVERFLOWS_LONG
+        {
+            get { return Properties.Resources.METHOD_ADDITION_OVERFLOWS_LONG; }
+        }
+
+        public String METHOD_SUBTRACTION_OVERFLOWS_INT
+        {
+            get { return Properties.Resources.METHOD_SUBTRACTION_OVERFLOWS_INT; }
+        }
+
+        public String METHOD_SUBTRACTION_OVERFLOWS_LONG
+        {
+            get { return Properties.Resources.METHOD_SUBTRACTION_OVERFLOWS_LONG; }
+        }
+
+        public String METHOD_MULTIPLICTION_OVERFLOWS_INT
+        {
+            get { return Properties.Resources.METHOD_MULTIPLICTION_OVERFLOWS_INT; }
+        }
+
+        public String METHOD_MULTIPLICTION_OVERFLOWS_LONG
+        {
+            get { return Properties.Resources.METHOD_MULTIPLICTION_OVERFLOWS_LONG; }
+        }
+
+        public String METHOD_CALCULACTION_OVERFLOWS_INT
+        {
+            get { return Properties.Resources.METHOD_CALCULACTION_OVERFLOWS_INT; }
+        }
+
+        public String METHOD_PARAMETER_MUST_NOT_BE_NULL
+        {
+            get { return Properties.Resources.METHOD_PARAMETER_MUST_NOT_BE_NULL; }
+        }
+
+        public String TREEDICTIONARY_ARRAY_NOT_SUFFICIENT_SIZE
+        {
+            get { return Properties.Resources.TREEDICTIONARY_ARRAY_NOT_SUFFICIENT_SIZE; }
+        }
+
+        public String TREEDICTIONARY_AN_ELEMENT_WITH_THE_SAME_KEY_ALREADY_EXISTS
+        {
+            get { return Properties.Resources.TREEDICTIONARY_AN_ELEMENT_WITH_THE_SAME_KEY_ALREADY_EXISTS; }
+        }
+
+        public String FUNCTION_GIVEN_DATA_IS_EMPTY
+        {
+            get { return Properties.Resources.FUNCTION_GIVEN_DATA_IS_EMPTY; }
+        }
+
+        public String ARRAY_ONLY_SUPPORTED_THIS_TIME
+        {
+            get { return Properties.Resources.ARRAY_ONLY_SUPPORTED_THIS_TIME; }
+        }
+
+        public String DSCOMPLIER_NOT_POSITIVE
+        {
+            get { return Properties.Resources.DSCOMPLIER_NOT_POSITIVE; }
+        }
+
+        public String BIGDECIMAL_THE_VALUE_CANNOT_FIT_INTO
+        {
+            get { return Properties.Resources.BIGDECIMAL_THE_VALUE_CANNOT_FIT_INTO; }
+        }
+
+        public String BIGDECIMAL_CANNOT_CAST_TO_CHAR
+        {
+            get { return Properties.Resources.BIGDECIMAL_CANNOT_CAST_TO_CHAR; }
+        }
+
+        public String BIGDECIMAL_CANNOT_CAST_TO_DATETIME
+        {
+            get { return Properties.Resources.BIGDECIMAL_CANNOT_CAST_TO_DATETIME; }
+        }
+        
+        public String BIGDECIMAL_COMPARE_TO_OBJECT_MUST_BE_A_BIGDECIMAL
+        {
+            get { return Properties.Resources.BIGDECIMAL_COMPARE_TO_OBJECT_MUST_BE_A_BIGDECIMAL; }
+        }
+
+        public String DECOMPOSITION_DESTROYED
+        {
+            get { return Properties.Resources.DECOMPOSITION_DESTROYED; }
+        }
+        public String DECOMPOSITION_UNDEFINED
+        {
+            get { return Properties.Resources.DECOMPOSITION_UNDEFINED; }
+        }
+        public String MATRIX_IS_NOT_POSITIVE_DEFINITE
+        {
+            get { return Properties.Resources.MATRIX_IS_NOT_POSITIVE_DEFINITE; }
+        }
+
+        public String MATRIX_CANNOT_BE_NULL
+        {
+            get { return Properties.Resources.MATRIX_CANNOT_BE_NULL; }
+        }
+        public String MATRIX_IS_NOT_A_SQUARE_MATRIX
+        {
+            get { return Properties.Resources.MATRIX_IS_NOT_A_SQUARE_MATRIX; }
+        }
+        public String MATRIX_DIMENSIONS_DO_NOT_MATCH
+        {
+            get { return Properties.Resources.MATRIX_DIMENSIONS_DO_NOT_MATCH; }
+        }
+
+        public String MATRIX_MUST_BE_SQUARE
+        {
+            get { return Properties.Resources.MATRIX_MUST_BE_SQUARE; }
+        }
+
+        public String MATRIX_IS_SINGULAR
+        {
+            get { return Properties.Resources.MATRIX_IS_SINGULAR; }
+        }
+
+        public String MATRIX_SHOULD_HAVE_THE_SAME_NUMBER_OF_ROWS
+        {
+            get { return Properties.Resources.MATRIX_SHOULD_HAVE_THE_SAME_NUMBER_OF_ROWS; }
+        }
+
+        public String VECTOR_SHOULD_HAVE_THE_SAME_LENGTH_AS_ROW
+        {
+            get { return Properties.Resources.VECTOR_SHOULD_HAVE_THE_SAME_LENGTH_AS_ROW; }
+        }
+
+        public String MATRIX_HAS_MORE_COLUMN_TNAN_ROWS
+        {
+            get { return Properties.Resources.MATRIX_HAS_MORE_COLUMN_TNAN_ROWS; }
+        }
+        public String MATRIX_ROW_DIMENSIONS_MUST_AGREE
+        {
+            get { return Properties.Resources.MATRIX_ROW_DIMENSIONS_MUST_AGREE; }
+        }
+        public String MATRIX_IS_RANK_DEFICIENT
+        {
+            get { return Properties.Resources.MATRIX_IS_RANK_DEFICIENT; }
+        }
+
+        public String n_MUST_BE_GREATER_THAN_ZERO
+        {
+            get { return Properties.Resources.n_MUST_BE_GREATER_THAN_ZERO; }
+        }
+
+        public String DATA_ARRAY_IS_TOO_BIG
+        {
+            get { return Properties.Resources.DATA_ARRAY_IS_TOO_BIG; }
+        }
+
+        public String PARAMETER_MUST_BE_HIGHER_THAN
+        {
+            get { return Properties.Resources.PARAMETER_MUST_BE_HIGHER_THAN; }
+        }
+
+        public String PARAMETER_IS_OUT_OF_RANGE
+        {
+            get { return Properties.Resources.PARAMETER_IS_OUT_OF_RANGE; }
+        }
+
+        public String ASSERTION_FAILURE
+        {
+            get { return Properties.Resources.ASSERTION_FAILURE; }
+        }
+
+        public String INVALID_OPERATION_ZERO_BASE_AND_NEGATIVE_POWER
+        {
+            get { return Properties.Resources.INVALID_OPERATION_ZERO_BASE_AND_NEGATIVE_POWER; }
+        }
+        public String INVALID_OPERATION_NEGATIVE_BASE_AND_NON_INTEGER_POWER
+        {
+            get { return Properties.Resources.INVALID_OPERATION_ZERO_BASE_AND_NEGATIVE_POWER; }
+        }
+
+        public String CANNOT_CALCULATE_SQUARE_ROOT_FROM_A_NEGATIVE_NUMBER
+        {
+            get { return Properties.Resources.CANNOT_CALCULATE_SQUARE_ROOT_FROM_A_NEGATIVE_NUMBER; }
+        }
+
+        public String PARAMETER_MUST_BE_IN
+        {
+            get { return Properties.Resources.PARAMETER_MUST_BE_IN; }
+        }
     }
 }

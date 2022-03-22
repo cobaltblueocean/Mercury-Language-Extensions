@@ -28,6 +28,7 @@
 // </copyright>
 
 using System;
+using Mercury.Language;
 
 namespace MathNet.Numerics.LinearAlgebra.DecimalComplex.Factorization
 {
@@ -65,7 +66,7 @@ namespace MathNet.Numerics.LinearAlgebra.DecimalComplex.Factorization
                 var norm = q.Column(k).L2Norm();
                 if (norm == 0.0)
                 {
-                    throw new ArgumentException("Matrix must not be rank deficient.");
+                    throw new ArgumentException(LocalizedResources.Instance().MATRIX_MUST_NOT_BE_RANK_DEFICIENT);
                 }
 
                 r.At(k, k, (decimal)norm);
@@ -109,19 +110,19 @@ namespace MathNet.Numerics.LinearAlgebra.DecimalComplex.Factorization
             // The solution X should have the same number of columns as B
             if (input.ColumnCount != result.ColumnCount)
             {
-                throw new ArgumentException("Matrix column dimensions must agree.");
+                throw new ArgumentException(LocalizedResources.Instance().MATRIX_COLUMN_DIMENSIONS_MUST_AGREE);
             }
 
             // The dimension compatibility conditions for X = A\B require the two matrices A and B to have the same number of rows
             if (Q.RowCount != input.RowCount)
             {
-                throw new ArgumentException("Matrix row dimensions must agree.");
+                throw new ArgumentException(LocalizedResources.Instance().MATRIX_ROW_DIMENSIONS_MUST_AGREE);
             }
 
             // The solution X row dimension is equal to the column dimension of A
             if (Q.ColumnCount != result.RowCount)
             {
-                throw new ArgumentException("Matrix column dimensions must agree.");
+                throw new ArgumentException(LocalizedResources.Instance().MATRIX_COLUMN_DIMENSIONS_MUST_AGREE);
             }
 
             var inputCopy = input.Clone();
@@ -184,7 +185,7 @@ namespace MathNet.Numerics.LinearAlgebra.DecimalComplex.Factorization
             // Check that b is a column vector with m entries
             if (Q.RowCount != input.Count)
             {
-                throw new ArgumentException("All vectors must have the same dimensionality.");
+                throw new ArgumentException(LocalizedResources.Instance().ALL_VECTORS_MUST_HAVE_THE_SAME_DIMENSIONALITY);
             }
 
             // Check that x is a column vector with n entries

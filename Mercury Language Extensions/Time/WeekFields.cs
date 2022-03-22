@@ -369,7 +369,7 @@ namespace Mercury.Language.Time
             // ArgumentChecker.NotNull(_firstDayOfWeek, "firstDayOfWeek");
             if (minimalDaysInFirstWeek < 1 || minimalDaysInFirstWeek > 7)
             {
-                throw new ArgumentException("Minimal number of days is invalid");
+                throw new ArgumentException(LocalizedResources.Instance().MINIMAL_NUMBER_OF_DAYS_IS_INVALID);
             }
             this.FirstDayOfWeek = _firstDayOfWeek;
             this.MinimalDaysInFirstWeek = minimalDaysInFirstWeek;

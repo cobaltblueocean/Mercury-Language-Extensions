@@ -39,6 +39,7 @@ using System.Linq;
 using MathNet.Numerics.Distributions;
 using MathNet.Numerics.LinearAlgebra.Storage;
 using MathNet.Numerics.Providers.LinearAlgebra;
+using Mercury.Language;
 using Mercury.Language.Threading;
 
 namespace MathNet.Numerics.LinearAlgebra.Decimal
@@ -274,7 +275,7 @@ namespace MathNet.Numerics.LinearAlgebra.Decimal
 
             if (leftSide.Count != rightSide.Count)
             {
-                throw new ArgumentException("All vectors must have the same dimensionality.", nameof(rightSide));
+                throw new ArgumentException(LocalizedResources.Instance().ALL_VECTORS_MUST_HAVE_THE_SAME_DIMENSIONALITY, nameof(rightSide));
             }
 
             return (DenseVector)leftSide.Add(rightSide);

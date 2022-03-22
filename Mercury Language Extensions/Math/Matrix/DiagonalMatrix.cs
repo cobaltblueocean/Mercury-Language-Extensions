@@ -38,6 +38,7 @@ using System.Linq;
 using MathNet.Numerics.Distributions;
 using MathNet.Numerics.LinearAlgebra.Storage;
 using MathNet.Numerics.Providers.LinearAlgebra;
+using Mercury.Language;
 using Mercury.Language.Threading;
 
 namespace MathNet.Numerics.LinearAlgebra.Decimal
@@ -546,7 +547,7 @@ namespace MathNet.Numerics.LinearAlgebra.Decimal
         {
             if (RowCount != ColumnCount)
             {
-                throw new ArgumentException("Matrix must be square.");
+                throw new ArgumentException(LocalizedResources.Instance().MATRIX_MUST_BE_SQUARE);
             }
 
             return _data.Aggregate(1.0M, (current, t) => current * t);
@@ -576,7 +577,7 @@ namespace MathNet.Numerics.LinearAlgebra.Decimal
         {
             if (source.Length != _data.Length)
             {
-                throw new ArgumentException("The array arguments must have the same length.", nameof(source));
+                throw new ArgumentException(Mercury.Language.LocalizedResources.Instance().THE_ARRAY_ARGUMENTS_MUST_HAVE_THE_SAME_LENGTH, nameof(source));
             }
 
             Buffer.BlockCopy(source, 0, _data, 0, source.Length * Constants.SizeOfDouble);
@@ -597,7 +598,7 @@ namespace MathNet.Numerics.LinearAlgebra.Decimal
             {
                 if (_data.Length != denseSource.Values.Length)
                 {
-                    throw new ArgumentException("All vectors must have the same dimensionality.", nameof(source));
+                    throw new ArgumentException(LocalizedResources.Instance().ALL_VECTORS_MUST_HAVE_THE_SAME_DIMENSIONALITY, nameof(source));
                 }
 
                 Buffer.BlockCopy(denseSource.Values, 0, _data, 0, denseSource.Values.Length * Constants.SizeOfDouble);
@@ -659,7 +660,7 @@ namespace MathNet.Numerics.LinearAlgebra.Decimal
         {
             if (RowCount != ColumnCount)
             {
-                throw new ArgumentException("Matrix must be square.");
+                throw new ArgumentException(LocalizedResources.Instance().MATRIX_MUST_BE_SQUARE);
             }
 
             var inverse = (DiagonalMatrix)Clone();
@@ -671,7 +672,7 @@ namespace MathNet.Numerics.LinearAlgebra.Decimal
                 }
                 else
                 {
-                    throw new ArgumentException("Matrix must not be singular.");
+                    throw new ArgumentException(LocalizedResources.Instance().MATRIX_MUST_NOT_BE_SINGULAR);
                 }
             }
 
@@ -823,7 +824,7 @@ namespace MathNet.Numerics.LinearAlgebra.Decimal
         /// <remarks>Permutation in diagonal matrix are senseless, because of matrix nature</remarks>
         public override void PermuteColumns(Permutation p)
         {
-            throw new InvalidOperationException("Permutations in diagonal matrix are not allowed");
+            throw new InvalidOperationException(LocalizedResources.Instance().PERMUTATIONS_IN_DIAGONAL_MATRIX_ARE_NOT_ALLOWED);
         }
 
         /// <summary>
@@ -834,7 +835,7 @@ namespace MathNet.Numerics.LinearAlgebra.Decimal
         /// <remarks>Permutation in diagonal matrix are senseless, because of matrix nature</remarks>
         public override void PermuteRows(Permutation p)
         {
-            throw new InvalidOperationException("Permutations in diagonal matrix are not allowed");
+            throw new InvalidOperationException(LocalizedResources.Instance().PERMUTATIONS_IN_DIAGONAL_MATRIX_ARE_NOT_ALLOWED);
         }
 
         /// <summary>

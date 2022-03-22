@@ -29,6 +29,7 @@
 
 using System;
 using MathNet.Numerics.LinearAlgebra.Solvers;
+using Mercury.Language;
 
 namespace MathNet.Numerics.LinearAlgebra.DecimalComplex.Solvers
 {
@@ -109,7 +110,7 @@ namespace MathNet.Numerics.LinearAlgebra.DecimalComplex.Solvers
 
             if (matrix.RowCount != matrix.ColumnCount)
             {
-                throw new ArgumentException("Matrix must be square.", nameof(matrix));
+                throw new ArgumentException(LocalizedResources.Instance().MATRIX_MUST_BE_SQUARE, nameof(matrix));
             }
 
             _decompositionLU = SparseMatrix.OfMatrix(matrix);
@@ -166,12 +167,12 @@ namespace MathNet.Numerics.LinearAlgebra.DecimalComplex.Solvers
         {
             if (_decompositionLU == null)
             {
-                throw new ArgumentException("The requested matrix does not exist.");
+                throw new ArgumentException(LocalizedResources.Instance().REQUESTED_MATRIX_DOES_NOT_EXIST);
             }
 
             if ((lhs.Count != rhs.Count) || (lhs.Count != _decompositionLU.RowCount))
             {
-                throw new ArgumentException("All vectors must have the same dimensionality.");
+                throw new ArgumentException(LocalizedResources.Instance().ALL_VECTORS_MUST_HAVE_THE_SAME_DIMENSIONALITY);
             }
 
             // Solve:

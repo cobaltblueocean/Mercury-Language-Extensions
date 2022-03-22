@@ -661,7 +661,7 @@ namespace Mercury.Language.Math
         {
             // check for evem size and for out of range
             if (((size % 2) == 0) || (size < 3))
-                throw new ArgumentOutOfRangeException("size", "Kernel size must be odd and higher than 2.");
+                throw new ArgumentOutOfRangeException("size", LocalizedResources.Instance().KERNEL_SIZE_MUST_BE_ODD_AND_HIGHER_THAN_2);
 
             int r = size / 2;
 
@@ -692,7 +692,7 @@ namespace Mercury.Language.Math
         {
             // check for evem size and for out of range
             if (((size % 2) == 0) || (size < 3))
-                throw new ArgumentOutOfRangeException("size", "Kernel size must be odd and higher than 2.");
+                throw new ArgumentOutOfRangeException("size", LocalizedResources.Instance().KERNEL_SIZE_MUST_BE_ODD_AND_HIGHER_THAN_2);
 
             int r = size / 2;
 

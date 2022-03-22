@@ -496,7 +496,7 @@ namespace Mercury.Language.Money
             }
             if (currencyCode.Matches("[A-Z][A-Z][A-Z]") == false)
             {
-                throw new ArgumentException("Invalid currency code: " + currencyCode);
+                throw new ArgumentException(String.Format(LocalizedResources.Instance().INVALID_CURRENCY_CODE, currencyCode));
             }
             s_instanceMap.AddOrUpdate(currencyCode, new Currency(currencyCode));
             return s_instanceMap[currencyCode];

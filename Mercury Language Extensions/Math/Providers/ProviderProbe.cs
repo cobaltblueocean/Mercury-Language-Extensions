@@ -56,23 +56,23 @@ namespace Mercury.Language.Math.Providers
         {
             if (_disabled)
             {
-                throw new NotSupportedException("Specific Native Provider disabled by an application switch");
+                throw new NotSupportedException(LocalizedResources.Instance().SPECIFIC_NATIVE_PROVIDER_DISABLED_BY_AN_APPLICATION_SWITCH);
             }
 
             if (AppSwitches.DisableNativeProviders)
             {
-                throw new NotSupportedException("Native Providers are disabled by an application switch");
+                throw new NotSupportedException(LocalizedResources.Instance().NATIVE_PROVIDER_DISABLED_BY_AN_APPLICATION_SWITCH);
             }
 
             if (AppSwitches.DisableNativeProviderProbing)
             {
-                throw new NotSupportedException("Native Provider Probing is disabled by an application switch");
+                throw new NotSupportedException(LocalizedResources.Instance().NATIVE_PROVIDER_PROBING_IS_DISABLED_BY_AN_APPLICATION_SWITCH);
             }
 
             var creator = _creator.Value;
             if (creator is null)
             {
-                throw new NotSupportedException("Native Provider Probing failed to resolve creator");
+                throw new NotSupportedException(LocalizedResources.Instance().NATIVE_PROVIDER_PROBING_FAILED_TO_RESOLVE_CREATOR);
             }
 
             return creator.CreateProvider();

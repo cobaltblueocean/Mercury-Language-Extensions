@@ -32,6 +32,7 @@
 // </copyright>
 using System;
 using MathNet.Numerics.LinearAlgebra.Factorization;
+using Mercury.Language;
 
 namespace MathNet.Numerics.LinearAlgebra.Decimal.Factorization
 {
@@ -63,7 +64,7 @@ namespace MathNet.Numerics.LinearAlgebra.Decimal.Factorization
             {
                 if (FullR.RowCount != FullR.ColumnCount)
                 {
-                    throw new ArgumentException("Matrix must be square.");
+                    throw new ArgumentException(LocalizedResources.Instance().MATRIX_MUST_BE_SQUARE);
                 }
 
                 var det = 1.0M;

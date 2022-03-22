@@ -252,7 +252,7 @@ namespace Mercury.Language.Money
             CurrencyAmount currencyAmount = GetCurrencyAmount(currency);
             if (currencyAmount == null)
             {
-                throw new ArgumentException("Do not have an amount with currency " + currency);
+                throw new ArgumentException(String.Format(LocalizedResources.Instance().DO_NOT_HAVE_AN_AMOUNT_WITH_CURRENCY, currency));
             }
             return currencyAmount.Amount;
         }

@@ -33,6 +33,7 @@ using System.Diagnostics;
 using System.Linq;
 using MathNet.Numerics.Distributions;
 using MathNet.Numerics.LinearAlgebra.Solvers;
+using Mercury.Language;
 
 namespace MathNet.Numerics.LinearAlgebra.DecimalComplex.Solvers
 {
@@ -246,7 +247,7 @@ namespace MathNet.Numerics.LinearAlgebra.DecimalComplex.Solvers
         {
             if (matrix.RowCount != matrix.ColumnCount)
             {
-                throw new ArgumentException("Matrix must be square.", nameof(matrix));
+                throw new ArgumentException(LocalizedResources.Instance().MATRIX_MUST_BE_SQUARE, nameof(matrix));
             }
 
             if (input.Count != matrix.RowCount || result.Count != input.Count)

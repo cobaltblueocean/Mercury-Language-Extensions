@@ -32,6 +32,7 @@
 // </copyright>
 
 using System;
+using Mercury.Language;
 
 namespace MathNet.Numerics.LinearAlgebra.Decimal.Factorization
 {
@@ -66,7 +67,7 @@ namespace MathNet.Numerics.LinearAlgebra.Decimal.Factorization
         {
             if (matrix.RowCount != matrix.ColumnCount)
             {
-                throw new ArgumentException("Matrix must be square.");
+                throw new ArgumentException(LocalizedResources.Instance().MATRIX_MUST_BE_SQUARE);
             }
 
             var order = matrix.RowCount;
@@ -1096,19 +1097,19 @@ namespace MathNet.Numerics.LinearAlgebra.Decimal.Factorization
             // The solution X should have the same number of columns as B
             if (input.ColumnCount != result.ColumnCount)
             {
-                throw new ArgumentException("Matrix column dimensions must agree.");
+                throw new ArgumentException(LocalizedResources.Instance().MATRIX_COLUMN_DIMENSIONS_MUST_AGREE);
             }
 
             // The dimension compatibility conditions for X = A\B require the two matrices A and B to have the same number of rows
             if (EigenValues.Count != input.RowCount)
             {
-                throw new ArgumentException("Matrix row dimensions must agree.");
+                throw new ArgumentException(LocalizedResources.Instance().MATRIX_ROW_DIMENSIONS_MUST_AGREE);
             }
 
             // The solution X row dimension is equal to the column dimension of A
             if (EigenValues.Count != result.RowCount)
             {
-                throw new ArgumentException("Matrix column dimensions must agree.");
+                throw new ArgumentException(LocalizedResources.Instance().MATRIX_COLUMN_DIMENSIONS_MUST_AGREE);
             }
 
             if (IsSymmetric)
@@ -1148,7 +1149,7 @@ namespace MathNet.Numerics.LinearAlgebra.Decimal.Factorization
             }
             else
             {
-                throw new ArgumentException("Matrix must be symmetric.");
+                throw new ArgumentException(LocalizedResources.Instance().MATRIX_MUST_BE_SYMMETRIC);
             }
         }
 
@@ -1163,13 +1164,13 @@ namespace MathNet.Numerics.LinearAlgebra.Decimal.Factorization
             // Check that b is a column vector with m entries
             if (EigenValues.Count != input.Count)
             {
-                throw new ArgumentException("All vectors must have the same dimensionality.");
+                throw new ArgumentException(LocalizedResources.Instance().ALL_VECTORS_MUST_HAVE_THE_SAME_DIMENSIONALITY);
             }
 
             // Check that x is a column vector with n entries
             if (EigenValues.Count != result.Count)
             {
-                throw new ArgumentException("Matrix dimensions must agree.");
+                throw new ArgumentException(LocalizedResources.Instance().MATRIX_DIMENSIONS_MUST_AGREE);
             }
 
             if (IsSymmetric)
@@ -1208,7 +1209,7 @@ namespace MathNet.Numerics.LinearAlgebra.Decimal.Factorization
             }
             else
             {
-                throw new ArgumentException("Matrix must be symmetric.");
+                throw new ArgumentException(LocalizedResources.Instance().MATRIX_MUST_BE_SYMMETRIC);
             }
         }
     }

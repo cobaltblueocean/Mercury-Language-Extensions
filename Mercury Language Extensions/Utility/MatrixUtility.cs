@@ -18,6 +18,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 using System;
+using Mercury.Language;
 using Mercury.Language.Exception;
 using System.Collections.Generic;
 using System.Linq;
@@ -93,7 +94,7 @@ namespace System
                 throw new ArgumentNullException("indexes");
 
             if (inPlace && source.Length != indexes.Length)
-                throw new ArgumentNullException("Source and indexes arrays must have the same dimension for in-place operations.");
+                throw new ArgumentNullException(LocalizedResources.Instance().SOURCE_AND_INDEXES_ARRAYS_MUST_HAVE_THE_SAME_DIMENSION);
 
             var destination = new T[indexes.Length];
             for (int i = 0; i < indexes.Length; i++)
@@ -156,22 +157,21 @@ namespace System
                 newRows = rowIndexes.Length;
                 for (int i = 0; i < rowIndexes.Length; i++)
                     if ((rowIndexes[i] < 0) || (rowIndexes[i] >= rows))
-                        throw new ArgumentException("Argument out of range.");
+                        throw new ArgumentException(LocalizedResources.Instance().ARGUMENT_OUT_OF_RANGE);
             }
             if (columnIndexes != null)
             {
                 newCols = columnIndexes.Length;
                 for (int i = 0; i < columnIndexes.Length; i++)
                     if ((columnIndexes[i] < 0) || (columnIndexes[i] >= cols))
-                        throw new ArgumentException("Argument out of range.");
+                        throw new ArgumentException(LocalizedResources.Instance().ARGUMENT_OUT_OF_RANGE);
             }
 
 
             if (destination != null)
             {
                 if (destination.GetLength(0) < newRows || destination.GetLength(1) < newCols)
-                    throw new ArgumentException("destination",
-                    "The destination matrix must be big enough to accommodate the results.");
+                    throw new ArgumentException("destination", LocalizedResources.Instance().THE_DESTINATION_MATRIX_MUST_BE_BIG_ENOUGH);
             }
             else
             {
@@ -877,7 +877,7 @@ namespace System
             int cols = matrix[0].Length;
 
             if (rows != cols)
-                throw new ArgumentException("Matrix must be square", "matrix");
+                throw new ArgumentException(LocalizedResources.Instance().MATRIX_MUST_BE_SQUARE, "matrix");
 
             if (rows == 3)
             {
@@ -1070,7 +1070,7 @@ namespace System
             int cols = matrix.GetLength(1);
 
             if (rows != cols)
-                throw new ArgumentException("Matrix must be square", "matrix");
+                throw new ArgumentException(LocalizedResources.Instance().MATRIX_MUST_BE_SQUARE, "matrix");
 
             if (rows == 3)
             {

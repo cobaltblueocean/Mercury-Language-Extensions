@@ -91,7 +91,7 @@ namespace Mercury.Language.Money
             String[] parts = amountStr.Split(' ');
             if (parts.Length != 2)
             {
-                throw new ArgumentException("Unable to parse amount, invalid format: " + amountStr);
+                throw new ArgumentException(String.Format(LocalizedResources.Instance().UNABLE_TO_PARSE_AMOUNT_INVALID_FORMAT, amountStr));
             }
             try
             {
@@ -101,7 +101,7 @@ namespace Mercury.Language.Money
             }
             catch (System.Exception ex)
             {
-                throw new ArgumentException("Unable to parse amount: " + amountStr, ex);
+                throw new ArgumentException(String.Format(LocalizedResources.Instance().UNABLE_TO_PARSE_AMOUNT, amountStr), ex);
             }
         }
 

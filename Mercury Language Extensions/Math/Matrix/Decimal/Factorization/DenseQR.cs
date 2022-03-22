@@ -36,6 +36,7 @@ using System.Numerics;
 using System.Linq;
 using MathNet.Numerics.LinearAlgebra.Factorization;
 using MathNet.Numerics.Providers.LinearAlgebra;
+using Mercury.Language;
 
 namespace MathNet.Numerics.LinearAlgebra.Decimal.Factorization
 {
@@ -106,19 +107,19 @@ namespace MathNet.Numerics.LinearAlgebra.Decimal.Factorization
             // The solution X should have the same number of columns as B
             if (input.ColumnCount != result.ColumnCount)
             {
-                throw new ArgumentException("Matrix column dimensions must agree.");
+                throw new ArgumentException(LocalizedResources.Instance().MATRIX_COLUMN_DIMENSIONS_MUST_AGREE);
             }
 
             // The dimension compatibility conditions for X = A\B require the two matrices A and B to have the same number of rows
             if (Q.RowCount != input.RowCount)
             {
-                throw new ArgumentException("Matrix row dimensions must agree.");
+                throw new ArgumentException(LocalizedResources.Instance().MATRIX_ROW_DIMENSIONS_MUST_AGREE);
             }
 
             // The solution X row dimension is equal to the column dimension of A
             if (FullR.ColumnCount != result.RowCount)
             {
-                throw new ArgumentException("Matrix column dimensions must agree.");
+                throw new ArgumentException(LocalizedResources.Instance().MATRIX_COLUMN_DIMENSIONS_MUST_AGREE);
             }
 
             if (input is DenseMatrix dinput && result is DenseMatrix dresult)
@@ -127,7 +128,7 @@ namespace MathNet.Numerics.LinearAlgebra.Decimal.Factorization
             }
             else
             {
-                throw new NotSupportedException("Can only do QR factorization for dense matrices at the moment.");
+                throw new NotSupportedException(String.Format(LocalizedResources.Instance().CAN_ONLY_DO_FACTORIZATION_FOR_DENSE_MATRICES_AT_THE_MOMENT, "QR"));
             }
         }
 
@@ -142,7 +143,7 @@ namespace MathNet.Numerics.LinearAlgebra.Decimal.Factorization
             // Check that b is a column vector with m entries
             if (Q.RowCount != input.Count)
             {
-                throw new ArgumentException("All vectors must have the same dimensionality.");
+                throw new ArgumentException(LocalizedResources.Instance().ALL_VECTORS_MUST_HAVE_THE_SAME_DIMENSIONALITY);
             }
 
             // Check that x is a column vector with n entries
@@ -157,7 +158,7 @@ namespace MathNet.Numerics.LinearAlgebra.Decimal.Factorization
             }
             else
             {
-                throw new NotSupportedException("Can only do QR factorization for dense vectors at the moment.");
+                throw new NotSupportedException(String.Format(LocalizedResources.Instance().CAN_ONLY_DO_FACTORIZATION_FOR_DENSE_VECTORS_AT_THE_MOMENT, "QR"));
             }
         }
     }

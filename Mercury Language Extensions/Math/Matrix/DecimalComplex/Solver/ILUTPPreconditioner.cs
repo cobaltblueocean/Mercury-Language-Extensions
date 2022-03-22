@@ -30,6 +30,7 @@
 using System;
 using System.Collections.Generic;
 using MathNet.Numerics.LinearAlgebra.Solvers;
+using Mercury.Language;
 
 namespace MathNet.Numerics.LinearAlgebra.DecimalComplex.Solvers
 {
@@ -299,7 +300,7 @@ namespace MathNet.Numerics.LinearAlgebra.DecimalComplex.Solvers
 
             if (matrix.RowCount != matrix.ColumnCount)
             {
-                throw new ArgumentException("Matrix must be square.", nameof(matrix));
+                throw new ArgumentException(LocalizedResources.Instance().MATRIX_MUST_BE_SQUARE, nameof(matrix));
             }
 
             var sparseMatrix = matrix as SparseMatrix ?? SparseMatrix.OfMatrix(matrix);
@@ -611,12 +612,12 @@ namespace MathNet.Numerics.LinearAlgebra.DecimalComplex.Solvers
         {
             if (_upper == null)
             {
-                throw new ArgumentException("The requested matrix does not exist.");
+                throw new ArgumentException(LocalizedResources.Instance().REQUESTED_MATRIX_DOES_NOT_EXIST);
             }
 
             if ((lhs.Count != rhs.Count) || (lhs.Count != _upper.RowCount))
             {
-                throw new ArgumentException("All vectors must have the same dimensionality.", nameof(rhs));
+                throw new ArgumentException(LocalizedResources.Instance().ALL_VECTORS_MUST_HAVE_THE_SAME_DIMENSIONALITY, nameof(rhs));
             }
 
             // Solve equation here

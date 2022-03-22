@@ -202,7 +202,7 @@ namespace Mercury.Language.Time
         {
             if (temporal.IsSupported(this) == false)
             {
-                throw new NotSupportedException("Unsupported field: DayOfQuarter");
+                throw new NotSupportedException(String.Format(LocalizedResources.Instance().UNSUPPORTED_FIELD, "DayOfQuarter"));
             }
             long qoy = temporal.GetLong(IsoField.QUARTER_OF_YEAR);
             if (qoy == 1)

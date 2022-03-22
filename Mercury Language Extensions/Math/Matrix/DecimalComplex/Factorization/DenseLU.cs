@@ -29,6 +29,7 @@
 
 using System;
 using MathNet.Numerics.Providers.LinearAlgebra;
+using Mercury.Language;
 
 namespace MathNet.Numerics.LinearAlgebra.DecimalComplex.Factorization
 {
@@ -60,7 +61,7 @@ namespace MathNet.Numerics.LinearAlgebra.DecimalComplex.Factorization
 
             if (matrix.RowCount != matrix.ColumnCount)
             {
-                throw new ArgumentException("Matrix must be square.");
+                throw new ArgumentException(LocalizedResources.Instance().MATRIX_MUST_BE_SQUARE);
             }
 
             // Create an array for the pivot indices.
@@ -99,12 +100,12 @@ namespace MathNet.Numerics.LinearAlgebra.DecimalComplex.Factorization
             // Check for proper dimensions.
             if (result.RowCount != input.RowCount)
             {
-                throw new ArgumentException("Matrix row dimensions must agree.");
+                throw new ArgumentException(LocalizedResources.Instance().MATRIX_ROW_DIMENSIONS_MUST_AGREE);
             }
 
             if (result.ColumnCount != input.ColumnCount)
             {
-                throw new ArgumentException("Matrix column dimensions must agree.");
+                throw new ArgumentException(LocalizedResources.Instance().MATRIX_COLUMN_DIMENSIONS_MUST_AGREE);
             }
 
             if (input.RowCount != Factors.RowCount)
@@ -123,7 +124,7 @@ namespace MathNet.Numerics.LinearAlgebra.DecimalComplex.Factorization
             }
             else
             {
-                throw new NotSupportedException("Can only do LU factorization for dense matrices at the moment.");
+                throw new NotSupportedException(String.Format(LocalizedResources.Instance().CAN_ONLY_DO_FACTORIZATION_FOR_DENSE_MATRICES_AT_THE_MOMENT, "LU"));
             }
         }
 
@@ -148,7 +149,7 @@ namespace MathNet.Numerics.LinearAlgebra.DecimalComplex.Factorization
             // Check for proper dimensions.
             if (input.Count != result.Count)
             {
-                throw new ArgumentException("All vectors must have the same dimensionality.");
+                throw new ArgumentException(LocalizedResources.Instance().ALL_VECTORS_MUST_HAVE_THE_SAME_DIMENSIONALITY);
             }
 
             if (input.Count != Factors.RowCount)
@@ -167,7 +168,7 @@ namespace MathNet.Numerics.LinearAlgebra.DecimalComplex.Factorization
             }
             else
             {
-                throw new NotSupportedException("Can only do LU factorization for dense vectors at the moment.");
+                throw new NotSupportedException(String.Format(LocalizedResources.Instance().CAN_ONLY_DO_FACTORIZATION_FOR_DENSE_VECTORS_AT_THE_MOMENT, "LU"));
             }
         }
 

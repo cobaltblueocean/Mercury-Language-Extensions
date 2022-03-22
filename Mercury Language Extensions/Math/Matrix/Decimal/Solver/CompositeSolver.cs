@@ -35,6 +35,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using MathNet.Numerics.LinearAlgebra.Solvers;
+using Mercury.Language;
 
 namespace MathNet.Numerics.LinearAlgebra.Decimal.Solver
 {
@@ -78,12 +79,12 @@ namespace MathNet.Numerics.LinearAlgebra.Decimal.Solver
         {
             if (matrix.RowCount != matrix.ColumnCount)
             {
-                throw new ArgumentException("Matrix must be square.", nameof(matrix));
+                throw new ArgumentException(LocalizedResources.Instance().MATRIX_MUST_BE_SQUARE, nameof(matrix));
             }
 
             if (result.Count != input.Count)
             {
-                throw new ArgumentException("All vectors must have the same dimensionality.");
+                throw new ArgumentException(LocalizedResources.Instance().ALL_VECTORS_MUST_HAVE_THE_SAME_DIMENSIONALITY);
             }
 
             if (iterator == null)

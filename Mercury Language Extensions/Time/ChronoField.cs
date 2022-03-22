@@ -138,7 +138,7 @@ namespace Mercury.Language.Time
         {
             if (this.Range.IsValidValue(value) == false)
             {
-                throw new DateTimeException("Invalid value (valid values " + this + "): " + value);
+                throw new DateTimeException(String.Format(LocalizedResources.Instance().INVALID_VALUE_VALID_RANGE, this , value));
             }
             return value;
         }
@@ -157,7 +157,7 @@ namespace Mercury.Language.Time
         {
             if (this.Range.IsValidIntValue(value) == false)
             {
-                throw new DateTimeException("Invalid value (valid values " + this + "): " + value);
+                throw new DateTimeException(String.Format(LocalizedResources.Instance().INVALID_VALUE_VALID_RANGE, this, value));
             }
             return value;
         }

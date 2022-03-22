@@ -33,6 +33,7 @@ using Complex = System.Numerics.Complex;
 using DecimalComplex = System.Numerics.DecimalComplex;
 using QRMethod = MathNet.Numerics.LinearAlgebra.Factorization.QRMethod;
 using static System.FormattableString;
+using Mercury.Language;
 
 namespace MathNet.Numerics.Providers.LinearAlgebra
 {
@@ -63,7 +64,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
 
             if (y.Length != x.Length)
             {
-                throw new ArgumentException("All vectors must have the same dimensionality.");
+                throw new ArgumentException(LocalizedResources.Instance().ALL_VECTORS_MUST_HAVE_THE_SAME_DIMENSIONALITY);
             }
 
             if (alpha == 0.0M)
@@ -156,7 +157,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
 
             if (y.Length != x.Length)
             {
-                throw new ArgumentException("All vectors must have the same dimensionality.");
+                throw new ArgumentException(LocalizedResources.Instance().ALL_VECTORS_MUST_HAVE_THE_SAME_DIMENSIONALITY);
             }
 
             decimal sum = 0.0M;
@@ -197,7 +198,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
 
             if (y.Length != x.Length || y.Length != result.Length)
             {
-                throw new ArgumentException("All vectors must have the same dimensionality.");
+                throw new ArgumentException(LocalizedResources.Instance().ALL_VECTORS_MUST_HAVE_THE_SAME_DIMENSIONALITY);
             }
 
             for (int i = 0; i < result.Length; i++)
@@ -235,7 +236,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
 
             if (y.Length != x.Length || y.Length != result.Length)
             {
-                throw new ArgumentException("All vectors must have the same dimensionality.");
+                throw new ArgumentException(LocalizedResources.Instance().ALL_VECTORS_MUST_HAVE_THE_SAME_DIMENSIONALITY);
             }
 
             for (int i = 0; i < result.Length; i++)
@@ -273,7 +274,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
 
             if (y.Length != x.Length || y.Length != result.Length)
             {
-                throw new ArgumentException("All vectors must have the same dimensionality.");
+                throw new ArgumentException(LocalizedResources.Instance().ALL_VECTORS_MUST_HAVE_THE_SAME_DIMENSIONALITY);
             }
 
             for (int i = 0; i < result.Length; i++)
@@ -311,7 +312,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
 
             if (y.Length != x.Length || y.Length != result.Length)
             {
-                throw new ArgumentException("All vectors must have the same dimensionality.");
+                throw new ArgumentException(LocalizedResources.Instance().ALL_VECTORS_MUST_HAVE_THE_SAME_DIMENSIONALITY);
             }
 
             CommonParallel.For(0, y.Length, 4096, (a, b) =>
@@ -352,7 +353,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
 
             if (y.Length != x.Length || y.Length != result.Length)
             {
-                throw new ArgumentException("All vectors must have the same dimensionality.");
+                throw new ArgumentException(LocalizedResources.Instance().ALL_VECTORS_MUST_HAVE_THE_SAME_DIMENSIONALITY);
             }
 
             CommonParallel.For(0, y.Length, 4096, (a, b) =>
@@ -694,12 +695,12 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
 
             if (data.Length != order * order)
             {
-                throw new ArgumentException("The array arguments must have the same length.", nameof(data));
+                throw new ArgumentException(Mercury.Language.LocalizedResources.Instance().THE_ARRAY_ARGUMENTS_MUST_HAVE_THE_SAME_LENGTH, nameof(data));
             }
 
             if (ipiv.Length != order)
             {
-                throw new ArgumentException("The array arguments must have the same length.", nameof(ipiv));
+                throw new ArgumentException(Mercury.Language.LocalizedResources.Instance().THE_ARRAY_ARGUMENTS_MUST_HAVE_THE_SAME_LENGTH, nameof(ipiv));
             }
 
             // Initialize the pivot matrix to the identity permutation.
@@ -787,7 +788,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
 
             if (a.Length != order * order)
             {
-                throw new ArgumentException("The array arguments must have the same length.", nameof(a));
+                throw new ArgumentException(Mercury.Language.LocalizedResources.Instance().THE_ARRAY_ARGUMENTS_MUST_HAVE_THE_SAME_LENGTH, nameof(a));
             }
 
             var ipiv = new int[order];
@@ -816,12 +817,12 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
 
             if (a.Length != order * order)
             {
-                throw new ArgumentException("The array arguments must have the same length.", nameof(a));
+                throw new ArgumentException(Mercury.Language.LocalizedResources.Instance().THE_ARRAY_ARGUMENTS_MUST_HAVE_THE_SAME_LENGTH, nameof(a));
             }
 
             if (ipiv.Length != order)
             {
-                throw new ArgumentException("The array arguments must have the same length.", nameof(ipiv));
+                throw new ArgumentException(Mercury.Language.LocalizedResources.Instance().THE_ARRAY_ARGUMENTS_MUST_HAVE_THE_SAME_LENGTH, nameof(ipiv));
             }
 
             var inverse = new decimal[a.Length];
@@ -856,17 +857,17 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
 
             if (a.Length != order * order)
             {
-                throw new ArgumentException("The array arguments must have the same length.", nameof(a));
+                throw new ArgumentException(Mercury.Language.LocalizedResources.Instance().THE_ARRAY_ARGUMENTS_MUST_HAVE_THE_SAME_LENGTH, nameof(a));
             }
 
             if (b.Length != order * columnsOfB)
             {
-                throw new ArgumentException("The array arguments must have the same length.", nameof(b));
+                throw new ArgumentException(Mercury.Language.LocalizedResources.Instance().THE_ARRAY_ARGUMENTS_MUST_HAVE_THE_SAME_LENGTH, nameof(b));
             }
 
             if (ReferenceEquals(a, b))
             {
-                throw new ArgumentException("Arguments must be different objects.");
+                throw new ArgumentException(LocalizedResources.Instance().ARGUMENTS_MUST_BE_DIFFERENT_OBJECTS);
             }
 
             var ipiv = new int[order];
@@ -904,22 +905,22 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
 
             if (a.Length != order * order)
             {
-                throw new ArgumentException("The array arguments must have the same length.", nameof(a));
+                throw new ArgumentException(Mercury.Language.LocalizedResources.Instance().THE_ARRAY_ARGUMENTS_MUST_HAVE_THE_SAME_LENGTH, nameof(a));
             }
 
             if (ipiv.Length != order)
             {
-                throw new ArgumentException("The array arguments must have the same length.", nameof(ipiv));
+                throw new ArgumentException(Mercury.Language.LocalizedResources.Instance().THE_ARRAY_ARGUMENTS_MUST_HAVE_THE_SAME_LENGTH, nameof(ipiv));
             }
 
             if (b.Length != order * columnsOfB)
             {
-                throw new ArgumentException("The array arguments must have the same length.", nameof(b));
+                throw new ArgumentException(Mercury.Language.LocalizedResources.Instance().THE_ARRAY_ARGUMENTS_MUST_HAVE_THE_SAME_LENGTH, nameof(b));
             }
 
             if (ReferenceEquals(a, b))
             {
-                throw new ArgumentException("Arguments must be different objects.");
+                throw new ArgumentException(LocalizedResources.Instance().ARGUMENTS_MUST_BE_DIFFERENT_OBJECTS);
             }
 
             // Compute the column vector  P*B
@@ -1018,7 +1019,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                 }
                 else
                 {
-                    throw new ArgumentException("Matrix must be positive definite.");
+                    throw new ArgumentException(LocalizedResources.Instance().MATRIX_MUST_BE_POSITIVE_DEFINITE);
                 }
 
                 for (int i = ij + 1; i < order; i++)
@@ -1085,12 +1086,12 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
 
             if (b.Length != orderA * columnsB)
             {
-                throw new ArgumentException("The array arguments must have the same length.", nameof(b));
+                throw new ArgumentException(Mercury.Language.LocalizedResources.Instance().THE_ARRAY_ARGUMENTS_MUST_HAVE_THE_SAME_LENGTH, nameof(b));
             }
 
             if (ReferenceEquals(a, b))
             {
-                throw new ArgumentException("Arguments must be different objects.");
+                throw new ArgumentException(LocalizedResources.Instance().ARGUMENTS_MUST_BE_DIFFERENT_OBJECTS);
             }
 
             var clone = new decimal[a.Length];
@@ -1121,12 +1122,12 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
 
             if (b.Length != orderA * columnsB)
             {
-                throw new ArgumentException("The array arguments must have the same length.", nameof(b));
+                throw new ArgumentException(Mercury.Language.LocalizedResources.Instance().THE_ARRAY_ARGUMENTS_MUST_HAVE_THE_SAME_LENGTH, nameof(b));
             }
 
             if (ReferenceEquals(a, b))
             {
-                throw new ArgumentException("Arguments must be different objects.");
+                throw new ArgumentException(LocalizedResources.Instance().ARGUMENTS_MUST_BE_DIFFERENT_OBJECTS);
             }
 
             CommonParallel.For(0, columnsB, (u, v) =>
@@ -1202,17 +1203,17 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
 
             if (r.Length != rowsR * columnsR)
             {
-                throw new ArgumentException("The given array has the wrong length. Should be rowsR * columnsR.", nameof(r));
+                throw new ArgumentException(String.Format(LocalizedResources.Instance().THE_GIVEN_ARRAY_HAS_THE_WRONG_LENGTH, "rowsR", "columnsR"), nameof(r));
             }
 
             if (tau.Length < Math2.Min(rowsR, columnsR))
             {
-                throw new ArgumentException("The given array is too small. It must be at least min(m,n) long.", nameof(tau));
+                throw new ArgumentException(LocalizedResources.Instance().THE_GIVEN_ARRAY_IS_TOO_SMALL, nameof(tau));
             }
 
             if (q.Length != rowsR * rowsR)
             {
-                throw new ArgumentException("The given array has the wrong length. Should be rowsR * rowsR.", nameof(q));
+                throw new ArgumentException(String.Format(LocalizedResources.Instance().THE_GIVEN_ARRAY_HAS_THE_WRONG_LENGTH, "rowsR", "rowsR"), nameof(q));
             }
 
             CommonParallel.For(0, rowsR, (a, b) =>
@@ -1263,17 +1264,17 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
 
             if (a.Length != rowsA * columnsA)
             {
-                throw new ArgumentException("The given array has the wrong length. Should be rowsR * columnsR.", nameof(a));
+                throw new ArgumentException(String.Format(LocalizedResources.Instance().THE_GIVEN_ARRAY_HAS_THE_WRONG_LENGTH, "rowsR","columnsR"), nameof(a));
             }
 
             if (tau.Length < Math2.Min(rowsA, columnsA))
             {
-                throw new ArgumentException("The given array is too small. It must be at least min(m,n) long.", nameof(tau));
+                throw new ArgumentException(LocalizedResources.Instance().THE_GIVEN_ARRAY_IS_TOO_SMALL, nameof(tau));
             }
 
             if (r.Length != columnsA * columnsA)
             {
-                throw new ArgumentException("The given array has the wrong length. Should be columnsA * columnsA.", nameof(r));
+                throw new ArgumentException(String.Format(LocalizedResources.Instance().THE_GIVEN_ARRAY_HAS_THE_WRONG_LENGTH, "columnsA", "columnsA"), nameof(r));
             }
 
             var work = new decimal[rowsA * columnsA];
@@ -1454,22 +1455,22 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
 
             if (a.Length != rows * columns)
             {
-                throw new ArgumentException("The array arguments must have the same length.", nameof(a));
+                throw new ArgumentException(Mercury.Language.LocalizedResources.Instance().THE_ARRAY_ARGUMENTS_MUST_HAVE_THE_SAME_LENGTH, nameof(a));
             }
 
             if (b.Length != rows * columnsB)
             {
-                throw new ArgumentException("The array arguments must have the same length.", nameof(b));
+                throw new ArgumentException(Mercury.Language.LocalizedResources.Instance().THE_ARRAY_ARGUMENTS_MUST_HAVE_THE_SAME_LENGTH, nameof(b));
             }
 
             if (x.Length != columns * columnsB)
             {
-                throw new ArgumentException("The array arguments must have the same length.", nameof(x));
+                throw new ArgumentException(Mercury.Language.LocalizedResources.Instance().THE_ARRAY_ARGUMENTS_MUST_HAVE_THE_SAME_LENGTH, nameof(x));
             }
 
             if (rows < columns)
             {
-                throw new ArgumentException("The number of rows must greater than or equal to the number of columns.");
+                throw new ArgumentException(LocalizedResources.Instance().THE_NUMBER_OF_ROWS_MUST_GREATER_THAN_OR_EQUAL_TO_THE_NUMBER_OF_COLUMNS);
             }
 
             var work = new decimal[rows * columns];
@@ -1529,7 +1530,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
 
             if (rowsA < columnsA)
             {
-                throw new ArgumentException("The number of rows must greater than or equal to the number of columns.");
+                throw new ArgumentException(LocalizedResources.Instance().THE_NUMBER_OF_ROWS_MUST_GREATER_THAN_OR_EQUAL_TO_THE_NUMBER_OF_COLUMNS);
             }
 
             int rowsQ, columnsQ, rowsR, columnsR;
@@ -1655,17 +1656,17 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
 
             if (u.Length != rowsA * rowsA)
             {
-                throw new ArgumentException("The array arguments must have the same length.", nameof(u));
+                throw new ArgumentException(Mercury.Language.LocalizedResources.Instance().THE_ARRAY_ARGUMENTS_MUST_HAVE_THE_SAME_LENGTH, nameof(u));
             }
 
             if (vt.Length != columnsA * columnsA)
             {
-                throw new ArgumentException("The array arguments must have the same length.", nameof(vt));
+                throw new ArgumentException(Mercury.Language.LocalizedResources.Instance().THE_ARRAY_ARGUMENTS_MUST_HAVE_THE_SAME_LENGTH, nameof(vt));
             }
 
             if (s.Length != Math2.Min(rowsA, columnsA))
             {
-                throw new ArgumentException("The array arguments must have the same length.", nameof(s));
+                throw new ArgumentException(Mercury.Language.LocalizedResources.Instance().THE_ARRAY_ARGUMENTS_MUST_HAVE_THE_SAME_LENGTH, nameof(s));
             }
 
             var work = new decimal[rowsA];
@@ -2372,12 +2373,12 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
 
             if (b.Length != rowsA * columnsB)
             {
-                throw new ArgumentException("The array arguments must have the same length.", nameof(b));
+                throw new ArgumentException(Mercury.Language.LocalizedResources.Instance().THE_ARRAY_ARGUMENTS_MUST_HAVE_THE_SAME_LENGTH, nameof(b));
             }
 
             if (x.Length != columnsA * columnsB)
             {
-                throw new ArgumentException("The array arguments must have the same length.", nameof(b));
+                throw new ArgumentException(Mercury.Language.LocalizedResources.Instance().THE_ARRAY_ARGUMENTS_MUST_HAVE_THE_SAME_LENGTH, nameof(b));
             }
             var s = new decimal[Math2.Min(rowsA, columnsA)];
             var u = new decimal[rowsA * rowsA];
@@ -2429,27 +2430,27 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
 
             if (u.Length != rowsA * rowsA)
             {
-                throw new ArgumentException("The array arguments must have the same length.", nameof(u));
+                throw new ArgumentException(Mercury.Language.LocalizedResources.Instance().THE_ARRAY_ARGUMENTS_MUST_HAVE_THE_SAME_LENGTH, nameof(u));
             }
 
             if (vt.Length != columnsA * columnsA)
             {
-                throw new ArgumentException("The array arguments must have the same length.", nameof(vt));
+                throw new ArgumentException(Mercury.Language.LocalizedResources.Instance().THE_ARRAY_ARGUMENTS_MUST_HAVE_THE_SAME_LENGTH, nameof(vt));
             }
 
             if (s.Length != Math2.Min(rowsA, columnsA))
             {
-                throw new ArgumentException("The array arguments must have the same length.", nameof(s));
+                throw new ArgumentException(Mercury.Language.LocalizedResources.Instance().THE_ARRAY_ARGUMENTS_MUST_HAVE_THE_SAME_LENGTH, nameof(s));
             }
 
             if (b.Length != rowsA * columnsB)
             {
-                throw new ArgumentException("The array arguments must have the same length.", nameof(b));
+                throw new ArgumentException(Mercury.Language.LocalizedResources.Instance().THE_ARRAY_ARGUMENTS_MUST_HAVE_THE_SAME_LENGTH, nameof(b));
             }
 
             if (x.Length != columnsA * columnsB)
             {
-                throw new ArgumentException("The array arguments must have the same length.", nameof(b));
+                throw new ArgumentException(Mercury.Language.LocalizedResources.Instance().THE_ARRAY_ARGUMENTS_MUST_HAVE_THE_SAME_LENGTH, nameof(b));
             }
 
             var mn = Math2.Min(rowsA, columnsA);

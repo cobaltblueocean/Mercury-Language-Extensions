@@ -1389,4 +1389,133 @@
   <data name="VECTOR_SHOULD_HAVE_THE_SAME_LENGTH_AS_ROW" xml:space="preserve">
     <value>そのベクトルは分解として同じ長さを列として持っていなければなりません。</value>
   </data>
+  <data name="ALL_VECTORS_MUST_HAVE_THE_SAME_DIMENSIONALITY" xml:space="preserve">
+    <value>全てのベクトルは同じ次元でなければなりません。</value>
+  </data>
+  <data name="CAN_ONLY_DO_FACTORIZATION_FOR_DENSE_MATRICES_AT_THE_MOMENT" xml:space="preserve">
+    <value>今は緻密行列に対する {0} 因数分解のみができます。</value>
+  </data>
+  <data name="CAN_ONLY_DO_FACTORIZATION_FOR_DENSE_VECTORS_AT_THE_MOMENT" xml:space="preserve">
+    <value>今は緻密ベクトルに対する {0} 因数分解のみができます。</value>
+  </data>
+  <data name="FUNCTION_COMPUTATION_RESULTED_IN_ARITHMETIC_OVERFLOW" xml:space="preserve">
+    <value>関数の計算は算術オーバーフローを起こしました。</value>
+  </data>
+  <data name="INVALID_ARGUMENTS" xml:space="preserve">
+    <value>不正な {0} の引数です。</value>
+  </data>
+  <data name="MATRIX_COLUMN_DIMENSIONS_MUST_AGREE" xml:space="preserve">
+    <value>行列の列次元は合致している必要があります。</value>
+  </data>
+  <data name="MATRIX_DIMENSIONS_MUST_AGREE" xml:space="preserve">
+    <value>行列の次元は一致していなければなりません。</value>
+  </data>
+  <data name="MATRIX_MUST_BE_POSITIVE_DEFINITE" xml:space="preserve">
+    <value>行列は正常数でなければなりません。</value>
+  </data>
+  <data name="MATRIX_MUST_BE_SYMMETRIC" xml:space="preserve">
+    <value>行列は対称でなければなりません。</value>
+  </data>
+  <data name="MATRIX_MUST_NOT_BE_RANK_DEFICIENT" xml:space="preserve">
+    <value>行列は階数不足であってはなりません。</value>
+  </data>
+  <data name="MATRIX_MUST_NOT_BE_SINGULAR" xml:space="preserve">
+    <value>行列は特異行列であってはなりません。</value>
+  </data>
+  <data name="MUST_HAVE_N_IS_MORE_THAN_FOR_N_ABSOLUTE" xml:space="preserve">
+    <value>nの絶対値に対してnは0より大きくなくてはなりません。</value>
+  </data>
+  <data name="MUST_HAVE_N_IS_MORE_THAN_OR_EQUALS_FOR_N_ABSOLUTE" xml:space="preserve">
+    <value>nの絶対値に対してnは0以上でなくてはなりません。</value>
+  </data>
+  <data name="PERMUTATIONS_IN_DIAGONAL_MATRIX_ARE_NOT_ALLOWED" xml:space="preserve">
+    <value>対角行列の順列はできません。</value>
+  </data>
+  <data name="REQUESTED_MATRIX_DOES_NOT_EXIST" xml:space="preserve">
+    <value>要求された行列は存在していません。</value>
+  </data>
+  <data name="RESULT_TOO_LARGE_REPRESENT_IN_A_LONG_INTEGER" xml:space="preserve">
+    <value>結果が長整数型には大き過ぎます。</value>
+  </data>
+  <data name="SINGULAR_VECTORS_WERE_NOT_COMPUTED" xml:space="preserve">
+    <value>特異ベクトルは計算されませんでした。</value>
+  </data>
+  <data name="THE_INPUT_PARAMETER_MUST_BE_POSITIVE" xml:space="preserve">
+    <value>入力パラメーター {0} は正でなければなりません。</value>
+  </data>
+  <data name="ARGUMENTS_MUST_BE_DIFFERENT_OBJECTS" xml:space="preserve">
+    <value>引数は必ず別のオブジェクトでなければなりません。</value>
+  </data>
+  <data name="ARGUMENT_CANNOT_BE_NEGATIVE" xml:space="preserve">
+    <value>引数は負にはできません。</value>
+  </data>
+  <data name="ARGUMENT_OUT_OF_RANGE" xml:space="preserve">
+    <value>引数が範囲外です。</value>
+  </data>
+  <data name="COULD_NOT_GET_BUSINESS_DAY_TENOR_FOR" xml:space="preserve">
+    <value>{0} に対する Business Day Tener を得られませんでした。</value>
+  </data>
+  <data name="COULD_NOT_GET_PERIOD_FOR" xml:space="preserve">
+    <value>{0} に対する Period を得られませんでした。</value>
+  </data>
+  <data name="DO_NOT_HAVE_AN_AMOUNT_WITH_CURRENCY" xml:space="preserve">
+    <value>通貨に金額がありません。: {0}</value>
+  </data>
+  <data name="INVALID_CURRENCY_CODE" xml:space="preserve">
+    <value>無効な通貨コードです。</value>
+  </data>
+  <data name="INVALID_VALUE" xml:space="preserve">
+    <value>無効な値です。: {0} {1}</value>
+  </data>
+  <data name="KERNEL_SIZE_MUST_BE_ODD_AND_HIGHER_THAN_2" xml:space="preserve">
+    <value>カーネルのサイズは必ず奇数で２よりも大きくなければなりません。</value>
+  </data>
+  <data name="MATRIX_MUST_BE_IN_SPARSE_STORAGE_FORMAT" xml:space="preserve">
+    <value>行列は疎の格納フォーマットでなければなりません。</value>
+  </data>
+  <data name="MINIMAL_NUMBER_OF_DAYS_IS_INVALID" xml:space="preserve">
+    <value>最小日数は無効です。</value>
+  </data>
+  <data name="NATIVE_PROVIDER_DISABLED_BY_AN_APPLICATION_SWITCH" xml:space="preserve">
+    <value>Native Provider はアプリケーションの選択から無効化されています。</value>
+  </data>
+  <data name="NATIVE_PROVIDER_PROBING_FAILED_TO_RESOLVE_CREATOR" xml:space="preserve">
+    <value>Native Provider Probing はクリエイターを解決するのに失敗しました。</value>
+  </data>
+  <data name="NATIVE_PROVIDER_PROBING_IS_DISABLED_BY_AN_APPLICATION_SWITCH" xml:space="preserve">
+    <value>Native Provider Probing はアプリケーションの選択から無効化されています。</value>
+  </data>
+  <data name="OBJECT_IS_NOT_AN_INSTANT" xml:space="preserve">
+    <value>オブジェクトは Instant ではありません。</value>
+  </data>
+  <data name="SOURCE_AND_INDEXES_ARRAYS_MUST_HAVE_THE_SAME_DIMENSION" xml:space="preserve">
+    <value>Source と indexes の配列はインプレース処理の為には同じ次元でなければなりません。</value>
+  </data>
+  <data name="SPECIFIC_NATIVE_PROVIDER_DISABLED_BY_AN_APPLICATION_SWITCH" xml:space="preserve">
+    <value>特定の Native Provider はアプリケーションの選択から無効化されています。</value>
+  </data>
+  <data name="THE_ARRAY_ARGUMENTS_MUST_HAVE_THE_SAME_LENGTH" xml:space="preserve">
+    <value>配列の引数は同じ長さでなければなりません。</value>
+  </data>
+  <data name="THE_DESTINATION_MATRIX_MUST_BE_BIG_ENOUGH" xml:space="preserve">
+    <value>対称の配列は結果を得るには十分に大きなサイズでなければなりません。</value>
+  </data>
+  <data name="THE_GIVEN_ARRAY_HAS_THE_WRONG_LENGTH" xml:space="preserve">
+    <value>与えられた行列は不正な長さをしています。{0} * {1} である筈です。</value>
+  </data>
+  <data name="THE_GIVEN_ARRAY_IS_TOO_SMALL" xml:space="preserve">
+    <value>与えられた行列は小さすぎます。min(n, m) 長でなければなりません。</value>
+  </data>
+  <data name="THE_NUMBER_OF_ROWS_MUST_GREATER_THAN_OR_EQUAL_TO_THE_NUMBER_OF_COLUMNS" xml:space="preserve">
+    <value>行の数は列の数以上でなくてはなりません。</value>
+  </data>
+  <data name="UNABLE_TO_PARSE_AMOUNT" xml:space="preserve">
+    <value>金額をパースできません。: {0}</value>
+  </data>
+  <data name="UNABLE_TO_PARSE_AMOUNT_INVALID_FORMAT" xml:space="preserve">
+    <value>金額をパースできません。不正なフォーマットです。: {0}</value>
+  </data>
+  <data name="ZERO_PIVOT_ENCOUNTERED_ON_ROW_DURING_ILU_PROCESS" xml:space="preserve">
+    <value>ILUプロセスの途中で {0} 列目でゼロピボットに遭遇しました。</value>
+  </data>
 </root>

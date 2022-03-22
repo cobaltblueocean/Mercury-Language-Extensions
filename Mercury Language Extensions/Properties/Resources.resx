@@ -1389,4 +1389,133 @@
   <data name="VECTOR_SHOULD_HAVE_THE_SAME_LENGTH_AS_ROW" xml:space="preserve">
     <value>The vector should have the same length as rows in the decomposition.</value>
   </data>
+  <data name="ALL_VECTORS_MUST_HAVE_THE_SAME_DIMENSIONALITY" xml:space="preserve">
+    <value>All vectors must have the same dimensionality.</value>
+  </data>
+  <data name="CAN_ONLY_DO_FACTORIZATION_FOR_DENSE_MATRICES_AT_THE_MOMENT" xml:space="preserve">
+    <value>Can only do {0} factorization for dense matrices at the moment.</value>
+  </data>
+  <data name="CAN_ONLY_DO_FACTORIZATION_FOR_DENSE_VECTORS_AT_THE_MOMENT" xml:space="preserve">
+    <value>Can only do {0} factorization for dense vectors at the moment.</value>
+  </data>
+  <data name="FUNCTION_COMPUTATION_RESULTED_IN_ARITHMETIC_OVERFLOW" xml:space="preserve">
+    <value>Function computation resulted in arithmetic overflow.</value>
+  </data>
+  <data name="INVALID_ARGUMENTS" xml:space="preserve">
+    <value>invalid {0} arguments</value>
+  </data>
+  <data name="MATRIX_COLUMN_DIMENSIONS_MUST_AGREE" xml:space="preserve">
+    <value>Matrix column dimensions must agree.</value>
+  </data>
+  <data name="MATRIX_DIMENSIONS_MUST_AGREE" xml:space="preserve">
+    <value>Matrix dimensions must agree.</value>
+  </data>
+  <data name="MATRIX_MUST_BE_POSITIVE_DEFINITE" xml:space="preserve">
+    <value>Matrix must be positive definite</value>
+  </data>
+  <data name="MATRIX_MUST_BE_SYMMETRIC" xml:space="preserve">
+    <value>Matrix must be symmetric.</value>
+  </data>
+  <data name="MATRIX_MUST_NOT_BE_RANK_DEFICIENT" xml:space="preserve">
+    <value>Matrix must not be rank deficient.</value>
+  </data>
+  <data name="MATRIX_MUST_NOT_BE_SINGULAR" xml:space="preserve">
+    <value>Matrix must not be singular.</value>
+  </data>
+  <data name="MUST_HAVE_N_IS_MORE_THAN_FOR_N_ABSOLUTE" xml:space="preserve">
+    <value>must have n &gt; 0 for n!</value>
+  </data>
+  <data name="MUST_HAVE_N_IS_MORE_THAN_OR_EQUALS_FOR_N_ABSOLUTE" xml:space="preserve">
+    <value>must have n &gt;= 0 for n!</value>
+  </data>
+  <data name="PERMUTATIONS_IN_DIAGONAL_MATRIX_ARE_NOT_ALLOWED" xml:space="preserve">
+    <value>Permutations in diagonal matrix are not allowed</value>
+  </data>
+  <data name="REQUESTED_MATRIX_DOES_NOT_EXIST" xml:space="preserve">
+    <value>The requested matrix does not exist.</value>
+  </data>
+  <data name="RESULT_TOO_LARGE_REPRESENT_IN_A_LONG_INTEGER" xml:space="preserve">
+    <value>result too large to represent in a long integer</value>
+  </data>
+  <data name="SINGULAR_VECTORS_WERE_NOT_COMPUTED" xml:space="preserve">
+    <value>The singular vectors were not computed.</value>
+  </data>
+  <data name="THE_INPUT_PARAMETER_MUST_BE_POSITIVE" xml:space="preserve">
+    <value>The input parameter {0} must be positive.</value>
+  </data>
+  <data name="ARGUMENTS_MUST_BE_DIFFERENT_OBJECTS" xml:space="preserve">
+    <value>Arguments must be different objects.</value>
+  </data>
+  <data name="ARGUMENT_CANNOT_BE_NEGATIVE" xml:space="preserve">
+    <value>Argument cannot be negative.</value>
+  </data>
+  <data name="ARGUMENT_OUT_OF_RANGE" xml:space="preserve">
+    <value>Argument out of range.</value>
+  </data>
+  <data name="COULD_NOT_GET_BUSINESS_DAY_TENOR_FOR" xml:space="preserve">
+    <value>Could not get business day tenor for {0}.</value>
+  </data>
+  <data name="COULD_NOT_GET_PERIOD_FOR" xml:space="preserve">
+    <value>Could not get period for {0}.</value>
+  </data>
+  <data name="DO_NOT_HAVE_AN_AMOUNT_WITH_CURRENCY" xml:space="preserve">
+    <value>Do not have an amount with currency: {0}</value>
+  </data>
+  <data name="INVALID_CURRENCY_CODE" xml:space="preserve">
+    <value>Invalid currency code: {0}</value>
+  </data>
+  <data name="INVALID_VALUE" xml:space="preserve">
+    <value>Invalid value: {0} {1}</value>
+  </data>
+  <data name="KERNEL_SIZE_MUST_BE_ODD_AND_HIGHER_THAN_2" xml:space="preserve">
+    <value>Kernel size must be odd and higher than 2.</value>
+  </data>
+  <data name="MATRIX_MUST_BE_IN_SPARSE_STORAGE_FORMAT" xml:space="preserve">
+    <value>Matrix must be in sparse storage format.</value>
+  </data>
+  <data name="MINIMAL_NUMBER_OF_DAYS_IS_INVALID" xml:space="preserve">
+    <value>Minimal number of days is invalid.</value>
+  </data>
+  <data name="NATIVE_PROVIDER_DISABLED_BY_AN_APPLICATION_SWITCH" xml:space="preserve">
+    <value>Native Provider disabled by an application switch</value>
+  </data>
+  <data name="NATIVE_PROVIDER_PROBING_FAILED_TO_RESOLVE_CREATOR" xml:space="preserve">
+    <value>Native Provider Probing failed to resolve creator</value>
+  </data>
+  <data name="NATIVE_PROVIDER_PROBING_IS_DISABLED_BY_AN_APPLICATION_SWITCH" xml:space="preserve">
+    <value>Native Provider Probing is disabled by an application switch</value>
+  </data>
+  <data name="OBJECT_IS_NOT_AN_INSTANT" xml:space="preserve">
+    <value>Object is not an Instant.</value>
+  </data>
+  <data name="SOURCE_AND_INDEXES_ARRAYS_MUST_HAVE_THE_SAME_DIMENSION" xml:space="preserve">
+    <value>Source and indexes arrays must have the same dimension for in-place operations.</value>
+  </data>
+  <data name="SPECIFIC_NATIVE_PROVIDER_DISABLED_BY_AN_APPLICATION_SWITCH" xml:space="preserve">
+    <value>Specific Native Provider disabled by an application switch</value>
+  </data>
+  <data name="THE_ARRAY_ARGUMENTS_MUST_HAVE_THE_SAME_LENGTH" xml:space="preserve">
+    <value>The array arguments must have the same length.</value>
+  </data>
+  <data name="THE_DESTINATION_MATRIX_MUST_BE_BIG_ENOUGH" xml:space="preserve">
+    <value>The destination matrix must be big enough to accommodate the results.</value>
+  </data>
+  <data name="THE_GIVEN_ARRAY_HAS_THE_WRONG_LENGTH" xml:space="preserve">
+    <value>The given array has the wrong length. Should be {0} * {1}.</value>
+  </data>
+  <data name="THE_GIVEN_ARRAY_IS_TOO_SMALL" xml:space="preserve">
+    <value>The given array is too small. It must be at least min(m,n) long.</value>
+  </data>
+  <data name="THE_NUMBER_OF_ROWS_MUST_GREATER_THAN_OR_EQUAL_TO_THE_NUMBER_OF_COLUMNS" xml:space="preserve">
+    <value>The number of rows must greater than or equal to the number of columns.</value>
+  </data>
+  <data name="UNABLE_TO_PARSE_AMOUNT" xml:space="preserve">
+    <value>Unable to parse amount: {0}</value>
+  </data>
+  <data name="UNABLE_TO_PARSE_AMOUNT_INVALID_FORMAT" xml:space="preserve">
+    <value>Unable to parse amount, invalid format: {0}</value>
+  </data>
+  <data name="ZERO_PIVOT_ENCOUNTERED_ON_ROW_DURING_ILU_PROCESS" xml:space="preserve">
+    <value>Zero pivot encountered on row {0} during ILU process.</value>
+  </data>
 </root>

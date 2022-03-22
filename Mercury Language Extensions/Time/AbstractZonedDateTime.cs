@@ -87,7 +87,7 @@ namespace Mercury.Language.Time
             if (obj != null)
                 return ZonedDateTime.Comparer.Instant.Compare(_baseTime, (ZonedDateTime)obj);
             else
-                throw new ArgumentException("Object is not a Instant");
+                throw new ArgumentException(LocalizedResources.Instance().OBJECT_IS_NOT_AN_INSTANT);
         }
 
         int IComparable.CompareTo(object obj)

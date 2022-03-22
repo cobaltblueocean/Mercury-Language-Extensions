@@ -102,7 +102,7 @@ namespace Mercury.Language.Math.Decompositions
             if ((!transpose && value.Rows() < value.Columns()) ||
                  (transpose && value.Columns() < value.Rows()))
             {
-                throw new ArgumentException("Matrix has more columns than rows.", "value");
+                throw new ArgumentException(LocalizedResources.Instance().MATRIX_HAS_MORE_COLUMN_TNAN_ROWS, "value");
             }
 
             // https://www.inf.ethz.ch/personal/gander/papers/qrneu.pdf

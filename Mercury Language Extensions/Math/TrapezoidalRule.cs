@@ -154,10 +154,10 @@ namespace Mercury.Language.Math
             set
             {
                 if (Double.IsInfinity(range.Min) || Double.IsNaN(range.Min))
-                    throw new ArgumentOutOfRangeException("value", "Minimum is out of range.");
+                    throw new ArgumentOutOfRangeException("value", String.Format(LocalizedResources.Instance().PARAMETER_IS_OUT_OF_RANGE, "Minimum"));
 
                 if (Double.IsInfinity(range.Max) || Double.IsNaN(range.Max))
-                    throw new ArgumentOutOfRangeException("value", "Maximum is out of range.");
+                    throw new ArgumentOutOfRangeException("value", String.Format(LocalizedResources.Instance().PARAMETER_IS_OUT_OF_RANGE, "Maximum"));
 
                 range = value;
             }

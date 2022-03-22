@@ -3120,7 +3120,7 @@ namespace System
             {
                 return -PIdiv2;
             }
-            throw new ArgumentException("invalid atan2 arguments");
+            throw new ArgumentException(String.Format(LocalizedResources.Instance().INVALID_ARGUMENTS, "Atan2"));
         }
 
         public static double Expm1(double x)
@@ -3133,7 +3133,7 @@ namespace System
             long result = (long)System.Math.Round(FactorialDouble(n));
             if (result == long.MaxValue)
             {
-                throw new ArithmeticException("result too large to represent in a long integer");
+                throw new ArithmeticException(LocalizedResources.Instance().RESULT_TOO_LARGE_REPRESENT_IN_A_LONG_INTEGER);
             }
             return result;
         }
@@ -3142,7 +3142,7 @@ namespace System
         {
             if (n < 0)
             {
-                throw new ArgumentException("must have n >= 0 for n!");
+                throw new ArgumentException(LocalizedResources.Instance().MUST_HAVE_N_IS_MORE_THAN_OR_EQUALS_FOR_N_ABSOLUTE);
             }
             return System.Math.Floor(System.Math.Exp(FactorialLog(n)) + 0.5);
         }
@@ -3151,7 +3151,7 @@ namespace System
         {
             if (n < 0)
             {
-                throw new ArithmeticException("must have n > 0 for n!");
+                throw new ArithmeticException(LocalizedResources.Instance().MUST_HAVE_N_IS_MORE_THAN_FOR_N_ABSOLUTE);
             }
             double logSum = 0;
             for (int i = 2; i <= n; i++)

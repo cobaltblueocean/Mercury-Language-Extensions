@@ -169,7 +169,7 @@ namespace Mercury.Language.Math
                 double p = (int)System.Math.Floor(q);
 
                 if (p == q)
-                    throw new OverflowException("Function computation resulted in arithmetic overflow.");
+                    throw new OverflowException(LocalizedResources.Instance().FUNCTION_COMPUTATION_RESULTED_IN_ARITHMETIC_OVERFLOW);
 
                 nz = q - p;
 
@@ -271,7 +271,7 @@ namespace Mercury.Language.Math
             // Check the input.
             if (x <= 0.0)
             {
-                throw new ArgumentException("The input parameter x must be positive.", "x");
+                throw new ArgumentException(String.Format(LocalizedResources.Instance().THE_INPUT_PARAMETER_MUST_BE_POSITIVE, "x"), "x");
             }
 
             z = x;

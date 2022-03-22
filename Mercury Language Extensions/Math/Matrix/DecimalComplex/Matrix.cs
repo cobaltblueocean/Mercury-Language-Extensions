@@ -31,6 +31,7 @@ using System;
 using MathNet.Numerics.LinearAlgebra.DecimalComplex.Factorization;
 using MathNet.Numerics.LinearAlgebra.Factorization;
 using MathNet.Numerics.LinearAlgebra.Storage;
+using Mercury.Language;
 
 namespace MathNet.Numerics.LinearAlgebra.DecimalComplex
 {
@@ -550,7 +551,7 @@ namespace MathNet.Numerics.LinearAlgebra.DecimalComplex
         {
             if (RowCount != ColumnCount)
             {
-                throw new ArgumentException("Matrix must be square.");
+                throw new ArgumentException(LocalizedResources.Instance().MATRIX_MUST_BE_SQUARE);
             }
 
             var sum = DecimalComplex.Zero;

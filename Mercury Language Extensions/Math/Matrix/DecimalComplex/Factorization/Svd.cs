@@ -31,6 +31,7 @@ using System;
 using System.Linq;
 using MathNet.Numerics.LinearAlgebra.Factorization;
 using Mercury.Language.Math;
+using Mercury.Language;
 
 namespace MathNet.Numerics.LinearAlgebra.DecimalComplex.Factorization
 {
@@ -98,7 +99,7 @@ namespace MathNet.Numerics.LinearAlgebra.DecimalComplex.Factorization
             {
                 if (U.RowCount != VT.ColumnCount)
                 {
-                    throw new ArgumentException("Matrix must be square.");
+                    throw new ArgumentException(LocalizedResources.Instance().MATRIX_MUST_BE_SQUARE);
                 }
 
                 var det = DecimalComplex.One;

@@ -29,6 +29,7 @@
 
 using System;
 using MathNet.Numerics.LinearAlgebra.Solvers;
+using Mercury.Language;
 
 namespace MathNet.Numerics.LinearAlgebra.Decimal.Solver
 {
@@ -69,7 +70,7 @@ namespace MathNet.Numerics.LinearAlgebra.Decimal.Solver
         {
             if (matrix.RowCount != matrix.ColumnCount)
             {
-                throw new ArgumentException("Matrix must be square.", nameof(matrix));
+                throw new ArgumentException(LocalizedResources.Instance().MATRIX_MUST_BE_SQUARE, nameof(matrix));
             }
 
             _inverseDiagonals = new decimal[matrix.RowCount];
@@ -88,12 +89,12 @@ namespace MathNet.Numerics.LinearAlgebra.Decimal.Solver
         {
             if (_inverseDiagonals == null)
             {
-                throw new ArgumentException("The requested matrix does not exist.");
+                throw new ArgumentException(LocalizedResources.Instance().REQUESTED_MATRIX_DOES_NOT_EXIST);
             }
 
             if ((lhs.Count != rhs.Count) || (lhs.Count != _inverseDiagonals.Length))
             {
-                throw new ArgumentException("All vectors must have the same dimensionality.", nameof(rhs));
+                throw new ArgumentException(LocalizedResources.Instance().ALL_VECTORS_MUST_HAVE_THE_SAME_DIMENSIONALITY, nameof(rhs));
             }
 
             for (var i = 0; i < _inverseDiagonals.Length; i++)

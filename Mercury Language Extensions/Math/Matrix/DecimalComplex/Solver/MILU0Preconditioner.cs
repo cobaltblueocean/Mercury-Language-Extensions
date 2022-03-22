@@ -30,6 +30,7 @@
 using System;
 using MathNet.Numerics.LinearAlgebra.Solvers;
 using MathNet.Numerics.LinearAlgebra.Storage;
+using Mercury.Language;
 
 namespace MathNet.Numerics.LinearAlgebra.DecimalComplex.Solvers
 {
@@ -85,14 +86,14 @@ namespace MathNet.Numerics.LinearAlgebra.DecimalComplex.Solvers
             var csr = matrix.Storage as SparseCompressedRowMatrixStorage<DecimalComplex>;
             if (csr == null)
             {
-                throw new ArgumentException("Matrix must be in sparse storage format", nameof(matrix));
+                throw new ArgumentException(LocalizedResources.Instance().MATRIX_MUST_BE_IN_SPARSE_STORAGE_FORMAT, nameof(matrix));
             }
 
             // Dimension of matrix
             int n = csr.RowCount;
             if (n != csr.ColumnCount)
             {
-                throw new ArgumentException("Matrix must be square.", nameof(matrix));
+                throw new ArgumentException(LocalizedResources.Instance().MATRIX_MUST_BE_SQUARE, nameof(matrix));
             }
 
             // Original matrix compressed sparse row storage.
@@ -107,7 +108,7 @@ namespace MathNet.Numerics.LinearAlgebra.DecimalComplex.Solvers
             int code = Compute(n, a, ja, ia, _alu, _jlu, _diag, UseModified);
             if (code > -1)
             {
-                throw new NumericalBreakdownException("Zero pivot encountered on row " + code + " during ILU process");
+                throw new NumericalBreakdownException(String.Format(LocalizedResources.Instance().ZERO_PIVOT_ENCOUNTERED_ON_ROW_DURING_ILU_PROCESS, code));
             }
 
             IsInitialized = true;
@@ -122,12 +123,12 @@ namespace MathNet.Numerics.LinearAlgebra.DecimalComplex.Solvers
         {
             if (_alu == null)
             {
-                throw new ArgumentException("The requested matrix does not exist.");
+                throw new ArgumentException(LocalizedResources.Instance().REQUESTED_MATRIX_DOES_NOT_EXIST);
             }
 
             if ((result.Count != input.Count) || (result.Count != _diag.Length))
             {
-                throw new ArgumentException("All vectors must have the same dimensionality.");
+                throw new ArgumentException(LocalizedResources.Instance().ALL_VECTORS_MUST_HAVE_THE_SAME_DIMENSIONALITY);
             }
 
             int n = _diag.Length;

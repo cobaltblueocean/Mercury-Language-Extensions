@@ -115,7 +115,7 @@ namespace Mercury.Language.Time
         {
             if (Range.IsValidValue(newValue) == false)
             {
-                throw new DateTimeException("Invalid value: " + Name + " " + newValue);
+                throw new DateTimeException(String.Format(LocalizedResources.Instance().INVALID_VALUE, Name, newValue));
             }
             return (Temporal)temporal.With(ChronoField.EPOCH_DAY, Math2.SafeSubtract(newValue, _offset));
         }
@@ -124,7 +124,7 @@ namespace Mercury.Language.Time
         {
             if (IsSupportedBy(temporal) == false)
             {
-                throw new NotSupportedException("Unsupported field: " + this);
+                throw new NotSupportedException(String.Format(LocalizedResources.Instance().UNSUPPORTED_FIELD, this));
             }
             return Range;
         }

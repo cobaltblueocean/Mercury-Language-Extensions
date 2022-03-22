@@ -321,7 +321,7 @@ namespace Mercury.Language.Math
             if (n < 0)
             {
                 // Factorial is not defined for negative numbers.
-                throw new ArgumentException("Argument cannot be negative.", "n");
+                throw new ArgumentException(LocalizedResources.Instance().ARGUMENT_CANNOT_BE_NEGATIVE, "n");
             }
             if (n <= 1)
             {
@@ -361,7 +361,7 @@ namespace Mercury.Language.Math
             if (n < 0)
             {
                 // Factorial is not defined for negative numbers
-                throw new ArgumentException("Argument can not be negative", "n");
+                throw new ArgumentException(LocalizedResources.Instance().ARGUMENT_CANNOT_BE_NEGATIVE, "n");
             }
             if (n > 32)
             {

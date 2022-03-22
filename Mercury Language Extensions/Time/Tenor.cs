@@ -359,7 +359,7 @@ namespace Mercury.Language.Time
         {
             if (_period == null)
             {
-                throw new InvalidOperationException("Could not get period for " + ToString());
+                throw new InvalidOperationException(String.Format(LocalizedResources.Instance().COULD_NOT_GET_PERIOD_FOR, ToString()));
             }
             return _period;
         }
@@ -373,7 +373,7 @@ namespace Mercury.Language.Time
         {
             if (_businessDayTenor == null)
             {
-                throw new InvalidOperationException("Could not get business day tenor for " + ToString());
+                throw new InvalidOperationException(String.Format(LocalizedResources.Instance().COULD_NOT_GET_BUSINESS_DAY_TENOR_FOR, ToString()));
             }
             return _businessDayTenor;
         }

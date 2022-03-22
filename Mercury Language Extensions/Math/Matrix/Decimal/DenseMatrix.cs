@@ -40,6 +40,7 @@ using MathNet.Numerics.LinearAlgebra.Decimal.Factorization;
 using MathNet.Numerics.LinearAlgebra.Factorization;
 using MathNet.Numerics.LinearAlgebra.Storage;
 using MathNet.Numerics.Providers.LinearAlgebra;
+using Mercury.Language;
 using Mercury.Language.Threading;
 
 namespace MathNet.Numerics.LinearAlgebra.Decimal
@@ -945,7 +946,7 @@ namespace MathNet.Numerics.LinearAlgebra.Decimal
         {
             if (_rowCount != _columnCount)
             {
-                throw new ArgumentException("Matrix must be square.");
+                throw new ArgumentException(LocalizedResources.Instance().MATRIX_MUST_BE_SQUARE);
             }
 
             var sum = 0.0M;

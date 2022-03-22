@@ -61,6 +61,15 @@ namespace Mercury.Language.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to All vectors must have the same dimensionality..
+        /// </summary>
+        internal static string ALL_VECTORS_MUST_HAVE_THE_SAME_DIMENSIONALITY {
+            get {
+                return ResourceManager.GetString("ALL_VECTORS_MUST_HAVE_THE_SAME_DIMENSIONALITY", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Period does not accept floating point Not-a-Number values..
         /// </summary>
         internal static string ARG_CANNOT_BE_NaN {
@@ -79,11 +88,38 @@ namespace Mercury.Language.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Argument cannot be negative..
+        /// </summary>
+        internal static string ARGUMENT_CANNOT_BE_NEGATIVE {
+            get {
+                return ResourceManager.GetString("ARGUMENT_CANNOT_BE_NEGATIVE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Argument out of range..
+        /// </summary>
+        internal static string ARGUMENT_OUT_OF_RANGE {
+            get {
+                return ResourceManager.GetString("ARGUMENT_OUT_OF_RANGE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Argument {0} outside domain [{1} ; {2}].
         /// </summary>
         internal static string ARGUMENT_OUTSIDE_DOMAIN {
             get {
                 return ResourceManager.GetString("ARGUMENT_OUTSIDE_DOMAIN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Arguments must be different objects..
+        /// </summary>
+        internal static string ARGUMENTS_MUST_BE_DIFFERENT_OBJECTS {
+            get {
+                return ResourceManager.GetString("ARGUMENTS_MUST_BE_DIFFERENT_OBJECTS", resourceCulture);
             }
         }
         
@@ -327,6 +363,24 @@ namespace Mercury.Language.Properties {
         internal static string BOBYQA_BOUND_DIFFERENCE_CONDITION {
             get {
                 return ResourceManager.GetString("BOBYQA_BOUND_DIFFERENCE_CONDITION", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Can only do {0} factorization for dense matrices at the moment..
+        /// </summary>
+        internal static string CAN_ONLY_DO_FACTORIZATION_FOR_DENSE_MATRICES_AT_THE_MOMENT {
+            get {
+                return ResourceManager.GetString("CAN_ONLY_DO_FACTORIZATION_FOR_DENSE_MATRICES_AT_THE_MOMENT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Can only do {0} factorization for dense vectors at the moment..
+        /// </summary>
+        internal static string CAN_ONLY_DO_FACTORIZATION_FOR_DENSE_VECTORS_AT_THE_MOMENT {
+            get {
+                return ResourceManager.GetString("CAN_ONLY_DO_FACTORIZATION_FOR_DENSE_VECTORS_AT_THE_MOMENT", resourceCulture);
             }
         }
         
@@ -610,6 +664,24 @@ namespace Mercury.Language.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Could not get business day tenor for {0}..
+        /// </summary>
+        internal static string COULD_NOT_GET_BUSINESS_DAY_TENOR_FOR {
+            get {
+                return ResourceManager.GetString("COULD_NOT_GET_BUSINESS_DAY_TENOR_FOR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Could not get period for {0}..
+        /// </summary>
+        internal static string COULD_NOT_GET_PERIOD_FOR {
+            get {
+                return ResourceManager.GetString("COULD_NOT_GET_PERIOD_FOR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to covariance matrix.
         /// </summary>
         internal static string COVARIANCE_MATRIX {
@@ -804,6 +876,15 @@ namespace Mercury.Language.Properties {
         internal static string DISTRIBUTION_NOT_LOADED {
             get {
                 return ResourceManager.GetString("DISTRIBUTION_NOT_LOADED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Do not have an amount with currency: {0}.
+        /// </summary>
+        internal static string DO_NOT_HAVE_AN_AMOUNT_WITH_CURRENCY {
+            get {
+                return ResourceManager.GetString("DO_NOT_HAVE_AN_AMOUNT_WITH_CURRENCY", resourceCulture);
             }
         }
         
@@ -1056,6 +1137,15 @@ namespace Mercury.Language.Properties {
         internal static string FUNCTION {
             get {
                 return ResourceManager.GetString("FUNCTION", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Function computation resulted in arithmetic overflow..
+        /// </summary>
+        internal static string FUNCTION_COMPUTATION_RESULTED_IN_ARITHMETIC_OVERFLOW {
+            get {
+                return ResourceManager.GetString("FUNCTION_COMPUTATION_RESULTED_IN_ARITHMETIC_OVERFLOW", resourceCulture);
             }
         }
         
@@ -1330,6 +1420,15 @@ namespace Mercury.Language.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to invalid {0} arguments.
+        /// </summary>
+        internal static string INVALID_ARGUMENTS {
+            get {
+                return ResourceManager.GetString("INVALID_ARGUMENTS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to binary mutation works on BinaryChromosome only.
         /// </summary>
         internal static string INVALID_BINARY_CHROMOSOME {
@@ -1353,6 +1452,15 @@ namespace Mercury.Language.Properties {
         internal static string INVALID_BRACKETING_PARAMETERS {
             get {
                 return ResourceManager.GetString("INVALID_BRACKETING_PARAMETERS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid currency code: {0}.
+        /// </summary>
+        internal static string INVALID_CURRENCY_CODE {
+            get {
+                return ResourceManager.GetString("INVALID_CURRENCY_CODE", resourceCulture);
             }
         }
         
@@ -1465,6 +1573,15 @@ namespace Mercury.Language.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Invalid value: {0} {1}.
+        /// </summary>
+        internal static string INVALID_VALUE {
+            get {
+                return ResourceManager.GetString("INVALID_VALUE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Invalid value for {0} (valid values {1}): {2}.
         /// </summary>
         internal static string INVALID_VALUE_FOR_FIELD_VALID_VALUE_RANGE {
@@ -1497,6 +1614,15 @@ namespace Mercury.Language.Properties {
         internal static string ITERATOR_EXHAUSTED {
             get {
                 return ResourceManager.GetString("ITERATOR_EXHAUSTED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Kernel size must be odd and higher than 2..
+        /// </summary>
+        internal static string KERNEL_SIZE_MUST_BE_ODD_AND_HIGHER_THAN_2 {
+            get {
+                return ResourceManager.GetString("KERNEL_SIZE_MUST_BE_ODD_AND_HIGHER_THAN_2", resourceCulture);
             }
         }
         
@@ -1636,11 +1762,29 @@ namespace Mercury.Language.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Matrix column dimensions must agree..
+        /// </summary>
+        internal static string MATRIX_COLUMN_DIMENSIONS_MUST_AGREE {
+            get {
+                return ResourceManager.GetString("MATRIX_COLUMN_DIMENSIONS_MUST_AGREE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Matrix dimensions do not match.
         /// </summary>
         internal static string MATRIX_DIMENSIONS_DO_NOT_MATCH {
             get {
                 return ResourceManager.GetString("MATRIX_DIMENSIONS_DO_NOT_MATCH", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Matrix dimensions must agree..
+        /// </summary>
+        internal static string MATRIX_DIMENSIONS_MUST_AGREE {
+            get {
+                return ResourceManager.GetString("MATRIX_DIMENSIONS_MUST_AGREE", resourceCulture);
             }
         }
         
@@ -1690,11 +1834,56 @@ namespace Mercury.Language.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Matrix must be in sparse storage format..
+        /// </summary>
+        internal static string MATRIX_MUST_BE_IN_SPARSE_STORAGE_FORMAT {
+            get {
+                return ResourceManager.GetString("MATRIX_MUST_BE_IN_SPARSE_STORAGE_FORMAT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Matrix must be positive definite.
+        /// </summary>
+        internal static string MATRIX_MUST_BE_POSITIVE_DEFINITE {
+            get {
+                return ResourceManager.GetString("MATRIX_MUST_BE_POSITIVE_DEFINITE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Matrix must be square..
         /// </summary>
         internal static string MATRIX_MUST_BE_SQUARE {
             get {
                 return ResourceManager.GetString("MATRIX_MUST_BE_SQUARE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Matrix must be symmetric..
+        /// </summary>
+        internal static string MATRIX_MUST_BE_SYMMETRIC {
+            get {
+                return ResourceManager.GetString("MATRIX_MUST_BE_SYMMETRIC", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Matrix must not be rank deficient..
+        /// </summary>
+        internal static string MATRIX_MUST_NOT_BE_RANK_DEFICIENT {
+            get {
+                return ResourceManager.GetString("MATRIX_MUST_NOT_BE_RANK_DEFICIENT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Matrix must not be singular..
+        /// </summary>
+        internal static string MATRIX_MUST_NOT_BE_SINGULAR {
+            get {
+                return ResourceManager.GetString("MATRIX_MUST_NOT_BE_SINGULAR", resourceCulture);
             }
         }
         
@@ -1834,6 +2023,15 @@ namespace Mercury.Language.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Minimal number of days is invalid..
+        /// </summary>
+        internal static string MINIMAL_NUMBER_OF_DAYS_IS_INVALID {
+            get {
+                return ResourceManager.GetString("MINIMAL_NUMBER_OF_DAYS_IS_INVALID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to minimal step size ({1,number,0.00E00}) reached, integration needs {0,number,0.00E00}.
         /// </summary>
         internal static string MINIMAL_STEPSIZE_REACHED_DURING_INTEGRATION {
@@ -1848,6 +2046,24 @@ namespace Mercury.Language.Properties {
         internal static string MISMATCHED_LOESS_ABSCISSA_ORDINATE_ARRAYS {
             get {
                 return ResourceManager.GetString("MISMATCHED_LOESS_ABSCISSA_ORDINATE_ARRAYS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to must have n &gt; 0 for n!.
+        /// </summary>
+        internal static string MUST_HAVE_N_IS_MORE_THAN_FOR_N_ABSOLUTE {
+            get {
+                return ResourceManager.GetString("MUST_HAVE_N_IS_MORE_THAN_FOR_N_ABSOLUTE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to must have n &gt;= 0 for n!.
+        /// </summary>
+        internal static string MUST_HAVE_N_IS_MORE_THAN_OR_EQUALS_FOR_N_ABSOLUTE {
+            get {
+                return ResourceManager.GetString("MUST_HAVE_N_IS_MORE_THAN_OR_EQUALS_FOR_N_ABSOLUTE", resourceCulture);
             }
         }
         
@@ -1920,6 +2136,33 @@ namespace Mercury.Language.Properties {
         internal static string NANO_SECOND_BASE_IS_NOT_SUPPORTED {
             get {
                 return ResourceManager.GetString("NANO_SECOND_BASE_IS_NOT_SUPPORTED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Native Provider disabled by an application switch.
+        /// </summary>
+        internal static string NATIVE_PROVIDER_DISABLED_BY_AN_APPLICATION_SWITCH {
+            get {
+                return ResourceManager.GetString("NATIVE_PROVIDER_DISABLED_BY_AN_APPLICATION_SWITCH", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Native Provider Probing failed to resolve creator.
+        /// </summary>
+        internal static string NATIVE_PROVIDER_PROBING_FAILED_TO_RESOLVE_CREATOR {
+            get {
+                return ResourceManager.GetString("NATIVE_PROVIDER_PROBING_FAILED_TO_RESOLVE_CREATOR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Native Provider Probing is disabled by an application switch.
+        /// </summary>
+        internal static string NATIVE_PROVIDER_PROBING_IS_DISABLED_BY_AN_APPLICATION_SWITCH {
+            get {
+                return ResourceManager.GetString("NATIVE_PROVIDER_PROBING_IS_DISABLED_BY_AN_APPLICATION_SWITCH", resourceCulture);
             }
         }
         
@@ -2707,6 +2950,15 @@ namespace Mercury.Language.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Object is not an Instant..
+        /// </summary>
+        internal static string OBJECT_IS_NOT_AN_INSTANT {
+            get {
+                return ResourceManager.GetString("OBJECT_IS_NOT_AN_INSTANT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to conversion exception in transformation.
         /// </summary>
         internal static string OBJECT_TRANSFORMATION {
@@ -2968,6 +3220,15 @@ namespace Mercury.Language.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Permutations in diagonal matrix are not allowed.
+        /// </summary>
+        internal static string PERMUTATIONS_IN_DIAGONAL_MATRIX_ARE_NOT_ALLOWED {
+            get {
+                return ResourceManager.GetString("PERMUTATIONS_IN_DIAGONAL_MATRIX_ARE_NOT_ALLOWED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to polynomial.
         /// </summary>
         internal static string POLYNOMIAL {
@@ -3072,6 +3333,24 @@ namespace Mercury.Language.Properties {
         internal static string REAL_FORMAT {
             get {
                 return ResourceManager.GetString("REAL_FORMAT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The requested matrix does not exist..
+        /// </summary>
+        internal static string REQUESTED_MATRIX_DOES_NOT_EXIST {
+            get {
+                return ResourceManager.GetString("REQUESTED_MATRIX_DOES_NOT_EXIST", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to result too large to represent in a long integer.
+        /// </summary>
+        internal static string RESULT_TOO_LARGE_REPRESENT_IN_A_LONG_INTEGER {
+            get {
+                return ResourceManager.GetString("RESULT_TOO_LARGE_REPRESENT_IN_A_LONG_INTEGER", resourceCulture);
             }
         }
         
@@ -3211,6 +3490,33 @@ namespace Mercury.Language.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The singular vectors were not computed..
+        /// </summary>
+        internal static string SINGULAR_VECTORS_WERE_NOT_COMPUTED {
+            get {
+                return ResourceManager.GetString("SINGULAR_VECTORS_WERE_NOT_COMPUTED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Source and indexes arrays must have the same dimension for in-place operations..
+        /// </summary>
+        internal static string SOURCE_AND_INDEXES_ARRAYS_MUST_HAVE_THE_SAME_DIMENSION {
+            get {
+                return ResourceManager.GetString("SOURCE_AND_INDEXES_ARRAYS_MUST_HAVE_THE_SAME_DIMENSION", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Specific Native Provider disabled by an application switch.
+        /// </summary>
+        internal static string SPECIFIC_NATIVE_PROVIDER_DISABLED_BY_AN_APPLICATION_SWITCH {
+            get {
+                return ResourceManager.GetString("SPECIFIC_NATIVE_PROVIDER_DISABLED_BY_AN_APPLICATION_SWITCH", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to standard deviation ({0}).
         /// </summary>
         internal static string STANDARD_DEVIATION {
@@ -3243,6 +3549,60 @@ namespace Mercury.Language.Properties {
         internal static string SUBARRAY_ENDS_AFTER_ARRAY_END {
             get {
                 return ResourceManager.GetString("SUBARRAY_ENDS_AFTER_ARRAY_END", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The array arguments must have the same length..
+        /// </summary>
+        internal static string THE_ARRAY_ARGUMENTS_MUST_HAVE_THE_SAME_LENGTH {
+            get {
+                return ResourceManager.GetString("THE_ARRAY_ARGUMENTS_MUST_HAVE_THE_SAME_LENGTH", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The destination matrix must be big enough to accommodate the results..
+        /// </summary>
+        internal static string THE_DESTINATION_MATRIX_MUST_BE_BIG_ENOUGH {
+            get {
+                return ResourceManager.GetString("THE_DESTINATION_MATRIX_MUST_BE_BIG_ENOUGH", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The given array has the wrong length. Should be {0} * {1}..
+        /// </summary>
+        internal static string THE_GIVEN_ARRAY_HAS_THE_WRONG_LENGTH {
+            get {
+                return ResourceManager.GetString("THE_GIVEN_ARRAY_HAS_THE_WRONG_LENGTH", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The given array is too small. It must be at least min(m,n) long..
+        /// </summary>
+        internal static string THE_GIVEN_ARRAY_IS_TOO_SMALL {
+            get {
+                return ResourceManager.GetString("THE_GIVEN_ARRAY_IS_TOO_SMALL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The input parameter {0} must be positive..
+        /// </summary>
+        internal static string THE_INPUT_PARAMETER_MUST_BE_POSITIVE {
+            get {
+                return ResourceManager.GetString("THE_INPUT_PARAMETER_MUST_BE_POSITIVE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The number of rows must greater than or equal to the number of columns..
+        /// </summary>
+        internal static string THE_NUMBER_OF_ROWS_MUST_GREATER_THAN_OR_EQUAL_TO_THE_NUMBER_OF_COLUMNS {
+            get {
+                return ResourceManager.GetString("THE_NUMBER_OF_ROWS_MUST_GREATER_THAN_OR_EQUAL_TO_THE_NUMBER_OF_COLUMNS", resourceCulture);
             }
         }
         
@@ -3396,6 +3756,24 @@ namespace Mercury.Language.Properties {
         internal static string UNABLE_TO_ORTHOGONOLIZE_MATRIX {
             get {
                 return ResourceManager.GetString("UNABLE_TO_ORTHOGONOLIZE_MATRIX", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to parse amount: {0}.
+        /// </summary>
+        internal static string UNABLE_TO_PARSE_AMOUNT {
+            get {
+                return ResourceManager.GetString("UNABLE_TO_PARSE_AMOUNT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to parse amount, invalid format: {0}.
+        /// </summary>
+        internal static string UNABLE_TO_PARSE_AMOUNT_INVALID_FORMAT {
+            get {
+                return ResourceManager.GetString("UNABLE_TO_PARSE_AMOUNT_INVALID_FORMAT", resourceCulture);
             }
         }
         
@@ -3886,6 +4264,15 @@ namespace Mercury.Language.Properties {
         internal static string ZERO_NOT_ALLOWED {
             get {
                 return ResourceManager.GetString("ZERO_NOT_ALLOWED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Zero pivot encountered on row {0} during ILU process..
+        /// </summary>
+        internal static string ZERO_PIVOT_ENCOUNTERED_ON_ROW_DURING_ILU_PROCESS {
+            get {
+                return ResourceManager.GetString("ZERO_PIVOT_ENCOUNTERED_ON_ROW_DURING_ILU_PROCESS", resourceCulture);
             }
         }
     }

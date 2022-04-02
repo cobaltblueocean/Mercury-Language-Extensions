@@ -76,7 +76,7 @@ namespace Mercury.Language.Math.Decompositions
         // cache for lazy evaluation
         private Double? determinant;
         private double? lndeterminant;
-        private bool? nonsingular;
+        private bool singular;
         private Double[,] lowerTriangularFactor;
         private Double[,] upperTriangularFactor;
 
@@ -185,7 +185,7 @@ namespace Mercury.Language.Math.Decompositions
                 this.pivotVector[row] = row;
             }
             even = true;
-            Boolean singular = false;
+            singular = false;
 
             // Loop over columns
             for (int col = 0; col < m; col++)
@@ -229,7 +229,7 @@ namespace Mercury.Language.Math.Decompositions
                 // Singularity check
                 if (Math2.Abs(lu[max, col]) < singularityThreshold)
                 {
-                    singular = false;
+                    singular = true;
                     return;
                 }
 
@@ -258,8 +258,6 @@ namespace Mercury.Language.Math.Decompositions
                     lu[row, col] /= luDiag;
                 }
             }
-
-            this.nonsingular = !singular;
         }
 
         /// <summary>
@@ -269,7 +267,7 @@ namespace Mercury.Language.Math.Decompositions
         /// <returns>the L matrix (or null if decomposed matrix is singular)</returns>
         public Matrix<Double> GetL()
         {
-            if ((cachedL == null) && nonsingular.Value)
+            if ((cachedL == null) && !singular)
             {
                 int m = pivotVector.Length;
                 cachedL = MatrixUtils.CreateMatrix(m, m);
@@ -293,7 +291,7 @@ namespace Mercury.Language.Math.Decompositions
         /// <returns>the U matrix (or null if decomposed matrix is singular)</returns>
         public Matrix<Double> GetU()
         {
-            if ((cachedU == null) && nonsingular.Value)
+            if ((cachedU == null) && !singular)
             {
                 int m = pivotVector.Length;
                 cachedU = MatrixUtils.CreateMatrix(m, m);
@@ -320,7 +318,7 @@ namespace Mercury.Language.Math.Decompositions
         /// <see cref="#getPivot()"></see>
         public Matrix<Double> GetP()
         {
-            if ((cachedP == null) && nonsingular.Value)
+            if ((cachedP == null) && !singular)
             {
                 int m = pivotVector.Length;
                 cachedP = MatrixUtils.CreateMatrix(m, m);
@@ -357,19 +355,20 @@ namespace Mercury.Language.Math.Decompositions
         {
             get
             {
-                if (!nonsingular.HasValue)
-                {
-                    if (rows != cols)
-                        throw new InvalidOperationException(LocalizedResources.Instance().MATRIX_MUST_BE_SQUARE);
+                //if (!nonsingular.HasValue)
+                //{
+                //    if (rows != cols)
+                //        throw new InvalidOperationException(LocalizedResources.Instance().MATRIX_MUST_BE_SQUARE);
 
-                    bool nonSingular = true;
-                    for (int i = 0; i < rows && nonSingular; i++)
-                        if (lu[i, i] == 0) nonSingular = false;
+                //    bool nonSingular = true;
+                //    for (int i = 0; i < rows && nonSingular; i++)
+                //        if (lu[i, i] == 0) nonSingular = false;
 
-                    nonsingular = nonSingular;
-                }
+                //    nonsingular = nonSingular;
+                //}
 
-                return nonsingular.Value;
+                //return nonsingular.Value;
+                return !singular;
             }
         }
 

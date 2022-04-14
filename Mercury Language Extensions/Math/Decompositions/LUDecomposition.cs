@@ -172,7 +172,6 @@ namespace Mercury.Language.Math.Decompositions
             this.cols = lu.GetLength(1);
             this.pivotSign = 1;
 
-
             int m = this.lu.GetMaxColumnLength();
             this.pivotVector = new int[m];
             cachedL = null;
@@ -190,7 +189,6 @@ namespace Mercury.Language.Math.Decompositions
             // Loop over columns
             for (int col = 0; col < m; col++)
             {
-
                 double sum = 0;
 
                 // upper
@@ -202,7 +200,8 @@ namespace Mercury.Language.Math.Decompositions
                     {
                         sum -= luRow[i] * lu[i, col];
                     }
-                    luRow[col] = sum;
+                    //luRow[col] = sum;
+                    lu[row, col] = sum;
                 }
 
                 // lower
@@ -216,7 +215,8 @@ namespace Mercury.Language.Math.Decompositions
                     {
                         sum -= luRow[i] * lu[i, col];
                     }
-                    luRow[col] = sum;
+                    //luRow[col] = sum;
+                    lu[row, col] = sum;
 
                     // maintain best permutation choice
                     if (Math2.Abs(sum) > largest)
@@ -242,9 +242,15 @@ namespace Mercury.Language.Math.Decompositions
                     for (int i = 0; i < m; i++)
                     {
                         tmp = luMax[i];
-                        luMax[i] = luCol[i];
-                        luCol[i] = tmp;
+                        //lu.SetRow(max, luCol);  //luMax[i] = luCol[i];
+                        lu[max, i] = luCol[i];
+                        //luCol[i] = tmp;
+                        lu[col, i] = tmp;
                     }
+
+                    //lu.SetRow(max, luCol);
+                    //lu.SetRow(col, luMax);
+
                     int temp = this.pivotVector[max];
                     this.pivotVector[max] = this.pivotVector[col];
                     this.pivotVector[col] = temp;

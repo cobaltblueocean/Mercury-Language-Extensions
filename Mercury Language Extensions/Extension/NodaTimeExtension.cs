@@ -2505,6 +2505,104 @@ namespace NodaTime
                 return end - start;
             }
         }
+
+        public static int GetTotalYears(this Period period)
+        {
+            var years = period.Years;
+            years += (period.Months/12);
+            years += (period.Days / (12 * 30));
+            years += (int)(period.Hours / (12 * 30 * 24));
+            years += (int)(period.Minutes / (12 * 30 * 24 * 60));
+            years += (int)(period.Seconds / (12 * 30 * 24 * 60 * 60));
+            years += (int)(period.Milliseconds / (12L * 30L * 24L * 60L * 60L * 100L));
+
+            return years;
+        }
+
+        public static int GetTotalMonths(this Period period)
+        {
+            var months = 0;
+            months += period.Years * 12;
+            months += period.Months;
+            months += (period.Days / 30);
+            months += (int)(period.Hours / (30 * 24));
+            months += (int)(period.Minutes / (30 * 24 * 60));
+            months += (int)(period.Seconds / (30 * 24 * 60 * 60));
+            months += (int)(period.Milliseconds / (30 * 24 * 60 * 60 * 100));
+
+            return months;
+        }
+
+        public static int GetTotalDays(this Period period)
+        {
+            var days = 0;
+            days += period.Years * 365;
+            days += period.Months * 30;
+            days += period.Days;
+            days += (int)(period.Hours / 24);
+            days += (int)(period.Minutes / (24 * 60));
+            days += (int)(period.Seconds / (24 * 60 * 60));
+            days += (int)(period.Milliseconds / (24 * 60 * 60 * 100));
+
+            return days;
+        }
+
+        public static long GetTotalHours(this Period period)
+        {
+            var hours = 0L;
+            hours += period.Years * 365 * 24;
+            hours += period.Months * 30 * 24;
+            hours += period.Days * 24;
+            hours += period.Hours;
+            hours += period.Minutes / 60;
+            hours += period.Seconds / (60 * 60);
+            hours += period.Milliseconds / (60 * 60 * 100);
+
+            return hours;
+        }
+
+        public static long GetTotalMinutes(this Period period)
+        {
+            var minutes = 0L;
+            minutes += period.Years * 365 * 24 * 60;
+            minutes += period.Months * 30 * 24 * 60;
+            minutes += period.Days * 24 * 60;
+            minutes += period.Hours * 60;
+            minutes += period.Minutes;
+            minutes += period.Seconds / 60;
+            minutes += period.Milliseconds / (60 * 100);
+
+            return minutes;
+        }
+
+        public static long GetTotalSeconds(this Period period)
+        {
+            var seconds = 0L;
+            seconds += period.Years * 365 * 24 * 60 * 60;
+            seconds += period.Months * 30 * 24 * 60 * 60;
+            seconds += period.Days * 24 * 60 * 60;
+            seconds += period.Hours * 60 * 60;
+            seconds += period.Minutes * 60;
+            seconds += period.Seconds;
+            seconds += period.Milliseconds / 100;
+
+            return seconds;
+        }
+
+        public static long GetTotalMilliseconds(this Period period)
+        {
+            var milliseconds = 0L;
+            milliseconds += period.Years * 365 * 24 * 60 * 60 * 100;
+            milliseconds += period.Months * 30 * 24 * 60 * 60 * 100;
+            milliseconds += period.Days * 24 * 60 * 60 * 100;
+            milliseconds += period.Hours * 60 * 60 * 100;
+            milliseconds += period.Minutes * 60 * 100;
+            milliseconds += period.Seconds * 100;
+            milliseconds += period.Milliseconds;
+
+            return milliseconds;
+        }
+
         #endregion
 
         #region Range methods

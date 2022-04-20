@@ -35,5 +35,10 @@ namespace System
         {
             return chr.Equals(' ');
         }
+
+        public static Boolean In(this Char chr, Char[] chars)
+        {
+            return chars.Any(x => x == chr);
+        }
     }
 }

@@ -5,3 +5,5 @@
 /Mercury Language Extensions/bin/Debug
 /Mercury Language Extensions/.vs/Mercury Language Extensions
 /Mercury Language Extensions/obj
+/Mercury Language Extensions.Test/bin/Debug/netcoreapp3.1
+/Mercury Language Extensions.Test/obj

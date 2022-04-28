@@ -71,22 +71,56 @@ namespace System
 
         public static IList<T> AddAll<T>(this IList<T> originalList, params T[] items)
         {
-            foreach (T item in items)
-            {
-                originalList.Add(item);
-            }
+            if (items.Length == 0)
+                return originalList;
 
-            return originalList;
+            if (originalList.GetType().IsArray)
+            {
+                if (originalList.Count == 0)
+                    return items;
+
+                var newLength = originalList.Count + items.Length;
+                var newArray = new T[newLength];
+                originalList.CopyTo(newArray, 0);
+                items.CopyTo(newArray, originalList.Count);
+
+                return newArray;
+            }
+            else
+            {
+                foreach (T item in items)
+                {
+                    originalList.Add(item);
+                }
+                return originalList;
+            }
         }
 
         public static IList<T> AddAll<T>(this IList<T> originalList, IList<T> items)
         {
-            foreach (T item in items)
-            {
-                originalList.Add(item);
-            }
+            if (items.Count == 0)
+                return originalList;
 
-            return originalList;
+            if (originalList.GetType().IsArray)
+            {
+                if (originalList.Count == 0)
+                    return items;
+
+                var newLength = originalList.Count + items.Count;
+                var newArray = new T[newLength];
+                originalList.CopyTo(newArray, 0);
+                items.CopyTo(newArray, originalList.Count);
+
+                return newArray;
+            }
+            else
+            {
+                foreach (T item in items)
+                {
+                    originalList.Add(item);
+                }
+                return originalList;
+            }
         }
 
         public static T1[] GetKeys<T1, T2>(this List<KeyValuePair<T1, T2>> list)
@@ -146,5 +180,35 @@ namespace System
                 return true;
             }
         }
+
+        public static Boolean ValuesEqual<T>(this IList<T> arrayA, IList<T> arrayB)
+        {
+            if (arrayA.Count == arrayB.Count)
+            {
+                if (typeof(T).IsPrimitive)
+                {
+                    for (int i = 0; i < arrayA.Count; i++)
+                    {
+                        if (!arrayA[i].Equals(arrayB[i]))
+                            return false;
+                    }
+                    return true;
+                }
+                else
+                {
+                    for (int i = 0; i < arrayA.Count; i++)
+                    {
+                        if (!arrayA[i].AreObjectsEqual(arrayB[i]))
+                            return false;
+                    }
+                    return true;
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
+
     }
 }

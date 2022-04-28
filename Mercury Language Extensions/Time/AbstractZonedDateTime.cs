@@ -74,7 +74,7 @@ namespace Mercury.Language.Time
             LocalDate t1 = now.InZone(timeZone).Date;
 
             LocalDateTime local = new LocalDateTime(1970, 1, 1, 0, 0);
-            ZonedDateTime epoch = new ZonedDateTime(local, timeZone, new Offset());
+            ZonedDateTime epoch = new ZonedDateTime(local, timeZone, timeZone.GetUtcOffset(Instant.FromDateTimeUtc(DateTime.UtcNow)));
 
             return Convert.ToInt64((date - epoch).TotalSeconds);
         }

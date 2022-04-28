@@ -441,6 +441,16 @@ namespace System
             return newArray;
         }
 
+        public static T[] CopyOfRange<T>(this T[] originalArray, int from, int to)
+        {
+            int newLength = to - from;
+            if (newLength < 0)
+                throw new IndexOutOfRangeException(from + " > " + to);
+            T[] copy = new T[newLength];
+            Array.Copy(originalArray, from, copy, 0, Math.Min(originalArray.Length - from, newLength));
+            return copy;
+        }
+
         public static void CopyRow<T>(this T[,] sourceArray, int srcRow, int srcPos, ref T[,] dest, int destRow, int destPos, int length)
         {
             if (sourceArray.GetLength(1) < srcPos)

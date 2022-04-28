@@ -88,7 +88,7 @@ namespace Mercury.Language.Time
             LocalDate t1 = now.InZone(timeZone).Date;
 
             LocalDateTime local = new LocalDateTime(t1.Year, t1.Month, 1, 0, 0);
-            ZonedDateTime temp = new ZonedDateTime(local, timeZone, new Offset());
+            ZonedDateTime temp = new ZonedDateTime(local, timeZone, timeZone.GetUtcOffset(Instant.FromDateTimeUtc(System.DateTime.UtcNow)));
 
             return DayTemporalAdjuster.Of(temp, DayTemporalAdjuster.DayOf.FirstDayOfMonth);
         }
@@ -120,7 +120,7 @@ namespace Mercury.Language.Time
 
             t1.PlusMonths(1);
             LocalDateTime local = new LocalDateTime(t1.Year, t1.Month, 1, 0, 0);
-            ZonedDateTime temp = new ZonedDateTime(local, timeZone, new Offset());
+            ZonedDateTime temp = new ZonedDateTime(local, timeZone, timeZone.GetUtcOffset(Instant.FromDateTimeUtc(System.DateTime.UtcNow)));
             temp = temp.PlusDays(-1);
 
             return DayTemporalAdjuster.Of(temp, DayTemporalAdjuster.DayOf.LastDayOfMonth);
@@ -151,7 +151,7 @@ namespace Mercury.Language.Time
 
             t1.PlusMonths(1);
             LocalDateTime local = new LocalDateTime(t1.Year, t1.Month, 1, 0, 0);
-            ZonedDateTime temp = new ZonedDateTime(local, timeZone, new Offset());
+            ZonedDateTime temp = new ZonedDateTime(local, timeZone, timeZone.GetUtcOffset(Instant.FromDateTimeUtc(System.DateTime.UtcNow)));
 
             return DayTemporalAdjuster.Of(temp, DayTemporalAdjuster.DayOf.FirstDayOfNextMonth);
         }
@@ -177,7 +177,7 @@ namespace Mercury.Language.Time
             DateTimeZone timeZone = ORIGINAL_TIME_ZONE;
             LocalDate t1 = now.InZone(timeZone).Date;
             LocalDateTime local = new LocalDateTime(t1.Year, 1, 1, 0, 0);
-            ZonedDateTime temp = new ZonedDateTime(local, timeZone, new Offset());
+            ZonedDateTime temp = new ZonedDateTime(local, timeZone, timeZone.GetUtcOffset(Instant.FromDateTimeUtc(System.DateTime.UtcNow)));
 
             return DayTemporalAdjuster.Of(temp, DayTemporalAdjuster.DayOf.FirstDayOfYear);
         }
@@ -207,7 +207,7 @@ namespace Mercury.Language.Time
 
             t1.PlusYears(1);
             LocalDateTime local = new LocalDateTime(t1.Year, 1, 1, 0, 0);
-            ZonedDateTime temp = new ZonedDateTime(local, timeZone, new Offset());
+            ZonedDateTime temp = new ZonedDateTime(local, timeZone, timeZone.GetUtcOffset(Instant.FromDateTimeUtc(System.DateTime.UtcNow)));
             temp = temp.PlusDays(-1);
 
             return DayTemporalAdjuster.Of(temp, DayTemporalAdjuster.DayOf.LastDayOfYear);
@@ -235,7 +235,7 @@ namespace Mercury.Language.Time
 
             t1.PlusYears(1);
             LocalDateTime local = new LocalDateTime(t1.Year, 1, 1, 0, 0);
-            ZonedDateTime temp = new ZonedDateTime(local, timeZone, new Offset());
+            ZonedDateTime temp = new ZonedDateTime(local, timeZone, timeZone.GetUtcOffset(Instant.FromDateTimeUtc(System.DateTime.UtcNow)));
 
             return DayTemporalAdjuster.Of(temp, DayTemporalAdjuster.DayOf.FirstDayOfNextYear);
         }
@@ -625,12 +625,12 @@ namespace Mercury.Language.Time
             {
                 switch (_dayOf)
                 {
-                    case DayOf.FirstDayOfMonth: return temporal.With(ChronoField.DAY_OF_MONTH, 1);
-                    case DayOf.LastDayOfMonth: return temporal.With(ChronoField.DAY_OF_MONTH, temporal.GetRange(ChronoField.DAY_OF_MONTH).MaxLargest);
-                    case DayOf.FirstDayOfNextMonth: return temporal.With(ChronoField.DAY_OF_MONTH, 1).Plus(1, ChronoUnit.MONTHS);
-                    case DayOf.FirstDayOfYear: return temporal.With(ChronoField.DAY_OF_YEAR, 1);
-                    case DayOf.LastDayOfYear: return temporal.With(ChronoField.DAY_OF_YEAR, temporal.GetRange(ChronoField.DAY_OF_YEAR).MaxLargest);
-                    case DayOf.FirstDayOfNextYear: return temporal.With(ChronoField.DAY_OF_YEAR, 1).Plus(1, ChronoUnit.YEARS);
+                    case DayOf.FirstDayOfMonth: return new Temporal(temporal.With(ChronoField.DAY_OF_MONTH, 1));
+                    case DayOf.LastDayOfMonth: return new Temporal(temporal.With(ChronoField.DAY_OF_MONTH, temporal.GetRange(ChronoField.DAY_OF_MONTH).MaxLargest));
+                    case DayOf.FirstDayOfNextMonth: return new Temporal(temporal.With(ChronoField.DAY_OF_MONTH, 1).Plus(1, ChronoUnit.MONTHS));
+                    case DayOf.FirstDayOfYear: return new Temporal(temporal.With(ChronoField.DAY_OF_YEAR, 1));
+                    case DayOf.LastDayOfYear: return new Temporal(temporal.With(ChronoField.DAY_OF_YEAR, temporal.GetRange(ChronoField.DAY_OF_YEAR).MaxLargest));
+                    case DayOf.FirstDayOfNextYear: return new Temporal(temporal.With(ChronoField.DAY_OF_YEAR, 1).Plus(1, ChronoUnit.YEARS));
                 }
                 throw new NotSupportedException("Unreachable");
             }
@@ -699,12 +699,12 @@ namespace Mercury.Language.Time
                 if ((_ordinal & 1) == 0)
                 {
                     int daysDiff = calDow - dowValue;
-                    return temporal.Plus(daysDiff >= 0 ? 7 - daysDiff : -daysDiff, ChronoUnit.DAYS);
+                    return new Temporal(temporal.Plus(daysDiff >= 0 ? 7 - daysDiff : -daysDiff, ChronoUnit.DAYS));
                 }
                 else
                 {
                     int daysDiff = dowValue - calDow;
-                    return temporal.Minus(daysDiff >= 0 ? 7 - daysDiff : -daysDiff, ChronoUnit.DAYS);
+                    return new Temporal(temporal.Minus(daysDiff >= 0 ? 7 - daysDiff : -daysDiff, ChronoUnit.DAYS));
                 }
             }
         }
@@ -770,7 +770,7 @@ namespace Mercury.Language.Time
                     int curDow = temp.Get(ChronoField.DAY_OF_WEEK);
                     int dowDiff = (dowValue - curDow + 7) % 7;
                     dowDiff += (int)(((long)_relative - 1L) * 7L);  // safe from overflow
-                    return temp.Plus(dowDiff, ChronoUnit.DAYS);
+                    return new Temporal(temp.Plus(dowDiff, ChronoUnit.DAYS));
                 }
                 else
                 {
@@ -780,7 +780,7 @@ namespace Mercury.Language.Time
                     int daysDiff = dowValue - curDow;
                     daysDiff = (daysDiff == 0 ? 0 : (daysDiff > 0 ? daysDiff - 7 : daysDiff));
                     daysDiff -= (int)((-_relative - 1L) * 7L);  // safe from overflow
-                    return temp.Plus(daysDiff, ChronoUnit.DAYS);
+                    return new Temporal(temp.Plus(daysDiff, ChronoUnit.DAYS));
                 }
             }
         }

@@ -2378,7 +2378,7 @@ namespace NodaTime
             return (endDate.GetEpochSecond() - startDate.GetEpochSecond()) / (double)NodaTimeUtility.SECONDS_PER_DAY;
         }
 
-        public static int GetDaysBetween(Instant startDate, Boolean includeStart, Instant endDate, Boolean includeEnd)
+        public static int GetDaysBetween(this Instant startDate, Boolean includeStart, Instant endDate, Boolean includeEnd)
         {
             if (startDate == null)
             {
@@ -2399,6 +2399,42 @@ namespace NodaTime
             }
             return daysBetween;
         }
+
+        public static Instant PlusDays(this Instant now, int days)
+        {
+            return now.Plus(Duration.FromDays(days));
+        }
+
+        public static Instant PlusHours(this Instant now, int hours)
+        {
+            return now.Plus(Duration.FromHours(hours));
+        }
+
+        public static Instant PlusMinutes(this Instant now, int minutes)
+        {
+            return now.Plus(Duration.FromMinutes(minutes));
+        }
+
+        public static Instant PlusSeconds(this Instant now, int seconds)
+        {
+            return now.Plus(Duration.FromSeconds(seconds));
+        }
+
+        public static Instant PlusMillis(this Instant now, long millis)
+        {
+            return now.Plus(Duration.FromMilliseconds(millis));
+        }
+
+        public static Instant PlusNanos(this Instant now, long nanos)
+        {
+            return now.Plus(Duration.FromNanoseconds(nanos));
+        }
+
+        public static Instant PlusTicks(this Instant now, long ticks)
+        {
+            return now.Plus(Duration.FromTicks(ticks));
+        }
+
         #endregion
 
         #region Period Methods

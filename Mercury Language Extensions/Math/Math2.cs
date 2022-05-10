@@ -398,7 +398,14 @@ namespace System
         /** Constant: {@value}d */
         /** Coefficients for slowLog. */
 
+
+        private static Random rnd;
         #endregion Local Variables
+
+        static Math2()
+        {
+            rnd = new Random();
+        }
 
         #region "Decimal Math Helper Variables"
         /// <summary>
@@ -461,7 +468,6 @@ namespace System
         /// </summary>
         private const int MaxIteration = 100;
         #endregion
-
 
         #region trigonometric function
 
@@ -3851,10 +3857,10 @@ namespace System
 
         public static double Random()
         {
-            Random rnd = new Random();
+            //Random rnd = new Random();
             lock (rnd)
             {
-                return rnd.Next(0, 1);
+                return rnd.NextDouble();
             }
         }
 

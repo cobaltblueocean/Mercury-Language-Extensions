@@ -4,8 +4,8 @@
     <TargetFramework>netstandard2.1</TargetFramework>
     <RootNamespace>Mercury.Language</RootNamespace>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <AssemblyVersion>0.8.1.46</AssemblyVersion>
-    <FileVersion>0.8.1.46</FileVersion>
+    <AssemblyVersion>0.8.1.51</AssemblyVersion>
+    <FileVersion>0.8.1.51</FileVersion>
     <Description>This is a package to extended libraries to enhance C# programming, especially easier migrate from Java.</Description>
     <Copyright>Kei Nakai</Copyright>
     <PackageProjectUrl>https://github.com/cobaltblueocean/Mercury-Language-Extensions</PackageProjectUrl>
@@ -14,7 +14,7 @@
     <PackageId>Mercury.Language.Extensions</PackageId>
     <Authors>Kei Nakai</Authors>
     <Company />
-    <Version>0.8.1.46</Version>
+    <Version>0.8.1.51</Version>
     <PackageReleaseNotes>Added Decimal and DecimalComplec Matrix/Vector classes
 Fixed CloneExact() method
 Fixed AreObjectsEqual() method
@@ -38,7 +38,7 @@ Bug fixed for TemporalAdjuster and ZonedDateTime classes to treat Offset</Packag
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Cern.Colt.NET" Version="0.9.1.15" />
+    <PackageReference Include="Cern.Colt.NET" Version="0.9.1.17" />
     <PackageReference Include="MathNet.Numerics" Version="4.15.0" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="NodaTime" Version="3.0.9" />

@@ -489,16 +489,15 @@ namespace Mercury.Language.Money
         {
             // ArgumentChecker.NotNull(currencyCode, nameof(currencyCode));
             // check cache before matching
-            Currency previous = s_instanceMap[currencyCode];
-            if (previous != null)
-            {
-                return previous;
-            }
             if (currencyCode.Matches("[A-Z][A-Z][A-Z]") == false)
             {
                 throw new ArgumentException(String.Format(LocalizedResources.Instance().INVALID_CURRENCY_CODE, currencyCode));
             }
-            s_instanceMap.AddOrUpdate(currencyCode, new Currency(currencyCode));
+
+            if (!s_instanceMap.Any(x => x.Key == currencyCode))
+            {
+                s_instanceMap.AddOrUpdate(currencyCode, new Currency(currencyCode));
+            }
             return s_instanceMap[currencyCode];
         }
 

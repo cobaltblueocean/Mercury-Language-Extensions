@@ -130,7 +130,25 @@ namespace System
         public static ZonedDateTime ToZonedDateTime(this DateTime source)
         {
             DateTimeZone timeZone = DateTimeZoneProviders.Bcl.GetSystemDefault();
-            return new ZonedDateTime(source.ToInstant(), timeZone);
+            return ToZonedDateTime(source, timeZone);
+        }
+
+
+        public static ZonedDateTime ToZonedDateTime(this DateTime source, string timeZoneId)
+        {
+            DateTimeZone timeZone = DateTimeZoneProviders.Tzdb[timeZoneId];
+            if (timeZone == null)
+            {
+                throw new TimeZoneNotFoundException();
+            }
+            return ToZonedDateTime(source, timeZone);
+        }
+
+
+        public static ZonedDateTime ToZonedDateTime(this DateTime source, DateTimeZone timeZone)
+        {
+            //Offset offset = timeZone.GetUtcOffset(Instant.FromDateTimeUtc(source.ToUniversalTime()));
+            return (new ZonedDateTime(source.ToInstant(), timeZone)); //.PlusSeconds(-offset.Seconds);
         }
 
         public static LocalDate ToLocalDate(this DateTime source)

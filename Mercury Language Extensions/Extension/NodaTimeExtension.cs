@@ -92,20 +92,136 @@ namespace NodaTime
         //private static int MAX_VALUE = 999999999;
 
 
+        #region Array
+        #region ZonedDateTime
+        public static ZonedDateTime[] ToPremitiveArray(this IList<ZonedDateTime?> val)
+        {
+            return val.Where(x => x.HasValue).Select(x => x.Value).ToArray();
+        }
+        public static ZonedDateTime[] ToPremitiveArray(this IList<ZonedDateTime?> val, int length)
+        {
+            return val.Take(length).Where(x => x.HasValue).Select(x => x.Value).ToArray();
+        }
 
+        public static ZonedDateTime?[] ToNullableArray(this IList<ZonedDateTime> val)
+        {
+            return val.ToArray().Cast<Nullable<ZonedDateTime>>().ToArray();
+        }
+
+        public static ZonedDateTime?[] ToNullableArray(this IList<ZonedDateTime> val, int length)
+        {
+            return val.Take(length).ToArray().Cast<Nullable<ZonedDateTime>>().ToArray();
+        }
+        #endregion
+
+        #region LocalDateTime
+        public static LocalDateTime[] ToPremitiveArray(this IList<LocalDateTime?> val)
+        {
+            return val.Where(x => x.HasValue).Select(x => x.Value).ToArray();
+        }
+        public static LocalDateTime[] ToPremitiveArray(this IList<LocalDateTime?> val, int length)
+        {
+            return val.Take(length).Where(x => x.HasValue).Select(x => x.Value).ToArray();
+        }
+
+        public static LocalDateTime?[] ToNullableArray(this IList<LocalDateTime> val)
+        {
+            return val.ToArray().Cast<Nullable<LocalDateTime>>().ToArray();
+        }
+
+        public static LocalDateTime?[] ToNullableArray(this IList<LocalDateTime> val, int length)
+        {
+            return val.Take(length).ToArray().Cast<Nullable<LocalDateTime>>().ToArray();
+        }
+        #endregion
+
+        #region LocalDate
+        public static LocalDate[] ToPremitiveArray(this IList<LocalDate?> val)
+        {
+            return val.Where(x => x.HasValue).Select(x => x.Value).ToArray();
+        }
+        public static LocalDate[] ToPremitiveArray(this IList<LocalDate?> val, int length)
+        {
+            return val.Take(length).Where(x => x.HasValue).Select(x => x.Value).ToArray();
+        }
+
+        public static LocalDate?[] ToNullableArray(this IList<LocalDate> val)
+        {
+            return val.ToArray().Cast<Nullable<LocalDate>>().ToArray();
+        }
+
+        public static LocalDate?[] ToNullableArray(this IList<LocalDate> val, int length)
+        {
+            return val.Take(length).ToArray().Cast<Nullable<LocalDate>>().ToArray();
+        }
+        #endregion
+
+        #region Duration
+        public static Duration[] ToPremitiveArray(this IList<Duration?> val)
+        {
+            return val.Where(x => x.HasValue).Select(x => x.Value).ToArray();
+        }
+        public static Duration[] ToPremitiveArray(this IList<Duration?> val, int length)
+        {
+            return val.Take(length).Where(x => x.HasValue).Select(x => x.Value).ToArray();
+        }
+
+        public static Duration?[] ToNullableArray(this IList<Duration> val)
+        {
+            return val.ToArray().Cast<Nullable<Duration>>().ToArray();
+        }
+
+        public static Duration?[] ToNullableArray(this IList<Duration> val, int length)
+        {
+            return val.Take(length).ToArray().Cast<Nullable<Duration>>().ToArray();
+        }
+        #endregion
+
+        #region Instant
+        public static Instant[] ToPremitiveArray(this IList<Instant?> val)
+        {
+            return val.Where(x => x.HasValue).Select(x => x.Value).ToArray();
+        }
+        public static Instant[] ToPremitiveArray(this IList<Instant?> val, int length)
+        {
+            return val.Take(length).Where(x => x.HasValue).Select(x => x.Value).ToArray();
+        }
+
+        public static Instant?[] ToNullableArray(this IList<Instant> val)
+        {
+            return val.ToArray().Cast<Nullable<Instant>>().ToArray();
+        }
+
+        public static Instant?[] ToNullableArray(this IList<Instant> val, int length)
+        {
+            return val.Take(length).ToArray().Cast<Nullable<Instant>>().ToArray();
+        }
+        #endregion
+
+        #region Range
+        public static Range[] ToPremitiveArray(this IList<Range?> val)
+        {
+            return val.Where(x => x.HasValue).Select(x => x.Value).ToArray();
+        }
+        public static Range[] ToPremitiveArray(this IList<Range?> val, int length)
+        {
+            return val.Take(length).Where(x => x.HasValue).Select(x => x.Value).ToArray();
+        }
+
+        public static Range?[] ToNullableArray(this IList<Range> val)
+        {
+            return val.ToArray().Cast<Nullable<Range>>().ToArray();
+        }
+
+        public static Range?[] ToNullableArray(this IList<Range> val, int length)
+        {
+            return val.Take(length).ToArray().Cast<Nullable<Range>>().ToArray();
+        }
+        #endregion
+        #endregion
 
         #region ZonedDateTime Methods
-
-        public static ZonedDateTime PlusNanos(this ZonedDateTime source, long nanos)
-        {
-            return source.PlusTicks(nanos * 100);
-        }
-
-        public static ZonedDateTime PlusNanos(this ZonedDateTime source, double nanos)
-        {
-            return PlusNanos(source, Convert.ToInt64(nanos));
-        }
-
+        #region Regular
         public static int CompareTo(this ZonedDateTime now, ZonedDateTime target)
         {
             return DateTime.Compare(now.ToDateTimeUtc(), target.ToDateTimeUtc());
@@ -126,36 +242,6 @@ namespace NodaTime
         public static Boolean IsBefore(this ZonedDateTime now, ZonedDateTime target)
         {
             if (DateTime.Compare(now.ToDateTimeUtc(), target.ToDateTimeUtc()) < 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        public static Boolean IsAfter(this ZonedDateTime? now, ZonedDateTime target)
-        {
-            if (now is null)
-                return false;
-
-            if (DateTime.Compare(now.Value.ToDateTimeUtc(), target.ToDateTimeUtc()) > 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        public static Boolean IsBefore(this ZonedDateTime? now, ZonedDateTime target)
-        {
-            if (now is null)
-                return false;
-
-            if (DateTime.Compare(now.Value.ToDateTimeUtc(), target.ToDateTimeUtc()) < 0)
             {
                 return true;
             }
@@ -198,8 +284,9 @@ namespace NodaTime
             {
                 throw new ArgumentNullException(Mercury.Language.LocalizedResources.Instance().DATE_WAS_NULL);
             }
-            double nanos = System.Math.Round(1e9 * NodaTimeUtility.SECONDS_PER_YEAR * yearFraction);
-            return startDate.PlusNanos(nanos);
+            long nanos = (long)System.Math.Round((decimal)1e9 * NodaTimeUtility.SECONDS_PER_YEAR * (decimal)yearFraction);
+
+            return startDate.PlusNanoseconds(nanos);
         }
 
         public static ZonedDateTime PlusTime(this ZonedDateTime nodaTime, LocalTime time)
@@ -237,6 +324,7 @@ namespace NodaTime
         {
             return tmp.AdjustInto(new Temporal(now)).GetOriginal();
         }
+
         public static ZonedDateTime With(this ZonedDateTime now, LocalTime time)
         {
             return now.WithHour(time.Hour).WithMinute(time.Minute).WithSecond(time.Second).WithNano(time.NanosecondOfSecond);
@@ -875,7 +963,507 @@ namespace NodaTime
         }
         #endregion
 
+        #region Nullable Methods
+        public static Boolean IsAfter(this Nullable<ZonedDateTime> now, ZonedDateTime target)
+        {
+            if (now is null)
+                return false;
+
+            if (DateTime.Compare(now.Value.ToDateTimeUtc(), target.ToDateTimeUtc()) > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public static Boolean IsAfter(this Nullable<ZonedDateTime> now, Nullable<ZonedDateTime> target)
+        {
+            if (target is null)
+                return false;
+
+            return now.IsAfter(target.Value);
+        }
+
+        public static Boolean IsBefore(this Nullable<ZonedDateTime> now, ZonedDateTime target)
+        {
+            if (now is null)
+                return false;
+
+            if (DateTime.Compare(now.Value.ToDateTimeUtc(), target.ToDateTimeUtc()) < 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public static Boolean IsBefore(this Nullable<ZonedDateTime> now, Nullable<ZonedDateTime> target)
+        {
+            if (target is null)
+                return false;
+
+            return now.IsBefore(target.Value);
+        }
+
+        public static Boolean IsLeapYear(this Nullable<ZonedDateTime> now)
+        {
+            if (now is null)
+                return false;
+
+            return now.Value.IsLeapYear();
+        }
+
+        public static Boolean IsSupported(this Nullable<ZonedDateTime> now, ITemporalField field)
+        {
+            if (now is null)
+                return false;
+
+            return now.Value.IsSupported(field);
+        }
+
+        public static Boolean IsSupported(this Nullable<ZonedDateTime> now, ChronoUnit unit)
+        {
+            if (now is null)
+                return false;
+
+            return now.Value.IsSupported(unit);
+        }
+
+        public static Nullable<ZonedDateTime> AdjustDayOfWeek(this Nullable<ZonedDateTime> now, IsoDayOfWeek dayOfWeek)
+        {
+            if (now is null)
+                return null;
+
+            return now.Value.AdjustDayOfWeek(dayOfWeek);
+        }
+
+        public static Nullable<ZonedDateTime> GetDateOffsetWithYearFraction(this Nullable<ZonedDateTime> startDate, double yearFraction)
+        {
+            if (startDate is null)
+                return null;
+
+            return startDate.Value.GetDateOffsetWithYearFraction(yearFraction);
+        }
+
+        public static Nullable<ZonedDateTime> PlusTime(this Nullable<ZonedDateTime> nodaTime, LocalTime time)
+        {
+            if (nodaTime is null)
+                return null;
+
+            return nodaTime.Value.PlusTime(time);
+        }
+
+        public static Nullable<ZonedDateTime> PlusDays(this Nullable<ZonedDateTime> nodaTime, int days)
+        {
+            if (nodaTime is null)
+                return null;
+
+            return nodaTime.Value.PlusDays(days);
+        }
+
+        public static Nullable<ZonedDateTime> PlusWeeks(this Nullable<ZonedDateTime> nodaTime, int weeks)
+        {
+            if (nodaTime is null)
+                return null;
+
+            return nodaTime.Value.PlusWeeks(weeks);
+        }
+
+        public static Nullable<ZonedDateTime> PlusMonths(this Nullable<ZonedDateTime> nodaTime, int months)
+        {
+            if (nodaTime is null)
+                return null;
+
+            return nodaTime.Value.PlusMonths(months);
+        }
+
+        public static Nullable<ZonedDateTime> PlusYears(this Nullable<ZonedDateTime> nodaTime, int years)
+        {
+            if (nodaTime is null)
+                return null;
+
+            return nodaTime.Value.PlusYears(years);
+        }
+
+        public static Nullable<ZonedDateTime> With(this Nullable<ZonedDateTime> now, ITemporalAdjuster tmp)
+        {
+            if (now is null)
+                return null;
+
+            return now.Value.With(tmp);
+        }
+
+        public static Nullable<ZonedDateTime> With(this Nullable<ZonedDateTime> now, LocalTime time)
+        {
+            if (now is null)
+                return null;
+
+            return now.Value.With(time);
+        }
+
+        public static Nullable<ZonedDateTime> WithZoneSameInstant(this Nullable<ZonedDateTime> now, DateTimeZone zone)
+        {
+            if (now is null)
+                return null;
+
+            return now.Value.WithZoneSameInstant(zone);
+        }
+
+        public static Nullable<ZonedDateTime> Plus(this Nullable<ZonedDateTime> now, Period period)
+        {
+            if (now is null)
+                return null;
+
+            return now.Value.Plus(period);
+        }
+
+        public static IList<Nullable<ZonedDateTime>> SortList(this IList<Nullable<ZonedDateTime>> dates)
+        {
+            var result = dates;
+            int i, j;
+            int N = result.Count;
+
+            for (j = N - 1; j > 0; j--)
+            {
+                for (i = 0; i < j; i++)
+                {
+                    if (result[i].IsAfter(result[i + 1]))
+                        exchange(result, i, i + 1);
+                }
+            }
+            return result;
+        }
+
+        private static void exchange(IList<Nullable<ZonedDateTime>> data, int m, int n)
+        {
+            Nullable<ZonedDateTime> temporary;
+
+            temporary = data[m];
+            data[m] = data[n];
+            data[n] = temporary;
+        }
+
+        public static Nullable<ZonedDateTime> Minus(this Nullable<ZonedDateTime> now, Period period)
+        {
+            if (now is null)
+                return null;
+
+            return now.Value.Minus(period);
+        }
+
+        public static Nullable<ZonedDateTime> Plus(this Nullable<ZonedDateTime> now, long amountToAdd, ITemporalUnit unit)
+        {
+            if (now is null)
+                return null;
+
+            return now.Value.Plus(amountToAdd, unit);
+        }
+
+        public static Nullable<ZonedDateTime> Minus(this Nullable<ZonedDateTime> now, long amountToSubtract, ITemporalUnit unit)
+        {
+            if (now is null)
+                return null;
+
+            return now.Value.Minus(amountToSubtract, unit);
+        }
+
+        public static Nullable<ZonedDateTime> With(this Nullable<ZonedDateTime> now, MonthDay monthDay)
+        {
+            if (now is null)
+                return null;
+
+            return now.Value.With(monthDay);
+        }
+
+        public static Nullable<ZonedDateTime> With(this Nullable<ZonedDateTime> now, LocalDate localDate)
+        {
+            if (now is null)
+                return null;
+
+            return now.Value.With(localDate);
+        }
+
+        public static Nullable<ZonedDateTime> With(this Nullable<ZonedDateTime> now, ITemporalField field, long newValue)
+        {
+            if (now is null)
+                return null;
+
+            return now.Value.With(field, newValue);
+        }
+
+        public static Nullable<ZonedDateTime> WithHour(this Nullable<ZonedDateTime> now, int hour)
+        {
+            if (now is null)
+                return null;
+
+            return now.Value.WithHour(hour);
+        }
+
+        public static Nullable<ZonedDateTime> WithMinute(this Nullable<ZonedDateTime> now, int minute)
+        {
+            if (now is null)
+                return null;
+
+            return now.Value.WithMinute(minute);
+        }
+
+        public static Nullable<ZonedDateTime> WithSecond(this Nullable<ZonedDateTime> now, int second)
+        {
+            if (now is null)
+                return null;
+
+            return now.Value.WithSecond(second);
+        }
+
+        public static Nullable<ZonedDateTime> WithNano(this Nullable<ZonedDateTime> now, int nano)
+        {
+            if (now is null)
+                return null;
+
+            return now.Value.WithNano(nano);
+        }
+
+        public static Nullable<ZonedDateTime> WithYear(this Nullable<ZonedDateTime> now, int year)
+        {
+            if (now is null)
+                return null;
+
+            return now.Value.WithYear(year);
+        }
+
+        public static Nullable<ZonedDateTime> WithMonth(this Nullable<ZonedDateTime> now, int month)
+        {
+            if (now is null)
+                return null;
+
+            return now.Value.WithMonth(month);
+        }
+
+        public static Nullable<ZonedDateTime> WithDayOfMonth(this Nullable<ZonedDateTime> now, int dayOfMonth)
+        {
+            if (now is null)
+                return null;
+
+            return now.Value.WithDayOfMonth(dayOfMonth);
+        }
+
+        public static Nullable<ZonedDateTime> WithDayOfYear(this Nullable<ZonedDateTime> now, int dayOfYear)
+        {
+            if (now is null)
+                return null;
+
+            return now.Value.WithDayOfYear(dayOfYear);
+        }
+
+        public static Nullable<ZonedDateTime> OfYearDay(this Nullable<ZonedDateTime> now, int year, int dayOfYear)
+        {
+            if (now is null)
+                return null;
+
+            return now.Value.OfYearDay(year, dayOfYear);
+        }
+
+        public static Nullable<ZonedDateTime> OfEpochDay(this Nullable<ZonedDateTime> now, long epochDay)
+        {
+            if (now is null)
+                return null;
+
+            return now.Value.OfEpochDay(epochDay);
+        }
+
+        public static int Get(this Nullable<ZonedDateTime> now, ITemporalField field)
+        {
+            if (now is null)
+                return -1;
+
+            return now.Value.Get(field);
+        }
+
+        public static long GetLong(this Nullable<ZonedDateTime> now, ITemporalField field)
+        {
+            if (now is null)
+                return -1;
+
+            return now.Value.GetLong(field);
+        }
+
+        public static long GetProlepticMonth(this Nullable<ZonedDateTime> now)
+        {
+            if (now is null)
+                return -1;
+
+            return now.Value.GetProlepticMonth();
+        }
+
+        public static long GetProlepticYear(this Nullable<ZonedDateTime> now)
+        {
+            if (now is null)
+                return -1;
+
+            return now.Value.GetProlepticYear();
+        }
+
+        public static long ToEpochDay(this Nullable<ZonedDateTime> now)
+        {
+            if (now is null)
+                return -1;
+
+            return now.Value.ToEpochDay();
+        }
+
+        public static long ToEpochMonths(this Nullable<ZonedDateTime> now)
+        {
+            if (now is null)
+                return -1;
+
+            return now.Value.ToEpochMonths();
+        }
+
+        public static long ToEpochYears(this Nullable<ZonedDateTime> now)
+        {
+            if (now is null)
+                return -1;
+
+            return now.Value.ToEpochYears();
+        }
+
+        public static Nullable<LocalDate> ToLocalDate(this Nullable<ZonedDateTime> now)
+        {
+            if (now is null)
+                return null;
+
+            return now.Value.ToLocalDate();
+        }
+
+        public static Nullable<LocalTime> ToLocalTime(this Nullable<ZonedDateTime> now)
+        {
+            if (now is null)
+                return null;
+
+            return now.Value.ToLocalTime();
+        }
+
+        public static Nullable<ZonedDateTime> ToZonedDateTimeUtc(this Nullable<ZonedDateTime> now)
+        {
+            if (now is null)
+                return null;
+
+            return now.Value.ToZonedDateTimeUtc();
+        }
+
+        public static Nullable<ZonedDateTime> ToZonedFixingDateTimeUtc(this Nullable<ZonedDateTime> now)
+        {
+            if (now is null)
+                return null;
+
+            return now.Value.ToZonedFixingDateTimeUtc();
+        }
+
+        public static int LengthOfMonth(this Nullable<ZonedDateTime> now)
+        {
+            if (now is null)
+                return -1;
+
+            return now.Value.LengthOfMonth();
+        }
+
+        public static int LengthOfYear(this Nullable<ZonedDateTime> now)
+        {
+            if (now is null)
+                return -1;
+
+            return now.Value.LengthOfYear();
+        }
+
+        public static int GetMinYear(this Nullable<ZonedDateTime> now)
+        {
+            if (now is null)
+                return -1;
+
+            return now.Value.GetMinYear();
+        }
+
+        public static int GetMaxYear(this Nullable<ZonedDateTime> now)
+        {
+            if (now is null)
+                return -1;
+
+            return now.Value.GetMaxYear();
+        }
+
+        public static double GetDifferenceInDays(this Nullable<ZonedDateTime> startDate, ZonedDateTime endDate)
+        {
+            if (startDate is null)
+                return -1;
+
+            return startDate.Value.GetDifferenceInDays(endDate);
+        }
+
+        public static double GetDifferenceInMonths(this Nullable<ZonedDateTime> startDate, ZonedDateTime endDate)
+        {
+            if (startDate is null)
+                return -1;
+
+            return startDate.Value.GetDifferenceInMonths(endDate);
+        }
+
+        public static double GetDifferenceInYears(this Nullable<ZonedDateTime> startDate, ZonedDateTime endDate)
+        {
+            if (startDate is null)
+                return -1;
+
+            return startDate.Value.GetDifferenceInYears(endDate);
+        }
+
+        public static long GetEpochSecond(this Nullable<ZonedDateTime> now)
+        {
+            if (now is null)
+                return -1;
+
+            return now.Value.GetEpochSecond();
+        }
+
+        public static double GetExactDaysBetween(this Nullable<ZonedDateTime> startDate, ZonedDateTime endDate)
+        {
+            if (startDate is null)
+                return -1;
+
+            return startDate.Value.GetExactDaysBetween(endDate);
+        }
+
+        public static int GetDaysBetween(this Nullable<ZonedDateTime> startDate, ZonedDateTime endDate)
+        {
+            if (startDate is null)
+                return -1;
+
+            return startDate.Value.GetDaysBetween(endDate);
+        }
+
+        public static int GetDaysBetween(this Nullable<ZonedDateTime> startDate, Boolean includeStart, ZonedDateTime endDate, Boolean includeEnd)
+        {
+            if (startDate is null)
+                return -1;
+
+            return startDate.Value.GetDaysBetween(includeStart, endDate, includeEnd);
+        }
+
+        public static Nullable<ZonedDateTime> Plus(this Nullable<ZonedDateTime> now, long amountToAdd, ChronoUnit unit)
+        {
+            if (now.HasValue)
+                return now.Value.Plus(amountToAdd, unit);
+            else
+                return null;
+        }
+        #endregion
+        #endregion
+
         #region LodalDateTime methods
+        #region Regular
         public static int CompareTo(this LocalDateTime now, LocalDateTime target)
         {
             return DateTime.Compare(now.ToDateTimeUnspecified(), target.ToDateTimeUnspecified());
@@ -896,36 +1484,6 @@ namespace NodaTime
         public static Boolean IsBefore(this LocalDateTime now, LocalDateTime target)
         {
             if (DateTime.Compare(now.ToDateTimeUnspecified(), target.ToDateTimeUnspecified()) < 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        public static Boolean IsAfter(this LocalDateTime? now, LocalDateTime target)
-        {
-            if (now is null)
-                return false;
-
-            if (DateTime.Compare(now.Value.ToDateTimeUnspecified(), target.ToDateTimeUnspecified()) > 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        public static Boolean IsBefore(this LocalDateTime? now, LocalDateTime target)
-        {
-            if (now is null)
-                return false;
-
-            if (DateTime.Compare(now.Value.ToDateTimeUnspecified(), target.ToDateTimeUnspecified()) < 0)
             {
                 return true;
             }
@@ -1183,6 +1741,56 @@ namespace NodaTime
             return LocalDateTime.FromDateTime(new DateTime(now.Year, monthDay.Month.Value, monthDay.Day));
         }
 
+        public static LocalDateTime With(this LocalDateTime now, LocalDate localDate)
+        {
+            return new LocalDateTime(localDate.Year, localDate.Month, localDate.Day, now.Hour, now.Minute, now.Second);
+        }
+
+        public static LocalDateTime With(this LocalDateTime now, LocalTime time)
+        {
+            return now.WithHour(time.Hour).WithMinute(time.Minute).WithSecond(time.Second).WithNano(time.NanosecondOfSecond);
+        }
+
+        public static LocalDateTime WithHour(this LocalDateTime now, int hour)
+        {
+            if (now.Hour == hour)
+            {
+                return now;
+            }
+
+            return new LocalDateTime(now.Year, now.Month, now.Day, hour, now.Minute, now.Second);
+        }
+
+        public static LocalDateTime WithMinute(this LocalDateTime now, int minute)
+        {
+            if (now.Minute == minute)
+            {
+                return now;
+            }
+
+            return new LocalDateTime(now.Year, now.Month, now.Day, now.Hour, minute, now.Second);
+        }
+
+        public static LocalDateTime WithSecond(this LocalDateTime now, int second)
+        {
+            if (now.Second == second)
+            {
+                return now;
+            }
+
+            return new LocalDateTime(now.Year, now.Month, now.Day, now.Hour, now.Minute, second);
+        }
+
+        public static LocalDateTime WithNano(this LocalDateTime now, int nano)
+        {
+            if (now.NanosecondOfSecond == nano)
+            {
+                return now;
+            }
+
+            return new LocalDateTime(now.Year, now.Month, now.Day, now.Hour, now.Minute, now.Second);
+        }
+
         public static LocalDateTime WithYear(this LocalDateTime now, int year)
         {
             if (now.Year == year)
@@ -1433,6 +2041,21 @@ namespace NodaTime
             return new LocalDate(now.Year, now.Month, now.Day, now.Calendar);
         }
 
+        public static LocalTime ToLocalTime(this LocalDateTime now)
+        {
+            return new LocalTime(now.Hour, now.Minute, now.Second, now.Millisecond);
+        }
+
+        //public static LocalDateTime ToLocalDateTimeUtc(this LocalDateTime now)
+        //{
+        //    return new LocalDateTime( now.ToDateTimeUnspecified().ToUniversalTime();
+        //}
+
+        //public static LocalDateTime ToZonedFixingDateTimeUtc(this LocalDateTime now)
+        //{
+        //    return now.ToLocalDate().ToDateTimeUnspecified().ToUniversalTime().ToLocalDateTime();
+        //}
+
         public static double GetDifferenceInDays(this LocalDateTime startDate, LocalDateTime endDate)
         {
             return GetDifferenceInDays(startDate.ToInstant(), endDate.ToInstant());
@@ -1545,8 +2168,485 @@ namespace NodaTime
         }
         #endregion
 
+        #region Nullable Methods
+        public static Boolean IsAfter(this Nullable<LocalDateTime> now, LocalDateTime target)
+        {
+            if (now is null)
+                return false;
+
+            if (DateTime.Compare(now.Value.ToDateTimeUnspecified(), target.ToDateTimeUnspecified()) > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public static Boolean IsAfter(this Nullable<LocalDateTime> now, Nullable<LocalDateTime> target)
+        {
+            if (target is null)
+                return false;
+
+            return now.IsAfter(target.Value);
+        }
+
+        public static Boolean IsBefore(this Nullable<LocalDateTime> now, LocalDateTime target)
+        {
+            if (now is null)
+                return false;
+
+            if (DateTime.Compare(now.Value.ToDateTimeUnspecified(), target.ToDateTimeUnspecified()) < 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public static Boolean IsBefore(this Nullable<LocalDateTime> now, Nullable<LocalDateTime> target)
+        {
+            if (target is null)
+                return false;
+
+            return now.IsBefore(target.Value);
+        }
+
+        public static Boolean IsLeapYear(this Nullable<LocalDateTime> now)
+        {
+            if (now is null)
+                return false;
+
+            return now.Value.IsLeapYear();
+        }
+
+        public static Boolean IsSupported(this Nullable<LocalDateTime> now, ITemporalField field)
+        {
+            if (now is null)
+                return false;
+
+            return now.Value.IsSupported(field);
+        }
+
+        public static Boolean IsSupported(this Nullable<LocalDateTime> now, ChronoUnit unit)
+        {
+            if (now is null)
+                return false;
+
+            return now.Value.IsSupported(unit);
+        }
+
+        public static Nullable<LocalDateTime> AdjustDayOfWeek(this Nullable<LocalDateTime> now, IsoDayOfWeek dayOfWeek)
+        {
+            if (now is null)
+                return null;
+
+            return now.Value.AdjustDayOfWeek(dayOfWeek);
+        }
+
+        public static Nullable<LocalDateTime> PlusDays(this Nullable<LocalDateTime> nodaTime, int days)
+        {
+            if (nodaTime is null)
+                return null;
+
+            return nodaTime.Value.PlusDays(days);
+        }
+
+        public static Nullable<LocalDateTime> PlusWeeks(this Nullable<LocalDateTime> nodaTime, int weeks)
+        {
+            if (nodaTime is null)
+                return null;
+
+            return nodaTime.Value.PlusWeeks(weeks);
+        }
+
+        public static Nullable<LocalDateTime> PlusMonths(this Nullable<LocalDateTime> nodaTime, int months)
+        {
+            if (nodaTime is null)
+                return null;
+
+            return nodaTime.Value.PlusMonths(months);
+        }
+
+        public static Nullable<LocalDateTime> PlusYears(this Nullable<LocalDateTime> nodaTime, int years)
+        {
+            if (nodaTime is null)
+                return null;
+
+            return nodaTime.Value.PlusYears(years);
+        }
+
+        public static Nullable<LocalDateTime> With(this Nullable<LocalDateTime> now, ITemporalAdjuster tmp)
+        {
+            if (now is null)
+                return null;
+
+            return now.Value.With(tmp);
+        }
+
+        public static Nullable<LocalDateTime> With(this Nullable<LocalDateTime> now, LocalTime time)
+        {
+            if (now is null)
+                return null;
+
+            return now.Value.With(time);
+        }
+
+        public static Nullable<LocalDateTime> Plus(this Nullable<LocalDateTime> now, Period period)
+        {
+            if (now is null)
+                return null;
+
+            return now.Value.Plus(period);
+        }
+
+        public static IList<Nullable<LocalDateTime>> SortList(this IList<Nullable<LocalDateTime>> dates)
+        {
+            var result = dates;
+            int i, j;
+            int N = result.Count;
+
+            for (j = N - 1; j > 0; j--)
+            {
+                for (i = 0; i < j; i++)
+                {
+                    if (result[i].IsAfter(result[i + 1]))
+                        exchange(result, i, i + 1);
+                }
+            }
+            return result;
+        }
+
+        private static void exchange(IList<Nullable<LocalDateTime>> data, int m, int n)
+        {
+            Nullable<LocalDateTime> temporary;
+
+            temporary = data[m];
+            data[m] = data[n];
+            data[n] = temporary;
+        }
+
+        public static Nullable<LocalDateTime> Minus(this Nullable<LocalDateTime> now, Period period)
+        {
+            if (now is null)
+                return null;
+
+            return now.Value.Minus(period);
+        }
+
+        public static Nullable<LocalDateTime> Plus(this Nullable<LocalDateTime> now, long amountToAdd, ITemporalUnit unit)
+        {
+            if (now is null)
+                return null;
+
+            return now.Value.Plus(amountToAdd, unit);
+        }
+
+        public static Nullable<LocalDateTime> Minus(this Nullable<LocalDateTime> now, long amountToSubtract, ITemporalUnit unit)
+        {
+            if (now is null)
+                return null;
+
+            return now.Value.Minus(amountToSubtract, unit);
+        }
+
+        public static Nullable<LocalDateTime> With(this Nullable<LocalDateTime> now, MonthDay monthDay)
+        {
+            if (now is null)
+                return null;
+
+            return now.Value.With(monthDay);
+        }
+
+        public static Nullable<LocalDateTime> With(this Nullable<LocalDateTime> now, LocalDate localDate)
+        {
+            if (now is null)
+                return null;
+
+            return now.Value.With(localDate);
+        }
+
+        public static Nullable<LocalDateTime> With(this Nullable<LocalDateTime> now, ITemporalField field, long newValue)
+        {
+            if (now is null)
+                return null;
+
+            return now.Value.With(field, newValue);
+        }
+
+        public static Nullable<LocalDateTime> WithHour(this Nullable<LocalDateTime> now, int hour)
+        {
+            if (now is null)
+                return null;
+
+            return now.Value.WithHour(hour);
+        }
+
+        public static Nullable<LocalDateTime> WithMinute(this Nullable<LocalDateTime> now, int minute)
+        {
+            if (now is null)
+                return null;
+
+            return now.Value.WithMinute(minute);
+        }
+
+        public static Nullable<LocalDateTime> WithSecond(this Nullable<LocalDateTime> now, int second)
+        {
+            if (now is null)
+                return null;
+
+            return now.Value.WithSecond(second);
+        }
+
+        public static Nullable<LocalDateTime> WithNano(this Nullable<LocalDateTime> now, int nano)
+        {
+            if (now is null)
+                return null;
+
+            return now.Value.WithNano(nano);
+        }
+
+        public static Nullable<LocalDateTime> WithYear(this Nullable<LocalDateTime> now, int year)
+        {
+            if (now is null)
+                return null;
+
+            return now.Value.WithYear(year);
+        }
+
+        public static Nullable<LocalDateTime> WithMonth(this Nullable<LocalDateTime> now, int month)
+        {
+            if (now is null)
+                return null;
+
+            return now.Value.WithMonth(month);
+        }
+
+        public static Nullable<LocalDateTime> WithDayOfMonth(this Nullable<LocalDateTime> now, int dayOfMonth)
+        {
+            if (now is null)
+                return null;
+
+            return now.Value.WithDayOfMonth(dayOfMonth);
+        }
+
+        public static Nullable<LocalDateTime> WithDayOfYear(this Nullable<LocalDateTime> now, int dayOfYear)
+        {
+            if (now is null)
+                return null;
+
+            return now.Value.WithDayOfYear(dayOfYear);
+        }
+
+        public static Nullable<LocalDateTime> OfYearDay(this Nullable<LocalDateTime> now, int year, int dayOfYear)
+        {
+            if (now is null)
+                return null;
+
+            return now.Value.OfYearDay(year, dayOfYear);
+        }
+
+        public static Nullable<LocalDateTime> OfEpochDay(this Nullable<LocalDateTime> now, long epochDay)
+        {
+            if (now is null)
+                return null;
+
+            return now.Value.OfEpochDay(epochDay);
+        }
+
+        public static int Get(this Nullable<LocalDateTime> now, ITemporalField field)
+        {
+            if (now is null)
+                return -1;
+
+            return now.Value.Get(field);
+        }
+
+        public static long GetLong(this Nullable<LocalDateTime> now, ITemporalField field)
+        {
+            if (now is null)
+                return -1;
+
+            return now.Value.GetLong(field);
+        }
+
+        public static long GetProlepticMonth(this Nullable<LocalDateTime> now)
+        {
+            if (now is null)
+                return -1;
+
+            return now.Value.GetProlepticMonth();
+        }
+
+        public static long GetProlepticYear(this Nullable<LocalDateTime> now)
+        {
+            if (now is null)
+                return -1;
+
+            return now.Value.GetProlepticYear();
+        }
+
+        public static long ToEpochDay(this Nullable<LocalDateTime> now)
+        {
+            if (now is null)
+                return -1;
+
+            return now.Value.ToEpochDay();
+        }
+
+        public static long ToEpochMonths(this Nullable<LocalDateTime> now)
+        {
+            if (now is null)
+                return -1;
+
+            return now.Value.ToEpochMonths();
+        }
+
+        public static long ToEpochYears(this Nullable<LocalDateTime> now)
+        {
+            if (now is null)
+                return -1;
+
+            return now.Value.ToEpochYears();
+        }
+
+        public static Nullable<LocalDate> ToLocalDate(this Nullable<LocalDateTime> now)
+        {
+            if (now is null)
+                return null;
+
+            return now.Value.ToLocalDate();
+        }
+
+        public static Nullable<LocalTime> ToLocalTime(this Nullable<LocalDateTime> now)
+        {
+            if (now is null)
+                return null;
+
+            return now.Value.ToLocalTime();
+        }
+
+        //public static Nullable<LocalDateTime> ToLocalDateTimeUtc(this Nullable<LocalDateTime> now)
+        //{
+        //    if (now is null)
+        //        return null;
+
+        //    return now.Value.ToLocalDateTimeUtc();
+        //}
+
+        //public static Nullable<LocalDateTime> ToZonedFixingDateTimeUtc(this Nullable<LocalDateTime> now)
+        //{
+        //    if (now is null)
+        //        return null;
+
+        //    return now.Value.ToZonedFixingDateTimeUtc();
+        //}
+
+        public static int LengthOfMonth(this Nullable<LocalDateTime> now)
+        {
+            if (now is null)
+                return -1;
+
+            return now.Value.LengthOfMonth();
+        }
+
+        public static int LengthOfYear(this Nullable<LocalDateTime> now)
+        {
+            if (now is null)
+                return -1;
+
+            return now.Value.LengthOfYear();
+        }
+
+        public static int GetMinYear(this Nullable<LocalDateTime> now)
+        {
+            if (now is null)
+                return -1;
+
+            return now.Value.GetMinYear();
+        }
+
+        public static int GetMaxYear(this Nullable<LocalDateTime> now)
+        {
+            if (now is null)
+                return -1;
+
+            return now.Value.GetMaxYear();
+        }
+
+        public static double GetDifferenceInDays(this Nullable<LocalDateTime> startDate, LocalDateTime endDate)
+        {
+            if (startDate is null)
+                return -1;
+
+            return startDate.Value.GetDifferenceInDays(endDate);
+        }
+
+        public static double GetDifferenceInMonths(this Nullable<LocalDateTime> startDate, LocalDateTime endDate)
+        {
+            if (startDate is null)
+                return -1;
+
+            return startDate.Value.GetDifferenceInMonths(endDate);
+        }
+
+        public static double GetDifferenceInYears(this Nullable<LocalDateTime> startDate, LocalDateTime endDate)
+        {
+            if (startDate is null)
+                return -1;
+
+            return startDate.Value.GetDifferenceInYears(endDate);
+        }
+
+        public static long GetEpochSecond(this Nullable<LocalDateTime> now)
+        {
+            if (now is null)
+                return -1;
+
+            return now.Value.GetEpochSecond();
+        }
+
+        public static double GetExactDaysBetween(this Nullable<LocalDateTime> startDate, LocalDateTime endDate)
+        {
+            if (startDate is null)
+                return -1;
+
+            return startDate.Value.GetExactDaysBetween(endDate);
+        }
+
+        public static int GetDaysBetween(this Nullable<LocalDateTime> startDate, LocalDateTime endDate)
+        {
+            if (startDate is null)
+                return -1;
+
+            return startDate.Value.GetDaysBetween(endDate);
+        }
+
+        public static int GetDaysBetween(this Nullable<LocalDateTime> startDate, Boolean includeStart, LocalDateTime endDate, Boolean includeEnd)
+        {
+            if (startDate is null)
+                return -1;
+
+            return startDate.Value.GetDaysBetween(includeStart, endDate, includeEnd);
+        }
+
+        public static Nullable<LocalDateTime> Plus(this Nullable<LocalDateTime> now, long amountToAdd, ChronoUnit unit)
+        {
+            if (now.HasValue)
+                return now.Value.Plus(amountToAdd, unit);
+            else
+                return null;
+        }
+        #endregion
+
+        #endregion
+
         #region LodalDate methods
 
+        #region Regular Methods
         public static ZonedDateTime AtZone(this LocalDate now, DateTimeZone zone)
         {
             return new ZonedDateTime(now.ToInstant(), zone);
@@ -1572,36 +2672,6 @@ namespace NodaTime
         public static Boolean IsBefore(this LocalDate now, LocalDate target)
         {
             if (DateTime.Compare(now.ToDateTimeUnspecified(), target.ToDateTimeUnspecified()) < 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        public static Boolean IsAfter(this LocalDate? now, LocalDate target)
-        {
-            if (now is null)
-                return false;
-
-            if (DateTime.Compare(now.Value.ToDateTimeUnspecified(), target.ToDateTimeUnspecified()) > 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        public static Boolean IsBefore(this LocalDate? now, LocalDate target)
-        {
-            if (now is null)
-                return false;
-
-            if (DateTime.Compare(now.Value.ToDateTimeUnspecified(), target.ToDateTimeUnspecified()) < 0)
             {
                 return true;
             }
@@ -2272,7 +3342,531 @@ namespace NodaTime
                           System.Globalization.DateTimeStyles.None, out dt);
             return dt.ToLocalDate();
         }
+        #endregion
 
+        #region Nullable
+        public static Nullable<ZonedDateTime> AtZone(this Nullable<LocalDate> now, DateTimeZone zone)
+        {
+            if (now is null)
+                return null;
+
+            return now.Value.AtZone(zone);
+        }
+
+        public static int CompareTo(this Nullable<LocalDate> now, LocalDate target)
+        {
+            if (now is null)
+                return -1;
+
+            return now.Value.CompareTo(target);
+        }
+
+        public static int CompareTo(this Nullable<LocalDate> now, Nullable<LocalDate> target)
+        {
+            if (now is null)
+                return -1;
+
+            if (target is null)
+                return -1;
+
+            return now.Value.CompareTo(target.Value);
+        }
+
+        public static Boolean IsAfter(this Nullable<LocalDate> now,  Nullable<LocalDate> target)
+        {
+            if (now is null)
+                return false;
+
+            if (target is null)
+                return false;
+
+            return now.Value.IsAfter(target.Value);
+        }
+
+        public static Boolean IsBefore(this Nullable<LocalDate> now,  Nullable<LocalDate> target)
+        {
+            if (now is null)
+                return false;
+
+            if (target is null)
+                return false;
+
+            return now.Value.IsBefore(target.Value);
+        }
+
+        public static Boolean IsAfter(this Nullable<LocalDate> now,  LocalDate target)
+        {
+            if (now is null)
+                return false;
+
+            return now.Value.IsAfter(target);
+        }
+
+        public static Boolean IsBefore(this Nullable<LocalDate> now,  LocalDate target)
+        {
+            if (now is null)
+                return false;
+
+            return now.Value.IsBefore(target);
+        }
+
+        public static Nullable<LocalDate> AdjustDayOfWeek(this Nullable<LocalDate> now, IsoDayOfWeek dayOfWeek)
+        {
+            if (now is null)
+                return null;
+
+            return now.Value.AdjustDayOfWeek(dayOfWeek);
+        }
+
+        public static Boolean IsLeapYear(this Nullable<LocalDate> now)
+        {
+            if (now is null)
+                return false;
+
+            return now.Value.IsLeapYear();
+        }
+
+        public static Boolean IsSupported(this Nullable<LocalDate> now, ITemporalField field)
+        {
+            if (now is null)
+                return false;
+
+            return now.Value.IsSupported(field);
+        }
+
+        public static Boolean IsSupported(this Nullable<LocalDate> now, ChronoUnit field)
+        {
+            if (now is null)
+                return false;
+
+            return now.Value.IsSupported(field);
+        }
+
+        public static int GetDaysOfMonth(this Nullable<LocalDate> now)
+        {
+            if (now is null)
+                return -1;
+
+            return now.Value.GetDaysOfMonth();
+        }
+
+        public static int PeriodUntil(this Nullable<LocalDate> now,  Nullable<LocalDate> end, ChronoUnit span)
+        {
+            if (now is null)
+                return -1;
+
+            if (end is null)
+                return -1;
+
+            return now.Value.PeriodUntil(end.Value, span);
+        }
+
+        public static Period Until(this Nullable<LocalDate> now,  Nullable<LocalDate> end)
+        {
+            if (now is null)
+                return null;
+
+            if (end is null)
+                return null;
+
+            return now.Value.Until(end.Value);
+        }
+
+        public static long GetProlepticMonth(this Nullable<LocalDate> now)
+        {
+            if (now is null)
+                return -1;
+
+            return now.Value.GetProlepticMonth();
+        }
+
+        public static long GetProlepticYear(this Nullable<LocalDate> now)
+        {
+            if (now is null)
+                return -1;
+
+            return now.Value.GetProlepticYear();
+        }
+
+        public static Nullable<ZonedDateTime> ToZonedDateTimeUtc(this Nullable<LocalDate> now)
+        {
+            if (now is null)
+                return null;
+
+            return now.Value.ToZonedDateTimeUtc();
+        }
+
+        public static Nullable<ZonedDateTime> ToZonedDateTimeUnspecified(this Nullable<LocalDate> now)
+        {
+            if (now is null)
+                return null;
+
+            return now.Value.ToZonedDateTimeUnspecified();
+        }
+
+        public static Nullable<ZonedDateTime> ToZonedDateTime(this Nullable<LocalDate> now, LocalTime time)
+        {
+            if (now is null)
+                return null;
+
+            return now.Value.ToZonedDateTime(time);
+        }
+
+        public static Nullable<ZonedDateTime> ToZonedDateTime(this Nullable<LocalDate> now, Nullable<LocalTime> time)
+        {
+            if (now is null)
+                return null;
+
+            if (time is null)
+                return null;
+
+            return now.Value.ToZonedDateTime(time.Value);
+        }
+
+        public static Nullable<ZonedDateTime> ToZonedDateTimeUtc(this Nullable<LocalDate> now, LocalTime time)
+        {
+            if (now is null)
+                return null;
+
+            return now.Value.ToZonedDateTimeUtc(time);
+        }
+
+        public static Nullable<ZonedDateTime> ToZonedDateTimeUtc(this Nullable<LocalDate> now, Nullable<LocalTime> time)
+        {
+            if (now is null)
+                return null;
+
+            if (time is null)
+                return null;
+
+            return now.Value.ToZonedDateTimeUtc(time.Value);
+        }
+
+        public static Nullable<ZonedDateTime> ToZonedDateTimeUnspecified(this Nullable<LocalDate> now, LocalTime time)
+        {
+            if (now is null)
+                return null;
+
+            return now.Value.ToZonedDateTimeUnspecified(time);
+        }
+
+        public static Nullable<ZonedDateTime> ToZonedDateTimeUnspecified(this Nullable<LocalDate> now, Nullable<LocalTime> time)
+        {
+            if (now is null)
+                return null;
+
+            if (time is null)
+                return null;
+
+            return now.Value.ToZonedDateTimeUnspecified(time.Value);
+        }
+
+        public static long ToEpochDay(this Nullable<LocalDate> now)
+        {
+            if (now is null)
+                return -1;
+
+            return now.Value.ToEpochDay();
+        }
+
+        public static long ToEpochMonths(this Nullable<LocalDate> now)
+        {
+            if (now is null)
+                return -1;
+
+            return now.Value.ToEpochMonths();
+        }
+
+        public static long ToEpochYears(this Nullable<LocalDate> now)
+        {
+            if (now is null)
+                return -1;
+
+            return now.Value.ToEpochYears();
+        }
+
+        public static int LengthOfMonth(this Nullable<LocalDate> now)
+        {
+            if (now is null)
+                return -1;
+
+            return now.Value.LengthOfMonth();
+        }
+
+        public static int LengthOfYear(this Nullable<LocalDate> now)
+        {
+            if (now is null)
+                return -1;
+
+            return now.Value.LengthOfYear();
+        }
+
+        public static int GetMinYear(this Nullable<LocalDate> now)
+        {
+            if (now is null)
+                return -1;
+
+            return now.Value.GetMinYear();
+        }
+
+        public static int GetMaxYear(this Nullable<LocalDate> now)
+        {
+            if (now is null)
+                return -1;
+
+            return now.Value.GetMaxYear();
+        }
+
+        public static Nullable<LocalDate> PlusDays(this Nullable<LocalDate> nodaTime, int days)
+        {
+            if (nodaTime is null)
+                return null;
+
+            return nodaTime.Value.PlusDays(days);
+        }
+
+        public static Nullable<LocalDate> PlusWeeks(this Nullable<LocalDate> nodaTime, int weeks)
+        {
+            if (nodaTime is null)
+                return null;
+
+            return nodaTime.Value.PlusWeeks(weeks);
+        }
+
+        public static Nullable<LocalDate> PlusMonths(this Nullable<LocalDate> nodaTime, int months)
+        {
+            if (nodaTime is null)
+                return null;
+
+            return nodaTime.Value.PlusMonths(months);
+        }
+
+        public static Nullable<LocalDate> PlusYears(this Nullable<LocalDate> nodaTime, int years)
+        {
+            if (nodaTime is null)
+                return null;
+
+            return nodaTime.Value.PlusYears(years);
+        }
+
+        public static Nullable<LocalDate> With(this Nullable<LocalDate> now, ITemporalAdjuster tmp)
+        {
+            if (now is null)
+                return null;
+
+            return now.Value.With(tmp);
+        }
+
+        public static Nullable<LocalDate> With(this Nullable<LocalDate> now, ITemporalField field, long newValue)
+        {
+            if (now is null)
+                return null;
+
+            return now.Value.With(field, newValue);
+        }
+
+        public static Nullable<LocalDate> With(this Nullable<LocalDate> now, MonthDay monthDay)
+        {
+            if (now is null)
+                return null;
+
+            return now.Value.With(monthDay);
+        }
+
+        public static Nullable<LocalDate> WithYear(this Nullable<LocalDate> now, int year)
+        {
+            if (now is null)
+                return null;
+
+            return now.Value.WithYear(year);
+        }
+
+        public static Nullable<LocalDate> WithMonth(this Nullable<LocalDate> now, int month)
+        {
+            if (now is null)
+                return null;
+
+            return now.Value.WithMonth(month);
+        }
+
+        public static Nullable<LocalDate> WithDayOfMonth(this Nullable<LocalDate> now, int dayOfMonth)
+        {
+            if (now is null)
+                return null;
+
+            return now.Value.WithDayOfMonth(dayOfMonth);
+        }
+
+        public static Nullable<LocalDate> WithDayOfYear(this Nullable<LocalDate> now, int dayOfYear)
+        {
+            if (now is null)
+                return null;
+
+            return now.Value.WithDayOfYear(dayOfYear);
+        }
+
+        public static Nullable<LocalDate> Plus(this Nullable<LocalDate> now, long amountToAdd, ITemporalUnit unit)
+        {
+            if (now is null)
+                return null;
+
+            return now.Value.Plus(amountToAdd, unit);
+        }
+
+        public static Nullable<LocalDate> Minus(this Nullable<LocalDate> now, long amountToSubtract, ITemporalUnit unit)
+        {
+            if (now is null)
+                return null;
+
+            return now.Value.Minus(amountToSubtract, unit);
+        }
+
+        public static Nullable<LocalDate> OfYearDay(this Nullable<LocalDate> now, int year, int dayOfYear)
+        {
+            if (now is null)
+                return null;
+
+            return now.Value.OfYearDay(year, dayOfYear);
+        }
+
+        public static Nullable<LocalDate> OfEpochDay(this Nullable<LocalDate> now, long epochDay)
+        {
+            if (now is null)
+                return null;
+
+            return now.Value.OfEpochDay(epochDay);
+        }
+
+        public static long Get(this Nullable<LocalDate> now, ITemporalField field)
+        {
+            if (now is null)
+                return -1;
+
+            return now.Value.Get(field);
+        }
+
+        public static long GetLong(this Nullable<LocalDate> now, ITemporalField field)
+        {
+            if (now is null)
+                return -1;
+
+            return now.Value.GetLong(field);
+        }
+
+        public static Nullable<Instant> ToInstant(this Nullable<LocalDate> source)
+        {
+            if (source is null)
+                return null;
+
+            return source.Value.ToInstant();
+        }
+
+        public static Nullable<DateTime> ToDateTimeUTC(this Nullable<LocalDate> source)
+        {
+            if (source is null)
+                return null;
+
+            return source.Value.ToDateTimeUTC();
+        }
+
+        public static Nullable<DateTime> ToDateTimeLocal(this Nullable<LocalDate> source)
+        {
+            if (source is null)
+                return null;
+
+            return source.Value.ToDateTimeLocal();
+        }
+
+        public static Nullable<ZonedDateTime> ToZonedDateTime(this Nullable<LocalDate> source)
+        {
+            if (source is null)
+                return null;
+
+            return source.Value.ToZonedDateTime();
+        }
+
+        public static double GetDifferenceInDays(this Nullable<LocalDate> startDate,  Nullable<LocalDate> endDate)
+        {
+            if (startDate is null)
+                return -1;
+
+            if (endDate is null)
+                return -1;
+
+            return startDate.Value.GetDifferenceInDays(endDate.Value);
+        }
+
+        public static double GetDifferenceInMonths(this Nullable<LocalDate> startDate,  Nullable<LocalDate> endDate)
+        {
+            if (startDate is null)
+                return -1;
+
+            if (endDate is null)
+                return -1;
+
+            return startDate.Value.GetDifferenceInMonths(endDate.Value);
+        }
+
+        public static double GetDifferenceInYears(this Nullable<LocalDate> startDate,  Nullable<LocalDate> endDate)
+        {
+            if (startDate is null)
+                return -1;
+
+            if (endDate is null)
+                return -1;
+
+            return startDate.Value.GetDifferenceInYears(endDate.Value);
+        }
+
+        public static long GetEpochSecond(this Nullable<LocalDate> now)
+        {
+            if (now is null)
+                return -1;
+
+            return now.Value.GetEpochSecond();
+        }
+
+        public static double GetExactDaysBetween(this Nullable<LocalDate> startDate,  Nullable<LocalDate> endDate)
+        {
+            if (startDate is null)
+                return -1;
+
+            if (endDate is null)
+                return -1;
+
+            return startDate.Value.GetExactDaysBetween(endDate.Value);
+        }
+
+        public static int GetDaysBetween(this Nullable<LocalDate> startDate,  Nullable<LocalDate> endDate)
+        {
+            if (startDate is null)
+                return -1;
+
+            if (endDate is null)
+                return -1;
+
+            return startDate.Value.GetDaysBetween(endDate.Value);
+        }
+
+        public static int GetDaysBetween(this Nullable<LocalDate> startDate, Boolean includeStart,  Nullable<LocalDate> endDate, Boolean includeEnd)
+        {
+            if (startDate is null)
+                return -1;
+
+            if (endDate is null)
+                return -1;
+
+            return startDate.Value.GetDaysBetween(includeStart, endDate.Value, includeEnd);
+        }
+
+        public static Nullable<LocalDate> Plus(this Nullable<LocalDate> now, long amountToAdd, ChronoUnit unit)
+        {
+            if (now is null)
+                return null;
+
+            return now.Value.Plus(amountToAdd, unit);
+        }
+        #endregion
         #endregion
 
         #region Duration methods
@@ -2425,10 +4019,10 @@ namespace NodaTime
             return now.Plus(Duration.FromMilliseconds(millis));
         }
 
-        public static Instant PlusNanos(this Instant now, long nanos)
-        {
-            return now.Plus(Duration.FromNanoseconds(nanos));
-        }
+        //public static Instant PlusNanos(this Instant now, long nanos)
+        //{
+        //    return now.Plus(Duration.FromNanoseconds(nanos));
+        //}
 
         public static Instant PlusTicks(this Instant now, long ticks)
         {

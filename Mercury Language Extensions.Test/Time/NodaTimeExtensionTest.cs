@@ -28,5 +28,28 @@ namespace Mercury_Language_Extensions.Test
 
             Assert.Pass();
         }
+
+        [Test]
+        public void TestGetDateOffsetWithYearFraction()
+        {
+            ZonedDateTime FIXING_DATE = NodaTimeUtility.GetUTCDate(2011, 1, 3);
+            ZonedDateTime[] FIXING_DATES = { FIXING_DATE, FIXING_DATE.PlusYears(1), FIXING_DATE.GetDateOffsetWithYearFraction(1.0) };
+
+            Assert.Pass();
+        }
+
+
+        [Test]
+        public void TestGetZonedDateTime()
+        {
+            ZonedDateTime FIXING_DATE = new DateTime(2014, 4, 2, 0, 0, 0, 0).ToZonedDateTime();
+
+            DateTimeZone timeZone = DateTimeZoneProviders.Tzdb["EST"];
+
+            ZonedDateTime time2 = new DateTime(2014, 4, 2, 15, 0, 0, 0).ToZonedDateTime(timeZone);
+
+            Assert.Pass();
+        }
+
     }
 }

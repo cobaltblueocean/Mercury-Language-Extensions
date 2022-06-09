@@ -222,6 +222,13 @@ namespace NodaTime
 
         #region ZonedDateTime Methods
         #region Regular
+
+        public static Nullable<ZonedDateTime> ToNullable(this ZonedDateTime now)
+        {
+            ZonedDateTime? ret = now;
+            return ret;
+        }
+
         public static int CompareTo(this ZonedDateTime now, ZonedDateTime target)
         {
             return DateTime.Compare(now.ToDateTimeUtc(), target.ToDateTimeUtc());
@@ -964,6 +971,7 @@ namespace NodaTime
         #endregion
 
         #region Nullable Methods
+
         public static Boolean IsAfter(this Nullable<ZonedDateTime> now, ZonedDateTime target)
         {
             if (now is null)
@@ -1464,6 +1472,13 @@ namespace NodaTime
 
         #region LodalDateTime methods
         #region Regular
+
+        public static Nullable<LocalDateTime> ToNullable(this LocalDateTime now)
+        {
+            LocalDateTime? ret = now;
+            return ret;
+        }
+
         public static int CompareTo(this LocalDateTime now, LocalDateTime target)
         {
             return DateTime.Compare(now.ToDateTimeUnspecified(), target.ToDateTimeUnspecified());
@@ -2647,6 +2662,13 @@ namespace NodaTime
         #region LodalDate methods
 
         #region Regular Methods
+
+        public static Nullable<LocalDate> ToNullable(this LocalDate now)
+        {
+            LocalDate? ret = now;
+            return ret;
+        }
+
         public static ZonedDateTime AtZone(this LocalDate now, DateTimeZone zone)
         {
             return new ZonedDateTime(now.ToInstant(), zone);

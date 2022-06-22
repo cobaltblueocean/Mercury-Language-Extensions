@@ -922,12 +922,12 @@ namespace System
                 if (x >= LOG_MAX_VALUE)
                 {
                     // Avoid overflow (MATH-905).
-                    double t = Exp(0.5 * x);
+                    double t = Math.Exp(0.5 * x);
                     return (0.5 * t) * t;
                 }
                 else
                 {
-                    return 0.5 * Exp(x);
+                    return 0.5 * Math.Exp(x);
                 }
             }
             else if (x < -20)
@@ -935,12 +935,12 @@ namespace System
                 if (x <= -LOG_MAX_VALUE)
                 {
                     // Avoid overflow (MATH-905).
-                    double t = Exp(-0.5 * x);
+                    double t = Math.Exp(-0.5 * x);
                     return (0.5 * t) * t;
                 }
                 else
                 {
-                    return 0.5 * Exp(-x);
+                    return 0.5 * Math.Exp(-x);
                 }
             }
 
@@ -1070,12 +1070,12 @@ namespace System
                 if (x >= LOG_MAX_VALUE)
                 {
                     // Avoid overflow (MATH-905).
-                    double t = Exp(0.5 * x);
+                    double t = Math.Exp(0.5 * x);
                     return (0.5 * t) * t;
                 }
                 else
                 {
-                    return 0.5 * Exp(x);
+                    return 0.5 * Math.Exp(x);
                 }
             }
             else if (x < -20)
@@ -1083,12 +1083,12 @@ namespace System
                 if (x <= -LOG_MAX_VALUE)
                 {
                     // Avoid overflow (MATH-905).
-                    double t = Exp(-0.5 * x);
+                    double t = Math.Exp(-0.5 * x);
                     return (-0.5 * t) * t;
                 }
                 else
                 {
-                    return -0.5 * Exp(-x);
+                    return -0.5 * Math.Exp(-x);
                 }
             }
 

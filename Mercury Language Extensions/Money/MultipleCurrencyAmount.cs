@@ -203,7 +203,7 @@ namespace Mercury.Language.Money
 
         public CurrencyAmount this[Currency currency]
         {
-            get { return _currencyAmountMap[currency]; }
+            get { return GetCurrencyAmount(currency); }
             set
             {
                 // ArgumentChecker.Equals(currency, value.Currency);
@@ -264,8 +264,8 @@ namespace Mercury.Language.Money
         /// <returns>the amount, null if no amount for the currency</returns>
         public CurrencyAmount GetCurrencyAmount(Currency currency)
         {
-            // ArgumentChecker.NotNull(currency, "currency");
-            return _currencyAmountMap[currency];
+            //ArgumentChecker.NotNull(currency, "currency");
+            return _currencyAmountMap.FirstOrDefault(x => x.Key == currency).Value;
         }
 
         /// <summary>

@@ -335,7 +335,7 @@ namespace System
             {
                 return FACTORIALS[n];
             }
-            return Math2.Floor(Math2.Exp(CombinatoricsUtility.FactorialLog(n)) + 0.5);
+            return Math2.Floor(Math.Exp(CombinatoricsUtility.FactorialLog(n)) + 0.5);
         }
 
         /// <summary>

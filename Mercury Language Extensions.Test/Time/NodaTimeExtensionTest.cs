@@ -2,6 +2,7 @@ using NUnit.Framework;
 using System;
 using Mercury.Language.Time;
 using NodaTime;
+using Mercury.Test.Utility;
 
 namespace Mercury_Language_Extensions.Test
 {
@@ -50,6 +51,50 @@ namespace Mercury_Language_Extensions.Test
 
             Assert.Pass();
         }
+
+        [Test]
+        public void TestZonedDateTimeOperation()
+        {
+            ZonedDateTime TARGET_DATE = new DateTime(2012, 3, 9, 0, 0, 0, 0).ToZonedDateTime();
+            ZonedDateTime BASE_DATE = new DateTime(2012, 12, 9, 0, 0, 0, 0).ToZonedDateTime();
+            Period tenorPeriod = Period.FromMonths(3);
+            BASE_DATE = BASE_DATE.Minus(tenorPeriod.MultipliedBy(3));
+
+            Assert.AreEqual(TARGET_DATE, BASE_DATE);
+        }
+
+
+        [Test]
+        public void TestZonedDateTimeMinusMonths()
+        {
+            ZonedDateTime TARGET_DATE = new DateTime(2011, 3, 9, 0, 0, 0, 0).ToZonedDateTime();
+            ZonedDateTime BASE_DATE = new DateTime(2012, 3, 9, 0, 0, 0, 0).ToZonedDateTime();
+            BASE_DATE = BASE_DATE.PlusMonths(-12);
+
+            Assert.AreEqual(TARGET_DATE, BASE_DATE);
+        }
+
+        [Test]
+        public void TestZonedDateTimePlusDays()
+        {
+            ZonedDateTime TARGET_DATE = new DateTime(2014, 3, 31, 0, 0, 0, 0).ToZonedDateTime();
+            ZonedDateTime BASE_DATE = new DateTime(2014, 3, 27, 0, 0, 0, 0).ToZonedDateTime();
+            BASE_DATE = BASE_DATE.PlusDays(4);
+
+            Assert.AreEqual(TARGET_DATE, BASE_DATE);
+        }
+
+        [Test]
+        public void TestZonedDateTimePlusMonthsWithEndOfMonthDay()
+        {
+            ZonedDateTime TARGET_DATE = new DateTime(2012, 6, 30, 0, 0, 0, 0).ToZonedDateTime();
+            ZonedDateTime BASE_DATE = new DateTime(2012, 3, 31, 0, 0, 0, 0).ToZonedDateTime();
+            Period period = Period.FromMonths(3);
+            BASE_DATE = BASE_DATE.Plus(period);
+
+            Assert.AreEqual(TARGET_DATE, BASE_DATE);
+        }
+
 
     }
 }

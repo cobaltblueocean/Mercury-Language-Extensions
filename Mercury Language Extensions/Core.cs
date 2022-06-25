@@ -77,7 +77,6 @@ namespace System
                 var c = constructedType.GetConstructor(BindingFlags.Instance | BindingFlags.Public, null, CallingConventions.HasThis, typeParams.ToArray(), null);
                 if (c != null)
                 {
-
                     Object[] paramValues = new Object[typeParams.Count];
                     for (int i = 0; i < typeParams.Count; i++)
                     {
@@ -85,9 +84,7 @@ namespace System
                         paramValues[i] = default;
                     }
 
-                    object x = Activator.CreateInstance(constructedType, new object[] { paramValues });
-                    var method = constructedType.GetMethod(c.Name);
-                    instance = method.Invoke(x, new object[] { paramValues });
+                    instance = Activator.CreateInstance(constructedType, paramValues);
                 }
                 else
                 {
@@ -110,9 +107,7 @@ namespace System
                         paramValues[i] = default;
                     }
 
-                    var c = type.GetConstructor(BindingFlags.Instance | BindingFlags.Public, null, CallingConventions.HasThis, tParams, null);
-                    object x = Activator.CreateInstance(type, new object[] { paramValues });
-                    instance = constructor.Invoke(x, new object[] { paramValues });
+                    instance = Activator.CreateInstance(type, paramValues);
                 }
                 else
                 {
@@ -152,9 +147,16 @@ namespace System
                 var c = constructedType.GetConstructor(BindingFlags.Instance | BindingFlags.Public, null, CallingConventions.HasThis, typeParams.ToArray(), null);
                 if (c != null)
                 {
-                    object x = Activator.CreateInstance(constructedType, new object[] { paramValues });
-                    var method = constructedType.GetMethod(c.Name);
-                    instance = method.Invoke(x, new object[] { paramValues });
+                    try
+                    {
+                        object x = Activator.CreateInstance(constructedType, paramValues);
+                        var method = constructedType.GetMethod(c.Name);
+                        instance = method.Invoke(x, paramValues);
+                    }
+                    catch
+                    {
+                        instance = FormatterServices.GetUninitializedObject(type); //does not call ctor
+                    }
                 }
                 else
                 {
@@ -163,16 +165,18 @@ namespace System
             }
             else
             {
-                var methods = type.GetMethods();
-                var constructor = methods.FirstOrDefault(x => x.IsConstructor);
+                var methods = type.GetConstructors();
+                var constructor = methods.FirstOrDefault();
                 if (constructor != null)
                 {
-                    var cParams = constructor.GetParameters();
-                    var tParams = cParams.Select(x => x.ParameterType).ToArray();
-
-                    var c = type.GetConstructor(BindingFlags.Instance | BindingFlags.Public, null, CallingConventions.HasThis, tParams, null);
-                    object x = Activator.CreateInstance(type, new object[] { paramValues });
-                    instance = constructor.Invoke(x, new object[] { paramValues });
+                    try
+                    {
+                        instance = Activator.CreateInstance(type, paramValues);
+                    }
+                    catch
+                    {
+                        instance = FormatterServices.GetUninitializedObject(type); //does not call ctor
+                    }
                 }
                 else
                 {

@@ -95,6 +95,62 @@ namespace Mercury_Language_Extensions.Test
             Assert.AreEqual(TARGET_DATE, BASE_DATE);
         }
 
+        [Test]
+        public void TestGetZonedDateTimeWithZone()
+        {
+            int year = 2014;
+            int month = 10;
+            int day = 23;
+            int hour = 13;
+            int minute = 46;
+            int second = 0;
 
+            int utcYear = 2014;
+            int utcMonth = 10;
+            int utcDay = 23;
+            int utcHour = 18;
+            int utcMinute = 46;
+            int utcSecond = 0;
+
+            DateTimeZone ZID = DateTimeZoneProviders.Tzdb["America/New_York"];
+            ZonedDateTime TEST_DATE = NodaTimeUtility.GetZonedDateTime(year, month, day, hour, minute, second, ZID);
+
+            Assert.AreEqual(TEST_DATE.Year, year);
+            Assert.AreEqual(TEST_DATE.Month, month);
+            Assert.AreEqual(TEST_DATE.Day, day);
+            Assert.AreEqual(TEST_DATE.Hour, hour);
+            Assert.AreEqual(TEST_DATE.Minute, minute);
+            Assert.AreEqual(TEST_DATE.Second, second);
+
+            ZonedDateTime UTC_DATE = TEST_DATE.ChangeToDifferentTimeZone(DateTimeZone.Utc);
+
+            Assert.AreEqual(UTC_DATE.Year, utcYear);
+            Assert.AreEqual(UTC_DATE.Month, utcMonth);
+            Assert.AreEqual(UTC_DATE.Day, utcDay);
+            Assert.AreEqual(UTC_DATE.Hour, utcHour);
+            Assert.AreEqual(UTC_DATE.Minute, utcMinute);
+            Assert.AreEqual(UTC_DATE.Second, utcSecond);
+        }
+
+        [Test]
+        public void TestEndOfMonthDateCreate()
+        {
+            int year = 2014;
+            int month = 6;
+            int day = 30;
+            int hour = 0;
+            int minute = 0;
+            int second = 0;
+
+            DateTimeZone ZID = DateTimeZoneProviders.Tzdb["America/New_York"];
+            ZonedDateTime TEST_DATE = NodaTimeUtility.GetZonedDateTime(year, month, day, hour, minute, second, ZID);
+
+            Assert.AreEqual(TEST_DATE.Year, year);
+            Assert.AreEqual(TEST_DATE.Month, month);
+            Assert.AreEqual(TEST_DATE.Day, day);
+            Assert.AreEqual(TEST_DATE.Hour, hour);
+            Assert.AreEqual(TEST_DATE.Minute, minute);
+            Assert.AreEqual(TEST_DATE.Second, second);
+        }
     }
 }

@@ -156,6 +156,23 @@ namespace System
             return val.Take(length).Cast<T>().ToArray();
         }
 
+        public static T[] ToPremitiveArrayWithDefaultIfNull<T>(this IList<Nullable<T>> val) where T : struct, IComparable, IFormattable, IConvertible, IComparable<T>, IEquatable<T>
+        {
+            return ToPremitiveArrayWithDefaultIfNull(val, default(T));
+        }
+
+        public static T[] ToPremitiveArrayWithDefaultIfNull<T>(this IList<Nullable<T>> val, T value) where T : struct, IComparable, IFormattable, IConvertible, IComparable<T>, IEquatable<T>
+        {
+            var r = new List<T>();
+            AutoParallel.AutoParallelFor(0, val.Count, (i) => {
+                if (!val[i].HasValue)
+                    r.Add(value);
+                else
+                    r.Add(val[i].Value);
+            });
+            return r.ToArray();
+        }
+
         public static Nullable<T>[] ToNullableArray<T>(this IList<T> val) where T : struct, IComparable, IFormattable, IConvertible, IComparable<T>, IEquatable<T>
         {
             return val.ToArray().Cast<Nullable<T>>().ToArray();

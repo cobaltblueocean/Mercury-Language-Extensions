@@ -319,7 +319,6 @@ namespace NodaTime
 
             int absMonths = Math.Abs(months);
 
-            DateTime nodaTimeUtc = nodaTime.ToDateTimeUtc();
             DateTimeZone zone = nodaTime.Zone;
             int y = (int)Math.Truncate(absMonths / 12d);
             int m = absMonths - y * 12;
@@ -328,7 +327,7 @@ namespace NodaTime
 
             if (!isMinus)
             {
-                dateMonth = nodaTimeUtc.Month + m;
+                dateMonth = nodaTime.Month + m;
                 if (dateMonth > 12)
                 {
                     y++;
@@ -337,7 +336,7 @@ namespace NodaTime
             }
             else
             {
-                dateMonth = nodaTimeUtc.Month - m;
+                dateMonth = nodaTime.Month - m;
                 if (dateMonth < 0)
                 {
                     y--;
@@ -347,23 +346,21 @@ namespace NodaTime
                 y = y * -1;
             }
 
-            int dateYear = nodaTimeUtc.Year + y;
-            int dateDay = nodaTimeUtc.Day;
+            int dateYear = nodaTime.Year + y;
+            int dateDay = nodaTime.Day;
 
-            DateTime temp = new DateTime(dateYear, dateMonth, 1, 0, 0, 0, 0, DateTimeKind.Unspecified);
+            DateTime temp = new DateTime(dateYear, dateMonth, 1, 0, 0, 0, 0, DateTimeKind.Utc);
             int lastDayOfheMonth = temp.AddMonths(1).AddDays(-1).Day;
 
             if (dateDay > lastDayOfheMonth)
                 dateDay = lastDayOfheMonth;
 
-            int dateHour = nodaTimeUtc.Hour;
-            int dateMinute = nodaTimeUtc.Minute;
-            int dateSecond = nodaTimeUtc.Second;
-            int dateMillisecond = nodaTimeUtc.Millisecond;
-            long dateNanosecond = nodaTimeUtc.Ticks;
+            int dateHour = nodaTime.Hour;
+            int dateMinute = nodaTime.Minute;
+            int dateSecond = nodaTime.Second;
+            int dateMillisecond = nodaTime.Millisecond;
 
-            //return nodaTime.Plus(Duration.FromMilliseconds(months * NodaTimeUtility.MILLISECONDS_PER_MONTH));
-            return new ZonedDateTime( new DateTime(dateYear, dateMonth, dateDay, dateHour, dateMinute, dateSecond, dateMillisecond, DateTimeKind.Unspecified).AddMilliseconds(zone.MaxOffset.Milliseconds).AddDays(-1).ToInstant(), zone);
+            return NodaTimeUtility.GetZonedDateTime(dateYear, dateMonth, dateDay, dateHour, dateMinute, dateSecond, dateMillisecond, 0, zone);
         }
 
         public static ZonedDateTime PlusYears(this ZonedDateTime nodaTime, int years)
@@ -391,7 +388,6 @@ namespace NodaTime
 
         public static ZonedDateTime AsZonedDateTime(this Instant instant, DateTimeZone zone)
         {
-
             return new ZonedDateTime(instant, zone);
         }
 
@@ -543,7 +539,6 @@ namespace NodaTime
 
         public static ZonedDateTime With(this ZonedDateTime now, LocalDate localDate)
         {
-            
             return new ZonedDateTime(localDate.ToDateTimeUnspecified().ToInstant(), NodaTimeUtility.ORIGINAL_TIME_ZONE);
         }
 
@@ -820,15 +815,17 @@ namespace NodaTime
 
         public static LocalDate ToLocalDate(this ZonedDateTime now)
         {
-            
-            System.Globalization.Calendar cal = System.Globalization.CultureInfo.CurrentCulture.Calendar;
-
             return new LocalDate(now.Year, now.Month, now.Day, now.Calendar);
         }
 
         public static LocalTime ToLocalTime(this ZonedDateTime now)
         {
             return new LocalTime(now.Hour, now.Minute, now.Second, now.Millisecond);
+        }
+
+        public static LocalDateTime ToLocalDateTime(this ZonedDateTime now)
+        {
+            return new LocalDateTime(now.Year, now.Month, now.Day, now.Hour, now.Minute, now.Second, now.Millisecond, now.Calendar);
         }
 
         public static ZonedDateTime ToZonedDateTimeUtc(this ZonedDateTime now)
@@ -1042,6 +1039,78 @@ namespace NodaTime
             }
             return unit.AddTo(new Temporal(now), amountToAdd);
         }
+
+        public static ZonedDateTime ChangeToDifferentTimeZoneWithSameDateTime(this ZonedDateTime now, DateTimeZone zone)
+        {
+            int dateYear = now.Year;
+            int dateMonth = now.Month;
+            int dateDay = now.Day;
+            int dateHour = now.Hour;
+            int dateMinute = now.Minute;
+            int dateSecond = now.Second;
+            int dateMillisecond = now.Millisecond;
+
+            DateTime current = new DateTime(dateYear, dateMonth, dateDay, dateHour, dateMinute, dateSecond, dateMillisecond, DateTimeKind.Utc);
+            if (now.IsDaylightSaving())
+            {
+                return new ZonedDateTime(current.AddMilliseconds(-zone.MaxOffset.Milliseconds).ToInstant(), zone);
+            }
+            else
+            {
+                return new ZonedDateTime(current.AddMilliseconds(-zone.MinOffset.Milliseconds).ToInstant(), zone);
+            }
+        }
+
+        public static ZonedDateTime ChangeToDifferentTimeZone(this ZonedDateTime now, DateTimeZone zone)
+        {
+            DateTime nodaTimeUtc = now.ToDateTimeUtc();
+            int dateYear = nodaTimeUtc.Year;
+            int dateMonth = nodaTimeUtc.Month;
+            int dateDay = nodaTimeUtc.Day;
+
+            //DateTime temp = new DateTime(dateYear, dateMonth, 1, 0, 0, 0, 0, DateTimeKind.Unspecified);
+            //int lastDayOfheMonth = temp.AddMonths(1).AddDays(-1).Day;
+
+            //if (dateDay > lastDayOfheMonth)
+            //    dateDay = lastDayOfheMonth;
+
+            int dateHour = nodaTimeUtc.Hour;
+            int dateMinute = nodaTimeUtc.Minute;
+            int dateSecond = nodaTimeUtc.Second;
+            int dateMillisecond = nodaTimeUtc.Millisecond;
+
+            DateTime current = new DateTime(dateYear, dateMonth, dateDay, dateHour, dateMinute, dateSecond, dateMillisecond, DateTimeKind.Utc);
+            if (now.IsDaylightSaving())
+            {
+                return new ZonedDateTime(current.AddHours(1).ToInstant(), zone);
+             }
+            else
+            {
+                return new ZonedDateTime(current.ToInstant(), zone);
+            }
+        }
+
+
+        /// <summary>
+        /// Find out this time zone is in Daylight Saving, now
+        /// </summary>
+        /// <param name="zone">DateTimeZone to find out</param>
+        /// <returns>Return true if the DateTimeZone is in Daylight Saving</returns>
+        /// <see cref="https://stackoverflow.com/questions/24373618/getting-daylight-savings-time-start-and-end-in-nodatime"/>
+        public static Boolean IsDaylightSaving(this ZonedDateTime now)
+        {
+            DateTimeZone zone = now.Zone;
+            ZonedDateTime tmp = new ZonedDateTime(now.ToInstant(), zone);
+            DateTimeOffset dateTimeOffset = tmp.ToDateTimeOffset();
+            var timezone = "Europe/London"; //https://nodatime.org/TimeZones
+            DateTimeZone london = DateTimeZoneProviders.Tzdb[timezone];
+            ZonedDateTime timeInZone = dateTimeOffset.DateTime.ToInstant().InZone(london);
+            var instant = timeInZone.ToInstant();
+            var zoneInterval = timeInZone.Zone.GetZoneInterval(instant);
+            return zoneInterval.Savings != Offset.Zero;
+        }
+
+
         #endregion
 
         #region Nullable Methods

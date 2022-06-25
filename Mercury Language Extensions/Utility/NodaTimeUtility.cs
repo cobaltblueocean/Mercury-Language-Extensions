@@ -89,11 +89,67 @@ namespace System
         /// </summary>
         public static int MAX_VALUE = 999999999;
 
-
         public static ZonedDateTime GetUTCDate(int year, int month, int day)
         {
             LocalDate localDate = new LocalDate(year, month, day);
             return new ZonedDateTime(localDate.ToInstant(), DateTimeZone.Utc);
+        }
+
+        public static ZonedDateTime GetUTCZonedDateTime(int year, int month, int day, int hour, int minute, int second)
+        {
+            return GetUTCZonedDateTime(year, month, day, hour, minute, second, 0, 0);
+        }
+
+        public static ZonedDateTime GetUTCZonedDateTime(int year, int month, int day, int hour, int minute, int second, int millisecond, int nanosecond)
+        {
+            DateTime localDate = new DateTime(year, month, day, hour, minute, second, millisecond, DateTimeKind.Utc);
+            ZonedDateTime zdt = new ZonedDateTime(localDate.ToInstant(), DateTimeZone.Utc);
+            zdt = zdt.PlusNanoseconds(nanosecond);
+            return zdt;
+        }
+
+        public static ZonedDateTime GetZonedDateTime(int year, int month, int day, int hour, int minute, int second)
+        {
+            return GetZonedDateTime(year, month, day, hour, minute, second, 0, 0, NodaTimeUtility.ORIGINAL_TIME_ZONE);
+        }
+
+        public static ZonedDateTime GetZonedDateTime(int year, int month, int day, int hour, int minute, int second, int millisecond)
+        {
+            return GetZonedDateTime(year, month, day, hour, minute, second, millisecond, 0, NodaTimeUtility.ORIGINAL_TIME_ZONE);
+        }
+
+        public static ZonedDateTime GetZonedDateTime(int year, int month, int day, int hour, int minute, int second, int millisecond, int nanosecond)
+        {
+            return GetZonedDateTime(year, month, day, hour, minute, second, millisecond, nanosecond, NodaTimeUtility.ORIGINAL_TIME_ZONE);
+        }
+
+        public static ZonedDateTime GetZonedDateTime(int year, int month, int day, int hour, int minute, int second, DateTimeZone zone)
+        {
+            return GetZonedDateTime(year, month, day, hour, minute, second, 0, 0, zone);
+        }
+
+        public static ZonedDateTime GetZonedDateTime(int year, int month, int day, int hour, int minute, int second, int millisecond, int nanosecond, DateTimeZone zone)
+        {
+            ZonedDateTime zdt;
+            DateTime current = new DateTime(year, month, day, hour, minute, second, millisecond, DateTimeKind.Utc);
+            if (IsDaylightSaving(current, zone))
+            {
+                zdt = new ZonedDateTime(current.AddMilliseconds(-zone.MaxOffset.Milliseconds).ToInstant(), zone);
+            }
+            else
+            {
+                zdt = new ZonedDateTime(current.AddMilliseconds(-zone.MinOffset.Milliseconds).ToInstant(), zone);
+            }
+
+            return zdt.PlusNanoseconds(nanosecond);
+        }
+
+
+        public static ZonedDateTime GetZonedDateTimeNow()
+        {
+            DateTime now = DateTime.Now;
+
+            return GetZonedDateTime(now.Year, now.Month, now.Day, now.Hour, now.Minute, now.Second, now.Millisecond);
         }
 
         public static LocalDate OfEpochDay(long epochDay)
@@ -130,6 +186,12 @@ namespace System
             // check year now we are certain it is correct
             int year = (int)ChronoField.YEAR.CheckValidIntValue(yearEst);
             return new LocalDate(year, month, dom);
+        }
+
+        public static Boolean IsDaylightSaving(DateTime now, DateTimeZone zone)
+        {
+            ZonedDateTime zdt = new ZonedDateTime(now.ToInstant(), zone);
+            return zdt.IsDaylightSaving();
         }
     }
 }

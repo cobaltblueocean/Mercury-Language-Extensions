@@ -3,9 +3,9 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
     <RootNamespace>Mercury.Language</RootNamespace>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <AssemblyVersion>0.8.1.66</AssemblyVersion>
-    <FileVersion>0.8.1.66</FileVersion>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <AssemblyVersion>0.8.1.76</AssemblyVersion>
+    <FileVersion>0.8.1.76</FileVersion>
     <Description>This is a package to extended libraries to enhance C# programming, especially easier migrate from Java.</Description>
     <Copyright>Kei Nakai</Copyright>
     <PackageProjectUrl>https://github.com/cobaltblueocean/Mercury-Language-Extensions</PackageProjectUrl>
@@ -14,7 +14,7 @@
     <PackageId>Mercury.Language.Extensions</PackageId>
     <Authors>Kei Nakai</Authors>
     <Company />
-    <Version>0.8.1.66</Version>
+    <Version>0.8.1.76</Version>
     <PackageReleaseNotes>Added Decimal and DecimalComplec Matrix/Vector classes
 Fixed CloneExact() method
 Fixed AreObjectsEqual() method
@@ -23,7 +23,10 @@ Added BitSet class and BitSet Extension
 Bug fix for ListExtension.AddAll() method
 Added LinkedListMultiDictionary class
 Bug fixed for TemporalAdjuster and ZonedDateTime classes to treat Offset
-Bug fixed NodaTimeExtension.PlusMonths() method for ZonedDateTime</PackageReleaseNotes>
+Bug fixed NodaTimeExtension.PlusMonths() method for ZonedDateTime
+Added ZonedDateTime creator methods in NodaTimeUtility class
+Added ChangeToDifferentTimeZone() method for ZonedDateTime
+Added ToPremitiveArrayWithDefaultIfNull() method to ListExtension</PackageReleaseNotes>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

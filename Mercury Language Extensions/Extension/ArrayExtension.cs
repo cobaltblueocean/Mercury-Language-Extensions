@@ -157,6 +157,19 @@ namespace System
             }
         }
 
+        public static T[] Sort<T>(this T[] source)
+        {
+            return Sort(source, SortOrder.Asending);
+        }
+
+        public static T[] Sort<T>(this T[] source, SortOrder order)
+        {
+            if (order == SortOrder.Asending)
+                return source.OrderBy(x => x).ToArray();
+            else
+                return source.OrderByDescending(x => x).ToArray();
+        }
+
         public static T[,] ArrayOf<T>(this T[,,] originalArray, int Index)
         {
             if (Index >= originalArray.GetLength(0))
@@ -469,6 +482,13 @@ namespace System
             {
                 dest[destRow, i + destPos] = sourceArray[srcRow, i + srcPos];
             }
+        }
+
+        public static T2[] ConvertTypeArray<T1, T2>(this T1[] source)
+        {
+            Type t2 = typeof(T2).IsNullable() ? Nullable.GetUnderlyingType(typeof(T2)) : typeof(T2);
+
+            return source.Select(x => (T2)Convert.ChangeType(x, t2)).ToArray();
         }
 
         public static Complex[] ConvertToComplex(this double[] real)

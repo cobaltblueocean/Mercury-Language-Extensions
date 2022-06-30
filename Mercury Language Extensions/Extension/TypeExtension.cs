@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 
 namespace System
@@ -24,6 +25,11 @@ namespace System
                 return true;
             else
                 return false;
+        }
+
+        public static Boolean IsComparable(this Type type)
+        {
+            return type.GetInterfaces().Any(x => x == typeof(IComparable));
         }
     }
 }

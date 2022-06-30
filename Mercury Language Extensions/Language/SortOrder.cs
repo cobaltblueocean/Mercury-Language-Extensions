@@ -22,33 +22,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Mercury.Language.Exception;
 
-namespace System.Collections.Generic
+namespace System
 {
     /// <summary>
-    /// HashSetExtension Description
+    /// Represent which direction to be sorted
     /// </summary>
-    public static class HashSetExtension
+    public enum SortOrder
     {
-
-        public static Nullable<T>[] ToNullableArray<T>(this ISet<T> val) where T : struct, IComparable, IFormattable, IConvertible, IComparable<T>, IEquatable<T>
-        {
-            return val.ToArray().Cast<Nullable<T>>().ToArray();
-        }
-
-        public static T[] ToPremitiveArray<T>(this ISet<Nullable<T>> val) where T : struct, IComparable, IFormattable, IConvertible, IComparable<T>, IEquatable<T>
-        {
-            return val.Cast<T>().ToArray();
-        }
-
-        public static ISet<T> Sort<T>(this ISet<T> val)
-        {
-            var sorted = new SortedSet<T>(val);
-            val.Clear();
-            val.AddAll(sorted);
-
-            return val;
-        }
+        Asending,
+        Descending
     }
 }

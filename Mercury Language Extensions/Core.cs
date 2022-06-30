@@ -70,7 +70,7 @@ namespace System
         {
             dynamic instance = null;
 
-            if (type.IsGenericType)
+            if (type.IsGenericTypeDefinition)
             {
                 List<Type> typeParams = type.GetGenericTypeParameter();
                 Type constructedType = type.MakeGenericType(typeParams.ToArray());

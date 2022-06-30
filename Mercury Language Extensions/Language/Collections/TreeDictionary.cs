@@ -55,6 +55,11 @@ namespace System.Collections.Generic
 
         private const int InitSize = 4;
 
+        public TreeDictionary() :this (InitSize, null)
+        {
+
+        }
+
         public TreeDictionary(int initSize = InitSize, IComparer<TKey> comparer = null)
         {
             if (comparer == null)
@@ -63,7 +68,26 @@ namespace System.Collections.Generic
                 _comparer = comparer;
 
             _nodes = new Node[initSize];
+            Keys = new List<TKey>();
+            Values = new List<TValue>();
+        }
 
+        private void init()
+        {
+            if (_comparer == null)
+                _comparer = Comparer<TKey>.Default;
+
+            if (_nodes == null)
+            {
+                _nodes = new Node[InitSize];
+                _freeSlots = new int[InitSize];
+            }
+
+            if (Keys == null)
+                Keys = new List<TKey>();
+
+            if (Values == null)
+                Values = new List<TValue>();
         }
 
         private enum Color
@@ -88,8 +112,6 @@ namespace System.Collections.Generic
             public Color Color;
             public TKey Key;
             public TValue Value;
-
-
         }
 
         public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
@@ -109,7 +131,6 @@ namespace System.Collections.Generic
             {
                 _freeSlots[0] = 0;
             }
-
         }
 
         public void AddRange(IDictionary<TKey, TValue> dic)
@@ -150,7 +171,18 @@ namespace System.Collections.Generic
 
         public bool Remove(KeyValuePair<TKey, TValue> item)
         {
-            throw new System.NotImplementedException();
+            int index = -1;
+            int found = Find(ref index, item.Key);
+            if (found == 0)
+            {
+                Delete(index);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+            //throw new System.NotImplementedException();
         }
 
         public int Count { get { return _nodeCount; } }
@@ -171,8 +203,10 @@ namespace System.Collections.Generic
         /// </summary>        
         private int Find(ref int index, TKey key)
         {
-            int last;
-            int cmp;
+            int last = -1;
+            int cmp = -1;
+
+            init();
             do
             {
                 last = index;
@@ -200,6 +234,7 @@ namespace System.Collections.Generic
         private void Add(TKey key, TValue value, int index, int side)
         {
             Node n = new Node(key, value);
+            init();
 
             int next;
 
@@ -221,6 +256,8 @@ namespace System.Collections.Generic
                 _root = next;
                 n.Color = Color.Black;
                 _nodes[next] = n;
+                Keys.Add(key);
+                Values.Add(value);
                 return;
             }
             else if (side == -1)
@@ -229,6 +266,8 @@ namespace System.Collections.Generic
                 _nodes[index].Right = next;
 
             _nodes[next] = n;
+            Keys.Add(key);
+            Values.Add(value);
             Fixup(next);
         }
 
@@ -432,6 +471,10 @@ namespace System.Collections.Generic
             int x;
             int zr;
             int zp = _nodes[z].Parent;
+
+            TKey key = _nodes[z].Key;
+            TValue value = _nodes[z].Value;
+
             if ((zl = _nodes[z].Left) == -1)
             {
                 x = _nodes[z].Right;
@@ -476,6 +519,9 @@ namespace System.Collections.Generic
             }
             _freeSlots[_freeSlotsCount++] = z;
             _nodeCount--;
+
+            Keys.Remove(key);
+            Values.Remove(value);
         }
         /*
         private void Delete(int index)

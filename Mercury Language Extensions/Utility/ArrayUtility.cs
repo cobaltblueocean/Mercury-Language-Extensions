@@ -31,14 +31,51 @@ namespace System
     /// </summary>
     public static class ArrayUtility
     {
+        #region Public Static Fields
+        public static Boolean[] EMPTY_BOOLEAN_ARRAY = new Boolean[0];
+        public static Boolean?[] EMPTY_BOOLEAN_OBJECT_ARRAY = new Boolean?[0];
+        public static byte[] EMPTY_BYTE_ARRAY = new byte[0];
+        public static Byte?[] EMPTY_BYTE_OBJECT_ARRAY = new Byte?[0];
+        public static char[] EMPTY_CHAR_ARRAY = new char[0];
+        public static Char?[] EMPTY_CHARACTER_OBJECT_ARRAY = new Char?[0];
+        //public static T[] EMPTY_CLASS_ARRAY<T> = new T[0]();
+        public static double[] EMPTY_DOUBLE_ARRAY = new double[0];
+        public static Double?[] EMPTY_DOUBLE_OBJECT_ARRAY = new Double?[0];
+        //public static Field[] EMPTY_FIELD_ARRAY = new Field[0];
+        public static float[] EMPTY_FLOAT_ARRAY = new float[0];
+        public static float?[] EMPTY_FLOAT_OBJECT_ARRAY = new float?[0];
+        public static int[] EMPTY_INT_ARRAY = new int[0];
+        public static int?[] EMPTY_INTEGER_OBJECT_ARRAY = new int?[0];
+        public static long[] EMPTY_LONG_ARRAY = new long[0];
+        public static long?[] EMPTY_LONG_OBJECT_ARRAY = new long?[0];
+        //public static Method[] EMPTY_METHOD_ARRAY = new Method[0];
+        public static Object[] EMPTY_OBJECT_ARRAY = new Object[0];
+        public static short[] EMPTY_SHORT_ARRAY = new short[0];
+        public static short?[] EMPTY_SHORT_OBJECT_ARRAY = new short?[0];
+        public static String[] EMPTY_STRING_ARRAY = new String[0];
+        //public static Throwable[] EMPTY_THROWABLE_ARRAY = new Throwable[0];
+        public static Type[] EMPTY_TYPE_ARRAY = new Type[0];
+        public static int INDEX_NOT_FOUND = -1;
+        #endregion
+
         #region "Public Static Methods"
+        /// <summary>
+        /// Return Empty Class array
+        /// </summary>
+        /// <typeparam name="T">Type of the Array would like to get</typeparam>
+        /// <returns>Class array</returns>
+        public static T[] GetEmptyClassArray<T>()
+        {
+            return new T[0];
+        }
+
         /// <summary>
         /// Sort the content of keys and values simultaneously so that
         /// both match the correct ordering. Alters the arrays in place
         /// </summary>
         /// <param name="keys">The keys</param>
         /// <param name="values">The values</param>
-        public static void ParallelBinarySort(Double?[] keys, Double?[] values)
+        public static void ParallelBinarySort<T>(Nullable<T>[] keys, Nullable<T>[] values) where T : struct
         {
             // ArgumentChecker.NotNull(keys, "x data");
             // ArgumentChecker.NotNull(values, "y data");
@@ -56,7 +93,7 @@ namespace System
         /// <param name="values">The values</param>
         /// <param name="start">Starting point (0-based)</param>
         /// <param name="end">Final point (0-based, inclusive)</param>
-        public static void ParallelBinarySort(Double?[] keys, Double?[] values, int start, int end)
+        public static void ParallelBinarySort<T>(Nullable<T>[] keys, Nullable<T>[] values, int start, int end) where T : struct
         {
             // ArgumentChecker.NotNull(keys, "x data");
             // ArgumentChecker.NotNull(values, "y data");
@@ -73,7 +110,7 @@ namespace System
         /// <param name="keys">The keys</param>
         /// <param name="values1">The first set of values</param>
         /// <param name="values2">The second set of values</param>
-        public static void ParallelBinarySort(Double?[] keys, Double?[] values1, Double?[] values2)
+        public static void ParallelBinarySort<T>(Nullable<T>[] keys, Nullable<T>[] values1, Nullable<T>[] values2) where T : struct
         {
             // ArgumentChecker.NotNull(keys, "x data");
             // ArgumentChecker.NotNull(values1, "y data 1");
@@ -84,14 +121,14 @@ namespace System
             TripleArrayQuickSort(keys, values1, values2, 0, n - 1);
         }
 
-        public static double[] ConvertToArray(double value)
+        public static T[] ConvertToArray<T>(T value)
         {
-            return new double[] { value };
+            return new T[] { value };
         }
 
-        public static double?[] ConvertToNullableArray(double value)
+        public static Nullable<T>[] ConvertToNullableArray<T>(T value) where T : struct
         {
-            return new double?[] { value };
+            return new Nullable<T>[] { value };
         }
 
         public static int[] ConvertToArray(int value)
@@ -147,7 +184,7 @@ namespace System
         /// <param name="values2"></param>
         /// <param name="left"></param>
         /// <param name="right"></param>
-        private static void TripleArrayQuickSort(Double?[] keys, Double?[] values1, Double?[] values2, int left, int right)
+        private static void TripleArrayQuickSort<T>(Nullable<T>[] keys, Nullable<T>[] values1, Nullable<T>[] values2, int left, int right) where T : struct
         {
             if (right > left)
             {
@@ -159,14 +196,14 @@ namespace System
         }
 
         #region "Partitioins"
-        private static int Partition(Double?[] keys, Double?[] values1, Double?[] values2, int left, int right, int pivot)
+        private static int Partition<T>(Nullable<T>[] keys, Nullable<T>[] values1, Nullable<T>[] values2, int left, int right, int pivot) where T : struct
         {
-            Double? pivotValue = keys[pivot];
+            Nullable<T> pivotValue = keys[pivot];
             Swap(keys, values1, values2, pivot, right);
             int storeIndex = left;
             for (int i = left; i < right; i++)
             {
-                if (keys[i] <= pivotValue)
+                if (keys[i].LessThanOrEqualTo(pivotValue))
                 {
                     Swap(keys, values1, values2, i, storeIndex);
                     storeIndex++;
@@ -178,9 +215,9 @@ namespace System
         #endregion
 
         #region "Swaps"
-        private static void Swap(Double?[] keys, Double?[] values1, Double?[] values2, int first, int second)
+        private static void Swap<T>(Nullable<T>[] keys, Nullable<T>[] values1, Nullable<T>[] values2, int first, int second) where T : struct
         {
-            Double? t = keys[first];
+            Nullable<T> t = keys[first];
             keys[first] = keys[second];
             keys[second] = t;
             if (values1 != null)
@@ -207,7 +244,7 @@ namespace System
         /// </summary>
         /// <param name="keys">The keys</param>
         /// <param name="values">The values</param>
-        public static void ParallelBinarySort(double[] keys, double[] values)
+        public static void ParallelBinarySort<T>(T[] keys, T[] values) where T : struct
         {
             // ArgumentChecker.NotNull(keys, "x data");
             // ArgumentChecker.NotNull(values, "y data");
@@ -225,7 +262,7 @@ namespace System
         /// <param name="values">The values</param>
         /// <param name="start">Starting point (0-based)</param>
         /// <param name="end">Final point (0-based, inclusive)</param>
-        public static void ParallelBinarySort(double[] keys, double[] values, int start, int end)
+        public static void ParallelBinarySort<T>(T[] keys, T[] values, int start, int end) where T : struct
         {
             // ArgumentChecker.NotNull(keys, "x data");
             // ArgumentChecker.NotNull(values, "y data");
@@ -242,7 +279,7 @@ namespace System
         /// <param name="keys">The keys</param>
         /// <param name="values1">The first set of values</param>
         /// <param name="values2">The second set of values</param>
-        public static void ParallelBinarySort(double[] keys, double[] values1, double[] values2)
+        public static void ParallelBinarySort<T>(T[] keys, T[] values1, T[] values2) where T : struct
         {
             // ArgumentChecker.NotNull(keys, "x data");
             // ArgumentChecker.NotNull(values1, "y data 1");
@@ -315,7 +352,7 @@ namespace System
         /// <param name="values2"></param>
         /// <param name="left"></param>
         /// <param name="right"></param>
-        private static void TripleArrayQuickSort(double[] keys, double[] values1, double[] values2, int left, int right)
+        private static void TripleArrayQuickSort<T>(T[] keys, T[] values1, T[] values2, int left, int right) where T : struct
         {
             if (right > left)
             {
@@ -327,14 +364,14 @@ namespace System
         }
 
         #region "Partitioins"
-        private static int Partition(double[] keys, double[] values1, double[] values2, int left, int right, int pivot)
+        private static int Partition<T>(T[] keys, T[] values1, T[] values2, int left, int right, int pivot) where T : struct
         {
-            double pivotValue = keys[pivot];
+            T pivotValue = keys[pivot];
             Swap(keys, values1, values2, pivot, right);
             int storeIndex = left;
             for (int i = left; i < right; i++)
             {
-                if (keys[i] <= pivotValue)
+                if (keys[i].LessThanOrEqualTo(pivotValue))
                 {
                     Swap(keys, values1, values2, i, storeIndex);
                     storeIndex++;
@@ -346,9 +383,9 @@ namespace System
         #endregion
 
         #region "Swaps"
-        private static void Swap(double[] keys, double[] values1, double[] values2, int first, int second)
+        private static void Swap<T>(T[] keys, T[] values1, T[] values2, int first, int second) where T : struct
         {
-            double t = keys[first];
+            T t = keys[first];
             keys[first] = keys[second];
             keys[second] = t;
             if (values1 != null)
@@ -367,6 +404,5 @@ namespace System
 
         #endregion
         #endregion
-
     }
 }

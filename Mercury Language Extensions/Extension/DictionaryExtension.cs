@@ -10,13 +10,13 @@ namespace System.Collections.Generic
 {
     public static class DictionaryExtension
     {
-        #region Extension for IDictionary<T1, T2>
-        public static ReadOnlyDictionary<T1, T2> ToReadOnlyDictionary<T1, T2>(this IDictionary<T1, T2> originalDictionary)
+        #region Extension for IDictionary<TKey, TValue>
+        public static ReadOnlyDictionary<TKey, TValue> ToReadOnlyDictionary<TKey, TValue>(this IDictionary<TKey, TValue> originalDictionary)
         {
-            return new ReadOnlyDictionary<T1, T2>(originalDictionary);
+            return new ReadOnlyDictionary<TKey, TValue>(originalDictionary);
         }
 
-        public static T2 PutIfAbsent<T1, T2>(this IDictionary<T1, T2> originalDictionary, T1 key, T2 value)
+        public static TValue PutIfAbsent<TKey, TValue>(this IDictionary<TKey, TValue> originalDictionary, TKey key, TValue value)
         {
             if (!originalDictionary.ContainsKey(key))
             {
@@ -25,6 +25,39 @@ namespace System.Collections.Generic
 
             return originalDictionary[key];
         }
+
+        public static IDictionary<TKey, TValue> Sort<TKey, TValue>(this IDictionary<TKey, TValue> originalDictionary)
+        {
+            return Sort(originalDictionary, SortOrder.Asending);
+        }
+
+        public static IDictionary<TKey, TValue> Sort<TKey, TValue>(this IDictionary<TKey, TValue> originalDictionary, SortOrder order)
+        {
+            var data = (order == SortOrder.Asending) ? originalDictionary.OrderBy(pair => pair.Key) : originalDictionary.OrderByDescending(pair => pair.Key);
+            var buf = new List<KeyValuePair<TKey, TValue>>();
+
+            foreach (var item in data)
+            {
+                buf.Add(new KeyValuePair<TKey, TValue>(item.Key, item.Value));
+            }
+
+            originalDictionary.RemoveAll();
+            originalDictionary.Clear();
+
+            originalDictionary.AddOrUpdateAll(buf);
+
+            return originalDictionary;
+        }
+
+        public static void RemoveAll<TKey, TValue>(this IDictionary<TKey, TValue> originalDictionary)
+        {
+            var keys = originalDictionary.Keys.ToList();
+            foreach (var key in keys)
+            {
+                originalDictionary.Remove(key);
+            }
+        }
+
         #endregion
     }
 }

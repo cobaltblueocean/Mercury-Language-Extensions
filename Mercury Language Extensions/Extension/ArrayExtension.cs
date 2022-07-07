@@ -443,6 +443,9 @@ namespace System
         public static T[] CopyOf<T>(this T[] originalArray, int length)
         {
             var newArray = new T[length];
+            if (length > originalArray.Length)
+                length = originalArray.Length;
+
             Array.Copy(originalArray, newArray, length);
             return newArray;
         }
@@ -450,6 +453,9 @@ namespace System
         public static T[] CopyOf<T>(this T[] originalArray, int index, int length)
         {
             var newArray = new T[length];
+            if (length + index > originalArray.Length)
+                length = originalArray.Length - index;
+
             Array.Copy(originalArray, index, newArray, 0, length);
             return newArray;
         }
@@ -542,11 +548,25 @@ namespace System
 
         public static void LoadRow<T>(this T[,] originalArray, int Index, T[] data)
         {
-            if (originalArray.GetLength(1) != data.Length)
+            LoadRow(originalArray, Index, 0, data, 0);
+        }
+
+        public static void LoadRow<T>(this T[,] originalArray, int Index, int offset, T[] data, int start)
+        {
+            LoadRow(originalArray, Index, offset, data, start, data.Length - start);
+        }
+
+        public static void LoadRow<T>(this T[,] originalArray, int Index, int offset, T[] data, int start, int length)
+        {
+
+            if (offset + length > originalArray.GetLength(1))
                 throw new IndexOutOfRangeException();
 
-            for (int i = 0; i < originalArray.GetLength(1); i++)
-                originalArray[Index, i] = data[i];
+            if (start + length > data.Length)
+                throw new IndexOutOfRangeException();
+
+            for (int i = 0; i < length; i++)
+                originalArray[Index, i + offset] = data[i + start];
         }
 
         public static T[] GetRow<T>(this T[,] originalArray, int Index)
@@ -576,11 +596,13 @@ namespace System
 
         public static T[,] GetRow<T>(this T[,,] originalArray, int Index)
         {
-            T[,] data = new T[originalArray.GetLength(1), originalArray.GetLength(2)];
+            int rows = originalArray.GetLength(1);
+            int cols = originalArray.GetLength(2);
+            T[,] data = new T[rows, cols];
 
-            for (int i = 0; i < originalArray.GetLength(1); i++)
+            for (int i = 0; i < rows; i++)
             {
-                for (int j = 0; j < originalArray.GetLength(1); j++)
+                for (int j = 0; j < cols; j++)
                 {
                     data[i, j] = originalArray[Index, i, j];
                 }
@@ -591,11 +613,14 @@ namespace System
 
         public static void SetRow<T>(this T[,,] originalArray, int Index, T[,] value)
         {
+            int rows = originalArray.GetLength(2);
+            int cols = originalArray.GetLength(3);
+
             if (originalArray.GetLength(2) == value.GetLength(1) && originalArray.GetLength(3) == value.GetLength(2))
             {
-                for (int i = 0; i < originalArray.GetLength(2); i++)
+                for (int i = 0; i < rows; i++)
                 {
-                    for (int j = 0; j < originalArray.GetLength(3); j++)
+                    for (int j = 0; j < cols; j++)
                     {
                         originalArray[Index, i, j] = value[i, j];
                     }
@@ -1020,6 +1045,67 @@ namespace System
         public static IEnumerable<int[]> GetIndices(this Array array, bool deep = false, bool max = false, MatrixOrder order = MatrixOrder.Default)
         {
             return Combinatorics.Sequences(array.GetLength(deep, max), firstColumnChangesFaster: order == MatrixOrder.FortranColumnMajor);
+        }
+
+        public static T GetSafe<T>(this T[] source, int index)
+        {
+            try
+            {
+                return source[index];
+            }
+            catch
+            {
+                return default(T);
+            }
+        }
+
+        public static T GetSafe<T>(this T[,] source, int indexA, int indexB)
+        {
+            try
+            {
+                return source[indexA, indexB];
+            }
+            catch
+            {
+                return default(T);
+            }
+        }
+
+        public static T GetSafe<T>(this T[,,] source, int indexA, int indexB, int indexC)
+        {
+            try
+            {
+                return source[indexA, indexB, indexC];
+            }
+            catch
+            {
+                return default(T);
+            }
+        }
+
+
+        public static T GetSafe<T>(this T[][] source, int indexA, int indexB)
+        {
+            try
+            {
+                return source[indexA][indexB];
+            }
+            catch
+            {
+                return default(T);
+            }
+        }
+
+        public static T GetSafe<T>(this T[][][] source, int indexA, int indexB, int indexC)
+        {
+            try
+            {
+                return source[indexA][indexB][indexC];
+            }
+            catch
+            {
+                return default(T);
+            }
         }
 
         public static Boolean IsSquare(this double[,] A, int n, int m)

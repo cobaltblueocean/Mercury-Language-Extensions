@@ -58,6 +58,18 @@ namespace System.Collections.Generic
             }
         }
 
+        public static TValue GetSafe<TKey, TValue>(this IDictionary<TKey, TValue> originalDictionary, TKey key)
+        {
+            try
+            {
+                return originalDictionary[key];
+            }
+            catch
+            {
+                return default(TValue);
+            }
+        }
+
         #endregion
     }
 }

@@ -59,5 +59,28 @@ namespace Mercury_Language_Extensions.Test.Collections
             Assert2.ArrayEquals(MAP.Keys.ToArray(), MAP_SORTED.Keys.ToArray());
             Assert2.ArrayEquals(MAP.Values.ToArray(), MAP_SORTED.Values.ToArray());
         }
+
+        [Test]
+        public void DictionarySafeGetTest()
+        {
+            int N = 16;
+            Dictionary<String, Double?> dummy = new Dictionary<String, Double?>();
+
+            AutoParallel.AutoParallelFor(0, N, (i) =>
+            {
+                dummy.Add(i.ToString(), i);
+            });
+
+            String key = (N * 2).ToString();
+
+            Assert2.ThrowsException<KeyNotFoundException>(() =>
+            {
+                var data1 = dummy[key];
+            });
+
+            var data2 = dummy.GetSafe(key);
+
+            Assert.IsTrue(data2 == null);
+        }
     }
 }

@@ -4,8 +4,8 @@
     <TargetFramework>netstandard2.1</TargetFramework>
     <RootNamespace>Mercury.Language</RootNamespace>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-    <AssemblyVersion>0.8.1.91</AssemblyVersion>
-    <FileVersion>0.8.1.91</FileVersion>
+    <AssemblyVersion>0.8.1.97</AssemblyVersion>
+    <FileVersion>0.8.1.97</FileVersion>
     <Description>This is a package to extended libraries to enhance C# programming, especially easier migrate from Java.</Description>
     <Copyright>Kei Nakai</Copyright>
     <PackageProjectUrl>https://github.com/cobaltblueocean/Mercury-Language-Extensions</PackageProjectUrl>
@@ -14,7 +14,7 @@
     <PackageId>Mercury.Language.Extensions</PackageId>
     <Authors>Kei Nakai</Authors>
     <Company />
-    <Version>0.8.1.91</Version>
+    <Version>0.8.1.97</Version>
     <PackageReleaseNotes>Added Decimal and DecimalComplec Matrix/Vector classes
 Fixed CloneExact() method
 Fixed AreObjectsEqual() method
@@ -29,7 +29,12 @@ Added ChangeToDifferentTimeZone() method for ZonedDateTime
 Added ToPremitiveArrayWithDefaultIfNull() method to ListExtension
 Updated TreeDictionary Class to support Keys/Values properties
 Added Empty Array fields for ArrayUtility class
-Added IsComparable() method to TypeExtension class</PackageReleaseNotes>
+Added IsComparable() method to TypeExtension class
+Bug fix for CopyOf() methods in ArrayExtension
+Bug fix for DoubleFFT_1D class
+Added Transform classes other than DoubleFFT_1D class.
+Refactored LoadRow method in ArrayExtension class.
+Bug fix for GetRow() method of T[,,] for ArrayExtensions.</PackageReleaseNotes>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

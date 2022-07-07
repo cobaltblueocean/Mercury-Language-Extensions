@@ -64,5 +64,75 @@ namespace Mercury_Language_Extensions.Test
 
             Assert2.ArrayEquals(X_OBJECT, X_OBJECT_CONVERTED);
         }
+
+        [Test]
+        public void ArrayCopyOfTest()
+        {
+            int N = 256;
+            double[] h = new double[N];
+
+            AutoParallel.AutoParallelFor(0, N, (i) =>
+            {
+                h[i] = (double)i;
+            });
+            
+            double[] a = h.CopyOf(2 * N);
+
+            Assert.AreEqual(h.Length * 2, a.Length);
+
+            for(int i = 0; i < N; i++)
+            {
+                Assert.AreEqual(h[i], a[i]);
+            }
+
+            for (int i = N; i < N * 2; i++)
+            {
+                Assert.AreEqual(a[i], 0);
+            }
+        }
+
+        [Test]
+        public void ArrayGetSafeTest()
+        {
+            int N = 16;
+            Dummy[] dummy = new Dummy[N * 2];
+
+            AutoParallel.AutoParallelFor(0, N, (i) =>
+            {
+                dummy[i] = new Dummy(i.ToString(), i);
+            });
+
+            Assert2.ThrowsException<IndexOutOfRangeException>(() =>
+            {
+                var data1 = dummy[N * 2];
+            });
+
+            var data2 = dummy.GetSafe(N * 2);
+
+            Assert.IsTrue(data2 == null);
+        }
+    }
+
+public class Dummy
+    {
+        private String _name;
+        private double _value;
+
+        public Dummy(String name, Double value)
+        {
+            _name = name;
+            _value = value;
+        }
+
+        public String Name
+        {
+            get { return _name; }
+            set { _name = value; }
+        }
+        public double Value
+        {
+            get { return _value; }
+            set { _value = value; }
+        }
     }
 }

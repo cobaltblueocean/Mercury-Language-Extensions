@@ -33,6 +33,16 @@ namespace System
     /// </summary>
     public class Core
     {
+        public static readonly int THREADS_BEGIN_N_1D_FFT_2THREADS = 8192;
+
+        public static readonly int THREADS_BEGIN_N_1D_FFT_4THREADS = 65536;
+
+        public static readonly int THREADS_BEGIN_N_1D = 32768;
+
+        public static readonly int THREADS_BEGIN_N_2D = 65536;
+
+        public static readonly int THREADS_BEGIN_N_3D = 65536;
+
         /// Check if the Namespace is existing in the AppDomain.
         /// </summary>
         /// <param name="desiredNamespace"></param>

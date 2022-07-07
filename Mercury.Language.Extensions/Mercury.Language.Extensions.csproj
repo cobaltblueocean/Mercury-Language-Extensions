@@ -35,6 +35,7 @@ Bug fix for DoubleFFT_1D class
 Added Transform classes other than DoubleFFT_1D class.
 Refactored LoadRow method in ArrayExtension class.
 Bug fix for GetRow() method of T[,,] for ArrayExtensions.</PackageReleaseNotes>
+    <AssemblyName>Mercury.Language.Extensions</AssemblyName>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

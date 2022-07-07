@@ -18,7 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Mercury Language Extensions\Mercury Language Extensions.csproj" />
+    <ProjectReference Include="..\Mercury.Language.Extensions\Mercury.Language.Extensions.csproj" />
   </ItemGroup>
 
 </Project>

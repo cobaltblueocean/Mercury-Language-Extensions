@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>Mercury.Language.Extensions</id>
+    <version>0.8.1.91</version>
+    <authors>Kei Nakai</authors>
+    <projectUrl>https://github.com/cobaltblueocean/Mercury-Language-Extensions</projectUrl>
+    <description>This is a package to extended libraries to enhance C# programming, especially easier migrate from Java.</description>
+    <releaseNotes>Added Decimal and DecimalComplec Matrix/Vector classes
+Fixed CloneExact() method
+Fixed AreObjectsEqual() method
+Fixed LUDecomposition
+Added BitSet class and BitSet Extension
+Bug fix for ListExtension.AddAll() method
+Added LinkedListMultiDictionary class
+Bug fixed for TemporalAdjuster and ZonedDateTime classes to treat Offset
+Bug fixed NodaTimeExtension.PlusMonths() method for ZonedDateTime
+Added ZonedDateTime creator methods in NodaTimeUtility class
+Added ChangeToDifferentTimeZone() method for ZonedDateTime
+Added ToPremitiveArrayWithDefaultIfNull() method to ListExtension
+Updated TreeDictionary Class to support Keys/Values properties
+Added Empty Array fields for ArrayUtility class
+Added IsComparable() method to TypeExtension class</releaseNotes>
+    <copyright>Kei Nakai</copyright>
+    <repository type="GitHub" url="https://github.com/cobaltblueocean/Mercury-Language-Extensions" />
+    <dependencies>
+      <group targetFramework=".NETStandard2.1">
+        <dependency id="Cern.Colt.NET" version="0.9.1.19" exclude="Build,Analyzers" />
+        <dependency id="MathNet.Numerics" version="5.0.0" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.CSharp" version="4.7.0" exclude="Build,Analyzers" />
+        <dependency id="NodaTime" version="3.1.0" exclude="Build,Analyzers" />
+        <dependency id="System.Collections.Immutable" version="6.0.0" exclude="Build,Analyzers" />
+        <dependency id="System.Configuration.ConfigurationManager" version="6.0.0" exclude="Build,Analyzers" />
+        <dependency id="System.Diagnostics.EventLog" version="6.0.0" exclude="Build,Analyzers" />
+        <dependency id="System.Drawing.Common" version="6.0.0" exclude="Build,Analyzers" />
+        <dependency id="System.Text.Json" version="6.0.5" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="C:\Repos\Mercury-Language-Extensions\Mercury Language Extensions\bin\Debug\netstandard2.1\ja-JP\Mercury Language Extensions.resources.dll" target="lib\netstandard2.1\ja-JP\Mercury Language Extensions.resources.dll" />
+    <file src="C:\Repos\Mercury-Language-Extensions\Mercury Language Extensions\bin\Debug\netstandard2.1\Mercury Language Extensions.dll" target="lib\netstandard2.1\Mercury Language Extensions.dll" />
+  </files>
+</package>

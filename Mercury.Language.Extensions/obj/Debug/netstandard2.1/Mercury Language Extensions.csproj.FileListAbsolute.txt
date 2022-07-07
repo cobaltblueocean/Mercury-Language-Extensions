@@ -1,0 +1,16 @@
+C:\Repos\Mercury-Language-Extensions\Mercury Language Extensions\bin\Debug\netstandard2.1\Mercury Language Extensions.deps.json
+C:\Repos\Mercury-Language-Extensions\Mercury Language Extensions\bin\Debug\netstandard2.1\Mercury Language Extensions.dll
+C:\Repos\Mercury-Language-Extensions\Mercury Language Extensions\bin\Debug\netstandard2.1\Mercury Language Extensions.pdb
+C:\Repos\Mercury-Language-Extensions\Mercury Language Extensions\bin\Debug\netstandard2.1\ja-JP\Mercury Language Extensions.resources.dll
+C:\Repos\Mercury-Language-Extensions\Mercury Language Extensions\obj\Debug\netstandard2.1\Mercury.Language.Properties.JapaneseEra.resources
+C:\Repos\Mercury-Language-Extensions\Mercury Language Extensions\obj\Debug\netstandard2.1\Mercury.Language.Properties.Resources.resources
+C:\Repos\Mercury-Language-Extensions\Mercury Language Extensions\obj\Debug\netstandard2.1\Mercury.Language.Properties.Resources.ja-JP.resources
+C:\Repos\Mercury-Language-Extensions\Mercury Language Extensions\obj\Debug\netstandard2.1\Mercury Language Extensions.csproj.GenerateResource.cache
+C:\Repos\Mercury-Language-Extensions\Mercury Language Extensions\obj\Debug\netstandard2.1\Mercury Language Extensions.GeneratedMSBuildEditorConfig.editorconfig
+C:\Repos\Mercury-Language-Extensions\Mercury Language Extensions\obj\Debug\netstandard2.1\Mercury Language Extensions.AssemblyInfoInputs.cache
+C:\Repos\Mercury-Language-Extensions\Mercury Language Extensions\obj\Debug\netstandard2.1\Mercury Language Extensions.AssemblyInfo.cs
+C:\Repos\Mercury-Language-Extensions\Mercury Language Extensions\obj\Debug\netstandard2.1\Mercury Language Extensions.csproj.CoreCompileInputs.cache
+C:\Repos\Mercury-Language-Extensions\Mercury Language Extensions\obj\Debug\netstandard2.1\ja-JP\Mercury Language Extensions.resources.dll
+C:\Repos\Mercury-Language-Extensions\Mercury Language Extensions\obj\Debug\netstandard2.1\Mercury Language Extensions.dll
+C:\Repos\Mercury-Language-Extensions\Mercury Language Extensions\obj\Debug\netstandard2.1\Mercury Language Extensions.pdb
+C:\Repos\Mercury-Language-Extensions\Mercury Language Extensions\obj\Debug\netstandard2.1\Mercury Language Extensions.csproj.AssemblyReference.cache

@@ -37,3 +37,6 @@ Mercury.Language.Extensions.Test/obj/project.assets.json
 .vs/Mercury.Language.Extensions/DesignTimeBuild/.dtbcache.v2
 Mercury.Language.Extensions.Test/bin/Debug/netcoreapp3.1/Mercury.Language.Extensions.Test.deps.json
 Mercury.Language.Extensions.Test/bin/Debug/netcoreapp3.1/nunit_random_seed.tmp
+Mercury.Language.Extensions/obj/Debug/netstandard2.1/.NETStandard,Version=v2.1.AssemblyAttributes.cs
+Mercury.Language.Extensions.Test/obj/Debug/netcoreapp3.1/.NETCoreApp,Version=v3.1.AssemblyAttributes.cs
+Mercury.Language.Extensions.Test/obj/Debug/netcoreapp3.1/Mercury.Language.Extensions.Test.AssemblyInfo.cs

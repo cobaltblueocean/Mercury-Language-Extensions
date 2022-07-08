@@ -60,7 +60,7 @@ namespace Mercury.Language.Math.Integrator
     public class RombergIntegrator : IUnivariateIntegration, INumericalIntegration
     {
         private double[] s;
-        private DoubleRange range;
+        private DoubleRange range = new DoubleRange(Double.NegativeInfinity, Double.PositiveInfinity);
 
         /// <summary>
         ///   Gets or sets the unidimensional function
@@ -93,10 +93,10 @@ namespace Mercury.Language.Math.Integrator
             get { return range; }
             set
             {
-                if (Double.IsInfinity(range.Min) || Double.IsNaN(range.Min))
+                if (Double.IsInfinity(value.Min) || Double.IsNaN(value.Min))
                     throw new ArgumentOutOfRangeException("value", String.Format(LocalizedResources.Instance().PARAMETER_IS_OUT_OF_RANGE, "Minimum"));
 
-                if (Double.IsInfinity(range.Max) || Double.IsNaN(range.Max))
+                if (Double.IsInfinity(value.Max) || Double.IsNaN(value.Max))
                     throw new ArgumentOutOfRangeException("value", String.Format(LocalizedResources.Instance().PARAMETER_IS_OUT_OF_RANGE, "Maximum"));
 
                 range = value;
@@ -107,8 +107,7 @@ namespace Mercury.Language.Math.Integrator
         ///   Constructs a new <see cref="RombergIntegrator">Romberg's integration method</see>.
         /// </summary>
         /// 
-        public RombergIntegrator()
-            : this(6)
+        public RombergIntegrator() : this(6)
         {
         }
 

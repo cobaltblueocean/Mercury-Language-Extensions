@@ -23,24 +23,21 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
-using Mercury.Language.Math.Analysis;
+using Mercury.Language.Math.Integrator;
 
-namespace Mercury.Language.Extensions.Test.Function
+namespace Mercury.Language.Extensions.Test.Integrator
 {
     /// <summary>
-    /// UnivariateRealFunctionTest Description
+    /// IntegratorTest Description
     /// </summary>
-    public class UnivariateRealFunctionTest
+    public class IntegratorTest
     {
         [Test]
-        public void InitFunctionTest()
+        public void RombergIntegratorTest()
         {
-            Func<Double?, Double?> function = new Func<double?, double?>((x) => {
-                return x;
-            });
-            var f = new UnivariateRealFunction(function);
+            RombergIntegrator _integrator = new RombergIntegrator();
+
+            Assert.Pass();
         }
-
-
     }
 }

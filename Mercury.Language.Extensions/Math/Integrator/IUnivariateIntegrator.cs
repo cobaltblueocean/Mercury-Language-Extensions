@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Mercury.Language.Exception;
+using Mercury.Language.Math.Analysis;
 
 namespace Mercury.Language.Math.Integrator
 {
@@ -51,7 +52,7 @@ namespace Mercury.Language.Math.Integrator
         /// <exception cref="ConvergenceException">if the maximum iteration count is exceeded or the integrator detects convergence problems otherwise</exception>
         /// <exception cref="FunctionEvaluationException">if an error occurs evaluating the function</exception>
         /// <exception cref="ArgumentException">if min > max or the endpoints do not satisfy the requirements specified by the integrator</exception>
-        double Integrate(IUnivariateFunction f, double min, double max);
+        double Integrate(IUnivariateRealFunction f, double min, double max);
 
         /// <summary>
         /// Get the result of the last run of the integrator.

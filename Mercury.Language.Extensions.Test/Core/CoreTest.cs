@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using NUnit.Framework;
 
-namespace Mercury_Language_Extensions.Test.Core
+namespace Mercury.Language.Extensions.Test.Core
 {
     public class CoreTest
     {

@@ -4,7 +4,7 @@ using Mercury.Language.Time;
 using NodaTime;
 using Mercury.Test.Utility;
 
-namespace Mercury_Language_Extensions.Test
+namespace Mercury.Language.Extensions.Test
 {
     public class NodaTimeExtensionTest
     {

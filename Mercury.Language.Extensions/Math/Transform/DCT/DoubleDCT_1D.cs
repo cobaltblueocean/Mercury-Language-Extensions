@@ -193,7 +193,7 @@ namespace Mercury.Language.Math.Transform.DCT
                     t[i] = t[twon - i - 1];
                 }
                 fft.RealForward(t);
-                if ((nthreads > 1) && (n > Core.THREADS_BEGIN_N_1D_FFT_2THREADS))
+                if ((nthreads > 1) && (n > TransformCore.THREADS_BEGIN_N_1D_FFT_2THREADS))
                 {
                     nthreads = 2;
                     int k = n / nthreads;
@@ -303,7 +303,7 @@ namespace Mercury.Language.Math.Transform.DCT
                 }
                 double[] t = new double[twon];
                 int nthreads = Process.GetCurrentProcess().Threads.Count;
-                if ((nthreads > 1) && (n > Core.THREADS_BEGIN_N_1D_FFT_2THREADS))
+                if ((nthreads > 1) && (n > TransformCore.THREADS_BEGIN_N_1D_FFT_2THREADS))
                 {
                     nthreads = 2;
                     int k = n / nthreads;
@@ -491,7 +491,7 @@ namespace Mercury.Language.Math.Transform.DCT
                 if (n > 32)
                 {
                     cftf1st(n, a, offa, w, nw - (n >> 2));
-                    if ((Process.GetCurrentProcess().Threads.Count > 1) && (n > Core.THREADS_BEGIN_N_1D_FFT_2THREADS))
+                    if ((Process.GetCurrentProcess().Threads.Count > 1) && (n > TransformCore.THREADS_BEGIN_N_1D_FFT_2THREADS))
                     {
                         cftrec4_th(n, a, offa, nw, w);
                     }
@@ -537,7 +537,7 @@ namespace Mercury.Language.Math.Transform.DCT
                 if (n > 32)
                 {
                     cftb1st(n, a, offa, w, nw - (n >> 2));
-                    if ((Process.GetCurrentProcess().Threads.Count > 1) && (n > Core.THREADS_BEGIN_N_1D_FFT_2THREADS))
+                    if ((Process.GetCurrentProcess().Threads.Count > 1) && (n > TransformCore.THREADS_BEGIN_N_1D_FFT_2THREADS))
                     {
                         cftrec4_th(n, a, offa, nw, w);
                     }
@@ -2046,7 +2046,7 @@ namespace Mercury.Language.Math.Transform.DCT
             nthread = 2;
             idiv4 = 0;
             m = n >> 1;
-            if (n > Core.THREADS_BEGIN_N_1D_FFT_4THREADS)
+            if (n > TransformCore.THREADS_BEGIN_N_1D_FFT_4THREADS)
             {
                 nthread = 4;
                 idiv4 = 1;
@@ -3141,7 +3141,7 @@ namespace Mercury.Language.Math.Transform.DCT
         private void scale(double m, double[] a, int offa)
         {
             int nthreads = Process.GetCurrentProcess().Threads.Count;
-            if ((nthreads > 1) && (n > Core.THREADS_BEGIN_N_1D_FFT_2THREADS))
+            if ((nthreads > 1) && (n > TransformCore.THREADS_BEGIN_N_1D_FFT_2THREADS))
             {
                 nthreads = 2;
                 int k = n / nthreads;

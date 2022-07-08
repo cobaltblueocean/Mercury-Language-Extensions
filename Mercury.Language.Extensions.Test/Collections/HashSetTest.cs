@@ -24,7 +24,7 @@ using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
 
-namespace Mercury_Language_Extensions.Test.Collections
+namespace Mercury.Language.Extensions.Test.Collections
 {
     /// <summary>
     /// HashSetTest Description

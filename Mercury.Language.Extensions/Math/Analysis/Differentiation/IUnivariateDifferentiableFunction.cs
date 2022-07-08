@@ -32,7 +32,7 @@ namespace Mercury.Language.Math.Analysis.Differentiation
     /// both the value and the first derivative of a mathematical function.
     /// The derivative is computed with respect to the input variable.</p>
     /// </summary>
-    public interface IUnivariateDifferentiableFunction: IUnivariateFunction
+    public interface IUnivariateDifferentiableFunction: IUnivariateRealFunction
     {
         /// <summary>
         /// Simple mathematical function.

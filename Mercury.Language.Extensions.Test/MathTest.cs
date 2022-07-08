@@ -26,7 +26,7 @@ using NUnit.Framework;
 using Mercury.Test.Utility;
 using Mercury.Language.Math.Transform.FFT;
 
-namespace Mercury_Language_Extensions.Test
+namespace Mercury.Language.Extensions.Test
 {
     /// <summary>
     /// MathTest Description

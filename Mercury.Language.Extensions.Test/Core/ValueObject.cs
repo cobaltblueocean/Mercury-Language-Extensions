@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Mercury_Language_Extensions.Test.Core
+namespace Mercury.Language.Extensions.Test.Core
 {
     public class ValueObject
     {

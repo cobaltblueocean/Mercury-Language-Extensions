@@ -57,7 +57,7 @@ namespace Mercury.Language.Math.Integrator
     /// <summary>
     /// Romberg Description
     /// </summary>
-    public class Romberg : IUnivariateIntegration, INumericalIntegration
+    public class RombergIntegrator : IUnivariateIntegration, INumericalIntegration
     {
         private double[] s;
         private DoubleRange range;
@@ -104,56 +104,56 @@ namespace Mercury.Language.Math.Integrator
         }
 
         /// <summary>
-        ///   Constructs a new <see cref="Romberg">Romberg's integration method</see>.
+        ///   Constructs a new <see cref="RombergIntegrator">Romberg's integration method</see>.
         /// </summary>
         /// 
-        public Romberg()
+        public RombergIntegrator()
             : this(6)
         {
         }
 
         /// <summary>
-        ///   Constructs a new <see cref="Romberg">Romberg's integration method</see>.
+        ///   Constructs a new <see cref="RombergIntegrator">Romberg's integration method</see>.
         /// </summary>
         /// 
         /// <param name="function">The unidimensional function whose integral should be computed.</param>
         /// 
-        public Romberg(Func<double, double> function) : this(6, function)
+        public RombergIntegrator(Func<double, double> function) : this(6, function)
         {
         }
 
         /// <summary>
-        ///   Constructs a new <see cref="Romberg">Romberg's integration method</see>.
+        ///   Constructs a new <see cref="RombergIntegrator">Romberg's integration method</see>.
         /// </summary>
         /// 
         /// <param name="function">The unidimensional function whose integral should be computed.</param>
         /// <param name="a">The beginning of the integration interval.</param>
         /// <param name="b">The ending of the integration interval.</param>
         ///
-        public Romberg(Func<double, double> function, double a, double b) : this(6, function, a, b)
+        public RombergIntegrator(Func<double, double> function, double a, double b) : this(6, function, a, b)
         {
         }
 
         /// <summary>
-        ///   Constructs a new <see cref="Romberg">Romberg's integration method</see>.
+        ///   Constructs a new <see cref="RombergIntegrator">Romberg's integration method</see>.
         /// </summary>
         /// 
         /// <param name="steps">The number of steps used in Romberg's method. Default is 6.</param>
         /// 
-        public Romberg(int steps)
+        public RombergIntegrator(int steps)
         {
             this.s = new double[steps];
             Range = new DoubleRange(0, 1);
         }
 
         /// <summary>
-        ///   Constructs a new <see cref="Romberg">Romberg's integration method</see>.
+        ///   Constructs a new <see cref="RombergIntegrator">Romberg's integration method</see>.
         /// </summary>
         /// 
         /// <param name="steps">The number of steps used in Romberg's method. Default is 6.</param>
         /// <param name="function">The unidimensional function whose integral should be computed.</param>
         ///
-        public Romberg(int steps, Func<double, double> function)
+        public RombergIntegrator(int steps, Func<double, double> function)
         {
             if (function == null)
                 throw new ArgumentNullException("function");
@@ -164,7 +164,7 @@ namespace Mercury.Language.Math.Integrator
         }
 
         /// <summary>
-        ///   Constructs a new <see cref="Romberg">Romberg's integration method</see>.
+        ///   Constructs a new <see cref="RombergIntegrator">Romberg's integration method</see>.
         /// </summary>
         /// 
         /// <param name="steps">The number of steps used in Romberg's method. Default is 6.</param>
@@ -172,7 +172,7 @@ namespace Mercury.Language.Math.Integrator
         /// <param name="a">The beginning of the integration interval.</param>
         /// <param name="b">The ending of the integration interval.</param>
         ///
-        public Romberg(int steps, Func<double, double> function, double a, double b)
+        public RombergIntegrator(int steps, Func<double, double> function, double a, double b)
         {
             if (Double.IsInfinity(a) || Double.IsNaN(a))
                 throw new ArgumentOutOfRangeException("a");
@@ -254,7 +254,7 @@ namespace Mercury.Language.Math.Integrator
         /// 
         public static double Integrate(Func<double, double> func, double a, double b, int steps)
         {
-            var romberg = new Romberg(steps, func, a, b);
+            var romberg = new RombergIntegrator(steps, func, a, b);
 
             romberg.Compute();
 
@@ -272,7 +272,7 @@ namespace Mercury.Language.Math.Integrator
         /// 
         public object Clone()
         {
-            var clone = new Romberg(this.Steps,
+            var clone = new RombergIntegrator(this.Steps,
                 this.Function, this.Range.Min, this.Range.Max);
 
             return clone;

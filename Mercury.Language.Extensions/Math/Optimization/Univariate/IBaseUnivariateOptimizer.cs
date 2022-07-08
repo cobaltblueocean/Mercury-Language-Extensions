@@ -23,6 +23,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Mercury.Language.Math.Optimization;
+using Mercury.Language.Math.Analysis;
 
 namespace Mercury.Language.Math.Optimization.Univariate
 {
@@ -32,7 +33,7 @@ namespace Mercury.Language.Math.Optimization.Univariate
     /// the following interfaces: <see cref="IUnivariateOptimizer"/>
     /// </summary>
     /// <typeparam name="FUNC">Type of the objective function to be optimized.</typeparam>
-    public interface IBaseUnivariateOptimizer<FUNC> : IBaseOptimizer<UnivariatePointValuePair> where FUNC : IUnivariateFunction
+    public interface IBaseUnivariateOptimizer<FUNC> : IBaseOptimizer<UnivariatePointValuePair> where FUNC : IUnivariateRealFunction
     {
         /// <summary>
         /// Find an optimum in the given interval.

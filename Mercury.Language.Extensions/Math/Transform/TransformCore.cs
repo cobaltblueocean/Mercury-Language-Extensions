@@ -18,29 +18,29 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Reflection;
+using System.Runtime.Serialization;
 
-namespace Mercury.Language.Math
+namespace System
 {
-    public interface IParametricUnivariateFunction
+    /// <summary>
+    /// Core utility class to provide general utility methods
+    /// </summary>
+    public class TransformCore
     {
-        /// <summary>
-        /// Compute the value of the function.
-        /// </summary>
-        /// <param name="x">Point for which the function value should be computed.</param>
-        /// <param name="parameters">Function parameters.</param>
-        /// <returns>the value.</returns>
-        double Value(double x, params double[] parameters);
+        public static readonly int THREADS_BEGIN_N_1D_FFT_2THREADS = 8192;
 
-        /// <summary>
-        /// Compute the gradient of the function with respect to its parameters.
-        /// </summary>
-        /// <param name="x">Point for which the function value should be computed.</param>
-        /// <param name="parameters">Function parameters.</param>
-        /// <returns>the value.</returns>
-        double[] Gradient(double x, params double[] parameters);
+        public static readonly int THREADS_BEGIN_N_1D_FFT_4THREADS = 65536;
+
+        public static readonly int THREADS_BEGIN_N_1D = 32768;
+
+        public static readonly int THREADS_BEGIN_N_2D = 65536;
+
+        public static readonly int THREADS_BEGIN_N_3D = 65536;
     }
 }

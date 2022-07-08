@@ -25,7 +25,7 @@ using System.Threading.Tasks;
 using NUnit.Framework;
 using Mercury.Language.Money;
 
-namespace Mercury_Language_Extensions.Test.Money
+namespace Mercury.Language.Extensions.Test.Money
 {
     /// <summary>
     /// CurrencyTest Description

@@ -23,6 +23,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Mercury.Language.Exception;
+using Mercury.Language.Math.Analysis;
 
 namespace Mercury.Language.Math.Optimization.Univariate
 {
@@ -46,7 +47,7 @@ namespace Mercury.Language.Math.Optimization.Univariate
         /** Initial guess d */
         private double searchStart;
         /** Function to optimized */
-        private IUnivariateFunction function;
+        private IUnivariateRealFunction function;
         #endregion
 
         #region Property
@@ -116,24 +117,12 @@ namespace Mercury.Language.Math.Optimization.Univariate
         #endregion
 
         #region Implement Methods
-
-        #endregion
-
-        #region Local Public Methods
-        protected double computeObjectiveValue(double point)
+        public UnivariatePointValuePair Optimize(int maxEval, IUnivariateRealFunction f, GoalType goalType, double min, double max)
         {
-            try
-            {
-                evaluations.IncrementCount();
-            }
-            catch (MaxCountExceededException e)
-            {
-                throw new MaxCountExceededException(e.Max);
-            }
-            return function.Value(point);
+            return Optimize(maxEval, f, goalType, min, max, min + 0.5 * (max - min));
         }
 
-        public UnivariatePointValuePair Optimize(int maxEval, IUnivariateFunction f, GoalType goalType, double min, double max, double startValue)
+        public UnivariatePointValuePair Optimize(int maxEval, IUnivariateRealFunction f, GoalType goalType, double min, double max, double startValue)
         {
             // Checks.
             if (f == null)
@@ -157,10 +146,20 @@ namespace Mercury.Language.Math.Optimization.Univariate
             // Perform computation.
             return doOptimize();
         }
+        #endregion
 
-        public UnivariatePointValuePair Optimize(int maxEval, IUnivariateFunction f, GoalType goalType, double min, double max)
+        #region Local Public Methods
+        protected double computeObjectiveValue(double point)
         {
-            return Optimize(maxEval, f, goalType, min, max, min + 0.5 * (max - min));
+            try
+            {
+                evaluations.IncrementCount();
+            }
+            catch (MaxCountExceededException e)
+            {
+                throw new MaxCountExceededException(e.Max);
+            }
+            return function.Value(point);
         }
 
         protected abstract UnivariatePointValuePair doOptimize();

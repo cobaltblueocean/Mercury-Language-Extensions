@@ -42,7 +42,7 @@ using System.Threading.Tasks;
 
 namespace Mercury.Language.Math.Analysis
 {
-    public interface IBivariateFunction
+    public interface IBivariateRealFunction
     {
         /// <summary>
         /// Compute the value for the function.

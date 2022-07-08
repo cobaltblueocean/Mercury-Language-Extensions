@@ -83,17 +83,17 @@ namespace Mercury.Language.Math.Analysis.Solver
 
         #region Implement Methods
 
-        public override double Solve(UnivariateFunction f, double[] values, double startValue)
+        public override double Solve(IUnivariateRealFunction f, double[] values, double startValue)
         {
             throw new NotImplementedException();
         }
 
-        public override double Solve(UnivariateFunction f, double[] values, double min, double max)
+        public override double Solve(IUnivariateRealFunction f, double[] values, double min, double max)
         {
             throw new NotImplementedException();
         }
 
-        public override Double Solve(UnivariateFunction f, double[] values, double min, double max, double startValue)
+        public override Double Solve(IUnivariateRealFunction f, double[] values, double min, double max, double startValue)
         {
             throw new NotImplementedException();
         }

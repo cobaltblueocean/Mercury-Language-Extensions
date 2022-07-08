@@ -52,7 +52,7 @@ namespace Mercury.Language.Math.Analysis.Solver
         /** Initial guessd */
         private double searchStart;
         /** Function to solved */
-        private UnivariateFunction function;
+        private IUnivariateRealFunction function;
         #endregion
 
         #region Property
@@ -178,17 +178,17 @@ namespace Mercury.Language.Math.Analysis.Solver
 
         #region Implement Methods
 
-        public virtual double Solve(UnivariateFunction f, Double[] values, double startValue)
+        public virtual double Solve(IUnivariateRealFunction f, Double[] values, double startValue)
         {
-            return Solve( f, values, Double.NaN, Double.NaN, startValue);
+            return Solve(f, values, Double.NaN, Double.NaN, startValue);
         }
 
-        public virtual double Solve(UnivariateFunction f, Double[] values, double min, double max)
+        public virtual double Solve(IUnivariateRealFunction f, Double[] values, double min, double max)
         {
             return Solve(f, values, min, max, min + 0.5 * (max - min));
         }
 
-        public virtual double Solve(UnivariateFunction f, Double[] values, double min, double max, double startValue)
+        public virtual double Solve(IUnivariateRealFunction f, Double[] values, double min, double max, double startValue)
         {
             // Initialization.
             Setup(f, values, min, max, startValue);
@@ -199,7 +199,7 @@ namespace Mercury.Language.Math.Analysis.Solver
         #endregion
 
         #region Local Public Methods
-        protected void Setup(UnivariateFunction f, Double[] values, double min, double max, double startValue)
+        protected void Setup(IUnivariateRealFunction f, Double[] values, double min, double max, double startValue)
         {
             // Checks.
             // ArgumentChecker.NotNull(f, "f");
@@ -213,11 +213,7 @@ namespace Mercury.Language.Math.Analysis.Solver
             //evaluations.resetCount();
         }
 
-        protected void Setup(int maxEval,
-                         UnivariateFunction f,
-                         Double[] values,
-                         double min, double max,
-                         double startValue)
+        protected void Setup(int maxEval, IUnivariateRealFunction f, Double[] values, double min, double max, double startValue)
         {
             // Checks.
             // ArgumentChecker.NotNull(f, "f");
@@ -235,7 +231,7 @@ namespace Mercury.Language.Math.Analysis.Solver
             return function.Value(point);
         }
 
-        protected Boolean IsBracketing(UnivariateFunction function, double lower, double upper)
+        protected Boolean IsBracketing(IUnivariateRealFunction function, double lower, double upper)
         {
             if (function == null)
             {
@@ -297,9 +293,7 @@ namespace Mercury.Language.Math.Analysis.Solver
 
         #region Local Private Methods
 
-        private void VerifyBracketing(UnivariateFunction function,
-                                                double lower,
-                                                double upper)
+        private void VerifyBracketing(IUnivariateRealFunction function, double lower, double upper)
         {
             if (function == null)
             {
@@ -308,13 +302,9 @@ namespace Mercury.Language.Math.Analysis.Solver
             VerifyInterval(lower, upper);
             if (!IsBracketing(function, lower, upper))
             {
-                throw new NoBracketingException(lower, upper,
-                                                function.Value(lower),
-                                                function.Value(upper));
+                throw new NoBracketingException(lower, upper, function.Value(lower), function.Value(upper));
             }
         }
         #endregion
-
-
     }
 }

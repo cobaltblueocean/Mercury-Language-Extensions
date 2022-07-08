@@ -30,7 +30,7 @@ namespace Mercury.Language.Math.Optimization
     /// <summary>
     /// MultivariateMultiStartOptimizer Description
     /// </summary>
-    public class MultivariateMultiStartOptimizer : BaseMultivariateMultiStartOptimizer<IMultivariateFunction>, IMultivariateOptimizer
+    public class MultivariateMultiStartOptimizer : BaseMultivariateMultiStartOptimizer<IMultivariateRealFunction>, IMultivariateOptimizer
     {
         #region Local Variables
 
@@ -45,7 +45,7 @@ namespace Mercury.Language.Math.Optimization
         {
         }
 
-        public MultivariateMultiStartOptimizer(IBaseMultivariateOptimizer<IMultivariateFunction> optimizer, int starts, Random generator) : base(optimizer, starts, generator)
+        public MultivariateMultiStartOptimizer(IBaseMultivariateOptimizer<IMultivariateRealFunction> optimizer, int starts, Random generator) : base(optimizer, starts, generator)
         {
         }
 
@@ -63,13 +63,13 @@ namespace Mercury.Language.Math.Optimization
 
         #endregion
 
-        private class DefaultOptimizer : IBaseMultivariateOptimizer<IMultivariateFunction>
+        private class DefaultOptimizer : IBaseMultivariateOptimizer<IMultivariateRealFunction>
         {
 
             #region Local Variables
             private Tuple<double[], double>[] simplex;
 
-            private IMultivariateFunction f;
+            private IMultivariateRealFunction f;
             /** Maximal number of evaluations allowedd */
             private int maxEvaluations;
             /** Number of evaluations already performed for all startsd */
@@ -142,7 +142,7 @@ namespace Mercury.Language.Math.Optimization
             #endregion
 
             #region Implement Methods
-            public Tuple<double[], double> Optimize(int maxEval, IMultivariateFunction f, GoalType goalType, double[] startPoint)
+            public Tuple<double[], double> Optimize(int maxEval, IMultivariateRealFunction f, GoalType goalType, double[] startPoint)
             {
                 if ((startConfiguration == null) || (startConfiguration.Length != startPoint.Length))
                 {

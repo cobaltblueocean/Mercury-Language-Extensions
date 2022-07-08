@@ -1,16 +1,17 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <RootNamespace>Mercury_Language_Extensions.Test</RootNamespace>
+    <RootNamespace>Mercury.Language.Extensions.Test</RootNamespace>
 
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Cern.Colt.NET" Version="0.9.1.19" />
+    <PackageReference Include="Cern.Colt.NET" Version="0.9.1.21" />
     <PackageReference Include="MathNet.Numerics" Version="5.0.0" />
-    <PackageReference Include="Mercury.Test.Utility" Version="0.8.0.18" />
+    <PackageReference Include="Mercury.Language.Core" Version="0.8.0.2" />
+    <PackageReference Include="Mercury.Test.Utility" Version="0.8.0.19" />
     <PackageReference Include="NodaTime" Version="3.1.0" />
     <PackageReference Include="NUnit" Version="3.13.3" />
     <PackageReference Include="NUnit3TestAdapter" Version="4.2.1" />

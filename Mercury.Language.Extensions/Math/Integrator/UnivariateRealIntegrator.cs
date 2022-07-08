@@ -22,13 +22,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Mercury.Language.Math.Analysis;
 
 namespace Mercury.Language.Math.Integrator
 {
     /// <summary>
     /// Provide a default implementation for several generic functions.
     /// </summary>
-    public abstract class UnivariateRealIntegrator : ConvergingAlgorithm, IUnivariateIntegrator
+    public abstract class UnivariateRealIntegrator : ConvergingAlgorithm, IUnivariateRealIntegrator
     {
         /// <summary>
         /// minimum number of iterations
@@ -53,7 +54,7 @@ namespace Mercury.Language.Math.Integrator
         /// <summary>
         /// The integrand function.
         /// </summary>
-        protected IUnivariateFunction f;
+        protected IUnivariateRealFunction f;
 
         /// <summary>
         /// Construct an integrator with given iteration count and accuracy.
@@ -61,7 +62,7 @@ namespace Mercury.Language.Math.Integrator
         /// <param name="f">the integrand function</param>
         /// <param name="defaultMaximalIterationCount">maximum number of iterations</param>
         /// <exception cref="NullReferenceException">if f is null or the iteration limits are not valid</exception>
-        public UnivariateRealIntegrator(IUnivariateFunction f, int defaultMaximalIterationCount) : base(defaultMaximalIterationCount, 1.0e-15)
+        public UnivariateRealIntegrator(IUnivariateRealFunction f, int defaultMaximalIterationCount) : base(defaultMaximalIterationCount, 1.0e-15)
         {
             if (f == null)
             {
@@ -106,17 +107,17 @@ namespace Mercury.Language.Math.Integrator
             }
         }
 
-        public double Integrate(double min, double max)
+        public virtual double Integrate(double min, double max)
         {
             throw new NotImplementedException();
         }
 
-        public double Integrate(IUnivariateFunction f, double min, double max)
+        public virtual double Integrate(IUnivariateRealFunction f, double min, double max)
         {
             throw new NotImplementedException();
         }
 
-        public void ResetMinimalIterationCount()
+        public virtual void ResetMinimalIterationCount()
         {
             minimalIterationCount = defaultMinimalIterationCount;
         }
@@ -126,7 +127,7 @@ namespace Mercury.Language.Math.Integrator
         /// </summary>
         /// <returns>the last computed integral</returns>
         /// <exception cref="ArithmeticException">if no integral has been computed</exception>
-        public double Result()
+        public virtual double Result()
         {
             if (resultComputed)
             {
@@ -143,7 +144,7 @@ namespace Mercury.Language.Math.Integrator
         /// </summary>
         /// <param name="newResult">the result to set</param>
         /// <param name="iterationCount">the iteration count to set</param>
-        protected void SetResult(double newResult, int iterationCount)
+        protected virtual void SetResult(double newResult, int iterationCount)
         {
             this.result = newResult;
             this.iterationCount = iterationCount;
@@ -153,7 +154,7 @@ namespace Mercury.Language.Math.Integrator
         /// <summary>
         /// Convenience function for implementations.
         /// </summary>
-        protected void ClearResult()
+        protected virtual void ClearResult()
         {
             this.iterationCount = 0;
             this.resultComputed = false;
@@ -165,7 +166,7 @@ namespace Mercury.Language.Math.Integrator
         /// <param name="lower">lower endpoint</param>
         /// <param name="upper">upper endpoint</param>
         /// <exception cref="ArithmeticException">if not interval</exception>
-        protected void VerifyInterval(double lower, double upper)
+        protected virtual void VerifyInterval(double lower, double upper)
         {
             if (lower >= upper)
             {
@@ -177,7 +178,7 @@ namespace Mercury.Language.Math.Integrator
         /// Verifies that the upper and lower limits of iterations are valid.
         /// </summary>
         /// <exception cref="ArithmeticException">if not valid</exception>
-        protected void VerifyIterationCount()
+        protected virtual void VerifyIterationCount()
         {
             if ((minimalIterationCount <= 0) || (maximalIterationCount <= minimalIterationCount))
             {

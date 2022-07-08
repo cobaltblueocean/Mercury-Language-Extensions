@@ -125,7 +125,7 @@ namespace Mercury.Language.Math.Transform.DST
             }
             dct.Forward(a, offa, isScale);
             int nthreads = Process.GetCurrentProcess().Threads.Count;
-            if ((nthreads > 1) && (nd2 > Core.THREADS_BEGIN_N_1D_FFT_2THREADS))
+            if ((nthreads > 1) && (nd2 > TransformCore.THREADS_BEGIN_N_1D_FFT_2THREADS))
             {
                 nthreads = 2;
                 int k = nd2 / nthreads;
@@ -205,7 +205,7 @@ namespace Mercury.Language.Math.Transform.DST
             double tmp;
             int nd2 = n / 2;
             int nthreads = Process.GetCurrentProcess().Threads.Count;
-            if ((nthreads > 1) && (nd2 > Core.THREADS_BEGIN_N_1D_FFT_2THREADS))
+            if ((nthreads > 1) && (nd2 > TransformCore.THREADS_BEGIN_N_1D_FFT_2THREADS))
             {
                 nthreads = 2;
                 int k = nd2 / nthreads;

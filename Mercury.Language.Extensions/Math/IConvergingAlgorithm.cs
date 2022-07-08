@@ -31,7 +31,7 @@ namespace Mercury.Language.Math
     /// Interface for algorithms handling convergence settings.
     /// This interface only deals with convergence parameters setting, not execution of the algorithms per se.
     /// </summary>
-    interface IConvergingAlgorithm
+    public interface IConvergingAlgorithm
     {
         /// <summary>
         /// Get or set the upper limit for the number of iterations.

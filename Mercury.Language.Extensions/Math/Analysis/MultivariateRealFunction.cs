@@ -20,42 +20,39 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using Mercury.Language.Exception;
-using Mercury.Language.Math;
 
 namespace Mercury.Language.Math.Analysis
 {
     /// <summary>
-    /// UnivariateFunction Description
+    /// MultivariateFunction Description
     /// </summary>
-    public class UnivariateFunction : IUnivariateFunction
+    public class MultivariateRealFunction : IMultivariateRealFunction
     {
-        public Func<Double?, Double?> function;
-        private double _paramValue;
+        public Func<Double?[], Double?> function;
+        private double[] _paramValue;
 
-        public double ParamValue
+        public double[] ParamValue
         {
             get { return _paramValue; }
         }
 
-        public UnivariateFunction()
+        public MultivariateRealFunction()
         {
 
         }
 
-        public UnivariateFunction(Func<Double?, Double?> f)
+        public MultivariateRealFunction(Func<Double?[], Double?> f, double[] value)
         {
-            this._paramValue = FunctionHelper.GetMethodParameterValue<Double?>(f).Value;
-
+            this._paramValue = value;
             this.function = f;
         }
 
-        public double Value(double x)
+        public double Value(double[] x)
         {
-            return function(x).Value;
+            return function(x.ToNullableArray()).Value;
         }
     }
 }

@@ -444,7 +444,7 @@ namespace Mercury.Language.Math.Transform.FFT
                 case Plans.SPLIT_RADIX:
                     RealForward(a, offa);
                     int nthreads = Process.GetCurrentProcess().Threads.Count;
-                    if ((nthreads > 1) && (n / 2 > Core.THREADS_BEGIN_N_1D_FFT_2THREADS))
+                    if ((nthreads > 1) && (n / 2 > TransformCore.THREADS_BEGIN_N_1D_FFT_2THREADS))
                     {
                         Task[] taskArray = new Task[nthreads];
                         int k = n / 2 / nthreads;
@@ -681,7 +681,7 @@ namespace Mercury.Language.Math.Transform.FFT
                 case Plans.SPLIT_RADIX:
                     RealInverse2(a, offa, isScale);
                     int nthreads = Process.GetCurrentProcess().Threads.Count;
-                    if ((nthreads > 1) && (n / 2 > Core.THREADS_BEGIN_N_1D_FFT_2THREADS))
+                    if ((nthreads > 1) && (n / 2 > TransformCore.THREADS_BEGIN_N_1D_FFT_2THREADS))
                     {
                         Task[] taskArray = new Task[nthreads];
                         int k = n / 2 / nthreads;
@@ -1289,10 +1289,10 @@ namespace Mercury.Language.Math.Transform.FFT
             double[] ak = new double[2 * nBluestein];
             int nthreads = 1;
             int threads = Process.GetCurrentProcess().Threads.Count;
-            if ((threads > 1) && (n > Core.THREADS_BEGIN_N_1D_FFT_2THREADS))
+            if ((threads > 1) && (n > TransformCore.THREADS_BEGIN_N_1D_FFT_2THREADS))
             {
                 nthreads = 2;
-                if ((threads >= 4) && (n > Core.THREADS_BEGIN_N_1D_FFT_4THREADS))
+                if ((threads >= 4) && (n > TransformCore.THREADS_BEGIN_N_1D_FFT_4THREADS))
                 {
                     nthreads = 4;
                 }
@@ -1511,10 +1511,10 @@ namespace Mercury.Language.Math.Transform.FFT
             double[] ak = new double[2 * nBluestein];
             int nthreads = 1;
             int threads = Process.GetCurrentProcess().Threads.Count;
-            if ((threads > 1) && (n > Core.THREADS_BEGIN_N_1D_FFT_2THREADS))
+            if ((threads > 1) && (n > TransformCore.THREADS_BEGIN_N_1D_FFT_2THREADS))
             {
                 nthreads = 2;
-                if ((threads >= 4) && (n > Core.THREADS_BEGIN_N_1D_FFT_4THREADS))
+                if ((threads >= 4) && (n > TransformCore.THREADS_BEGIN_N_1D_FFT_4THREADS))
                 {
                     nthreads = 4;
                 }
@@ -1723,10 +1723,10 @@ namespace Mercury.Language.Math.Transform.FFT
             double[] ak = new double[2 * nBluestein];
             int nthreads = 1;
             int threads = Process.GetCurrentProcess().Threads.Count;
-            if ((threads > 1) && (n > Core.THREADS_BEGIN_N_1D_FFT_2THREADS))
+            if ((threads > 1) && (n > TransformCore.THREADS_BEGIN_N_1D_FFT_2THREADS))
             {
                 nthreads = 2;
-                if ((threads >= 4) && (n > Core.THREADS_BEGIN_N_1D_FFT_4THREADS))
+                if ((threads >= 4) && (n > TransformCore.THREADS_BEGIN_N_1D_FFT_4THREADS))
                 {
                     nthreads = 4;
                 }
@@ -1907,10 +1907,10 @@ namespace Mercury.Language.Math.Transform.FFT
 
             int nthreads = 1;
             int threads = Process.GetCurrentProcess().Threads.Count;
-            if ((threads > 1) && (n > Core.THREADS_BEGIN_N_1D_FFT_2THREADS))
+            if ((threads > 1) && (n > TransformCore.THREADS_BEGIN_N_1D_FFT_2THREADS))
             {
                 nthreads = 2;
-                if ((threads >= 4) && (n > Core.THREADS_BEGIN_N_1D_FFT_4THREADS))
+                if ((threads >= 4) && (n > TransformCore.THREADS_BEGIN_N_1D_FFT_4THREADS))
                 {
                     nthreads = 4;
                 }
@@ -1995,10 +1995,10 @@ namespace Mercury.Language.Math.Transform.FFT
             double[] ak = new double[2 * nBluestein];
             int nthreads = 1;
             int threads = Process.GetCurrentProcess().Threads.Count;
-            if ((threads > 1) && (n > Core.THREADS_BEGIN_N_1D_FFT_2THREADS))
+            if ((threads > 1) && (n > TransformCore.THREADS_BEGIN_N_1D_FFT_2THREADS))
             {
                 nthreads = 2;
-                if ((threads >= 4) && (n > Core.THREADS_BEGIN_N_1D_FFT_4THREADS))
+                if ((threads >= 4) && (n > TransformCore.THREADS_BEGIN_N_1D_FFT_4THREADS))
                 {
                     nthreads = 4;
                 }
@@ -4652,7 +4652,7 @@ namespace Mercury.Language.Math.Transform.FFT
                 if (n > 32)
                 {
                     cftf1st(n, a, offa, w, nw - (n >> 2));
-                    if ((Process.GetCurrentProcess().Threads.Count > 1) && (n > Core.THREADS_BEGIN_N_1D_FFT_2THREADS))
+                    if ((Process.GetCurrentProcess().Threads.Count > 1) && (n > TransformCore.THREADS_BEGIN_N_1D_FFT_2THREADS))
                     {
                         cftrec4_th(n, a, offa, nw, w);
                     }
@@ -4698,7 +4698,7 @@ namespace Mercury.Language.Math.Transform.FFT
                 if (n > 32)
                 {
                     cftb1st(n, a, offa, w, nw - (n >> 2));
-                    if ((Process.GetCurrentProcess().Threads.Count > 1) && (n > Core.THREADS_BEGIN_N_1D_FFT_2THREADS))
+                    if ((Process.GetCurrentProcess().Threads.Count > 1) && (n > TransformCore.THREADS_BEGIN_N_1D_FFT_2THREADS))
                     {
                         cftrec4_th(n, a, offa, nw, w);
                     }
@@ -6212,7 +6212,7 @@ namespace Mercury.Language.Math.Transform.FFT
             nthreads = 2;
             idiv4 = 0;
             m = n >> 1;
-            if (n > Core.THREADS_BEGIN_N_1D_FFT_4THREADS)
+            if (n > TransformCore.THREADS_BEGIN_N_1D_FFT_4THREADS)
             {
                 nthreads = 4;
                 idiv4 = 1;
@@ -7321,7 +7321,7 @@ namespace Mercury.Language.Math.Transform.FFT
                 n2 = n;
             }
             int nthreads = Process.GetCurrentProcess().Threads.Count;
-            if ((nthreads > 1) && (n2 >= Core.THREADS_BEGIN_N_1D_FFT_2THREADS))
+            if ((nthreads > 1) && (n2 >= TransformCore.THREADS_BEGIN_N_1D_FFT_2THREADS))
             {
                 int k = n2 / nthreads;
                 Task[] taskArray = new Task[nthreads];

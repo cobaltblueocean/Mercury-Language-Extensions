@@ -31,7 +31,7 @@ namespace Mercury.Language.Math.Polynomial
     /// <summary>
     /// PolynomialFunction Description
     /// </summary>
-    public class PolynomialFunction: IDifferentiableUnivariateFunction, IUnivariateDifferentiableFunction
+    public class PolynomialFunction: IDifferentiableUnivariateRealFunction, IUnivariateDifferentiableFunction
     {
         private double _paramValue;
 
@@ -85,7 +85,7 @@ namespace Mercury.Language.Math.Polynomial
         /// </summary>
         /// <param name="x">Argument for which the function value should be computed.</param>
         /// <returns>the value of the polynomial at the given point.</returns>
-        /// <see cref="Analysis.UnivariateFunction.Value(double)"/>
+        /// <see cref="Analysis.UnivariateRealFunction.Value(double)"/>
         public double Value(double x)
         {
             _paramValue = x;
@@ -290,10 +290,10 @@ namespace Mercury.Language.Math.Polynomial
         }
 
         /// <summary>
-        /// Returns the derivative as a <see cref="Analysis.UnivariateFunction"/>.
+        /// Returns the derivative as a <see cref="Analysis.UnivariateRealFunction"/>.
         /// </summary>
         /// <returns>the derivative function.</returns>
-        public IUnivariateFunction Derivative()
+        public IUnivariateRealFunction Derivative()
         {
             return PolynomialDerivative();
         }
@@ -316,7 +316,7 @@ namespace Mercury.Language.Math.Polynomial
             }
         }
 
-        UnivariateFunction IDifferentiableUnivariateFunction.Derivative()
+        IUnivariateRealFunction IDifferentiableUnivariateRealFunction.Derivative()
         {
             throw new NotImplementedException();
         }
@@ -324,7 +324,7 @@ namespace Mercury.Language.Math.Polynomial
         /// <summary>
         /// Dedicated parametric polynomial class.
         /// </summary>
-        public class Parametric : IParametricUnivariateFunction
+        public class Parametric : IParametricUnivariateRealFunction
         {
             /** {@inheritDoc} */
             public double[] Gradient(double x, params double[] parameters)

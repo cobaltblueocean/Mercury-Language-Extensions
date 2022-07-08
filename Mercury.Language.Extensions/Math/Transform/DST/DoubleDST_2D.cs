@@ -106,7 +106,7 @@ namespace Mercury.Language.Math.Transform.DST
             }
             this.rows = rows;
             this.columns = columns;
-            if (rows * columns >= Core.THREADS_BEGIN_N_2D)
+            if (rows * columns >= TransformCore.THREADS_BEGIN_N_2D)
             {
                 useThreads = true;
             }

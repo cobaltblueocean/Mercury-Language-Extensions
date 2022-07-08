@@ -110,7 +110,7 @@ namespace Mercury.Language.Math.Optimization.Directional
         #endregion
 
         #region Implement Methods
-        public override void Iterate(IMultivariateFunction evaluationFunction, IComparer<Tuple<double[], double>> comparator)
+        public override void Iterate(IMultivariateRealFunction evaluationFunction, IComparer<Tuple<double[], double>> comparator)
         {
             // Save the original simplex.
             Tuple<double[], double>[] original = base.Points;
@@ -145,7 +145,7 @@ namespace Mercury.Language.Math.Optimization.Directional
         #endregion
 
         #region Local Private Methods
-        private Tuple<double[], double> EvaluateNewSimplex(IMultivariateFunction evaluationFunction,
+        private Tuple<double[], double> EvaluateNewSimplex(IMultivariateRealFunction evaluationFunction,
                                               Tuple<double[], double>[] original,
                                               double coeff,
                                               IComparer<Tuple<double[], double>> comparator)

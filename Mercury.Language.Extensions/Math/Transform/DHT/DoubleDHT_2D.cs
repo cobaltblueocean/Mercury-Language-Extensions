@@ -107,7 +107,7 @@ namespace Mercury.Language.Math.Transform.DHT
             }
             this.rows = rows;
             this.columns = column;
-            if (rows * column >= Core.THREADS_BEGIN_N_2D)
+            if (rows * column >= TransformCore.THREADS_BEGIN_N_2D)
             {
                 this.useThreads = true;
             }

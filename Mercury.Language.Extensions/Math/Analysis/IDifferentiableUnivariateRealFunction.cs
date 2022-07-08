@@ -1,8 +1,8 @@
 ﻿// Copyright (c) 2017 - presented by Kei Nakai
 //
-// Original project is developed and published by System.Math.Optimization Inc.
+// Original project is developed and published by OpenGamma Inc.
 //
-// Copyright (C) 2012 - present by System.Math.Optimization Inc. and the System.Math.Optimization group of companies
+// Copyright (C) 2012 - present by OpenGamma Inc. and the OpenGamma group of companies
 //
 // Please see distribution for license.
 //
@@ -22,15 +22,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Mercury.Language.Math.Analysis;
 
-namespace Mercury.Language.Math.Optimization
+namespace Mercury.Language.Math.Analysis
 {
     /// <summary>
-    /// This interface represents an optimization algorithm for <see cref="IMultivariateRealFunction">scalar objective functions</see>.
-    /// <p>Optimization algorithms find the input point set that either <see cref="GoalType.MAXIMIZE"/> or <see cref="GoalType.MINIMIZE"/> an objective function.</p>
+    /// Extension of <see cref="UnivariateRealFunction"/> representing a differentiable univariate real function.
     /// </summary>
-    public interface IMultivariateOptimizer: IBaseMultivariateOptimizer<IMultivariateRealFunction>
+    public interface IDifferentiableUnivariateRealFunction: IUnivariateRealFunction
     {
+        /// <summary>
+        /// Returns the derivative of the function
+        /// </summary>
+        /// <returns>the derivative function</returns>
+        IUnivariateRealFunction Derivative();
     }
 }

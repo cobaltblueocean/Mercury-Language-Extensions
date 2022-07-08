@@ -89,7 +89,7 @@ namespace Mercury.Language.Math.Analysis.Solver
         /// <param name="min">Lower bound for the interval.</param>
         /// <param name="max">Upper bound for the interval.</param>
         /// <returns>a value where the function is zero.</returns>
-        double Solve(UnivariateFunction f, Double[] values, double min, double max);
+        double Solve(IUnivariateRealFunction f, Double[] values, double min, double max);
 
         /// <summary>
         /// Solve for a zero in the given interval, start at <see cref="startValue"/>.
@@ -102,7 +102,7 @@ namespace Mercury.Language.Math.Analysis.Solver
         /// <param name="max">Upper bound for the interval.</param>
         /// <param name="startValue">Start value to use.</param>
         /// <returns>a value where the function is zero.</returns>
-        double Solve(UnivariateFunction f, Double[] values, double min, double max, double startValue);
+        double Solve(IUnivariateRealFunction f, Double[] values, double min, double max, double startValue);
 
         /// <summary>
         /// Solve for a zero in the vicinity of <see cref="startValue"/>
@@ -110,6 +110,6 @@ namespace Mercury.Language.Math.Analysis.Solver
         /// <param name="f">f Function to solve.</param>
         /// <param name="startValue">Start value to use.</param>
         /// <returns>a value where the function is zero.</returns>
-        double Solve(UnivariateFunction f, Double[] values, double startValue);
+        double Solve(IUnivariateRealFunction f, Double[] values, double startValue);
     }
 }

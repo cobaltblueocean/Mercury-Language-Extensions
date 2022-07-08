@@ -26,6 +26,7 @@ using Mercury.Language.Math.Analysis;
 using Mercury.Language.Math.Analysis.Differentiation;
 using Mercury.Language.Math.Analysis.Function;
 using Mercury.Language.Exception;
+using Mercury.Language.Math.Integrator;
 
 namespace Mercury.Language.Math.Analysis
 {
@@ -44,9 +45,9 @@ namespace Mercury.Language.Math.Analysis
         /// <summary>
         /// <param name="f">List of functions.</param>
         /// <returns>the composite function.</returns>
-        public static UnivariateFunction Compose(params UnivariateFunction[] f)
+        public static UnivariateRealFunction Compose(params UnivariateRealFunction[] f)
         {
-            return new UnivariateFunction()
+            return new UnivariateRealFunction()
             {
                 function = new Func<double?, double?>((x) =>
                {
@@ -105,9 +106,9 @@ namespace Mercury.Language.Math.Analysis
         /// <summary>
         /// <param name="f">List of functions.</param>
         /// <returns>a function that computes the sum of the functions.</returns>
-        public static IUnivariateFunction Add(params IUnivariateFunction[] f)
+        public static IUnivariateRealFunction Add(params IUnivariateRealFunction[] f)
         {
-            return new UnivariateFunction()
+            return new UnivariateRealFunction()
             {
                 function = new Func<double?, double?>((x) =>
                 {
@@ -161,9 +162,9 @@ namespace Mercury.Language.Math.Analysis
         /// <summary>
         /// <param name="f">List of functions.</param>
         /// <returns>a function that computes the product of the functions.</returns>
-        public static IUnivariateFunction Multiply(IUnivariateFunction[] f)
+        public static IUnivariateRealFunction Multiply(IUnivariateRealFunction[] f)
         {
-            return new UnivariateFunction()
+            return new UnivariateRealFunction()
             {
                 function = new Func<double?, double?>((x) =>
                {
@@ -220,11 +221,9 @@ namespace Mercury.Language.Math.Analysis
         /// <param name="f">Function.</param>
         /// <param name="g">Function.</param>
         /// <returns>the composite function.</returns>
-        public static UnivariateFunction Combine(IBivariateFunction combiner,
-                                                 UnivariateFunction f,
-                                                 UnivariateFunction g)
+        public static UnivariateRealFunction Combine(IBivariateRealFunction combiner, UnivariateRealFunction f, UnivariateRealFunction g)
         {
-            return new UnivariateFunction()
+            return new UnivariateRealFunction()
             {
                 function = new Func<double?, double?>((x) =>
                 {
@@ -243,18 +242,16 @@ namespace Mercury.Language.Math.Analysis
         /// <param name="f">Function.</param>
         /// <param name="initialValue">Initial value.</param>
         /// <returns>a collector function.</returns>
-        public static MultivariateFunction Collector(IBivariateFunction combiner,
-                                                     UnivariateFunction f,
-                                                     double initialValue)
+        public static MultivariateRealFunction Collector(IBivariateRealFunction combiner, UnivariateRealFunction f, double initialValue)
         {
-            return new MultivariateFunction()
+            return new MultivariateRealFunction()
             {
-                function = new Func<Double[], Double?>((x) =>
+                function = new Func<Double?[], Double?>((x) =>
                 {
-                    double result = combiner.Value(initialValue, f.Value(x[0]));
+                    double result = combiner.Value(initialValue, f.Value(x[0].Value));
                     for (int i = 1; i < x.Length; i++)
                     {
-                        result = combiner.Value(result, f.Value(x[i]));
+                        result = combiner.Value(result, f.Value(x[i].Value));
                     }
                     return result;
                 })
@@ -270,9 +267,9 @@ namespace Mercury.Language.Math.Analysis
         /// <param name="combiner">Combiner function.</param>
         /// <param name="initialValue">Initial value.</param>
         /// <returns>a collector function.</returns>
-        public static MultivariateFunction Collector(IBivariateFunction combiner, double initialValue)
+        public static MultivariateRealFunction Collector(IBivariateRealFunction combiner, double initialValue)
         {
-            return Collector(combiner, (new Functions.Identity()).CastType<UnivariateFunction>(), initialValue);
+            return Collector(combiner, (new Functions.Identity()).CastType<UnivariateRealFunction>(), initialValue);
         }
 
         /// <summary>
@@ -282,9 +279,9 @@ namespace Mercury.Language.Math.Analysis
         /// <param name="f">Binary function.</param>
         /// <param name="fixed">value to which the first argument of {@code f} is set.</param>
         /// <returns>the unary function h(x) = f(fixed, x)</returns>
-        public static UnivariateFunction Fix1stArgument(IBivariateFunction f, double fxd)
+        public static UnivariateRealFunction Fix1stArgument(IBivariateRealFunction f, double fxd)
         {
-            return new UnivariateFunction()
+            return new UnivariateRealFunction()
             {
                 function = new Func<double?, double?>((x) =>
                 {
@@ -299,10 +296,9 @@ namespace Mercury.Language.Math.Analysis
         /// <param name="f">Binary function.</param>
         /// <param name="fixed">value to which the second argument of {@code f} is set.</param>
         /// <returns>the unary function h(x) = f(x, fixed)</returns>
-        public static UnivariateFunction Fix2ndArgument(IBivariateFunction f,
-                                                        double fxd)
+        public static UnivariateRealFunction Fix2ndArgument(IBivariateRealFunction f, double fxd)
         {
-            return new UnivariateFunction()
+            return new UnivariateRealFunction()
             {
                 function = new Func<double?, double?>((x) =>
                 {
@@ -328,7 +324,7 @@ namespace Mercury.Language.Math.Analysis
         /// greater than, or equal to the upper bound {@code max}.
         /// <exception cref="NotStrictlyPositiveException">if the number of sample points </exception>
         /// {@code n} is negative.
-        public static double[] Sample(UnivariateFunction f, double min, double max, int n)
+        public static double[] Sample(UnivariateRealFunction f, double min, double max, int n)
         {
 
             if (n <= 0)

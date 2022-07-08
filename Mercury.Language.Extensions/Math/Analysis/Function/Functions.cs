@@ -58,7 +58,7 @@ namespace Mercury.Language.Math.Analysis.Function
         /// 
         /// @since 3.0
         /// <summary>
-        public class Abs : IUnivariateFunction
+        public class Abs : IUnivariateRealFunction
         {
             private double _paramValue;
 
@@ -82,7 +82,7 @@ namespace Mercury.Language.Math.Analysis.Function
         /// 
         /// @since 3.0
         /// <summary>
-        public class Ceil : IUnivariateFunction
+        public class Ceil : IUnivariateRealFunction
         {
             private double _paramValue;
 
@@ -106,7 +106,7 @@ namespace Mercury.Language.Math.Analysis.Function
         /// 
         /// @since 3.0
         /// <summary>
-        public class Floor : IUnivariateFunction
+        public class Floor : IUnivariateRealFunction
         {
             private double _paramValue;
 
@@ -130,7 +130,7 @@ namespace Mercury.Language.Math.Analysis.Function
         /// 
         /// @since 3.0
         /// <summary>
-        public class Rint : IUnivariateFunction
+        public class Rint : IUnivariateRealFunction
         {
             private double _paramValue;
 
@@ -145,14 +145,14 @@ namespace Mercury.Language.Math.Analysis.Function
             public double Value(double x)
             {
                 _paramValue = x;
-                return rint(x);
+                return DoRint(x);
             }
 
             /// <summary>Get the whole number that is the nearest to x, or the even one if x is exactly half way between two ints.
             /// <summary>
             /// <param name="x">number from which nearest whole number is requested</param>
             /// <returns>a double number r such that r is an int r - 0.5 <= x <= r + 0.5</returns>
-            public static double rint(double x)
+            public static double DoRint(double x)
             {
                 double y = System.Math.Floor(x);
                 double d = x - y;
@@ -181,7 +181,7 @@ namespace Mercury.Language.Math.Analysis.Function
         /// 
         /// @since 3.0
         /// <summary>
-        public class Signum : IUnivariateFunction
+        public class Signum : IUnivariateRealFunction
         {
             private double _paramValue;
 
@@ -205,7 +205,7 @@ namespace Mercury.Language.Math.Analysis.Function
         /// 
         /// @since 3.0
         /// <summary>
-        public class StepFunction : IUnivariateFunction
+        public class StepFunction : IUnivariateRealFunction
         {
             private double _paramValue;
 
@@ -296,7 +296,7 @@ namespace Mercury.Language.Math.Analysis.Function
         /// 
         /// @since 3.0
         /// <summary>
-        public class Ulp : IUnivariateFunction
+        public class Ulp : IUnivariateRealFunction
         {
             private double _paramValue;
 
@@ -326,7 +326,7 @@ namespace Mercury.Language.Math.Analysis.Function
         /// 
         /// @since 3.0
         /// <summary>
-        public class Acos : IUnivariateDifferentiableFunction, IDifferentiableUnivariateFunction
+        public class Acos : IUnivariateDifferentiableFunction, IDifferentiableUnivariateRealFunction
         {
             private double _paramValue;
 
@@ -349,7 +349,7 @@ namespace Mercury.Language.Math.Analysis.Function
             /// [Obsolete("Deprecated", true)] as of 3.1, replaced by {@link #value(DerivativeStructure)}
             /// <summary>
             [Obsolete("Deprecated, replaced by Value(DerivativeStructure)", true)]
-            public UnivariateFunction Derivative()
+            public IUnivariateRealFunction Derivative()
             {
                 throw new NotImplementedException();
             }
@@ -369,7 +369,7 @@ namespace Mercury.Language.Math.Analysis.Function
         /// 
         /// @since 3.0
         /// <summary>
-        public class Acosh : IUnivariateDifferentiableFunction, IDifferentiableUnivariateFunction
+        public class Acosh : IUnivariateDifferentiableFunction, IDifferentiableUnivariateRealFunction
         {
             private double _paramValue;
 
@@ -393,7 +393,7 @@ namespace Mercury.Language.Math.Analysis.Function
             /// [Obsolete("Deprecated", true)] as of 3.1, replaced by {@link #value(DerivativeStructure)}
             /// <summary>
             [Obsolete("Deprecated", true)]
-            public UnivariateFunction Derivative()
+            public IUnivariateRealFunction Derivative()
             {
                 //return FunctionBuilder.ToDifferentiableUnivariateFunction(this).derivative();
                 throw new NotImplementedException();
@@ -414,7 +414,7 @@ namespace Mercury.Language.Math.Analysis.Function
         /// 
         /// @since 3.0
         /// <summary>
-        public class Asin : IUnivariateDifferentiableFunction, IDifferentiableUnivariateFunction
+        public class Asin : IUnivariateDifferentiableFunction, IDifferentiableUnivariateRealFunction
         {
             private double _paramValue;
 
@@ -437,7 +437,7 @@ namespace Mercury.Language.Math.Analysis.Function
             /// [Obsolete("Deprecated", true)] as of 3.1, replaced by {@link #value(DerivativeStructure)}
             /// <summary>
             [Obsolete("Deprecated", true)]
-            public UnivariateFunction Derivative()
+            public IUnivariateRealFunction Derivative()
             {
                 //return FunctionBuilder.ToDifferentiableUnivariateFunction(this).derivative();
                 throw new NotImplementedException();
@@ -457,7 +457,7 @@ namespace Mercury.Language.Math.Analysis.Function
         /// 
         /// @since 3.0
         /// <summary>
-        public class Asinh : IUnivariateDifferentiableFunction, IDifferentiableUnivariateFunction
+        public class Asinh : IUnivariateDifferentiableFunction, IDifferentiableUnivariateRealFunction
         {
             private double _paramValue;
 
@@ -515,7 +515,7 @@ namespace Mercury.Language.Math.Analysis.Function
             /// [Obsolete("Deprecated", true)] as of 3.1, replaced by {@link #value(DerivativeStructure)}
             /// <summary>
             [Obsolete("Deprecated", true)]
-            public UnivariateFunction Derivative()
+            public IUnivariateRealFunction Derivative()
             {
                 //return FunctionBuilder.ToDifferentiableUnivariateFunction(this).derivative();
                 throw new NotImplementedException();
@@ -535,7 +535,7 @@ namespace Mercury.Language.Math.Analysis.Function
         /// 
         /// @since 3.0
         /// <summary>
-        public class Atan : IUnivariateDifferentiableFunction, IDifferentiableUnivariateFunction
+        public class Atan : IUnivariateDifferentiableFunction, IDifferentiableUnivariateRealFunction
         {
             private double _paramValue;
 
@@ -558,7 +558,7 @@ namespace Mercury.Language.Math.Analysis.Function
             /// [Obsolete("Deprecated", true)] as of 3.1, replaced by {@link #value(DerivativeStructure)}
             /// <summary>
             [Obsolete("Deprecated, replaced by Value(DerivativeStructure)", true)]
-            public UnivariateFunction Derivative()
+            public IUnivariateRealFunction Derivative()
             {
                 throw new NotImplementedException();
             }
@@ -577,7 +577,7 @@ namespace Mercury.Language.Math.Analysis.Function
         /// 
         /// @since 3.0
         /// <summary>
-        public class Atanh : IUnivariateDifferentiableFunction, IDifferentiableUnivariateFunction
+        public class Atanh : IUnivariateDifferentiableFunction, IDifferentiableUnivariateRealFunction
         {
             private double _paramValue;
 
@@ -634,7 +634,7 @@ namespace Mercury.Language.Math.Analysis.Function
             /// [Obsolete("Deprecated", true)] as of 3.1, replaced by {@link #value(DerivativeStructure)}
             /// <summary>
             [Obsolete("Deprecated, replaced by Value(DerivativeStructure)", true)]
-            public UnivariateFunction Derivative()
+            public IUnivariateRealFunction Derivative()
             {
                 throw new NotImplementedException();
             }
@@ -654,7 +654,7 @@ namespace Mercury.Language.Math.Analysis.Function
         /// 
         /// @since 3.0
         /// <summary>
-        public class Cbrt : IUnivariateDifferentiableFunction, IDifferentiableUnivariateFunction
+        public class Cbrt : IUnivariateDifferentiableFunction, IDifferentiableUnivariateRealFunction
         {
             private double _paramValue;
 
@@ -759,7 +759,7 @@ namespace Mercury.Language.Math.Analysis.Function
             /// [Obsolete("Deprecated", true)] as of 3.1, replaced by {@link #value(DerivativeStructure)}
             /// <summary>
             [Obsolete("Deprecated, replaced by Value(DerivativeStructure)", true)]
-            public UnivariateFunction Derivative()
+            public IUnivariateRealFunction Derivative()
             {
                 throw new NotImplementedException();
             }
@@ -777,7 +777,7 @@ namespace Mercury.Language.Math.Analysis.Function
         /// <summary>
         /// Constant Description
         /// </summary>
-        public class Constant : IUnivariateDifferentiableFunction, IDifferentiableUnivariateFunction
+        public class Constant : IUnivariateDifferentiableFunction, IDifferentiableUnivariateRealFunction
         {
             private double _paramValue;
             public double ParamValue { get { return _paramValue; } }
@@ -797,9 +797,9 @@ namespace Mercury.Language.Math.Analysis.Function
             /// [Obsolete("Deprecated", true)] as of 3.1, replaced by {@link #value(DerivativeStructure)}
             /// <summary>
             [Obsolete("Deprecated, replaced by Value(DerivativeStructure)", true)]
-            public UnivariateFunction Derivative()
+            public IUnivariateRealFunction Derivative()
             {
-                return (new Constant(0)).CastType<UnivariateFunction>();
+                return (new Constant(0)).CastType<IUnivariateRealFunction>();
             }
 
             public DerivativeStructure Value(DerivativeStructure t)
@@ -819,7 +819,7 @@ namespace Mercury.Language.Math.Analysis.Function
         /// 
         /// @since 3.0
         /// <summary>
-        public class Cos : IUnivariateDifferentiableFunction, IDifferentiableUnivariateFunction
+        public class Cos : IUnivariateDifferentiableFunction, IDifferentiableUnivariateRealFunction
         {
             private double _paramValue;
 
@@ -842,7 +842,7 @@ namespace Mercury.Language.Math.Analysis.Function
             /// [Obsolete("Deprecated", true)] as of 3.1, replaced by {@link #value(DerivativeStructure)}
             /// <summary>
             [Obsolete("Deprecated, replaced by Value(DerivativeStructure)", true)]
-            public UnivariateFunction Derivative()
+            public IUnivariateRealFunction Derivative()
             {
                 throw new NotImplementedException();
             }
@@ -861,7 +861,7 @@ namespace Mercury.Language.Math.Analysis.Function
         /// 
         /// @since 3.0
         /// <summary>
-        public class Cosh : IUnivariateDifferentiableFunction, IDifferentiableUnivariateFunction
+        public class Cosh : IUnivariateDifferentiableFunction, IDifferentiableUnivariateRealFunction
         {
             private double _paramValue;
 
@@ -884,7 +884,7 @@ namespace Mercury.Language.Math.Analysis.Function
             /// [Obsolete("Deprecated", true)] as of 3.1, replaced by {@link #value(DerivativeStructure)}
             /// <summary>
             [Obsolete("Deprecated, replaced by Value(DerivativeStructure)", true)]
-            public UnivariateFunction Derivative()
+            public IUnivariateRealFunction Derivative()
             {
                 throw new NotImplementedException();
             }
@@ -903,7 +903,7 @@ namespace Mercury.Language.Math.Analysis.Function
         /// 
         /// @since 3.0
         /// <summary>
-        public class Exp : IUnivariateDifferentiableFunction, IDifferentiableUnivariateFunction
+        public class Exp : IUnivariateDifferentiableFunction, IDifferentiableUnivariateRealFunction
         {
             private double _paramValue;
 
@@ -926,7 +926,7 @@ namespace Mercury.Language.Math.Analysis.Function
             /// [Obsolete("Deprecated", true)] as of 3.1, replaced by {@link #value(DerivativeStructure)}
             /// <summary>
             [Obsolete("Deprecated, replaced by Value(DerivativeStructure)", true)]
-            public UnivariateFunction Derivative()
+            public IUnivariateRealFunction Derivative()
             {
                 throw new NotImplementedException();
             }
@@ -945,7 +945,7 @@ namespace Mercury.Language.Math.Analysis.Function
         /// 
         /// @since 3.0
         /// <summary>
-        public class Expm1 : IUnivariateDifferentiableFunction, IDifferentiableUnivariateFunction
+        public class Expm1 : IUnivariateDifferentiableFunction, IDifferentiableUnivariateRealFunction
         {
             private double _paramValue;
 
@@ -968,7 +968,7 @@ namespace Mercury.Language.Math.Analysis.Function
             /// [Obsolete("Deprecated", true)] as of 3.1, replaced by {@link #value(DerivativeStructure)}
             /// <summary>
             [Obsolete("Deprecated, replaced by Value(DerivativeStructure)", true)]
-            public UnivariateFunction Derivative()
+            public IUnivariateRealFunction Derivative()
             {
                 throw new NotImplementedException();
             }
@@ -1298,7 +1298,7 @@ namespace Mercury.Language.Math.Analysis.Function
         /// 
         /// @since 3.0
         /// <summary>
-        public class Gaussian : IUnivariateDifferentiableFunction, IDifferentiableUnivariateFunction
+        public class Gaussian : IUnivariateDifferentiableFunction, IDifferentiableUnivariateRealFunction
         {
             private double _paramValue;
 
@@ -1372,7 +1372,7 @@ namespace Mercury.Language.Math.Analysis.Function
             /// [Obsolete("Deprecated", true)] as of 3.1, replaced by {@link #value(DerivativeStructure)}
             /// <summary>
             [Obsolete("Deprecated, replaced by Value(DerivativeStructure)", true)]
-            public UnivariateFunction Derivative()
+            public IUnivariateRealFunction Derivative()
             {
                 throw new NotImplementedException();
             }
@@ -1386,7 +1386,7 @@ namespace Mercury.Language.Math.Analysis.Function
             ///  <li>Standard deviation</li>
             /// </ul>
             /// <summary>
-            public class Parametric : IParametricUnivariateFunction
+            public class Parametric : IParametricUnivariateRealFunction
             {
                 /// <summary>
                 /// Computes the value of the Gaussian at {@code x}.
@@ -1540,7 +1540,7 @@ namespace Mercury.Language.Math.Analysis.Function
         /// <summary>
         /// <a href="http://en.wikipedia.org/wiki/Harmonic_oscillator">simple harmonic oscillator</a> function.
         /// </summary>
-        public class HarmonicOscillator : IUnivariateDifferentiableFunction, IDifferentiableUnivariateFunction
+        public class HarmonicOscillator : IUnivariateDifferentiableFunction, IDifferentiableUnivariateRealFunction
         {
             private double _paranValue;
 
@@ -1578,7 +1578,7 @@ namespace Mercury.Language.Math.Analysis.Function
             /// [Obsolete("Deprecated", true)] as of 3.1, replaced by {@link #value(DerivativeStructure)}
             /// <summary>
             [Obsolete("Deprecated", true)]
-            public UnivariateFunction Derivative()
+            public IUnivariateRealFunction Derivative()
             {
                 //return FunctionBuilder.toDifferentiableUnivariateFunction(this).derivative();
                 throw new NotImplementedException();
@@ -1593,7 +1593,7 @@ namespace Mercury.Language.Math.Analysis.Function
             ///  <li>Phase</li>
             /// </ul>
             /// <summary>
-            public class Parametric : IParametricUnivariateFunction
+            public class Parametric : IParametricUnivariateRealFunction
             {
                 /// <summary>
                 /// Computes the value of the harmonic oscillator at {@code x}.
@@ -1700,7 +1700,7 @@ namespace Mercury.Language.Math.Analysis.Function
         /// <summary>
         /// Identity Description
         /// </summary>
-        public class Identity : IUnivariateDifferentiableFunction, IDifferentiableUnivariateFunction
+        public class Identity : IUnivariateDifferentiableFunction, IDifferentiableUnivariateRealFunction
         {
             private double _paranValue;
 
@@ -1710,9 +1710,9 @@ namespace Mercury.Language.Math.Analysis.Function
             /// [Obsolete("Deprecated", true)] as of 3.1, replaced by {@link #value(DerivativeStructure)}
             /// <summary>
             [Obsolete("Deprecated, replaced by Value(DerivativeStructure)", true)]
-            public UnivariateFunction Derivative()
+            public IUnivariateRealFunction Derivative()
             {
-                return (new Constant(1)).CastType<UnivariateFunction>();
+                return (new Constant(1)).CastType<IUnivariateRealFunction>();
             }
 
             public DerivativeStructure Value(DerivativeStructure t)
@@ -1732,7 +1732,7 @@ namespace Mercury.Language.Math.Analysis.Function
         /// 
         /// @since 3.0
         /// <summary>
-        public class Log : IUnivariateDifferentiableFunction, IDifferentiableUnivariateFunction
+        public class Log : IUnivariateDifferentiableFunction, IDifferentiableUnivariateRealFunction
         {
             private double _paramValue;
 
@@ -1755,7 +1755,7 @@ namespace Mercury.Language.Math.Analysis.Function
             /// [Obsolete("Deprecated", true)] as of 3.1, replaced by {@link #value(DerivativeStructure)}
             /// <summary>
             [Obsolete("Deprecated, replaced by Value(DerivativeStructure)", true)]
-            public UnivariateFunction Derivative()
+            public IUnivariateRealFunction Derivative()
             {
                 throw new NotImplementedException();
             }
@@ -1774,7 +1774,7 @@ namespace Mercury.Language.Math.Analysis.Function
         /// 
         /// @since 3.0
         /// <summary>
-        public class Log10 : IUnivariateDifferentiableFunction, IDifferentiableUnivariateFunction
+        public class Log10 : IUnivariateDifferentiableFunction, IDifferentiableUnivariateRealFunction
         {
             private double _paramValue;
 
@@ -1797,7 +1797,7 @@ namespace Mercury.Language.Math.Analysis.Function
             /// [Obsolete("Deprecated", true)] as of 3.1, replaced by {@link #value(DerivativeStructure)}
             /// <summary>
             [Obsolete("Deprecated, replaced by Value(DerivativeStructure)", true)]
-            public UnivariateFunction Derivative()
+            public IUnivariateRealFunction Derivative()
             {
                 throw new NotImplementedException();
             }
@@ -1816,7 +1816,7 @@ namespace Mercury.Language.Math.Analysis.Function
         /// 
         /// @since 3.0
         /// <summary>
-        public class Log1P : IUnivariateDifferentiableFunction, IDifferentiableUnivariateFunction
+        public class Log1P : IUnivariateDifferentiableFunction, IDifferentiableUnivariateRealFunction
         {
             private double _paramValue;
 
@@ -1873,7 +1873,7 @@ namespace Mercury.Language.Math.Analysis.Function
             /// [Obsolete("Deprecated", true)] as of 3.1, replaced by {@link #value(DerivativeStructure)}
             /// <summary>
             [Obsolete("Deprecated, replaced by Value(DerivativeStructure)", true)]
-            public UnivariateFunction Derivative()
+            public IUnivariateRealFunction Derivative()
             {
                 throw new NotImplementedException();
             }
@@ -2158,7 +2158,7 @@ namespace Mercury.Language.Math.Analysis.Function
         /// 
         /// @since 3.0
         /// <summary>
-        public class Logistic : IUnivariateDifferentiableFunction, IDifferentiableUnivariateFunction
+        public class Logistic : IUnivariateDifferentiableFunction, IDifferentiableUnivariateRealFunction
         {
             /// <summary>Lower asymptoted */
             private double a;
@@ -2228,7 +2228,7 @@ namespace Mercury.Language.Math.Analysis.Function
             /// [Obsolete("Deprecated", true)] as of 3.1, replaced by {@link #value(DerivativeStructure)}
             /// <summary>
             [Obsolete("Deprecated, replaced by Value(DerivativeStructure)", true)]
-            public UnivariateFunction Derivative()
+            public IUnivariateRealFunction Derivative()
             {
                 throw new NotImplementedException();
             }
@@ -2273,7 +2273,7 @@ namespace Mercury.Language.Math.Analysis.Function
             ///  <li>n</li>
             /// </ul>
             /// <summary>
-            public class Parametric : IParametricUnivariateFunction
+            public class Parametric : IParametricUnivariateRealFunction
             {
                 /// <summary>
                 /// Computes the value of the sigmoid at {@code x}.
@@ -2372,7 +2372,7 @@ namespace Mercury.Language.Math.Analysis.Function
         /// 
         /// @since 3.0
         /// <summary>
-        public class Logit : IUnivariateDifferentiableFunction, IDifferentiableUnivariateFunction
+        public class Logit : IUnivariateDifferentiableFunction, IDifferentiableUnivariateRealFunction
         {
             private double _paramValue;
 
@@ -2422,7 +2422,7 @@ namespace Mercury.Language.Math.Analysis.Function
             /// [Obsolete("Deprecated", true)] as of 3.1, replaced by {@link #value(DerivativeStructure)}
             /// <summary>
             [Obsolete("Deprecated, replaced by Value(DerivativeStructure)", true)]
-            public UnivariateFunction Derivative()
+            public IUnivariateRealFunction Derivative()
             {
                 throw new NotImplementedException();
             }
@@ -2505,7 +2505,7 @@ namespace Mercury.Language.Math.Analysis.Function
             ///  <li>Higher bound</li>
             /// </ul>
             /// <summary>
-            public class Parametric : IParametricUnivariateFunction
+            public class Parametric : IParametricUnivariateRealFunction
             {
                 /// <summary>
                 /// Computes the value of the logit at {@code x}.
@@ -2575,7 +2575,7 @@ namespace Mercury.Language.Math.Analysis.Function
         /// 
         /// @since 3.0
         /// <summary>
-        public class Minus : IUnivariateDifferentiableFunction, IDifferentiableUnivariateFunction
+        public class Minus : IUnivariateDifferentiableFunction, IDifferentiableUnivariateRealFunction
         {
             private double _paramValue;
 
@@ -2598,7 +2598,7 @@ namespace Mercury.Language.Math.Analysis.Function
             /// [Obsolete("Deprecated", true)] as of 3.1, replaced by {@link #value(DerivativeStructure)}
             /// <summary>
             [Obsolete("Deprecated, replaced by Value(DerivativeStructure)", true)]
-            public UnivariateFunction Derivative()
+            public IUnivariateRealFunction Derivative()
             {
                 throw new NotImplementedException();
             }
@@ -2617,7 +2617,7 @@ namespace Mercury.Language.Math.Analysis.Function
         /// 
         /// @since 3.0
         /// <summary>
-        public class Power : IUnivariateDifferentiableFunction, IDifferentiableUnivariateFunction
+        public class Power : IUnivariateDifferentiableFunction, IDifferentiableUnivariateRealFunction
         {
             private double _paramValue;
 
@@ -2651,7 +2651,7 @@ namespace Mercury.Language.Math.Analysis.Function
             /// [Obsolete("Deprecated", true)] as of 3.1, replaced by {@link #value(DerivativeStructure)}
             /// <summary>
             [Obsolete("Deprecated, replaced by Value(DerivativeStructure)", true)]
-            public UnivariateFunction Derivative()
+            public IUnivariateRealFunction Derivative()
             {
                 throw new NotImplementedException();
             }
@@ -2674,7 +2674,7 @@ namespace Mercury.Language.Math.Analysis.Function
         /// 
         /// @since 3.0
         /// <summary>
-        public class Sigmoid : IUnivariateDifferentiableFunction, IDifferentiableUnivariateFunction
+        public class Sigmoid : IUnivariateDifferentiableFunction, IDifferentiableUnivariateRealFunction
         {
             private double _paramValue;
 
@@ -2723,7 +2723,7 @@ namespace Mercury.Language.Math.Analysis.Function
             /// [Obsolete("Deprecated", true)] as of 3.1, replaced by {@link #value(DerivativeStructure)}
             /// <summary>
             [Obsolete("Deprecated, replaced by Value(DerivativeStructure)", true)]
-            public UnivariateFunction Derivative()
+            public IUnivariateRealFunction Derivative()
             {
                 throw new NotImplementedException();
             }
@@ -2797,7 +2797,7 @@ namespace Mercury.Language.Math.Analysis.Function
             ///  <li>Higher asymptote</li>
             /// </ul>
             /// <summary>
-            public class Parametric : IParametricUnivariateFunction
+            public class Parametric : IParametricUnivariateRealFunction
             {
                 /// <summary>
                 /// Computes the value of the sigmoid at {@code x}.
@@ -2881,7 +2881,7 @@ namespace Mercury.Language.Math.Analysis.Function
         /// 
         /// @since 3.0
         /// <summary>
-        public class Sqrt : IUnivariateDifferentiableFunction, IDifferentiableUnivariateFunction
+        public class Sqrt : IUnivariateDifferentiableFunction, IDifferentiableUnivariateRealFunction
         {
             private double _paramValue;
 
@@ -2904,7 +2904,7 @@ namespace Mercury.Language.Math.Analysis.Function
             /// [Obsolete("Deprecated", true)] as of 3.1, replaced by {@link #value(DerivativeStructure)}
             /// <summary>
             [Obsolete("Deprecated, replaced by Value(DerivativeStructure)", true)]
-            public UnivariateFunction Derivative()
+            public IUnivariateRealFunction Derivative()
             {
                 throw new NotImplementedException();
             }
@@ -2923,7 +2923,7 @@ namespace Mercury.Language.Math.Analysis.Function
         /// 
         /// @since 3.0
         /// <summary>
-        public class Sinh : IUnivariateDifferentiableFunction, IDifferentiableUnivariateFunction
+        public class Sinh : IUnivariateDifferentiableFunction, IDifferentiableUnivariateRealFunction
         {
             private double _paramValue;
 
@@ -2946,7 +2946,7 @@ namespace Mercury.Language.Math.Analysis.Function
             /// [Obsolete("Deprecated", true)] as of 3.1, replaced by {@link #value(DerivativeStructure)}
             /// <summary>
             [Obsolete("Deprecated, replaced by Value(DerivativeStructure)", true)]
-            public UnivariateFunction Derivative()
+            public IUnivariateRealFunction Derivative()
             {
                 throw new NotImplementedException();
             }
@@ -2970,7 +2970,7 @@ namespace Mercury.Language.Math.Analysis.Function
         /// 
         /// @since 3.0
         /// <summary>
-        public class Sinc : IUnivariateDifferentiableFunction, IDifferentiableUnivariateFunction
+        public class Sinc : IUnivariateDifferentiableFunction, IDifferentiableUnivariateRealFunction
         {
             private double _paramValue;
 
@@ -3050,7 +3050,7 @@ namespace Mercury.Language.Math.Analysis.Function
             /// [Obsolete("Deprecated", true)] as of 3.1, replaced by {@link #value(DerivativeStructure)}
             /// <summary>
             [Obsolete("Deprecated, replaced by Value(DerivativeStructure)", true)]
-            public UnivariateFunction Derivative()
+            public IUnivariateRealFunction Derivative()
             {
                 throw new NotImplementedException();
             }
@@ -3173,7 +3173,7 @@ namespace Mercury.Language.Math.Analysis.Function
         /// 
         /// @since 3.0
         /// <summary>
-        public class Sin : IUnivariateDifferentiableFunction, IDifferentiableUnivariateFunction
+        public class Sin : IUnivariateDifferentiableFunction, IDifferentiableUnivariateRealFunction
         {
             private double _paramValue;
 
@@ -3196,7 +3196,7 @@ namespace Mercury.Language.Math.Analysis.Function
             /// [Obsolete("Deprecated", true)] as of 3.1, replaced by {@link #value(DerivativeStructure)}
             /// <summary>
             [Obsolete("Deprecated, replaced by Value(DerivativeStructure)", true)]
-            public UnivariateFunction Derivative()
+            public IUnivariateRealFunction Derivative()
             {
                 throw new NotImplementedException();
             }
@@ -3215,7 +3215,7 @@ namespace Mercury.Language.Math.Analysis.Function
         /// 
         /// @since 3.0
         /// <summary>
-        public class Tan : IUnivariateDifferentiableFunction, IDifferentiableUnivariateFunction
+        public class Tan : IUnivariateDifferentiableFunction, IDifferentiableUnivariateRealFunction
         {
             private double _paramValue;
 
@@ -3238,7 +3238,7 @@ namespace Mercury.Language.Math.Analysis.Function
             /// [Obsolete("Deprecated", true)] as of 3.1, replaced by {@link #value(DerivativeStructure)}
             /// <summary>
             [Obsolete("Deprecated, replaced by Value(DerivativeStructure)", true)]
-            public UnivariateFunction Derivative()
+            public IUnivariateRealFunction Derivative()
             {
                 throw new NotImplementedException();
             }
@@ -3257,7 +3257,7 @@ namespace Mercury.Language.Math.Analysis.Function
         /// 
         /// @since 3.0
         /// <summary>
-        public class Tanh : IUnivariateDifferentiableFunction, IDifferentiableUnivariateFunction
+        public class Tanh : IUnivariateDifferentiableFunction, IDifferentiableUnivariateRealFunction
         {
             private double _paramValue;
 
@@ -3280,7 +3280,7 @@ namespace Mercury.Language.Math.Analysis.Function
             /// [Obsolete("Deprecated", true)] as of 3.1, replaced by {@link #value(DerivativeStructure)}
             /// <summary>
             [Obsolete("Deprecated, replaced by Value(DerivativeStructure)", true)]
-            public UnivariateFunction Derivative()
+            public IUnivariateRealFunction Derivative()
             {
                 throw new NotImplementedException();
             }
@@ -3295,13 +3295,13 @@ namespace Mercury.Language.Math.Analysis.Function
         }
         #endregion
 
-        #region IBivariateFunction
+        #region IBivariateRealFunction
         /// <summary>
         /// Add the two operands.
         /// 
         /// @since 3.0
         /// <summary>
-        public class Add : IBivariateFunction
+        public class Add : IBivariateRealFunction
         {
             public double Value(double x, double y)
             {
@@ -3314,7 +3314,7 @@ namespace Mercury.Language.Math.Analysis.Function
         /// 
         /// @since 3.0
         /// <summary>
-        public class Atan2 : IBivariateFunction
+        public class Atan2 : IBivariateRealFunction
         {
             public double Value(double x, double y)
             {
@@ -3327,7 +3327,7 @@ namespace Mercury.Language.Math.Analysis.Function
         /// 
         /// @since 3.0
         /// <summary>
-        public class Devide : IBivariateFunction
+        public class Devide : IBivariateRealFunction
         {
             public double Value(double x, double y)
             {
@@ -3340,7 +3340,7 @@ namespace Mercury.Language.Math.Analysis.Function
         /// 
         /// @since 3.0
         /// <summary>
-        public class Max : IBivariateFunction
+        public class Max : IBivariateRealFunction
         {
             /// <summary>{@inheritDoc} */
             public double Value(double x, double y)
@@ -3354,7 +3354,7 @@ namespace Mercury.Language.Math.Analysis.Function
         /// 
         /// @since 3.0
         /// <summary>
-        public class Min : IBivariateFunction
+        public class Min : IBivariateRealFunction
         {
             /// <summary>{@inheritDoc} */
             public double Value(double x, double y)
@@ -3368,7 +3368,7 @@ namespace Mercury.Language.Math.Analysis.Function
         /// 
         /// @since 3.0
         /// <summary>
-        public class Multiply : IBivariateFunction
+        public class Multiply : IBivariateRealFunction
         {
             /// <summary>{@inheritDoc} */
             public double Value(double x, double y)
@@ -3382,7 +3382,7 @@ namespace Mercury.Language.Math.Analysis.Function
         /// 
         /// @since 3.0
         /// <summary>
-        public class Pow : IBivariateFunction
+        public class Pow : IBivariateRealFunction
         {
             /// <summary>{@inheritDoc} */
             public double Value(double x, double y)
@@ -3396,7 +3396,7 @@ namespace Mercury.Language.Math.Analysis.Function
         /// 
         /// @since 3.0
         /// <summary>
-        public class Subtract : IBivariateFunction
+        public class Subtract : IBivariateRealFunction
         {
             /// <summary>{@inheritDoc} */
             public double Value(double x, double y)

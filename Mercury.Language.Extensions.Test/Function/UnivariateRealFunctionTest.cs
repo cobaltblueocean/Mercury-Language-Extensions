@@ -1,8 +1,8 @@
 ﻿// Copyright (c) 2017 - presented by Kei Nakai
 //
-// Original project is developed and published by System.Math.Optimization Inc.
+// Original project is developed and published by OpenGamma Inc.
 //
-// Copyright (C) 2012 - present by System.Math.Optimization Inc. and the System.Math.Optimization group of companies
+// Copyright (C) 2012 - present by OpenGamma Inc. and the OpenGamma group of companies
 //
 // Please see distribution for license.
 //
@@ -22,15 +22,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NUnit.Framework;
 using Mercury.Language.Math.Analysis;
 
-namespace Mercury.Language.Math.Optimization
+namespace Mercury.Language.Extensions.Test.Function
 {
     /// <summary>
-    /// This interface represents an optimization algorithm for <see cref="IMultivariateRealFunction">scalar objective functions</see>.
-    /// <p>Optimization algorithms find the input point set that either <see cref="GoalType.MAXIMIZE"/> or <see cref="GoalType.MINIMIZE"/> an objective function.</p>
+    /// UnivariateRealFunctionTest Description
     /// </summary>
-    public interface IMultivariateOptimizer: IBaseMultivariateOptimizer<IMultivariateRealFunction>
+    public class UnivariateRealFunctionTest
     {
+        [Test]
+        public void InitFunctionTest()
+        {
+            Func<Double?, Double?> function = new Func<double?, double?>((x) => {
+                return x;
+            });
+            var f = new UnivariateRealFunction(function);
+        }
     }
 }

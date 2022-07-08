@@ -121,7 +121,7 @@ namespace Mercury.Language.Math.Transform.FFT
             this.columns = columns;
             this.sliceStride = rows * columns;
             this.rowStride = columns;
-            if (slices * rows * columns >= Core.THREADS_BEGIN_N_3D)
+            if (slices * rows * columns >= TransformCore.THREADS_BEGIN_N_3D)
             {
                 this.useThreads = true;
             }

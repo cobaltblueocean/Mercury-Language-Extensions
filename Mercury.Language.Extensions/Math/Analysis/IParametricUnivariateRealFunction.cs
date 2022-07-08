@@ -25,15 +25,22 @@ using System.Threading.Tasks;
 
 namespace Mercury.Language.Math.Analysis
 {
-    /// <summary>
-    /// Extension of <see cref="UnivariateFunction"/> representing a differentiable univariate real function.
-    /// </summary>
-    public interface IDifferentiableUnivariateFunction: IUnivariateFunction
+    public interface IParametricUnivariateRealFunction
     {
         /// <summary>
-        /// Returns the derivative of the function
+        /// Compute the value of the function.
         /// </summary>
-        /// <returns>the derivative function</returns>
-        UnivariateFunction Derivative();
+        /// <param name="x">Point for which the function value should be computed.</param>
+        /// <param name="parameters">Function parameters.</param>
+        /// <returns>the value.</returns>
+        double Value(double x, params double[] parameters);
+
+        /// <summary>
+        /// Compute the gradient of the function with respect to its parameters.
+        /// </summary>
+        /// <param name="x">Point for which the function value should be computed.</param>
+        /// <param name="parameters">Function parameters.</param>
+        /// <returns>the value.</returns>
+        double[] Gradient(double x, params double[] parameters);
     }
 }

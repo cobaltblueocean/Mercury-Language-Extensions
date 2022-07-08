@@ -115,7 +115,7 @@ namespace Mercury.Language.Math.Transform.DHT
             Array.Copy(a, offa, b, 0, n);
             int nd2 = n / 2;
             int nthreads = Process.GetCurrentProcess().Threads.Count;
-            if ((nthreads > 1) && (nd2 > Core.THREADS_BEGIN_N_1D_FFT_2THREADS))
+            if ((nthreads > 1) && (nd2 > TransformCore.THREADS_BEGIN_N_1D_FFT_2THREADS))
             {
                 nthreads = 2;
                 int k1 = nd2 / nthreads;
@@ -206,7 +206,7 @@ namespace Mercury.Language.Math.Transform.DHT
         {
             float norm = (float)(1.0 / m);
             int nthreads = Process.GetCurrentProcess().Threads.Count;
-            if ((nthreads > 1) && (n >= Core.THREADS_BEGIN_N_1D_FFT_2THREADS))
+            if ((nthreads > 1) && (n >= TransformCore.THREADS_BEGIN_N_1D_FFT_2THREADS))
             {
                 nthreads = 2;
                 int k = n / nthreads;

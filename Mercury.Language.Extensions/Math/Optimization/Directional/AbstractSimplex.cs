@@ -192,7 +192,7 @@ namespace Mercury.Language.Math.Optimization.Directional
         #endregion
 
         #region Abstract Methods
-        public abstract void Iterate(IMultivariateFunction evaluationFunction, IComparer<Tuple<Double[], double>> comparator);
+        public abstract void Iterate(IMultivariateRealFunction evaluationFunction, IComparer<Tuple<Double[], double>> comparator);
 
         #endregion
 
@@ -221,7 +221,7 @@ namespace Mercury.Language.Math.Optimization.Directional
             }
         }
 
-        public void Evaluate(IMultivariateFunction evaluationFunction, IComparer<Tuple<Double[], Double>> comparator)
+        public void Evaluate(IMultivariateRealFunction evaluationFunction, IComparer<Tuple<Double[], Double>> comparator)
         {
             // Evaluate the objective function at all non-evaluated simplex points.
             for (int i = 0; i < simplex.Length; i++)

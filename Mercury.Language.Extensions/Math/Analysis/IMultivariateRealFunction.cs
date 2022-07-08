@@ -30,7 +30,7 @@ namespace Mercury.Language.Math.Analysis
     /// <summary>
     /// An interface representing a multivariate real function.
     /// </summary>
-    public interface IMultivariateFunction
+    public interface IMultivariateRealFunction
     {
 
         /// <summary>

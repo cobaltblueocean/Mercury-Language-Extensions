@@ -30,7 +30,7 @@ namespace Mercury.Language.Math.Optimization
     /// <summary>
     /// BaseMultivariateMultiStartOptimizer Description
     /// </summary>
-    public class BaseMultivariateMultiStartOptimizer<F> : IBaseMultivariateOptimizer<F> where F : IMultivariateFunction
+    public class BaseMultivariateMultiStartOptimizer<F> : IBaseMultivariateOptimizer<F> where F : IMultivariateRealFunction
     {
 
         #region Local Variables

@@ -50,10 +50,9 @@ namespace Mercury.Language.Math.Analysis.Solver
 
         }
 
-        protected void Setup(int maxEval, PolynomialFunction f,
-                             double[] values, double min, double max, double startValue)
+        protected void Setup(int maxEval, PolynomialFunction f, double[] values, double min, double max, double startValue)
         {
-            base.Setup(maxEval, (UnivariateFunction)(IUnivariateFunction)f, values, min, max, startValue);
+            base.Setup(maxEval, f, values, min, max, startValue);
             coefficients = GetCoefficients(values);
             polynomialFunction = f;
         }

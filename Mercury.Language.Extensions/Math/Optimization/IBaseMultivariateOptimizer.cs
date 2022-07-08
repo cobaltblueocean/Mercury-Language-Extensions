@@ -33,7 +33,7 @@ namespace Mercury.Language.Math.Optimization
     /// <see cref="IMultivariateDifferentiableOptimizer"/> 
     /// </summary>
     /// <typeparam name="F"></typeparam>
-    public interface IBaseMultivariateOptimizer<F>: IBaseOptimizer<Tuple<Double[], Double>> where F: IMultivariateFunction
+    public interface IBaseMultivariateOptimizer<F>: IBaseOptimizer<Tuple<Double[], Double>> where F: IMultivariateRealFunction
     {
         /// <summary>
         /// Optimize an objective function.

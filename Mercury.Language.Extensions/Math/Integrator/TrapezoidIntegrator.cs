@@ -23,6 +23,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Mercury.Language.Math;
+using Mercury.Language.Math.Analysis;
 
 namespace Mercury.Language.Math.Integrator
 {
@@ -38,7 +39,7 @@ namespace Mercury.Language.Math.Integrator
         /** Intermediate result. */
         private double s;
 
-        public TrapezoidIntegrator(IUnivariateFunction f) : base(f, 64)
+        public TrapezoidIntegrator(IUnivariateRealFunction f) : base(f, 64)
         {
 
         }
@@ -48,9 +49,7 @@ namespace Mercury.Language.Math.Integrator
 
         }
 
-        double stage(IUnivariateFunction f,
-             double min, double max, int n)
-
+        public double Stage(IUnivariateRealFunction f, double min, double max, int n)
         {
 
             if (n == 0)
@@ -75,23 +74,23 @@ namespace Mercury.Language.Math.Integrator
             }
         }
 
-        public double integrate(double min, double max)
+        public override double Integrate(double min, double max)
         {
-            return integrate(f, min, max);
+            return Integrate(f, min, max);
         }
 
         /** {@inheritDoc} */
-        public double integrate(IUnivariateFunction f, double min, double max)
+        public override double Integrate(IUnivariateRealFunction f, double min, double max)
         {
 
             ClearResult();
             VerifyInterval(min, max);
             VerifyIterationCount();
 
-            double oldt = stage(f, min, max, 0);
+            double oldt = Stage(f, min, max, 0);
             for (int i = 1; i <= maximalIterationCount; ++i)
             {
-                double t = stage(f, min, max, i);
+                double t = Stage(f, min, max, i);
                 if (i >= minimalIterationCount)
                 {
                     double delta = System.Math.Abs(t - oldt);
@@ -108,7 +107,7 @@ namespace Mercury.Language.Math.Integrator
             throw new IndexOutOfRangeException(MaximalIterationCount.ToString());
         }
 
-        protected new void VerifyIterationCount()
+        protected override void VerifyIterationCount()
         {
             base.VerifyIterationCount();
             // at most 64 bisection refinements

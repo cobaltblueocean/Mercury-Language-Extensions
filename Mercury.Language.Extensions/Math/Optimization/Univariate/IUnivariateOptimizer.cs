@@ -22,13 +22,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Mercury.Language.Math.Analysis;
 
 namespace Mercury.Language.Math.Optimization.Univariate
 {
     /// <summary>
     /// Interface for univariate optimization algorithms.
     /// </summary>
-    public interface IUnivariateOptimizer: IBaseUnivariateOptimizer<IUnivariateFunction>
+    public interface IUnivariateOptimizer: IBaseUnivariateOptimizer<IUnivariateRealFunction>
     {
     }
 }

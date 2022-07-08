@@ -31,7 +31,7 @@ namespace Mercury.Language.Exception
     /// </summary>
     public class MathArgumentException : ArgumentException
     {
-        public MathArgumentException(String pattern, Object[] args) : base(String.Format(pattern, args.ToString()))
+        public MathArgumentException(String pattern, params Object[] args) : base(String.Format(pattern, args.ToString()))
         {
 
         }

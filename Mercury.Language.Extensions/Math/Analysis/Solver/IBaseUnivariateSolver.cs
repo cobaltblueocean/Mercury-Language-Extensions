@@ -22,6 +22,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Mercury.Language.Math.Analysis.Function;
 
 namespace Mercury.Language.Math.Analysis.Solver
 {

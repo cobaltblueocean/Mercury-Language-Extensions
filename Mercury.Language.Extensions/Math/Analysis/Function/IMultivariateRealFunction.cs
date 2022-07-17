@@ -25,7 +25,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Mercury.Language.Exception;
 
-namespace Mercury.Language.Math.Analysis
+namespace Mercury.Language.Math.Analysis.Function
 {
     /// <summary>
     /// An interface representing a multivariate real function.

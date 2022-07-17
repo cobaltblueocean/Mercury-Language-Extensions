@@ -23,24 +23,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Mercury.Language.Math.Analysis
+namespace Mercury.Language.Math.Analysis.Function
 {
-    public interface IParametricUnivariateRealFunction
+    /// <summary>
+    /// Extension of <see cref="UnivariateRealFunction"/> representing a differentiable univariate real function.
+    /// </summary>
+    public interface IDifferentiableUnivariateRealFunction: IUnivariateRealFunction
     {
         /// <summary>
-        /// Compute the value of the function.
+        /// Returns the derivative of the function
         /// </summary>
-        /// <param name="x">Point for which the function value should be computed.</param>
-        /// <param name="parameters">Function parameters.</param>
-        /// <returns>the value.</returns>
-        double Value(double x, params double[] parameters);
-
-        /// <summary>
-        /// Compute the gradient of the function with respect to its parameters.
-        /// </summary>
-        /// <param name="x">Point for which the function value should be computed.</param>
-        /// <param name="parameters">Function parameters.</param>
-        /// <returns>the value.</returns>
-        double[] Gradient(double x, params double[] parameters);
+        /// <returns>the derivative function</returns>
+        IUnivariateRealFunction Derivative();
     }
 }

@@ -28,7 +28,7 @@ using Mercury.Language.Math.Analysis.Function;
 using Mercury.Language.Exception;
 using Mercury.Language.Math.Integrator;
 
-namespace Mercury.Language.Math.Analysis
+namespace Mercury.Language.Math.Analysis.Function
 {
     /// <summary>
     /// FunctionBuilder Description

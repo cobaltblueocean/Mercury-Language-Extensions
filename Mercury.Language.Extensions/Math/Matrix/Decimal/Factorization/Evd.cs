@@ -31,6 +31,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 using MathNet.Numerics.LinearAlgebra.Factorization;
+using System;
 using System.Linq;
 using System.Numerics;
 
@@ -61,7 +62,7 @@ namespace MathNet.Numerics.LinearAlgebra.Decimal.Factorization
     public abstract class Evd : Evd<decimal>
     {
         protected Evd(Matrix<decimal> eigenVectors, Vector<DecimalComplex> eigenValues, Matrix<decimal> blockDiagonal, bool isSymmetric)
-            : base(eigenVectors, Vector<Complex>.Build.Dense(eigenValues.AsArray().Select(x => new Complex((double)x.Real, (double)x.Imaginary)).ToArray()), blockDiagonal, isSymmetric)
+            : base(eigenVectors, Vector<Complex>.Build.Dense(eigenValues.AsArrayEx().Select(x => new Complex((double)x.Real, (double)x.Imaginary)).ToArray()), blockDiagonal, isSymmetric)
         {
         }
 

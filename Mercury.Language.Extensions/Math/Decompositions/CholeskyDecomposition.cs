@@ -128,8 +128,8 @@ namespace Mercury.Language.Math.Decompositions
             }
 
             int order = matrix.RowCount;
-            Double[,] value = matrix.AsArray();
-            lTData = matrix.AsArray().ToJagged();
+            Double[,] value = matrix.AsArrayEx();
+            lTData = matrix.AsArrayEx().ToJagged();
             cachedL = null;
             cachedLT = null;
 
@@ -200,7 +200,7 @@ namespace Mercury.Language.Math.Decompositions
 
             if (cachedLT == null)
             {
-                cachedLT = MatrixUtils.CreateMatrix(lTData);
+                cachedLT = Matrix.MatrixUtility.CreateMatrix(lTData);
             }
 
             // return the cached matrix
@@ -306,7 +306,7 @@ namespace Mercury.Language.Math.Decompositions
                     if (destroyed)
                         throw new InvalidOperationException(LocalizedResources.Instance().DECOMPOSITION_DESTROYED);
 
-                    diagonalMatrix = MatrixUtility.Diagonal<Double>(D);
+                    diagonalMatrix = Mercury.Language.Math.Matrix.MatrixUtility.Diagonal<Double>(D);
                 }
 
                 return diagonalMatrix;
@@ -469,7 +469,7 @@ namespace Mercury.Language.Math.Decompositions
 
         public double[,] Inverse()
         {
-            return Solve(MatrixUtility.Identity<Double>(n));
+            return Solve(Mercury.Language.Math.Matrix.MatrixUtility.Identity<Double>(n));
         }
 
         /// <summary>
@@ -768,7 +768,7 @@ namespace Mercury.Language.Math.Decompositions
                     throw MathRuntimeException.CreateArithmeticException(String.Format(LocalizedResources.Instance().VECTOR_LENGTH_MISMATCH, b.Count, m));
                 }
 
-                double[] x = b.AsArray();
+                double[] x = b.AsArrayEx();
 
                 // Solve LY = b
                 AutoParallel.AutoParallelFor(0, m, (j) =>
@@ -807,7 +807,7 @@ namespace Mercury.Language.Math.Decompositions
                 }
 
                 int nColB = b.ColumnCount;
-                double[][] x = b.AsArray().ToJagged();
+                double[][] x = b.AsArrayEx().ToJagged();
 
                 // Solve LY = b
                 AutoParallel.AutoParallelFor(0, m, (j) =>
@@ -850,14 +850,14 @@ namespace Mercury.Language.Math.Decompositions
                     }
                 }
 
-                return MatrixUtils.CreateMatrix(x);
+                return Matrix.MatrixUtility.CreateMatrix(x);
 
             }
 
             /// <summary>{@inheritDoc} */
             public Matrix<Double> GetInverse()
             {
-                return Solve(MatrixUtils.CreateRealIdentityMatrix(lTData.Length));
+                return Solve(Matrix.MatrixUtility.CreateRealIdentityMatrix(lTData.Length));
             }
 
             public double[][] Solve(double[][] value)
@@ -887,7 +887,7 @@ namespace Mercury.Language.Math.Decompositions
         /// 
         public object Clone()
         {
-            return new CholeskyDecomposition(MatrixUtils.CreateMatrix(lTData));
+            return new CholeskyDecomposition(Matrix.MatrixUtility.CreateMatrix(lTData));
         }
         #endregion
     }

@@ -51,3 +51,4 @@ Mercury.Language.Extensions/obj/Debug/netstandard2.1/Mercury.Language.Properties
 Mercury.Language.Extensions/obj/Debug/netstandard2.1/Mercury.Language.Properties.Resources.resources
 Mercury.Language.Extensions/obj/Mercury.Language.Extensions.csproj.nuget.g.props
 Mercury.Language.Extensions/obj/Mercury.Language.Extensions.csproj.nuget.g.targets
+*.testlog

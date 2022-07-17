@@ -24,6 +24,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Mercury.Language.Math;
 using Mercury.Language.Math.Analysis;
+using Mercury.Language.Math.Analysis.Function;
 
 namespace Mercury.Language.Math.Integrator
 {

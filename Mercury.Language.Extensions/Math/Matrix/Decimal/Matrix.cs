@@ -696,7 +696,7 @@ namespace MathNet.Numerics.LinearAlgebra.Decimal
         /// </summary>
         public sealed override Matrix<decimal> NormalizeRows(double norm)
         {
-            var norminv = DenseVectorStorage<decimal>.OfEnumerable(RowNorms(norm).AsArray().Select(x => (decimal)x).ToArray()).Data;
+            var norminv = DenseVectorStorage<decimal>.OfEnumerable(RowNorms(norm).AsArrayEx().Select(x => (decimal)x).ToArray()).Data;
             for (int i = 0; i < norminv.Length; i++)
             {
                 norminv[i] = norminv[i] == 0M ? 1M : 1M / norminv[i];
@@ -713,7 +713,7 @@ namespace MathNet.Numerics.LinearAlgebra.Decimal
         /// </summary>
         public sealed override Matrix<decimal> NormalizeColumns(double norm)
         {
-            var norminv = DenseVectorStorage<decimal>.OfEnumerable(ColumnNorms(norm).AsArray().Select(x => (decimal)x).ToArray()).Data; //((DenseVectorStorage<decimal>)ColumnNorms(norm).Storage).Data;
+            var norminv = DenseVectorStorage<decimal>.OfEnumerable(ColumnNorms(norm).AsArrayEx().Select(x => (decimal)x).ToArray()).Data; //((DenseVectorStorage<decimal>)ColumnNorms(norm).Storage).Data;
             for (int i = 0; i < norminv.Length; i++)
             {
                 norminv[i] = norminv[i] == 0M ? 1M : 1M / norminv[i];

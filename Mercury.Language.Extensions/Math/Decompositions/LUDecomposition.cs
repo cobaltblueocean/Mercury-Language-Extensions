@@ -276,7 +276,7 @@ namespace Mercury.Language.Math.Decompositions
             if ((cachedL == null) && !singular)
             {
                 int m = pivotVector.Length;
-                cachedL = MatrixUtils.CreateMatrix(m, m);
+                cachedL = Matrix.MatrixUtility.CreateMatrix(m, m);
                 for (int i = 0; i < m; ++i)
                 {
                     double[] luI = lu.GetRow(i);
@@ -300,7 +300,7 @@ namespace Mercury.Language.Math.Decompositions
             if ((cachedU == null) && !singular)
             {
                 int m = pivotVector.Length;
-                cachedU = MatrixUtils.CreateMatrix(m, m);
+                cachedU = Matrix.MatrixUtility.CreateMatrix(m, m);
                 for (int i = 0; i < m; ++i)
                 {
                     double[] luI = lu.GetRow(i);
@@ -327,7 +327,7 @@ namespace Mercury.Language.Math.Decompositions
             if ((cachedP == null) && !singular)
             {
                 int m = pivotVector.Length;
-                cachedP = MatrixUtils.CreateMatrix(m, m);
+                cachedP = Matrix.MatrixUtility.CreateMatrix(m, m);
                 for (int i = 0; i < m; ++i)
                 {
                     cachedP[i, pivotVector[i]] = 1.0;
@@ -353,7 +353,7 @@ namespace Mercury.Language.Math.Decompositions
         /// <remarks>
         ///   Please keep in mind this is not one of the most reliable methods
         ///   for checking singularity of a matrix. For a more reliable method,
-        ///   please use <see cref="MatrixUtility.IsSingular"/> or the 
+        ///   please use <see cref="Mercury.Language.Math.Matrix.MatrixUtility.IsSingular"/> or the 
         ///   <see cref="SingularValueDecomposition"/>.
         /// </remarks>
         /// 
@@ -651,7 +651,7 @@ namespace Mercury.Language.Math.Decompositions
 
             public Matrix<double> GetInverse()
             {
-                return Solve(MatrixUtils.CreateRealIdentityMatrix(pivot.Length));
+                return Solve(Matrix.MatrixUtility.CreateRealIdentityMatrix(pivot.Length));
             }
 
             /// <summary>
@@ -707,12 +707,12 @@ namespace Mercury.Language.Math.Decompositions
             /// <returns>a vector X such that A &times; X = B</returns>
             public Vector<double> Solve(Vector<double> b)
             {
-                return Vector<double>.Build.Dense(Solve(b.AsArray()));
+                return Vector<double>.Build.Dense(Solve(b.AsArrayEx()));
             }
 
             public Matrix<double> Solve(Matrix<double> b)
             {
-                DenseColumnMajorMatrixStorage<double> storage = DenseColumnMajorMatrixStorage<double>.OfArray(Solve(b.AsArray()));
+                DenseColumnMajorMatrixStorage<double> storage = DenseColumnMajorMatrixStorage<double>.OfArray(Solve(b.AsArrayEx()));
                 return Matrix<double>.Build.Dense(storage);
             }
 

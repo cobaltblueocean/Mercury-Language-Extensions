@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Double;
+using Mercury.Language.Math.Matrix;
 
 namespace Mercury.Language.Math
 {
@@ -52,7 +53,7 @@ namespace Mercury.Language.Math
             }
 
             int m = matrix.RowCount;
-            householderVectors = matrix.AsArray();
+            householderVectors = matrix.AsArrayEx();
             main = new double[m];
             secondary = new double[m - 1];
             cachedQ = null;

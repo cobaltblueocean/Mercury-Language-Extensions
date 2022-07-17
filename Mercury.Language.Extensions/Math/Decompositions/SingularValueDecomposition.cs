@@ -26,6 +26,7 @@ using System.Threading.Tasks;
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Double;
 using MathNet.Numerics.LinearAlgebra.Storage;
+using Mercury.Language.Math.Matrix;
 
 namespace Mercury.Language.Math.Decompositions
 {
@@ -901,7 +902,7 @@ namespace Mercury.Language.Math.Decompositions
 
             public double[] Solve(double[] b)
             {
-                return Solve(Vector<Double>.Build.Dense(b)).AsArray();
+                return Solve(Vector<Double>.Build.Dense(b)).AsArrayEx();
             }
 
             public double[][] Solve(double[][] b)
@@ -912,7 +913,7 @@ namespace Mercury.Language.Math.Decompositions
             public double[,] Solve(double[,] b)
             {
                 MathNet.Numerics.LinearAlgebra.Storage.DenseColumnMajorMatrixStorage<Double> storage = MathNet.Numerics.LinearAlgebra.Storage.DenseColumnMajorMatrixStorage<Double>.OfArray(b);
-                return pseudoInverse.Multiply(Matrix<Double>.Build.Dense(storage)).AsArray();
+                return pseudoInverse.Multiply(Matrix<Double>.Build.Dense(storage)).AsArrayEx();
             }
 
             Matrix<double> IDecompositionSolver.GetInverse()

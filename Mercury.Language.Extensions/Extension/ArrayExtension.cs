@@ -29,6 +29,7 @@ using Mercury.Language.Math;
 using Mercury.Language.Math.Ranges;
 using Mercury.Language.Properties;
 using Mercury.Language;
+using Mercury.Language.Math.Matrix;
 
 namespace System
 {

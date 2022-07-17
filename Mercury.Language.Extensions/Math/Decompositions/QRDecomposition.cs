@@ -49,6 +49,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Mercury.Language.Exception;
+using MathNet.Numerics;
+using MathNet.Numerics.LinearAlgebra;
+using MathNet.Numerics.LinearAlgebra.Double;
+using MathNet.Numerics.LinearAlgebra.Storage;
+using Mercury.Language.Math.Matrix;
 
 namespace Mercury.Language.Math.Decompositions
 {
@@ -83,6 +88,20 @@ namespace Mercury.Language.Math.Decompositions
         private Double[,] orthogonalFactor;
         private Double[,] upperTriangularFactor;
 
+
+        /** Cached value of Q. */
+        private Matrix<double> cachedQ;
+
+        /** Cached value of QT. */
+        private Matrix<double> cachedQT;
+
+        /** Cached value of R. */
+        private Matrix<double> cachedR;
+
+        /** Cached value of H. */
+        private Matrix<double> cachedH;
+
+
         /// <summary>Constructs a QR decomposition.</summary>    
         /// <param name="value">The matrix A to be decomposed.</param>
         /// <param name="transpose">True if the decomposition should be performed on
@@ -92,91 +111,179 @@ namespace Mercury.Language.Math.Decompositions
         /// <param name="economy">True to perform the economy decomposition, where only
         ///.the information needed to solve linear systems is computed. If set to false,
         /// the full QR decomposition will be computed.</param>
-        public QRDecomposition(Double[,] value, bool transpose = false, bool economy = true, bool inPlace = false)
+        public QRDecomposition(Double[,] value):this(Matrix.MatrixUtility.CreateMatrix(value))
         {
-            if (value == null)
+            #region old unused code
+            //if (value == null)
+            //{
+            //    throw new ArgumentNullException("value", String.Format(LocalizedResources.Instance().MATRIX_CANNOT_BE_NULL, "value"));
+            //}
+
+            //if ((!transpose && value.Rows() < value.Columns()) ||
+            //     (transpose && value.Columns() < value.Rows()))
+            //{
+            //    throw new ArgumentException(LocalizedResources.Instance().MATRIX_HAS_MORE_COLUMN_TNAN_ROWS, "value");
+            //}
+
+            //// https://www.inf.ethz.ch/personal/gander/papers/qrneu.pdf
+
+            //if (transpose)
+            //{
+            //    this.p = value.Rows();
+
+            //    if (economy)
+            //    {
+            //        // Compute the faster, economy-sized QR decomposition 
+            //        this.qr = value.Transpose(inPlace: inPlace);
+            //    }
+            //    else
+            //    {
+            //        // Create room to store the full decomposition
+            //        this.qr = MatrixUtility.Create(value.Columns(), value.Columns(), value, transpose: true);
+            //    }
+            //}
+            //else
+            //{
+            //    this.p = value.Columns();
+
+            //    if (economy)
+            //    {
+            //        // Compute the faster, economy-sized QR decomposition 
+            //        this.qr = inPlace ? value : value.Copy();
+            //    }
+            //    else
+            //    {
+            //        // Create room to store the full decomposition
+            //        this.qr = MatrixUtility.Create(value.Rows(), value.Rows(), value, transpose: false);
+            //    }
+            //}
+
+            //this.economy = economy;
+            //this.n = qr.Rows();
+            //this.m = qr.Columns();
+            //this.Rdiag = new Double[m];
+
+            //for (int k = 0; k < m; k++)
+            //{
+            //    // Compute 2-norm of k-th column without under/overflow.
+            //    Double nrm = 0;
+            //    for (int i = k; i < n; i++)
+            //        nrm = FunctionUtility.Hypotenuse(nrm, qr[i, k]);
+
+            //    if (nrm != 0)
+            //    {
+            //        // Form k-th Householder vector.
+            //        if (qr[k, k] < 0)
+            //            nrm = -nrm;
+
+            //        for (int i = k; i < n; i++)
+            //            qr[i, k] /= nrm;
+
+            //        qr[k, k] += 1;
+
+            //        // Apply transformation to remaining columns.
+            //        for (int j = k + 1; j < m; j++)
+            //        {
+            //            Double s = 0;
+            //            for (int i = k; i < n; i++)
+            //                s += qr[i, k] * qr[i, j];
+
+            //            s = -s / qr[k, k];
+            //            for (int i = k; i < n; i++)
+            //                qr[i, j] += s * qr[i, k];
+            //        }
+            //    }
+
+            //    this.Rdiag[k] = -nrm;
+            //}
+            #endregion
+        }
+
+        public QRDecomposition(Matrix<double> matrix)
+        {
+
+            m = matrix.RowCount;
+            n = matrix.ColumnCount;
+            qr = matrix.Transpose().ToArray();
+            Rdiag = new double[System.Math.Min(m, n)];
+            cachedQ = null;
+            cachedQT = null;
+            cachedR = null;
+            cachedH = null;
+
+            /*
+             * The QR decomposition of a matrix A is calculated using Householder
+             * reflectors by repeating the following operations to each minor
+             * A(minor,minor) of A:
+             */
+            for (int minor = 0; minor < System.Math.Min(m, n); minor++)
             {
-                throw new ArgumentNullException("value", String.Format(LocalizedResources.Instance().MATRIX_CANNOT_BE_NULL, "value"));
-            }
 
-            if ((!transpose && value.Rows() < value.Columns()) ||
-                 (transpose && value.Columns() < value.Rows()))
-            {
-                throw new ArgumentException(LocalizedResources.Instance().MATRIX_HAS_MORE_COLUMN_TNAN_ROWS, "value");
-            }
+                double[] qrtMinor = qr.GetRow(minor);
 
-            // https://www.inf.ethz.ch/personal/gander/papers/qrneu.pdf
-
-            if (transpose)
-            {
-                this.p = value.Rows();
-
-                if (economy)
+                /*
+                 * Let x be the first column of the minor, and a^2 = |x|^2.
+                 * x will be in the positions qr[minor][minor] through qr[m][minor].
+                 * The first column of the transformed minor will be (a,0,0,..)'
+                 * The sign of a is chosen to be opposite to the sign of the first
+                 * component of x. Let's find a:
+                 */
+                double xNormSqr = 0;
+                for (int row = minor; row < m; row++)
                 {
-                    // Compute the faster, economy-sized QR decomposition 
-                    this.qr = value.Transpose(inPlace: inPlace);
+                    double c = qrtMinor[row];
+                    xNormSqr += c * c;
                 }
-                else
+                double a = (qrtMinor[minor] > 0) ? -System.Math.Sqrt(xNormSqr) : System.Math.Sqrt(xNormSqr);
+                Rdiag[minor] = a;
+
+                if (a != 0.0)
                 {
-                    // Create room to store the full decomposition
-                    this.qr = MatrixUtility.Create(value.Columns(), value.Columns(), value, transpose: true);
-                }
-            }
-            else
-            {
-                this.p = value.Columns();
 
-                if (economy)
-                {
-                    // Compute the faster, economy-sized QR decomposition 
-                    this.qr = inPlace ? value : value.Copy();
-                }
-                else
-                {
-                    // Create room to store the full decomposition
-                    this.qr = MatrixUtility.Create(value.Rows(), value.Rows(), value, transpose: false);
-                }
-            }
+                    /*
+                     * Calculate the normalized reflection vector v and transform
+                     * the first column. We know the norm of v beforehand: v = x-ae
+                     * so |v|^2 = <x-ae,x-ae> = <x,x>-2a<x,e>+a^2<e,e> =
+                     * a^2+a^2-2a<x,e> = 2a*(a - <x,e>).
+                     * Here <x, e> is now qr[minor][minor].
+                     * v = x-ae is stored in the column at qr:
+                     */
+                    qrtMinor[minor] -= a; // now |v|^2 = -2a*(qr[minor][minor])
+                    qr[minor, minor] -= a;
 
-            this.economy = economy;
-            this.n = qr.Rows();
-            this.m = qr.Columns();
-            this.Rdiag = new Double[m];
-
-            for (int k = 0; k < m; k++)
-            {
-                // Compute 2-norm of k-th column without under/overflow.
-                Double nrm = 0;
-                for (int i = k; i < n; i++)
-                    nrm = FunctionUtility.Hypotenuse(nrm, qr[i, k]);
-
-                if (nrm != 0)
-                {
-                    // Form k-th Householder vector.
-                    if (qr[k, k] < 0)
-                        nrm = -nrm;
-
-                    for (int i = k; i < n; i++)
-                        qr[i, k] /= nrm;
-
-                    qr[k, k] += 1;
-
-                    // Apply transformation to remaining columns.
-                    for (int j = k + 1; j < m; j++)
+                    /*
+                     * Transform the rest of the columns of the minor:
+                     * They will be transformed by the matrix H = I-2vv'/|v|^2.
+                     * If x is a column vector of the minor, then
+                     * Hx = (I-2vv'/|v|^2)x = x-2vv'x/|v|^2 = x - 2<x,v>/|v|^2 v.
+                     * Therefore the transformation is easily calculated by
+                     * subtracting the column vector (2<x,v>/|v|^2)v from x.
+                     *
+                     * Let 2<x,v>/|v|^2 = alpha. From above we have
+                     * |v|^2 = -2a*(qr[minor][minor]), so
+                     * alpha = -<x,v>/(a*qr[minor][minor])
+                     */
+                    for (int col = minor + 1; col < n; col++)
                     {
-                        Double s = 0;
-                        for (int i = k; i < n; i++)
-                            s += qr[i, k] * qr[i, j];
+                        double[] qrtCol = qr.GetRow(col);
+                        double alpha = 0;
+                        for (int row = minor; row < m; row++)
+                        {
+                            alpha -= qrtCol[row] * qrtMinor[row];
+                        }
+                        alpha /= a * qrtMinor[minor];
 
-                        s = -s / qr[k, k];
-                        for (int i = k; i < n; i++)
-                            qr[i, j] += s * qr[i, k];
+                        // Subtract the column vector alpha*v from x.
+                        for (int row = minor; row < m; row++)
+                        {
+                            qrtCol[row] -= alpha * qrtMinor[row];
+                            qr[col, row] = qrtCol[row];
+                        }
                     }
                 }
-
-                this.Rdiag[k] = -nrm;
             }
         }
+
 
         /// <summary>Least squares solution of <c>A * X = B</c></summary>
         /// <param name="value">Right-hand-side matrix with as many rows as <c>A</c> and any number of columns.</param>
@@ -224,7 +331,7 @@ namespace Mercury.Language.Math.Decompositions
                         X[i, j] -= X[k, j] * qr[i, k];
             }
 
-            return MatrixUtility.Create(p, count, X, transpose: false);
+            return Mercury.Language.Math.Matrix.MatrixUtility.Create(p, count, X, transpose: false);
         }
 
         /// <summary>Least squares solution of <c>X * A = B</c></summary>
@@ -273,7 +380,7 @@ namespace Mercury.Language.Math.Decompositions
                         X[i, j] -= X[k, j] * qr[i, k];
             }
 
-            return MatrixUtility.Create(count, p, X, transpose: true);
+            return Mercury.Language.Math.Matrix.MatrixUtility.Create(count, p, X, transpose: true);
         }
 
         /// <summary>Least squares solution of <c>A * X = B</c></summary>
@@ -405,91 +512,107 @@ namespace Mercury.Language.Math.Decompositions
 
         public Double[,] GetR()
         {
-            // R is supposed to be m x n
-            int n = qr.GetLength(0);
-            int m = qr.GetLength(1);
-            var _tmp = new Double[m, n];
-
-            // copy the diagonal from rDiag and the upper triangle of qr
-            for (int row = System.Math.Min(m, n) - 1; row >= 0; row--)
+            if (cachedR == null)
             {
-                _tmp[row, row] = Rdiag[row];
-                for (int col = row + 1; col < n; col++)
+                // R is supposed to be m x n
+                int n = qr.GetLength(0);
+                int m = qr.GetLength(1);
+                cachedR = Matrix.MatrixUtility.CreateMatrix(m, n);
+
+                // copy the diagonal from rDiag and the upper triangle of qr
+                for (int row = System.Math.Min(m, n) - 1; row >= 0; row--)
                 {
-                    _tmp[row, col] = qr[col, row];
+                    cachedR[row, row] = Rdiag[row];
+                    for (int col = row + 1; col < n; col++)
+                    {
+                        cachedR[row, col] = qr[col, row];
+                    }
                 }
             }
 
             // return the cached matrix
-            return _tmp;
+            return cachedR.ToArray();
 
         }
 
         public Double[,] GetQ()
         {
-            return GetQT().Transpose();
+            if (cachedQ == null)
+            {
+                cachedQ = Matrix.MatrixUtility.CreateMatrix(GetQT().Transpose());
+            }
+            return cachedQ.ToArray();
         }
 
         public Double[,] GetQT()
         {
-            // QT is supposed to be m x m
-            int n = qr.GetLength(0);
-            int m = qr.GetLength(1);
-            var _tmp = new Double[m, m];
-
-            /*
-             * Q = Q1 Q2 ... Q_m, so Q is formed by first constructing Q_m and then
-             * applying the Householder transformations Q_(m-1),Q_(m-2),...,Q1 in
-             * succession to the result
-             */
-            for (int minor = m - 1; minor >= System.Math.Min(m, n); minor--)
+            if (cachedQT == null)
             {
-                _tmp[minor, minor] = 1.0;
-            }
 
-            for (int minor = System.Math.Min(m, n) - 1; minor >= 0; minor--)
-            {
-                double[] qrtMinor = qr.GetRow(minor);
-                _tmp[minor, minor] = 1.0;
-                if (qrtMinor[minor] != 0.0)
+                // QT is supposed to be m x m
+                int n = qr.GetLength(0);
+                int m = qr.GetLength(1);
+                //var _tmp = new Double[m, m];
+
+                cachedQT = Matrix.MatrixUtility.CreateMatrix(m, m);
+
+                /*
+                 * Q = Q1 Q2 ... Q_m, so Q is formed by first constructing Q_m and then
+                 * applying the Householder transformations Q_(m-1),Q_(m-2),...,Q1 in
+                 * succession to the result
+                 */
+                for (int minor = m - 1; minor >= System.Math.Min(m, n); minor--)
                 {
-                    for (int col = minor; col < m; col++)
-                    {
-                        double alpha = 0;
-                        for (int row = minor; row < m; row++)
-                        {
-                            alpha -= _tmp[col, row] * qrtMinor[row];
-                        }
-                        alpha /= Rdiag[minor] * qrtMinor[minor];
+                    cachedQT[minor, minor] = 1.0;
+                }
 
-                        for (int row = minor; row < m; row++)
+                for (int minor = System.Math.Min(m, n) - 1; minor >= 0; minor--)
+                {
+                    double[] qrtMinor = qr.GetRow(minor);
+                    cachedQT[minor, minor] = 1.0;
+                    if (qrtMinor[minor] != 0.0)
+                    {
+                        for (int col = minor; col < m; col++)
                         {
-                            _tmp[col, row] = -alpha * qrtMinor[row];
+                            double alpha = 0;
+                            for (int row = minor; row < m; row++)
+                            {
+                                alpha -= cachedQT[col, row] * qrtMinor[row];
+                            }
+                            alpha /= Rdiag[minor] * qrtMinor[minor];
+
+                            for (int row = minor; row < m; row++)
+                            {
+                                cachedQT.AddToEntry(col, row, -alpha * qrtMinor[row]);
+                            }
                         }
                     }
                 }
             }
 
             // return the cached matrix
-            return _tmp;
-
+            return cachedQT.ToArray();
         }
 
         public Double[,] GetH()
         {
-            int n = qr.GetLength(0);
-            int m = qr.GetLength(1);
-            var _tmp = new Double[m, n];
-            for (int i = 0; i < m; ++i)
+            if (cachedH == null)
             {
-                for (int j = 0; j < System.Math.Min(i + 1, n); ++j)
+
+                int n = qr.GetLength(0);
+                int m = qr.GetLength(1);
+                cachedH = Matrix.MatrixUtility.CreateMatrix(m, n);
+                for (int i = 0; i < m; ++i)
                 {
-                    _tmp[i, j] = qr[j, i] / -Rdiag[j];
+                    for (int j = 0; j < System.Math.Min(i + 1, n); ++j)
+                    {
+                        cachedH[i, j] = qr[j, i] / -Rdiag[j];
+                    }
                 }
             }
 
             // return the cached matrix
-            return _tmp;
+            return cachedH.ToArray();
 
         }
 
@@ -513,7 +636,7 @@ namespace Mercury.Language.Math.Decompositions
             if (!this.FullRank)
                 throw new InvalidOperationException(LocalizedResources.Instance().MATRIX_IS_RANK_DEFICIENT);
 
-            return Solve(MatrixUtility.Diagonal(n, n, (Double)1));
+            return Solve(Mercury.Language.Math.Matrix.MatrixUtility.Diagonal(n, n, (Double)1));
         }
 
         /// <summary>

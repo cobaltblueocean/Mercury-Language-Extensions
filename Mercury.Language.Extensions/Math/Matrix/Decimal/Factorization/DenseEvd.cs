@@ -103,7 +103,7 @@ namespace MathNet.Numerics.LinearAlgebra.Decimal.Factorization
         }
 
         DenseEvd(Matrix<decimal> eigenVectors, Vector<Complex> eigenValues, Matrix<decimal> blockDiagonal, bool isSymmetric)
-            : base(eigenVectors, Vector<DecimalComplex>.Build.Dense(eigenValues.AsArray().Select(x => x.ToDecimalComplex()).ToArray()), blockDiagonal, isSymmetric)
+            : base(eigenVectors, Vector<DecimalComplex>.Build.Dense(eigenValues.AsArrayEx().Select(x => x.ToDecimalComplex()).ToArray()), blockDiagonal, isSymmetric)
         {
         }
 

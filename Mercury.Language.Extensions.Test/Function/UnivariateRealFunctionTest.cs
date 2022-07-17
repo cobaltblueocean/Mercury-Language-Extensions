@@ -24,6 +24,7 @@ using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
 using Mercury.Language.Math.Analysis;
+using Mercury.Language.Math.Analysis.Function;
 
 namespace Mercury.Language.Extensions.Test.Function
 {

@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using MathNet.Numerics;
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Double;
+using Mercury.Language.Math.Matrix;
 
 namespace Mercury.Language.Math.Decompositions
 {

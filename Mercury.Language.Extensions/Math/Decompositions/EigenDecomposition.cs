@@ -111,7 +111,7 @@ namespace Mercury.Language.Math.Decompositions
         //    isSymmetric = matrix.IsSymmetric(symTol);
         //    if (isSymmetric) {
         //        transformToTridiagonal(matrix);
-        //        findEigenVectors(transformer.GetQ().AsArray());
+        //        findEigenVectors(transformer.GetQ().AsArrayEx());
         //    } else {
         //        SchurTransformer t = transformToSchur(matrix);
         //        findEigenVectorsFromSchur(t);
@@ -129,7 +129,7 @@ namespace Mercury.Language.Math.Decompositions
             {
                 isSymmetric = true;
                 TransformToTridiagonal(matrix);
-                FindEigenVectors(transformer.GetQ().AsArray());
+                FindEigenVectors(transformer.GetQ().AsArrayEx());
             }
         }
 
@@ -954,7 +954,7 @@ namespace Mercury.Language.Math.Decompositions
                 for (int i = 0; i < m; ++i)
                 {
                     MathNet.Numerics.LinearAlgebra.Vector<Double> v = eigenvectors[i];
-                    double[] vData = v.AsArray();
+                    double[] vData = v.AsArrayEx();
                     double s = v.DotProduct(b) / realEigenvalues[i];
                     for (int j = 0; j < m; ++j)
                     {
@@ -998,7 +998,7 @@ namespace Mercury.Language.Math.Decompositions
                     for (int i = 0; i < m; ++i)
                     {
                         MathNet.Numerics.LinearAlgebra.Vector<Double> v = eigenvectors[i];
-                        double[] vData = v.AsArray();
+                        double[] vData = v.AsArrayEx();
                         double s = 0;
                         for (int j = 0; j < m; ++j)
                         {
@@ -1084,7 +1084,7 @@ namespace Mercury.Language.Math.Decompositions
                         double invIJ = 0;
                         for (int k = 0; k < m; ++k)
                         {
-                            double[] vK = eigenvectors[k].AsArray();
+                            double[] vK = eigenvectors[k].AsArrayEx();
                             invIJ += vK[i] * vK[j] / realEigenvalues[k];
                         }
                         invData[i, j] = invIJ;
@@ -1114,7 +1114,7 @@ namespace Mercury.Language.Math.Decompositions
                 for (int i = 0; i < m; ++i)
                 {
                     MathNet.Numerics.LinearAlgebra.Vector<Double> v = eigenvectors[i];
-                    double[] vData = v.AsArray();
+                    double[] vData = v.AsArrayEx();
                     double s = v.DotProduct(MathNet.Numerics.LinearAlgebra.Vector<Double>.Build.Dense(b)) / realEigenvalues[i];
                     for (int j = 0; j < m; ++j)
                     {
@@ -1156,7 +1156,7 @@ namespace Mercury.Language.Math.Decompositions
                     for (int i = 0; i < m; ++i)
                     {
                         MathNet.Numerics.LinearAlgebra.Vector<Double> v = eigenvectors[i];
-                        double[] vData = v.AsArray();
+                        double[] vData = v.AsArrayEx();
                         double s = 0;
                         for (int j = 0; j < m; ++j)
                         {

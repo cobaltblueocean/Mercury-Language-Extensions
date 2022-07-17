@@ -23,6 +23,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Mercury.Language.Exception;
+using Mercury.Language.Math.Analysis.Function;
 
 namespace Mercury.Language.Math.Analysis.Solver
 {
@@ -34,25 +35,29 @@ namespace Mercury.Language.Math.Analysis.Solver
 
         #region Local Variables
         /** Default relative accuracyd */
-        private static double DEFAULT_RELATIVE_ACCURACY = 1e-14;
+        protected static double DEFAULT_RELATIVE_ACCURACY = 1e-14;
         /** Default function value accuracyd */
-        private static double DEFAULT_FUNCTION_VALUE_ACCURACY = 1e-15;
+        protected static double DEFAULT_FUNCTION_VALUE_ACCURACY = 1e-15;
         /** Function value accuracyd */
-        private double functionValueAccuracy;
+        protected double functionValueAccuracy;
         /** Absolute accuracyd */
-        private double absoluteAccuracy;
+        protected double absoluteAccuracy;
         /** Relative accuracyd */
-        private double relativeAccuracy;
+        protected double relativeAccuracy;
+        /** The last iteration count. */
+        protected int iterationCount;
+        /** Maximum number of iterations. */
+        protected int maximalIterationCount;
         /** Evaluations counterd */
-        private Incrementor evaluations = new Incrementor();
+        protected Incrementor evaluations = new Incrementor();
         /** Lower end of search intervald */
-        private double searchMin;
+        protected double searchMin;
         /** Higher end of search intervald */
-        private double searchMax;
+        protected double searchMax;
         /** Initial guessd */
-        private double searchStart;
+        protected double searchStart;
         /** Function to solved */
-        private IUnivariateRealFunction function;
+        protected IUnivariateRealFunction function;
         #endregion
 
         #region Property

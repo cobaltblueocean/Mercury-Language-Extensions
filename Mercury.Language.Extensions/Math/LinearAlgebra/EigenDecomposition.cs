@@ -28,6 +28,7 @@ using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Double;
 using Mercury.Language.Exception;
 using Mercury.Language.Math.Analysis.Solver;
+using Mercury.Language.Math.Matrix;
 
 namespace Mercury.Language.Math.LinearAlgebra
 {
@@ -576,7 +577,7 @@ namespace Mercury.Language.Math.LinearAlgebra
                 {
                     tmp[j] = z[j, i];
                 }
-                eigenvectors[i] = MathNet.Numerics.LinearAlgebra.Vector<Double>.Build.Dense(tmp);
+                eigenvectors[i] = MatrixUtility.CreateRealVector(tmp);  
             }
         }
 
@@ -962,7 +963,7 @@ namespace Mercury.Language.Math.LinearAlgebra
                     }
                 }
 
-                return MathNet.Numerics.LinearAlgebra.Vector<Double>.Build.Dense(bp);
+                return MatrixUtility.CreateRealVector(bp);
             }
 
             /// <summary>
@@ -1115,7 +1116,7 @@ namespace Mercury.Language.Math.LinearAlgebra
                 {
                     MathNet.Numerics.LinearAlgebra.Vector<Double> v = eigenvectors[i];
                     double[] vData = v.AsArrayEx();
-                    double s = v.DotProduct(MathNet.Numerics.LinearAlgebra.Vector<Double>.Build.Dense(b)) / realEigenvalues[i];
+                    double s = v.DotProduct(MatrixUtility.CreateRealVector(b)) / realEigenvalues[i];
                     for (int j = 0; j < m; ++j)
                     {
                         bp[j] += s * vData[j];

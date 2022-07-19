@@ -50,7 +50,7 @@ namespace Mercury.Language.Math.Matrix
         /// <see cref="CreateMatrix(double[][])"></see>
         public static Matrix<Double> CreateMatrix(int rows, int columns)
         {
-            return Matrix<Double>.Build.Dense(rows, columns);
+            return Matrix<Double>.Build.Dense(rows, columns).Clone();
         }
 
         /// <summary>
@@ -70,7 +70,7 @@ namespace Mercury.Language.Math.Matrix
         /// <returns></returns>
         public static Matrix<T> CreateMatrix<T>(int rows, int columns) where T : struct, IEquatable<T>, IFormattable
         {
-            return Matrix<T>.Build.Dense(rows, columns);
+            return Matrix<T>.Build.Dense(rows, columns).Clone();
         }
 
 
@@ -95,7 +95,7 @@ namespace Mercury.Language.Math.Matrix
         public static Matrix<Double> CreateMatrix(double[][] data)
         {
             DenseColumnMajorMatrixStorage<double> storage = DenseColumnMajorMatrixStorage<double>.OfArray(data.ToMultidimensional());
-            return Matrix<Double>.Build.Dense(storage);
+            return Matrix<Double>.Build.Dense(storage).Clone();
         }
 
         /// <summary>
@@ -119,7 +119,7 @@ namespace Mercury.Language.Math.Matrix
         public static Matrix<T> CreateMatrix<T>(T[][] data) where T : struct, IEquatable<T>, IFormattable
         {
             DenseColumnMajorMatrixStorage<T> storage = DenseColumnMajorMatrixStorage<T>.OfArray(data.ToMultidimensional());
-            return Matrix<T>.Build.Dense(storage);
+            return Matrix<T>.Build.Dense(storage).Clone();
         }
 
 
@@ -144,7 +144,7 @@ namespace Mercury.Language.Math.Matrix
         public static Matrix<Double> CreateMatrix(double[,] data)
         {
             DenseColumnMajorMatrixStorage<double> storage = DenseColumnMajorMatrixStorage<double>.OfArray(data);
-            return Matrix<Double>.Build.Dense(storage);
+            return Matrix<Double>.Build.Dense(storage).Clone();
         }
 
         /// <summary>
@@ -169,7 +169,7 @@ namespace Mercury.Language.Math.Matrix
         public static Matrix<T> CreateMatrix<T>(T[,] data) where T : struct, IEquatable<T>, IFormattable
         {
             DenseColumnMajorMatrixStorage<T> storage = DenseColumnMajorMatrixStorage<T>.OfArray(data);
-            return Matrix<T>.Build.Dense(storage);
+            return Matrix<T>.Build.Dense(storage).Clone();
         }
 
         /// <summary>
@@ -217,9 +217,22 @@ namespace Mercury.Language.Math.Matrix
         /// <returns>a data.Length RealVector</returns>
         /// <exception cref="ArgumentException">if <code>data</code> is empty </exception>
         /// <exception cref="NullReferenceException">if <code>data</code>is null </exception>
+        public static Vector<T> CreateVector<T>(T[] data) where T : struct, IEquatable<T>, IFormattable
+        {
+            return Vector<T>.Build.Dense(data).Clone();
+        }
+
+        /// <summary>
+        /// Creates a {@link RealVector} using the data from the input array.
+        /// 
+        /// </summary>
+        /// <param Name="data">the input data</param>
+        /// <returns>a data.Length RealVector</returns>
+        /// <exception cref="ArgumentException">if <code>data</code> is empty </exception>
+        /// <exception cref="NullReferenceException">if <code>data</code>is null </exception>
         public static Vector<Double> CreateRealVector(double[] data)
         {
-            return Vector<Double>.Build.Dense(data);
+            return Vector<Double>.Build.Dense(data).Clone();
         }
 
         /// <summary>
@@ -498,8 +511,8 @@ namespace Mercury.Language.Math.Matrix
             if (source == null)
                 throw new ArgumentNullException("source");
 
-            int rows = source.GetLength(0);
-            int cols = source.GetLength(1);
+            int rows = source.Rows();
+            int cols = source.GetMaxColumnLength();
 
             int newRows = rows;
             int newCols = cols;
@@ -527,7 +540,7 @@ namespace Mercury.Language.Math.Matrix
 
             if (destination != null)
             {
-                if (destination.GetLength(0) < newRows || destination.GetLength(1) < newCols)
+                if (destination.Rows() < newRows || destination.GetMaxColumnLength() < newCols)
                     throw new ArgumentException("destination", LocalizedResources.Instance().THE_DESTINATION_MATRIX_MUST_BE_BIG_ENOUGH);
             }
             else
@@ -575,23 +588,11 @@ namespace Mercury.Language.Math.Matrix
             return Diagonal(size, 1.To<T>());
         }
 
-        public static T[] GetRowValues<T>(this T[,] source, int row)
-        {
-            var ret = new T[source.GetLength(1)];
-
-            for (int i = 0; i < source.GetLength(1); i++)
-            {
-                ret[i] = source[row, i];
-            }
-
-            return ret;
-        }
-
         public static T[] GetColumnValue<T>(this T[,] source, int col)
         {
-            var ret = new T[source.GetLength(0)];
+            var ret = new T[source.Rows()];
 
-            for (int i = 0; i < source.GetLength(0); i++)
+            for (int i = 0; i < source.Rows(); i++)
             {
                 ret[i] = source[i, col];
             }
@@ -601,7 +602,7 @@ namespace Mercury.Language.Math.Matrix
 
         public static T[,] CreateAs<T>(T[,] matrix)
         {
-            return new T[matrix.GetLength(0), matrix.GetLength(1)];
+            return new T[matrix.Rows(), matrix.Rows()];
         }
 
         public static T[,] CreateAs<T>(T[][] matrix)
@@ -804,7 +805,7 @@ namespace Mercury.Language.Math.Matrix
             if (matrix == null)
                 throw new ArgumentNullException("matrix");
 
-            var r = new T[matrix.GetLength(0)];
+            var r = new T[matrix.Rows()];
             for (int i = 0; i < r.Length; i++)
                 r[i] = matrix[i, i];
 
@@ -1423,8 +1424,8 @@ namespace Mercury.Language.Math.Matrix
         /// 
         public static Double[,] Inverse(this Double[,] matrix, bool inPlace)
         {
-            int rows = matrix.GetLength(0);
-            int cols = matrix.GetLength(1);
+            int rows = matrix.Rows();
+            int cols = matrix.GetMaxColumnLength();
 
             if (rows != cols)
                 throw new ArgumentException(LocalizedResources.Instance().MATRIX_MUST_BE_SQUARE, "matrix");

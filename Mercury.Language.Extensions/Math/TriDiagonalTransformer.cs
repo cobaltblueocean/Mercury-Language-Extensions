@@ -77,13 +77,13 @@ namespace Mercury.Language.Math
         {
             if (cachedQt == null)
             {
-                int m = householderVectors.Length;
+                int m = householderVectors.Rows();
                 double[,] qta = new double[m, m];
 
                 // build up first part of the matrix by applying Householder transforms
                 for (int k = m - 1; k >= 1; --k)
                 {
-                    double[] hK = householderVectors.GetRowValues(k - 1);
+                    double[] hK = householderVectors.GetRow(k - 1);
                     qta[k, k] = 1;
                     if (hK[k] != 0.0)
                     {
@@ -112,7 +112,7 @@ namespace Mercury.Language.Math
                 }
                 qta[0, 0] = 1;
 
-                cachedQt = new DenseMatrix(qta.GetLength(0), qta.GetLength(1));
+                cachedQt = new DenseMatrix(qta.Rows(), qta.GetMaxColumnLength());
                 for (int i = 0; i < qta.GetLength(0); i++)
                     for (int j = 0; j < qta.GetLength(1); j++)
                         cachedQt.At(i, j, qta[i, j]);
@@ -153,13 +153,13 @@ namespace Mercury.Language.Math
 
         private void transform()
         {
-            int m = householderVectors.Length;
+            int m = householderVectors.Rows();
             double[] z = new double[m];
             for (int k = 0; k < m - 1; k++)
             {
 
                 //zero-out a row and a column simultaneously
-                double[] hK = householderVectors.GetRowValues(k);
+                double[] hK = householderVectors.GetRow(k);
                 main[k] = hK[k];
                 double xNormSqr = 0;
                 for (int j = k + 1; j < m; ++j)
@@ -174,6 +174,7 @@ namespace Mercury.Language.Math
                     // apply Householder transform from left and right simultaneously
 
                     hK[k + 1] -= a;
+                    householderVectors[k, k + 1] = hK[k + 1];
                     double beta = -1 / (a * hK[k + 1]);
 
                     // compute a = beta A v, where v is the Householder vector
@@ -183,7 +184,7 @@ namespace Mercury.Language.Math
                     Array.Clear(z, k + 1, (m - k - 1));
                     for (int i = k + 1; i < m; ++i)
                     {
-                        double[] hI = householderVectors.GetRowValues(i);
+                        double[] hI = householderVectors.GetRow(i);
                         double hKI = hK[i];
                         double zI = hI[i] * hKI;
                         for (int j = i + 1; j < m; ++j)
@@ -213,7 +214,7 @@ namespace Mercury.Language.Math
                     // only the upper triangular part of the matrix is updated
                     for (int i = k + 1; i < m; ++i)
                     {
-                        double[] hI = householderVectors.GetRowValues(i);
+                        double[] hI = householderVectors.GetRow(i);
                         for (int j = i; j < m; ++j)
                         {
                             hI[j] -= hK[i] * z[j] + z[i] * hK[j];

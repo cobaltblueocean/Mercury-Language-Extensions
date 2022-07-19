@@ -24,7 +24,7 @@ using System.Threading.Tasks;
 using MathNet.Numerics.LinearAlgebra;
 using Mercury.Language.Math.Analysis.Solver;
 
-namespace Mercury.Language.Math.Decompositions
+namespace Mercury.Language.Math.LinearAlgebra
 {
     public interface ICholeskyDecomposition<T> : ICloneable, ISolverMatrixDecomposition<T> where T : struct
     {

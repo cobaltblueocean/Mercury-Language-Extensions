@@ -23,7 +23,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
-using Mercury.Language.Math.Decompositions;
+using Mercury.Language.Math.LinearAlgebra;
 
 namespace Mercury.Language.Extensions.Test.Matrix
 {

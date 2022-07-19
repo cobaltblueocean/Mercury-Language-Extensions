@@ -30,7 +30,7 @@ using Mercury.Language.Exception;
 using Mercury.Language.Math.Matrix;
 using Mercury.Language.Math.Analysis.Solver;
 
-namespace Mercury.Language.Math.Decompositions
+namespace Mercury.Language.Math.LinearAlgebra
 {
     /// <summary>
     /// Calculates the Cholesky decomposition of a matrix.
@@ -166,7 +166,7 @@ namespace Mercury.Language.Math.Decompositions
                     throw new NonPositiveDefiniteMatrixException();
                 }
 
-                ltI[i] = Math2.SquareRoot(ltI[i]);
+                lTData[i][i] = Math2.SquareRoot(lTData[i][i]);
                 double inverse = 1.0 / ltI[i];
 
                 for (int q = order - 1; q > i; --q)
@@ -176,6 +176,7 @@ namespace Mercury.Language.Math.Decompositions
                     for (int p = q; p < order; ++p)
                     {
                         ltQ[p] -= ltI[q] * ltI[p];
+                        lTData[q][p] = ltQ[p];
                     }
                 }
             }
@@ -686,8 +687,29 @@ namespace Mercury.Language.Math.Decompositions
             return new Solver(lTData);
         }
 
-        /// <summary>Specialized solverd */
-        public class Solver : IDecompositionSolver
+        #region ICloneable Members
+
+        private CholeskyDecomposition()
+        {
+        }
+
+        /// <summary>
+        ///   Creates a new object that is a copy of the current instance.
+        /// </summary>
+        /// <returns>
+        ///   A new object that is a copy of this instance.
+        /// </returns>
+        /// 
+        public object Clone()
+        {
+            return new CholeskyDecomposition(Matrix.MatrixUtility.CreateMatrix(lTData));
+        }
+        #endregion
+
+        /// <summary>
+        /// Specialized solver.
+        /// </summary>
+        private class Solver : IDecompositionSolver
         {
 
             /// <summary>Row-oriented storage for L<sup>T</sup> matrix datad */
@@ -697,19 +719,16 @@ namespace Mercury.Language.Math.Decompositions
             /// Build a solver from decomposed matrix.
             /// </summary>
             /// <param Name="lTData">row-oriented storage for L<sup>T</sup> matrix data</param>
-            public Solver(double[][] lTData)
+            public Solver(double[][] _lTData)
             {
-                this.lTData = lTData;
+                this.lTData = _lTData;
             }
 
             /// <summary>{@inheritDoc} */
             public Boolean IsNonSingular
             {
-                get
-                {
-                    // if we get this far, the matrix was positive definite, hence non-singular
-                    return true;
-                }
+                // if we get this far, the matrix was positive definite, hence non-singular
+                get { return true; }
             }
 
             /// <summary>{@inheritDoc} */
@@ -719,15 +738,13 @@ namespace Mercury.Language.Math.Decompositions
                 int m = lTData.Length;
                 if (b.Length != m)
                 {
-                    throw MathRuntimeException.CreateArithmeticException(
-                           String.Format(LocalizedResources.Instance().VECTOR_LENGTH_MISMATCH,
-                            b.Length, m));
+                    throw new ArgumentException(String.Format(LocalizedResources.Instance().VECTOR_LENGTH_MISMATCH, b.Length, m));
                 }
 
                 double[] x = b.CloneExact();
 
                 // Solve LY = b
-                AutoParallel.AutoParallelFor(0, m, (j) =>
+                for (int j = 0; j < m; j++)
                 {
                     double[] lJ = lTData[j];
                     x[j] /= lJ[j];
@@ -736,51 +753,7 @@ namespace Mercury.Language.Math.Decompositions
                     {
                         x[i] -= xJ * lJ[i];
                     }
-                });
-
-                // Solve LTX = Y
-                for (int j = m - 1; j >= 0; j--)
-                {
-                    x[j] /= lTData[j][j];
-                    double xJ = x[j];
-                    AutoParallel.AutoParallelFor(0, j, (i) =>
-                     {
-                         x[i] -= xJ * lTData[i][j];
-                     });
                 }
-
-                return x;
-
-            }
-
-            /// <summary>Solve the linear equation A &times; X = B.
-            /// <p>The A matrix is implicit hered It is </p>
-            /// </summary>
-            /// <param Name="b">right-hand side of the equation A &times; X = B</param>
-            /// <returns>a vector X such that A &times; X = B</returns>
-            /// <exception cref="ArgumentException">if matrices dimensions don't match </exception>
-            /// <exception cref="InvalidMatrixException">if decomposed matrix is singular </exception>
-            public Vector<Double> Solve(Vector<Double> b)
-            {
-                int m = lTData.Length;
-                if (b.Count != m)
-                {
-                    throw MathRuntimeException.CreateArithmeticException(String.Format(LocalizedResources.Instance().VECTOR_LENGTH_MISMATCH, b.Count, m));
-                }
-
-                double[] x = b.AsArrayEx();
-
-                // Solve LY = b
-                AutoParallel.AutoParallelFor(0, m, (j) =>
-                {
-                    double[] lJ = lTData[j];
-                    x[j] /= lJ[j];
-                    double xJ = x[j];
-                    for (int i = j + 1; i < m; i++)
-                    {
-                        x[i] -= xJ * lJ[i];
-                    }
-                });
 
                 // Solve LTX = Y
                 for (int j = m - 1; j >= 0; j--)
@@ -793,24 +766,89 @@ namespace Mercury.Language.Math.Decompositions
                     }
                 }
 
-                return Vector<Double>.Build.Dense(x);
+                return x;
+
             }
 
             /// <summary>{@inheritDoc} */
-            public Matrix<Double> Solve(Matrix<Double> b)
+            public Vector<Double> Solve(Vector<Double> b)
+            {
+                try
+                {
+                    return Solve((DenseVector)b);
+                }
+                catch (InvalidCastException cce)
+                {
+
+                    int m = lTData.Length;
+                    if (b.Count != m)
+                    {
+                        throw new ArgumentException(String.Format(LocalizedResources.Instance().VECTOR_LENGTH_MISMATCH, b.Count, m));
+                    }
+
+                    double[] x = b.AsArrayEx();
+
+                    // Solve LY = b
+                    for (int j = 0; j < m; j++)
+                    {
+                        double[] lJ = lTData[j];
+                        x[j] /= lJ[j];
+                        double xJ = x[j];
+                        for (int i = j + 1; i < m; i++)
+                        {
+                            x[i] -= xJ * lJ[i];
+                        }
+                    }
+
+                    // Solve LTX = Y
+                    for (int j = m - 1; j >= 0; j--)
+                    {
+                        x[j] /= lTData[j][j];
+                        double xJ = x[j];
+                        for (int i = 0; i < j; i++)
+                        {
+                            x[i] -= xJ * lTData[i][j];
+                        }
+                    }
+
+                    return MatrixUtility.CreateRealVector(x);
+
+                }
+            }
+
+            /// <summary>Solve the linear equation A &times; X = B.
+            /// <p>The A matrix is implicit hered It is </p>
+            /// </summary>
+            /// <param Name="b">right-hand side of the equation A &times; X = B</param>
+            /// <returns>a vector X such that A &times; X = B</returns>
+            /// <exception cref="ArgumentException">if matrices dimensions don't match </exception>
+            /// <exception cref="InvalidMatrixException">if decomposed matrix is singular </exception>
+            public DenseVector Solve(DenseVector b)
+            {
+                return (DenseVector)MatrixUtility.CreateRealVector(Solve(b.AsArrayEx()));
+            }
+
+            /// <summary>{@inheritDoc} */
+            public Matrix<Double> Solve(Matrix<Double> value)
             {
 
+                return MatrixUtility.CreateMatrix<Double>(Solve(value.AsArrayEx()));
+
+            }
+
+            public double[][] Solve(double[][] value)
+            {
                 int m = lTData.Length;
-                if (b.RowCount != m)
+                if (value.Length != m)
                 {
-                    throw MathRuntimeException.CreateArithmeticException(String.Format(LocalizedResources.Instance().DIMENSIONS_MISMATCH_2x2, b.RowCount, b.ColumnCount, m, "n"));
+                    throw new ArgumentException(String.Format(LocalizedResources.Instance().DIMENSIONS_MISMATCH_2x2, value.Length, value.GetMaxColumnLength(), m, "n"));
                 }
 
-                int nColB = b.ColumnCount;
-                double[][] x = b.AsArrayEx().ToJagged();
+                int nColB = value.GetMaxColumnLength();
+                double[][] x = value.Copy();
 
                 // Solve LY = b
-                AutoParallel.AutoParallelFor(0, m, (j) =>
+                for (int j = 0; j < m; j++)
                 {
                     double[] lJ = lTData[j];
                     double lJJ = lJ[j];
@@ -828,7 +866,7 @@ namespace Mercury.Language.Math.Decompositions
                             xI[k] -= xJ[k] * lJI;
                         }
                     }
-                });
+                }
 
                 // Solve LTX = Y
                 for (int j = m - 1; j >= 0; j--)
@@ -850,45 +888,20 @@ namespace Mercury.Language.Math.Decompositions
                     }
                 }
 
-                return Matrix.MatrixUtility.CreateMatrix(x);
+                return x;
+            }
 
+            public double[,] Solve(double[,] value)
+            {
+                return Solve(value.ToJagged()).ToMultidimensional();
             }
 
             /// <summary>{@inheritDoc} */
             public Matrix<Double> GetInverse()
             {
-                return Solve(Matrix.MatrixUtility.CreateRealIdentityMatrix(lTData.Length));
-            }
-
-            public double[][] Solve(double[][] value)
-            {
-                throw new NotImplementedException();
-            }
-
-            public double[,] Solve(double[,] value)
-            {
-                throw new NotImplementedException();
+                return Solve(MatrixUtility.CreateRealIdentityMatrix(lTData.Length));
             }
         }
-
-
-        #region ICloneable Members
-
-        private CholeskyDecomposition()
-        {
-        }
-
-        /// <summary>
-        ///   Creates a new object that is a copy of the current instance.
-        /// </summary>
-        /// <returns>
-        ///   A new object that is a copy of this instance.
-        /// </returns>
-        /// 
-        public object Clone()
-        {
-            return new CholeskyDecomposition(Matrix.MatrixUtility.CreateMatrix(lTData));
-        }
-        #endregion
     }
 }
+

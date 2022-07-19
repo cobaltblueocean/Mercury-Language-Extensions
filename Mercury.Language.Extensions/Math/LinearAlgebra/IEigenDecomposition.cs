@@ -25,7 +25,7 @@ using System.Threading.Tasks;
 using MathNet.Numerics.LinearAlgebra;
 using Mercury.Language.Math.Analysis.Solver;
 
-namespace Mercury.Language.Math.Decompositions
+namespace Mercury.Language.Math.LinearAlgebra
 {
     /// <summary>
     /// An interface to classes that implement an algorithm to calculate the

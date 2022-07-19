@@ -3,11 +3,11 @@
 // Original project is developed and published by Apache Software Foundation (ASF).
 //
 // Licensed to the Apache Software Foundation (ASF) under one or more
-// contributor license agreements.  See the NOTICE file distributed with
+// contributor license agreementsd  See the NOTICE file distributed with
 // this work for additional information regarding copyright ownership.
 // The ASF licenses this file to You under the Apache License, Version 2.0
 // (the "License"); you may not use this file except in compliance with
-// the License.  You may obtain a copy of the License at
+// the Licensed  You may obtain a copy of the License at
 //
 //      http://www.apache.org/licenses/LICENSE-2.0
 //
@@ -27,9 +27,10 @@ using MathNet.Numerics.LinearAlgebra.Double;
 using MathNet.Numerics.LinearAlgebra.Storage;
 using Mercury.Language.Exception;
 using Mercury.Language.Math.Matrix;
+using Mercury.Language.Math.Analysis;
 using Mercury.Language.Math.Analysis.Solver;
 
-namespace Mercury.Language.Math.Decompositions
+namespace Mercury.Language.Math.LinearAlgebra
 {
     /// <summary>
     ///   LU decomposition of a multidimensional rectangular matrix.
@@ -39,17 +40,17 @@ namespace Mercury.Language.Math.Decompositions
     ///   <para>
     ///     For an m-by-n matrix <c>A</c> with <c>m >= n</c>, the LU decomposition is an m-by-n
     ///     unit lower triangular matrix <c>L</c>, an n-by-n upper triangular matrix <c>U</c>,
-    ///     and a permutation vector <c>piv</c> of length m so that <c>A(piv) = L*U</c>.
+    ///     and a permutation vector <c>piv</c> of Length m so that <c>A(piv) = L*U</c>.
     ///     If m &lt; n, then <c>L</c> is m-by-m and <c>U</c> is m-by-n.</para>
     ///   <para>
     ///     The LU decomposition with pivoting always exists, even if the matrix is
-    ///     singular, so the constructor will never fail.  The primary use of the
+    ///     singular, so the constructor will never faild  The primary use of the
     ///     LU decomposition is in the solution of square systems of simultaneous
-    ///     linear equations. This will fail if <see cref="Nonsingular"/> returns
+    ///     linear equationsd This will fail if <see cref="Nonsingular"/> returns
     ///     <see langword="false"/>.</para>
     ///   <para>
     ///     If you need to compute a LU decomposition for matrices with data types other than
-    ///     double, see <see cref="LuDecompositionF"/>, <see cref="LuDecompositionD"/>. If you
+    ///     double, see <see cref="LuDecompositionF"/>, <see cref="LuDecompositionD"/>d If you
     ///     need to compute a LU decomposition for a jagged matrix, see <see cref="JaggedLuDecomposition"/>,
     ///     <see cref="JaggedLuDecompositionF"/>, and <see cref="JaggedLuDecompositionD"/>.</para>
     /// </remarks>
@@ -356,7 +357,6 @@ namespace Mercury.Language.Math.Decompositions
         ///   please use <see cref="Mercury.Language.Math.Matrix.MatrixUtility.IsSingular"/> or the 
         ///   <see cref="SingularValueDecomposition"/>.
         /// </remarks>
-        /// 
         public bool Nonsingular
         {
             get
@@ -616,160 +616,7 @@ namespace Mercury.Language.Math.Decompositions
 
         public IDecompositionSolver GetSolver()
         {
-            return new Solver(lu, pivotVector, !Nonsingular);
-        }
-
-        public class Solver : IDecompositionSolver
-        {
-            /// <summary>Entries of LU decomposition. /// </summary>
-            private double[,] lu;
-
-            /// <summary>
-            /// Pivot permutation associated with LU decomposition. /// </summary>
-            private int[] pivot;
-
-            /// <summary>Singularity indicator. /// </summary>
-            private Boolean singular;
-
-            /// <summary>
-            /// Build a solver from decomposed matrix.
-            /// </summary>
-            /// <param name="lu">entries of LU decomposition</param>
-            /// <param name="pivot">pivot permutation associated with LU decomposition</param>
-            /// <param name="singular">singularity indicator</param>
-            public Solver(double[,] lu, int[] pivot, Boolean singular)
-            {
-                this.lu = lu;
-                this.pivot = pivot;
-                this.singular = singular;
-            }
-
-            public bool IsNonSingular
-            {
-                get { return !this.singular; }
-            }
-
-            public Matrix<double> GetInverse()
-            {
-                return Solve(Matrix.MatrixUtility.CreateRealIdentityMatrix(pivot.Length));
-            }
-
-            /// <summary>
-            ///   Solves a set of equation systems of type <c>A * X = B</c>.
-            /// </summary>
-            /// <param name="value">Right hand side column vector with as many rows as <c>A</c>.</param>
-            /// <returns>Matrix <c>X</c> so that <c>L * U * X = B</c>.</returns>
-            /// 
-            public double[] Solve(double[] value)
-            {
-                if (value == null)
-                    throw new ArgumentNullException("value");
-
-                int m = pivot.Length;
-                if (value.Length != m)
-                    throw new DimensionMismatchException(LocalizedResources.Instance().VECTOR_SHOULD_HAVE_THE_SAME_LENGTH_AS_ROW);
-
-                if (this.singular)
-                    throw new InvalidOperationException(LocalizedResources.Instance().MATRIX_IS_SINGULAR);
-
-
-                // Copy right hand side with pivoting
-                int count = value.Length;
-                var bp = new Double[count];
-                for (int row = 0; row < bp.Length; row++)
-                    bp[row] = value[pivot[row]];
-
-
-                // Solve L*Y = B
-                for (int col = 0; col < m; col++)
-                {
-                    bp[col] = bp[col];
-                    for (int j = 0; j < col; j++)
-                        bp[col] -= lu[col, j] * bp[j];
-                }
-
-                // Solve U*X = Y;
-                for (int col = m - 1; col >= 0; col--)
-                {
-                    for (int j = m - 1; j > col; j--)
-                        bp[col] -= lu[col, j] * bp[j];
-                    bp[col] /= lu[col, col];
-                }
-
-                return bp;
-            }
-
-            /// <summary>
-            /// Solve the linear equation A &times; X = B.
-            /// <p>The A matrix is implicit here. It is </p>
-            /// </summary>
-            /// <param name="b">right-hand side of the equation A &times; X = B</param>
-            /// <returns>a vector X such that A &times; X = B</returns>
-            public Vector<double> Solve(Vector<double> b)
-            {
-                return Vector<double>.Build.Dense(Solve(b.AsArrayEx()));
-            }
-
-            public Matrix<double> Solve(Matrix<double> b)
-            {
-                DenseColumnMajorMatrixStorage<double> storage = DenseColumnMajorMatrixStorage<double>.OfArray(Solve(b.AsArrayEx()));
-                return Matrix<double>.Build.Dense(storage);
-            }
-
-            /// <summary>
-            ///   Solves a set of equation systems of type <c>A * X = B</c>.
-            /// </summary>
-            /// <param name="value">Right hand side matrix with as many rows as <c>A</c> and any number of columns.</param>
-            /// <returns>Matrix <c>X</c> so that <c>L * U * X = B</c>.</returns>
-            public Double[][] Solve(Double[][] value)
-            {
-                return Solve(value.ToMultidimensional()).ToJagged();
-            }
-
-
-            /// <summary>
-            ///   Solves a set of equation systems of type <c>A * X = B</c>.
-            /// </summary>
-            /// <param name="value">Right hand side matrix with as many rows as <c>A</c> and any number of columns.</param>
-            /// <returns>Matrix <c>X</c> so that <c>L * U * X = B</c>.</returns>
-            /// 
-            public Double[,] Solve(Double[,] value)
-            {
-                if (value == null)
-                    throw new ArgumentNullException("value");
-
-                int m = pivot.Length;
-                if (value.GetLength(0) != m)
-                    throw new DimensionMismatchException(LocalizedResources.Instance().MATRIX_SHOULD_HAVE_THE_SAME_NUMBER_OF_ROWS);
-
-                if (!this.singular)
-                    throw new InvalidOperationException(LocalizedResources.Instance().MATRIX_IS_SINGULAR);
-
-
-                // Copy right hand side with pivoting
-                int count = value.GetLength(1);
-                Double[,] X = value.Get(pivot, null);
-
-
-                // Solve L*Y = B(piv,:)
-                for (int k = 0; k < m; k++)
-                    for (int i = k + 1; i < m; i++)
-                        for (int j = 0; j < count; j++)
-                            X[i, j] -= X[k, j] * lu[i, k];
-
-                // Solve U*X = Y;
-                for (int k = m - 1; k >= 0; k--)
-                {
-                    for (int j = 0; j < count; j++)
-                        X[k, j] /= lu[k, k];
-
-                    for (int i = 0; i < k; i++)
-                        for (int j = 0; j < count; j++)
-                            X[i, j] -= X[k, j] * lu[i, k];
-                }
-
-                return X;
-            }
+            return new Solver(lu.ToJagged(), pivotVector, !Nonsingular);
         }
 
         #region ICloneable Members
@@ -796,5 +643,231 @@ namespace Mercury.Language.Math.Decompositions
             return lud;
         }
         #endregion
+
+        private class Solver : IDecompositionSolver
+        {
+
+            /// <summary>Entries of LU decompositiond */
+            private double[][] lu;
+
+            /// <summary>Pivot permutation associated with LU decompositiond */
+            private int[] pivot;
+
+            /// <summary>Singularity indicatord */
+            private Boolean singular;
+
+            /// <summary>
+            /// Build a solver from decomposed matrix.
+            /// </summary>
+            /// <param Name="lu">entries of LU decomposition</param>
+            /// <param Name="pivot">pivot permutation associated with LU decomposition</param>
+            /// <param Name="singular">singularity indicator</param>
+            public Solver(double[][] lu, int[] pivot, Boolean singular)
+            {
+                this.lu = lu;
+                this.pivot = pivot;
+                this.singular = singular;
+            }
+
+            /// <summary>{@inheritDoc} */
+            public Boolean IsNonSingular
+            {
+                get { return !singular; }
+            }
+
+            /// <summary>{@inheritDoc} */
+            public double[] Solve(double[] b)
+            {
+
+                int m = pivot.Length;
+                if (b.Length != m)
+                {
+                    throw new ArgumentException(String.Format(LocalizedResources.Instance().VECTOR_LENGTH_MISMATCH, b.Length, m));
+                }
+                if (singular)
+                {
+                    throw new SingularMatrixException();
+                }
+
+                double[] bp = new double[m];
+
+                // Apply permutations to b
+                for (int row = 0; row < m; row++)
+                {
+                    bp[row] = b[pivot[row]];
+                }
+
+                // Solve LY = b
+                for (int col = 0; col < m; col++)
+                {
+                    double bpCol = bp[col];
+                    for (int i = col + 1; i < m; i++)
+                    {
+                        bp[i] -= bpCol * lu[i][col];
+                    }
+                }
+
+                // Solve UX = Y
+                for (int col = m - 1; col >= 0; col--)
+                {
+                    bp[col] /= lu[col][col];
+                    double bpCol = bp[col];
+                    for (int i = 0; i < col; i++)
+                    {
+                        bp[i] -= bpCol * lu[i][col];
+                    }
+                }
+
+                return bp;
+
+            }
+
+            /// <summary>{@inheritDoc} */
+            public Vector<Double> Solve(Vector<Double> b)
+            {
+                try
+                {
+                    return Solve((DenseVector)b);
+                }
+                catch (InvalidCastException cce)
+                {
+
+                    int m = pivot.Length;
+                    if (b.Count != m)
+                    {
+                        throw new ArgumentException(String.Format(LocalizedResources.Instance().VECTOR_LENGTH_MISMATCH, b.Count, m));
+                    }
+                    if (singular)
+                    {
+                        throw new SingularMatrixException();
+                    }
+
+                    double[] bp = new double[m];
+
+                    // Apply permutations to b
+                    for (int row = 0; row < m; row++)
+                    {
+                        bp[row] = b[pivot[row]];
+                    }
+
+                    // Solve LY = b
+                    for (int col = 0; col < m; col++)
+                    {
+                        double bpCol = bp[col];
+                        for (int i = col + 1; i < m; i++)
+                        {
+                            bp[i] -= bpCol * lu[i][col];
+                        }
+                    }
+
+                    // Solve UX = Y
+                    for (int col = m - 1; col >= 0; col--)
+                    {
+                        bp[col] /= lu[col][col];
+                        double bpCol = bp[col];
+                        for (int i = 0; i < col; i++)
+                        {
+                            bp[i] -= bpCol * lu[i][col];
+                        }
+                    }
+
+                    return MatrixUtility.CreateRealVector(bp);
+                }
+            }
+
+            /// <summary>Solve the linear equation A &times; X = B.
+            /// <p>The A matrix is implicit hered It is </p>
+            /// </summary>
+            /// <param Name="b">right-hand side of the equation A &times; X = B</param>
+            /// <returns>a vector X such that A &times; X = B</returns>
+            /// <exception cref="ArgumentException">if matrices dimensions don't match </exception>
+            /// <exception cref="InvalidMatrixException">if decomposed matrix is singular </exception>
+            public DenseVector Solve(DenseVector b)
+            {
+                return (DenseVector)MatrixUtility.CreateRealVector(Solve(b.AsArrayEx()));
+            }
+
+            /// <summary>{@inheritDoc} */
+            public Matrix<Double> Solve(Matrix<Double> b)
+            {
+                return MatrixUtility.CreateMatrix<Double>(Solve(b.AsArrayEx()));
+            }
+
+            public double[][] Solve(double[][] value)
+            {
+
+                int m = pivot.Length;
+                if (value.Length != m)
+                {
+                    throw new ArgumentException(String.Format(LocalizedResources.Instance().DIMENSIONS_MISMATCH_2x2, value.Length, value.GetMaxColumnLength(), m, "n"));
+                }
+                if (singular)
+                {
+                    throw new SingularMatrixException();
+                }
+
+                int nColB = value.GetMaxColumnLength();
+
+                // Apply permutations to b
+                double[][] bp = ArrayUtility.CreateJaggedArray<double>(m, nColB);
+                for (int row = 0; row < m; row++)
+                {
+                    double[] bpRow = bp[row];
+                    int pRow = pivot[row];
+                    for (int col = 0; col < nColB; col++)
+                    {
+                        bpRow[col] = value[pRow][col];
+                    }
+                }
+
+                // Solve LY = b
+                for (int col = 0; col < m; col++)
+                {
+                    double[] bpCol = bp[col];
+                    for (int i = col + 1; i < m; i++)
+                    {
+                        double[] bpI = bp[i];
+                        double luICol = lu[i][col];
+                        for (int j = 0; j < nColB; j++)
+                        {
+                            bpI[j] -= bpCol[j] * luICol;
+                        }
+                    }
+                }
+
+                // Solve UX = Y
+                for (int col = m - 1; col >= 0; col--)
+                {
+                    double[] bpCol = bp[col];
+                    double luDiag = lu[col][col];
+                    for (int j = 0; j < nColB; j++)
+                    {
+                        bpCol[j] /= luDiag;
+                    }
+                    for (int i = 0; i < col; i++)
+                    {
+                        double[] bpI = bp[i];
+                        double luICol = lu[i][col];
+                        for (int j = 0; j < nColB; j++)
+                        {
+                            bpI[j] -= bpCol[j] * luICol;
+                        }
+                    }
+                }
+
+                return bp;
+            }
+
+            public double[,] Solve(double[,] value)
+            {
+                return Solve(value.ToJagged()).ToMultidimensional();
+            }
+
+            /// <summary>{@inheritDoc} */
+            public Matrix<Double> GetInverse()
+            {
+                return Solve(MatrixUtility.CreateRealIdentityMatrix(pivot.Length));
+            }
+        }
     }
 }

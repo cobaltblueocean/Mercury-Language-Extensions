@@ -45,7 +45,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Mercury.Language.Math.Decompositions
+namespace Mercury.Language.Math.LinearAlgebra
 {
     /// <summary>
     ///   Common interface for matrix decompositions which

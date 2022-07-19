@@ -29,7 +29,7 @@ using MathNet.Numerics.LinearAlgebra.Double;
 using Mercury.Language.Exception;
 using Mercury.Language.Math.Analysis.Solver;
 
-namespace Mercury.Language.Math.Decompositions
+namespace Mercury.Language.Math.LinearAlgebra
 {
     /// <summary>
     /// /// Calculates the eigen decomposition of a real <strong>symmetric</strong>

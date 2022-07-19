@@ -10,7 +10,7 @@ using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Double;
 using Mercury.Language.Math.Matrix;
 
-namespace Mercury.Language.Math.Decompositions
+namespace Mercury.Language.Math.LinearAlgebra
 {
     public sealed class EigenValueDecomposition : ICloneable
     {

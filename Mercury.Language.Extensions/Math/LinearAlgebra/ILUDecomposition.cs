@@ -25,10 +25,25 @@ using System.Threading.Tasks;
 using MathNet.Numerics.LinearAlgebra;
 using Mercury.Language.Math.Analysis.Solver;
 
-namespace Mercury.Language.Math.Decompositions
+namespace Mercury.Language.Math.LinearAlgebra
 {
     public interface ILUDecomposition<T> : ICloneable, ISolverMatrixDecomposition<T> where T : struct
     {
+        /// <summary>
+        ///   Returns if the matrix is non-singular (i.e. invertible).
+        ///   Please see remarks for important information regarding
+        ///   numerical stability when using this method.
+        /// </summary>
+        /// 
+        /// <remarks>
+        ///   Please keep in mind this is not one of the most reliable methods
+        ///   for checking singularity of a matrix. For a more reliable method,
+        ///   please use <see cref="Mercury.Language.Math.Matrix.MatrixUtility.IsSingular"/> or the 
+        ///   <see cref="SingularValueDecomposition"/>.
+        /// </remarks>
+        Boolean Nonsingular { get; }
+
+        double[,] Data { get; }
 
         /// <summary>
         /// Returns the matrix L of the decomposition.

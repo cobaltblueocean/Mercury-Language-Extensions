@@ -27,8 +27,9 @@ using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Double;
 using MathNet.Numerics.LinearAlgebra.Storage;
 using Mercury.Language.Math.Matrix;
+using SysMath = System.Math;
 
-namespace Mercury.Language.Math.Decompositions
+namespace Mercury.Language.Math.LinearAlgebra
 {
     /// <summary>
     /// Calculates the compact Singular Value Decomposition of a matrix.
@@ -40,7 +41,7 @@ namespace Mercury.Language.Math.Decompositions
     /// n orthogonal matrix (hence V<sup>T</sup> is also orthogonal) where
     /// p=min(m,n).
     /// </p>
-    /// <p>This class is similar to the class with similar name from the
+    /// <p>This class is similar to the class with similar Name from the
     /// <a href="http://math.nist.gov/javanumerics/jama/">JAMA</a> library, with the
     /// following changes:</p>
     /// <ul>
@@ -52,14 +53,14 @@ namespace Mercury.Language.Math.Decompositions
     ///   getRank},</li>
     ///   <li>a {@link #getUT() getUT} method has been added,</li>
     ///   <li>a {@link #getVT() getVT} method has been added,</li>
-    ///   <li>a {@link #getSolver() getSolver} method has been added,</li>
+    ///   <li>a {@link #Solver getSolver} method has been added,</li>
     ///   <li>a {@link #getCovariance(double) getCovariance} method has been added.</li>
     /// </ul>
     /// </summary>
     /// <see cref="<a">href="http://mathworld.wolfram.com/SingularValueDecomposition.html">MathWorld</a> </see>
     /// <see cref="<a">href="http://en.wikipedia.org/wiki/Singular_value_decomposition">Wikipedia</a> </see>
     /// @since 2.0 (changed to concrete class in 3.0)
-    public class SingularValueDecomposition
+    public class SingularValueDecomposition : ISingularValueDecomposition
     {
         /// <summary>
         /// Relative threshold for small singular valuesd
@@ -88,23 +89,23 @@ namespace Mercury.Language.Math.Decompositions
         /// <summary>
         /// Cached value of U matrixd
         /// </summary>
-        private DenseMatrix cachedU;
+        private Matrix<Double> cachedU;
         /// <summary>
         /// Cached value of transposed U matrixd
         /// </summary>
-        private DenseMatrix cachedUt;
+        private Matrix<Double> cachedUt;
         /// <summary>
         /// Cached value of S (diagonal) matrixd
         /// </summary>
-        private DenseMatrix cachedS;
+        private Matrix<Double> cachedS;
         /// <summary>
         /// Cached value of V matrixd
         /// </summary>
-        private DenseMatrix cachedV;
+        private Matrix<Double> cachedV;
         /// <summary>
         /// Cached value of transposed V matrixd
         /// </summary>
-        private DenseMatrix cachedVt;
+        private Matrix<Double> cachedVt;
         /// <summary>
         /// Tolerance value for small singular values, calculated once we have
         /// populated "singularValues".
@@ -115,8 +116,8 @@ namespace Mercury.Language.Math.Decompositions
         /// Calculates the compact Singular Value Decomposition of the given matrix.
         /// 
         /// </summary>
-        /// <param name="matrix">Matrix to decompose.</param>
-        public SingularValueDecomposition(DenseMatrix matrix)
+        /// <param Name="matrix">Matrix to decompose.</param>
+        public SingularValueDecomposition(Matrix<Double> matrix)
         {
             double[][] A;
 
@@ -143,9 +144,9 @@ namespace Mercury.Language.Math.Decompositions
             double[] work = new double[m];
             // Reduce A to bidiagonal form, storing the diagonal elements
             // in s and the base-diagonal elements in e.
-            int nct = System.Math.Min(m - 1, n);
-            int nrt = System.Math.Max(0, n - 2);
-            for (int k = 0; k < System.Math.Max(nct, nrt); k++)
+            int nct = SysMath.Min(m - 1, n);
+            int nrt = SysMath.Max(0, n - 2);
+            for (int k = 0; k < SysMath.Max(nct, nrt); k++)
             {
                 if (k < nct)
                 {
@@ -204,7 +205,7 @@ namespace Mercury.Language.Math.Decompositions
                 if (k < nrt)
                 {
                     // Compute the k-th row transformation and place the
-                    // k-th super-diagonal in e[k].
+                    // k-th base-diagonal in e[k].
                     // Compute 2-norm without under/overflow.
                     e[k] = 0;
                     for (int i = k + 1; i < n; i++)
@@ -354,31 +355,28 @@ namespace Mercury.Language.Math.Decompositions
                 int kase;
                 // Here is where a test for too many iterations would go.
                 // This section of the program inspects for
-                // negligible elements in the s and e arrays.  On
+                // negligible elements in the s and e arraysd  On
                 // completion the variables kase and k are set as follows.
                 // kase = 1     if s(p) and e[k-1] are negligible and k<p
                 // kase = 2     if s(k) is negligible and k<p
                 // kase = 3     if e[k-1] is negligible, k<p, and
-                //              s(k), ..., s(p) are not negligible (qr step).
+                //              s(k), [], s(p) are not negligible (qr step).
                 // kase = 4     if e(p-1) is negligible (convergence).
                 for (k = p - 2; k >= 0; k--)
                 {
-                    double threshold
-                        = TINY + EPS * (System.Math.Abs(singularValues[k]) +
-                                        System.Math.Abs(singularValues[k + 1]));
+                    double threshold = TINY + EPS * (SysMath.Abs(singularValues[k]) + SysMath.Abs(singularValues[k + 1]));
 
                     // the following condition is written this way in order
                     // to break out of the loop when NaN occurs, writing it
-                    // as "if (System.Math.Abs(e[k]) <= threshold)" would loop
+                    // as "if (SysMath.Abs(e[k]) <= threshold)" would loop
                     // indefinitely in case of NaNs because comparison on NaNs
                     // always return false, regardless of what is checked
                     // see issue MATH-947
-                    if (!(System.Math.Abs(e[k]) > threshold))
+                    if (!(SysMath.Abs(e[k]) > threshold))
                     {
                         e[k] = 0;
                         break;
                     }
-
                 }
 
                 if (k == p - 2)
@@ -394,9 +392,9 @@ namespace Mercury.Language.Math.Decompositions
                         {
                             break;
                         }
-                        double t = (ks != p ? System.Math.Abs(e[ks]) : 0) +
-                            (ks != k + 1 ? System.Math.Abs(e[ks - 1]) : 0);
-                        if (System.Math.Abs(singularValues[ks]) <= TINY + EPS * t)
+                        double t = (ks != p ? SysMath.Abs(e[ks]) : 0) +
+                            (ks != k + 1 ? SysMath.Abs(e[ks - 1]) : 0);
+                        if (SysMath.Abs(singularValues[ks]) <= TINY + EPS * t)
                         {
                             singularValues[ks] = 0;
                             break;
@@ -473,20 +471,20 @@ namespace Mercury.Language.Math.Decompositions
                     case 3:
                         {
                             // Calculate the shift.
-                            double maxPm1Pm2 = System.Math.Max(System.Math.Abs(singularValues[p - 1]), System.Math.Abs(singularValues[p - 2]));
-                            double scale = System.Math.Max(System.Math.Max(System.Math.Max(maxPm1Pm2, System.Math.Abs(e[p - 2])), System.Math.Abs(singularValues[k])), System.Math.Abs(e[k]));
-                            double sp = singularValues[p - 1] / scale;
-                            double spm1 = singularValues[p - 2] / scale;
-                            double epm1 = e[p - 2] / scale;
-                            double sk = singularValues[k] / scale;
-                            double ek = e[k] / scale;
+                            double maxPm1Pm2 = SysMath.Max(SysMath.Abs(singularValues[p - 1]), SysMath.Abs(singularValues[p - 2]));
+                            double isScale = SysMath.Max(SysMath.Max(SysMath.Max(maxPm1Pm2, SysMath.Abs(e[p - 2])), SysMath.Abs(singularValues[k])), SysMath.Abs(e[k]));
+                            double sp = singularValues[p - 1] / isScale;
+                            double spm1 = singularValues[p - 2] / isScale;
+                            double epm1 = e[p - 2] / isScale;
+                            double sk = singularValues[k] / isScale;
+                            double ek = e[k] / isScale;
                             double b = ((spm1 + sp) * (spm1 - sp) + epm1 * epm1) / 2.0;
                             double c = (sp * epm1) * (sp * epm1);
                             double shift = 0;
                             if (b != 0 ||
                                 c != 0)
                             {
-                                shift = System.Math.Sqrt(b * b + c);
+                                shift = SysMath.Sqrt(b * b + c);
                                 if (b < 0)
                                 {
                                     shift = -shift;
@@ -587,17 +585,17 @@ namespace Mercury.Language.Math.Decompositions
             }
 
             // Set the small value tolerance used to calculate rank and pseudo-inverse
-            tol = System.Math.Max(m * singularValues[0] * EPS, System.Math.Sqrt(Precision2.SAFE_MIN));
+            tol = SysMath.Max(m * singularValues[0] * EPS, SysMath.Sqrt(Precision2.SAFE_MIN));
 
             if (!transposed)
             {
-                cachedU = MatrixUtility.CreateDenseMatrix(U);
-                cachedV = MatrixUtility.CreateDenseMatrix(V);
+                cachedU = MatrixUtility.CreateMatrix<Double>(U);
+                cachedV = MatrixUtility.CreateMatrix<Double>(V);
             }
             else
             {
-                cachedU = MatrixUtility.CreateDenseMatrix(V);
-                cachedV = MatrixUtility.CreateDenseMatrix(U);
+                cachedU = MatrixUtility.CreateMatrix<Double>(V);
+                cachedV = MatrixUtility.CreateMatrix<Double>(U);
             }
         }
 
@@ -608,13 +606,10 @@ namespace Mercury.Language.Math.Decompositions
         /// </summary>
         /// <returns>the U matrix</returns>
         /// <see cref="#getUT()"></see>
-        public DenseMatrix U
+        public Matrix<Double> GetU()
         {
-            get
-            {
-                // return the cached matrix
-                return cachedU;
-            }
+            // return the cached matrix
+            return cachedU;
         }
 
         /// <summary>
@@ -622,18 +617,15 @@ namespace Mercury.Language.Math.Decompositions
         /// <p>U is an orthogonal matrix, i.ed its transpose is also its inverse.</p>
         /// </summary>
         /// <returns>the U matrix (or null if decomposed matrix is singular)</returns>
-        /// <see cref="#getU()"></see>
-        public DenseMatrix UT
+        /// <see cref="#U"></see>
+        public Matrix<Double> GetUT()
         {
-            get
+            if (cachedUt == null)
             {
-                if (cachedUt == null)
-                {
-                    cachedUt = (DenseMatrix)U.Transpose();
-                }
-                // return the cached matrix
-                return cachedUt;
+                cachedUt = (Matrix<Double>)GetU().Transpose();
             }
+            // return the cached matrix
+            return cachedUt;
         }
 
         /// <summary>
@@ -642,17 +634,14 @@ namespace Mercury.Language.Math.Decompositions
         /// non-increasing order, for compatibility with Jama.</p>
         /// </summary>
         /// <returns>the &Sigma; matrix</returns>
-        public DenseMatrix Sigma
+        public Matrix<Double> GetSigma()
         {
-            get
+            if (cachedS == null)
             {
-                if (cachedS == null)
-                {
-                    // cache the matrix for subsequent calls
-                    cachedS = MatrixUtility.CreateDenseDiagonalMatrix(singularValues);
-                }
-                return cachedS;
+                // cache the matrix for subsequent calls
+                cachedS = MatrixUtility.CreateDenseDiagonalMatrix(singularValues);
             }
+            return cachedS;
         }
 
         /// <summary>
@@ -672,13 +661,10 @@ namespace Mercury.Language.Math.Decompositions
         /// </summary>
         /// <returns>the V matrix (or null if decomposed matrix is singular)</returns>
         /// <see cref="#getVT()"></see>
-        public DenseMatrix V
+        public Matrix<Double> GetV()
         {
-            get
-            {
-                // return the cached matrix
-                return cachedV;
-            }
+            // return the cached matrix
+            return cachedV;
         }
 
         /// <summary>
@@ -687,17 +673,14 @@ namespace Mercury.Language.Math.Decompositions
         /// </summary>
         /// <returns>the V matrix (or null if decomposed matrix is singular)</returns>
         /// <see cref="#getV()"></see>
-        public DenseMatrix VT
+        public Matrix<Double> GetVT()
         {
-            get
+            if (cachedVt == null)
             {
-                if (cachedVt == null)
-                {
-                    cachedVt = (DenseMatrix)V.Transpose();
-                }
-                // return the cached matrix
-                return cachedVt;
+                cachedVt = (Matrix<Double>)GetV().Transpose();
             }
+            // return the cached matrix
+            return cachedVt;
         }
 
         /// <summary>
@@ -706,12 +689,12 @@ namespace Mercury.Language.Math.Decompositions
         /// where J is the diagonal matrix of the inverse of the squares of
         /// the singular values.</p>
         /// </summary>
-        /// <param name="minSingularValue">value below which singular values are ignored</param>
+        /// <param Name="minSingularValue">value below which singular values are ignored</param>
         /// (a 0 or negative value implies all singular value will be used)
         /// <returns>covariance matrix</returns>
         /// <exception cref="ArgumentException">if minSingularValue is larger than </exception>
         /// the largest singular value, meaning all singular values are ignored
-        public DenseMatrix GetCovariance(double minSingularValue)
+        public Matrix<Double> GetCovariance(double minSingularValue)
         {
             // get the number of singular values to consider
             int p = singularValues.Length;
@@ -729,18 +712,18 @@ namespace Mercury.Language.Math.Decompositions
 
             double[][] data = ArrayUtility.CreateJaggedArray<double>(dimension, p);
 
-            var vtData = VT.ToArray();
+            var vtData = GetVT().ToArray();
 
-            AutoParallel.AutoParallelFor(0, dimension, (i) =>
-          {
-              AutoParallel.AutoParallelFor(0, p, (j) =>
-             {
-                 data[i][j] = vtData[i, j] / singularValues[i];
-             });
-          });
+            for (int i = 0; i < dimension; i++)
+            {
+                for (int j = 0; j < p; j++)
+                {
+                    data[i][j] = vtData[i, j] / singularValues[i];
+                }
+            }
 
-            DenseMatrix jv = MatrixUtility.CreateDenseMatrix(data);
-            return (DenseMatrix)jv.Transpose().Multiply(jv);
+            Matrix<Double> jv = MatrixUtility.CreateMatrix<Double>(data);
+            return (Matrix<Double>)jv.Transpose().Multiply(jv);
         }
 
         /// <summary>
@@ -787,13 +770,13 @@ namespace Mercury.Language.Math.Decompositions
         public int GetRank()
         {
             int r = 0;
-            AutoParallel.AutoParallelFor(0, singularValues.Length, (i) =>
-           {
-               if (singularValues[i] > tol)
-               {
-                   r++;
-               }
-           });
+            for (int i = 0; i < singularValues.Length; i++)
+            {
+                if (singularValues[i] > tol)
+                {
+                    r++;
+                }
+            }
             return r;
         }
 
@@ -803,14 +786,14 @@ namespace Mercury.Language.Math.Decompositions
         /// <returns>a solver</returns>
         public IDecompositionSolver GetSolver()
         {
-            return new Solver(singularValues, UT, V, GetRank() == m, tol);
+            return new Solver(singularValues, GetUT(), GetV(), GetRank() == m, tol);
         }
 
         /// <summary>Specialized solverd */
         public class Solver : IDecompositionSolver
         {
             /// <summary>Pseudo-inverse of the initial matrixd */
-            private DenseMatrix pseudoInverse;
+            private Matrix<Double> pseudoInverse;
             /// <summary>Singularity indicatord */
             private Boolean nonSingular;
 
@@ -818,32 +801,32 @@ namespace Mercury.Language.Math.Decompositions
             /// Build a solver from decomposed matrix.
             /// 
             /// </summary>
-            /// <param name="singularValues">Singular values.</param>
-            /// <param name="uT">U<sup>T</sup> matrix of the decomposition.</param>
-            /// <param name="v">V matrix of the decomposition.</param>
-            /// <param name="nonSingular">Singularity indicator.</param>
-            /// <param name="tol">tolerance for singular values</param>
-            public Solver(double[] singularValues, DenseMatrix uT, DenseMatrix v, Boolean nonSingular, double tol)
+            /// <param Name="singularValues">Singular values.</param>
+            /// <param Name="uT">U<sup>T</sup> matrix of the decomposition.</param>
+            /// <param Name="v">V matrix of the decomposition.</param>
+            /// <param Name="nonSingular">Singularity indicator.</param>
+            /// <param Name="tol">tolerance for singular values</param>
+            public Solver(double[] singularValues, Matrix<Double> uT, Matrix<Double> v, Boolean nonSingular, double tol)
             {
                 double[][] suT = uT.ToArray().ToJagged();
-                AutoParallel.AutoParallelFor(0, singularValues.Length, (i) =>
-               {
-                   double a;
-                   if (singularValues[i] > tol)
-                   {
-                       a = 1 / singularValues[i];
-                   }
-                   else
-                   {
-                       a = 0;
-                   }
-                   double[] suTi = suT[i];
-                   AutoParallel.AutoParallelFor(0, suTi.Length, (j) =>
-                  {
-                      suTi[j] *= a;
-                  });
-               });
-                pseudoInverse = (DenseMatrix)v.Multiply(MatrixUtility.CreateDenseMatrix(suT));
+                for (int i = 0; i < singularValues.Length; i++)
+                {
+                    double a;
+                    if (singularValues[i] > tol)
+                    {
+                        a = 1 / singularValues[i];
+                    }
+                    else
+                    {
+                        a = 0;
+                    }
+                    double[] suTi = suT[i];
+                    for (int j = 0; j < suTi.Length; j++)
+                    {
+                        suTi[j] *= a;
+                    }
+                }
+                pseudoInverse = (Matrix<Double>)v.Multiply(MatrixUtility.CreateMatrix<Double>(suT));
                 this.nonSingular = nonSingular;
             }
 
@@ -854,13 +837,13 @@ namespace Mercury.Language.Math.Decompositions
             /// ||A &times; X - B|| is minimal.
             /// </p>
             /// </summary>
-            /// <param name="b">Right-hand side of the equation A &times; X = B</param>
+            /// <param Name="b">Right-hand side of the equation A &times; X = B</param>
             /// <returns>a vector X that minimizes the two norm of A &times; X - B</returns>
             /// <exception cref="org.apache.commons.math3.exception.DimensionMismatchException"></exception>
             /// if the matrices dimensions do not match.
             public Vector<Double> Solve(Vector<Double> b)
             {
-                return pseudoInverse.Operate((DenseVector)b);
+                return ((DenseMatrix)pseudoInverse).Operate((DenseVector)b);
             }
 
             /// <summary>
@@ -871,13 +854,13 @@ namespace Mercury.Language.Math.Decompositions
             /// </p>
             /// 
             /// </summary>
-            /// <param name="b">Right-hand side of the equation A &times; X = B</param>
+            /// <param Name="b">Right-hand side of the equation A &times; X = B</param>
             /// <returns>a matrix X that minimizes the two norm of A &times; X - B</returns>
             /// <exception cref="org.apache.commons.math3.exception.DimensionMismatchException"></exception>
             /// if the matrices dimensions do not match.
             public Matrix<Double> Solve(Matrix<Double> b)
             {
-                return (DenseMatrix)pseudoInverse.Multiply(b);
+                return (Matrix<Double>)pseudoInverse.Multiply(b);
             }
 
             /// <summary>
@@ -895,7 +878,7 @@ namespace Mercury.Language.Math.Decompositions
             /// 
             /// </summary>
             /// <returns>the inverse matrix.</returns>
-            public DenseMatrix GetInverse()
+            public Matrix<Double> GetInverse()
             {
                 return pseudoInverse;
             }

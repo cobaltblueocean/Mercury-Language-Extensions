@@ -400,12 +400,24 @@ namespace System
 
 
         private static Random rnd;
+
+        /// <summary>
+        /// Double's Mini Normal Value
+        /// </summary>
+        public static double DOUBLE_MIN_NORMAL = 2.2250738585072014E-308;
         #endregion Local Variables
 
         static Math2()
         {
             rnd = new Random();
         }
+
+        /// <summary>
+        /// Smallest positive number such that 1 - EPSILON is not numerically equal to 1.
+        /// </summary>
+        public const double DoubleEpsilon = 1.0e-53;  //0x1.0p-53;
+
+        public const double DoubleSafeMin = 1.0e-1022;   //0x1.0p-1022;
 
         #region "Decimal Math Helper Variables"
         /// <summary>
@@ -416,7 +428,7 @@ namespace System
         /// <summary>
         /// represents PI
         /// </summary>
-        public const decimal Epsilon = 0.0000000000000000001M;
+        public const decimal DecimalEpsilon = 0.0000000000000000001M;
 
         /// <summary>
         /// represents 2*PI
@@ -1947,6 +1959,30 @@ namespace System
 
         #endregion
 
+        /// <summary>
+        /// Compares two numbers given some amount of allowed error.
+        /// </summary>
+        /// <param name="x">the first number</param>
+        /// <param name="y">the second number</param>
+        /// <param name="eps">the amount of error to allow when checking for equality</param>
+        /// <returns>
+        /// <ul><li>0 if  {@link #equals(double, double, double) equals(x, y, eps)}</li>
+        /// <li>&lt; 0 if !{@link #equals(double, double, double) equals(x, y, eps)} &amp;&amp; x &lt; y</li>
+        /// <li>> 0 if !{@link #equals(double, double, double) equals(x, y, eps)} &amp;&amp; x > y</li></ul>
+        /// </returns>
+        public static int CompareTo(double x, double y, double eps)
+        {
+            if (x.AlmostEquals( y, eps))
+            {
+                return 0;
+            }
+            else if (x < y)
+            {
+                return -1;
+            }
+            return 1;
+        }
+
         public static int Abs(int x)
         {
             int i = (int)LogicalRightShift(x, 31); //x >>> 31
@@ -2522,7 +2558,7 @@ namespace System
             double y = 1 - (lo - x * c / (2 - c) - hi);
             return Scale(y, k);
         }
-      
+
 
         /// <summary>
         /// Helper method for scaling a double by a power of 2.
@@ -2746,7 +2782,7 @@ namespace System
         private static bool IsInteger(decimal value)
         {
             var longValue = (long)value;
-            return Abs(value - longValue) <= Epsilon;
+            return Abs(value - longValue) <= DecimalEpsilon;
         }
 
         /// <summary>
@@ -3033,7 +3069,7 @@ namespace System
         {
             if (x > One || x < -One)
             {
-                throw new ArgumentException(String.Format(LocalizedResources.Instance().PARAMETER_MUST_BE_IN, "x", "-1","1"));
+                throw new ArgumentException(String.Format(LocalizedResources.Instance().PARAMETER_MUST_BE_IN, "x", "-1", "1"));
             }
             //known values
             if (x == Zero) return Zero;

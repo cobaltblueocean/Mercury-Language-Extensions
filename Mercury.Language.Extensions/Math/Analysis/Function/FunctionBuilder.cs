@@ -246,12 +246,12 @@ namespace Mercury.Language.Math.Analysis.Function
         {
             return new MultivariateRealFunction()
             {
-                function = new Func<Double?[], Double?>((x) =>
+                function = new Func<Double[], Double>((x) =>
                 {
-                    double result = combiner.Value(initialValue, f.Value(x[0].Value));
+                    double result = combiner.Value(initialValue, f.Value(x[0]));
                     for (int i = 1; i < x.Length; i++)
                     {
-                        result = combiner.Value(result, f.Value(x[i].Value));
+                        result = combiner.Value(result, f.Value(x[i]));
                     }
                     return result;
                 })

@@ -42,7 +42,7 @@ namespace Mercury.Language.Math.Analysis.Solver
     /// approximation and be able to solve all roots from that point.
     /// The algorithm requires a bracketing condition.
     /// </summary>
-    public class LaguerreSolver : AbstractPolynomialSolver
+    public class LaguerreSolver : AbstractPolynomialSolver<Complex>
     {
         /** Default absolute accuracyd */
         private static double DEFAULT_ABSOLUTE_ACCURACY = 1e-6;
@@ -59,37 +59,42 @@ namespace Mercury.Language.Math.Analysis.Solver
 
         }
 
-        public LaguerreSolver(double relativeAccuracy,
-                          double absoluteAccuracy) : base(relativeAccuracy, absoluteAccuracy)
+        public LaguerreSolver(double relativeAccuracy, double absoluteAccuracy) : base(relativeAccuracy, absoluteAccuracy)
         {
 
         }
 
-        public LaguerreSolver(double relativeAccuracy,
-                          double absoluteAccuracy,
-                          double functionValueAccuracy) : base(relativeAccuracy, absoluteAccuracy, functionValueAccuracy)
+        public LaguerreSolver(double relativeAccuracy, double absoluteAccuracy, double functionValueAccuracy) : base(relativeAccuracy, absoluteAccuracy, functionValueAccuracy)
         {
 
         }
 
         #region Inherited Methods
-        public override double Solve(IUnivariateRealFunction f, double[] values, double startValue)
+        public override Complex Solve(IUnivariateRealFunction f, double startValue)
         {
             throw new NotImplementedException();
         }
 
-        public override double Solve(IUnivariateRealFunction f, double[] values, double min, double max)
+        public override Complex Solve(IUnivariateRealFunction f, double min, double max)
         {
             throw new NotImplementedException();
         }
 
-        public override double Solve(IUnivariateRealFunction f, double[] values, double min, double max, double startValue)
+        public override Complex Solve(IUnivariateRealFunction f, double min, double max, double startValue)
         {
-            throw new NotImplementedException();
+            if (f is PolynomialFunction)
+            {
+                var pf = (PolynomialFunction)f;
+
+                double[] coefficients = pf.Coefficients;
+                Setup(int.MaxValue, new PolynomialFunction(coefficients), coefficients, min, max, startValue);
+                return complexSolver.Solve(coefficients.ConvertToComplex(), new Complex(startValue, 0d));
+            }
+            throw new InvalidOperationException();
         }
         #endregion
 
-        protected override double DoSolve()
+        protected override Complex DoSolve()
         {
             double min = Min;
             double max = Max;
@@ -181,20 +186,14 @@ namespace Mercury.Language.Math.Analysis.Solver
 
         public Complex SolveComplex(double[] coefficients, double initial, int maxEval)
         {
-            Setup(maxEval,
-                  new PolynomialFunction(coefficients),
-                  coefficients,
-                  Double.NegativeInfinity,
-                  Double.PositiveInfinity,
-                  initial);
-            return complexSolver.Solve(coefficients.ConvertToComplex(),
-                                       new Complex(initial, 0d));
+            Setup(maxEval, new PolynomialFunction(coefficients), coefficients, Double.NegativeInfinity, Double.PositiveInfinity, initial);
+            return complexSolver.Solve(coefficients.ConvertToComplex(), new Complex(initial, 0d));
         }
 
         /// <summary>
         /// Class for searching all (complex) roots.
         /// </summary>
-        private class ComplexSolver : AbstractPolynomialSolver
+        private class ComplexSolver : AbstractPolynomialSolver<Complex>
         {
             /** Default absolute accuracyd */
             private static double DEFAULT_ABSOLUTE_ACCURACY = 1e-6;
@@ -362,7 +361,7 @@ namespace Mercury.Language.Math.Analysis.Solver
                 }
             }
 
-            protected override double DoSolve()
+            protected override Complex DoSolve()
             {
                 throw new NotImplementedException();
             }

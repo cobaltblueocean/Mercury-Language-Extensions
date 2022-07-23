@@ -186,7 +186,7 @@ namespace Mercury.Language.Math.Polynomial
             }
             if (x.Length < 2)
             {
-                throw new NumberTooSmallException(LocalizedResources.Instance().WRONG_NUMBER_OF_POINTS, 2, x.Length, true);
+                throw new NumberIsTooSmallException(LocalizedResources.Instance().WRONG_NUMBER_OF_POINTS, 2, x.Length, true);
             }
 
             //return MathArrays.checkOrder(x, MathArrays.OrderDirection.INCREASING, true, abort);

@@ -4,8 +4,8 @@
     <TargetFramework>netstandard2.1</TargetFramework>
     <RootNamespace>Mercury.Language</RootNamespace>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-    <AssemblyVersion>0.8.1.128</AssemblyVersion>
-    <FileVersion>0.8.1.128</FileVersion>
+    <AssemblyVersion>0.8.1.131</AssemblyVersion>
+    <FileVersion>0.8.1.131</FileVersion>
     <Description>This is a package to extended libraries to enhance C# programming, especially easier migrate from Java.</Description>
     <Copyright>Kei Nakai</Copyright>
     <PackageProjectUrl>https://github.com/cobaltblueocean/Mercury-Language-Extensions</PackageProjectUrl>
@@ -14,7 +14,7 @@
     <PackageId>Mercury.Language.Extensions</PackageId>
     <Authors>Kei Nakai</Authors>
     <Company />
-    <Version>0.8.1.128</Version>
+    <Version>0.8.1.131</Version>
     <PackageReleaseNotes>Added Decimal and DecimalComplec Matrix/Vector classes
 Fixed CloneExact() method
 Fixed AreObjectsEqual() method
@@ -45,7 +45,9 @@ Integrated MatrixUtils and MatrixUtility classes
 Extended CreateMatrix() method to generic type
 Referenced package updated
 Fixed CholeskyDecomposition
-Fixed TriDiagonalTransformer.transform method</PackageReleaseNotes>
+Fixed TriDiagonalTransformer.transform method
+Fixed BrentOptimizer
+Added Math2.DOUBLE_MINI_NORMAL as Java's Double.MIN_NORMAL value</PackageReleaseNotes>
     <AssemblyName>Mercury.Language.Extensions</AssemblyName>
   </PropertyGroup>
 
@@ -71,6 +73,7 @@ Fixed TriDiagonalTransformer.transform method</PackageReleaseNotes>
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="6.0.0" />
     <PackageReference Include="System.Diagnostics.EventLog" Version="6.0.0" />
     <PackageReference Include="System.Drawing.Common" Version="6.0.0" />
+    <PackageReference Include="System.Runtime.Extensions" Version="4.3.1" />
     <PackageReference Include="System.Text.Json" Version="6.0.5" />
   </ItemGroup>
 

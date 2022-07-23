@@ -28,7 +28,6 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
-using OpenGamma.Utility;
 using Mercury.Language.Exception;
 
 namespace System.Threading.Tasks.Schedulers

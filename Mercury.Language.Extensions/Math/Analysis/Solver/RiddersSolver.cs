@@ -29,7 +29,7 @@ namespace Mercury.Language.Math.Analysis.Solver
     /// <summary>
     /// RiddersSolver Description
     /// </summary>
-    public class RiddersSolver : AbstractUnivariateSolver
+    public class RiddersSolver : AbstractUnivariateSolver<Double>
     {
         /// <summary>
         /// Default absolute accuracyd

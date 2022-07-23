@@ -29,29 +29,13 @@ namespace Mercury.Language.Math.Analysis.Solver
     /// <summary>
     /// AbstractUnivariateSolver Description
     /// </summary>
-    public abstract class AbstractUnivariateSolver : BaseAbstractUnivariateSolver
+    public abstract class AbstractUnivariateSolver<T> : BaseAbstractUnivariateSolver<T> where T : struct, IEquatable<T>, IFormattable
     {
 
         /// <summary>
         /// Default maximum error of function.
         /// </summary>
         protected double defaultFunctionValueAccuracy;
-
-        /// <summary>
-        /// Indicates where a root has been computed.
-        /// </summary>
-        protected Boolean resultComputed = false;
-
-        /// <summary>
-        /// The last computed root.
-        /// </summary>
-        protected double result;
-
-        /// <summary>
-        /// Value of the function at the last computed result.
-        /// </summary>
-        protected double functionValue;
-
 
         /// <summary>
         /// Construct a solver with given absolute accuracy.
@@ -67,8 +51,7 @@ namespace Mercury.Language.Math.Analysis.Solver
         /// </summary>
         /// <param name="relativeAccuracy">Maximum relative error.</param>
         /// <param name="absoluteAccuracy">Maximum absolute error.</param>
-        public AbstractUnivariateSolver(double relativeAccuracy,
-                                       double absoluteAccuracy) : base(relativeAccuracy, absoluteAccuracy)
+        public AbstractUnivariateSolver(double relativeAccuracy, double absoluteAccuracy) : base(relativeAccuracy, absoluteAccuracy)
         {
 
         }
@@ -79,9 +62,7 @@ namespace Mercury.Language.Math.Analysis.Solver
         /// <param name="relativeAccuracy">Maximum relative error.</param>
         /// <param name="absoluteAccuracy">Maximum absolute error.</param>
         /// <param name="functionValueAccuracy">Maximum function value error.</param>
-        public AbstractUnivariateSolver(double relativeAccuracy,
-                                       double absoluteAccuracy,
-                                       double functionValueAccuracy) : base(relativeAccuracy, absoluteAccuracy, functionValueAccuracy)
+        public AbstractUnivariateSolver(double relativeAccuracy, double absoluteAccuracy, double functionValueAccuracy) : base(relativeAccuracy, absoluteAccuracy, functionValueAccuracy)
         {
 
         }
@@ -106,8 +87,7 @@ namespace Mercury.Language.Math.Analysis.Solver
         /// <param name="x">the result to set</param>
         /// <param name="fx">the result to set</param>
         /// <param name="iterationCount">the iteration count to set</param>
-        protected void SetResult(double x, double fx,
-                                        int iterationCount)
+        protected void SetResult(double x, double fx, int iterationCount)
         {
             this.result = x;
             this.functionValue = fx;

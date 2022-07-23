@@ -1,8 +1,8 @@
 ﻿// Copyright (c) 2017 - presented by Kei Nakai
 //
-// Original project is developed and published by System.Math.Optimization Inc.
+// Original project is developed and published by OpenGamma Inc.
 //
-// Copyright (C) 2012 - present by System.Math.Optimization Incd and the System.Math.Optimization group of companies
+// Copyright (C) 2012 - present by OpenGamma Incd and the OpenGamma group of companies
 //
 // Please see distribution for license.
 //
@@ -22,68 +22,67 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Mercury.Language.Exception;
 
 namespace Mercury.Language.Math.Optimization
 {
     /// <summary>
-    /// SimpleScalarValueChecker Description
+    /// Simple implementation of the {@link IRealConvergenceChecker} interface using
+    /// only objective function values.
+    /// <p>
+    /// Convergence is considered to have been reached if either the relative
+    /// difference between the objective function values is smaller than a
+    /// threshold or if either the absolute difference between the objective
+    /// function values is smaller than another threshold.
+    /// </p>
+    /// @version $Revision: 990655 $ $Date: 2010-08-29 23:49:40 +0200 (dimd 29 août 2010) $
+    /// @since 2.0
     /// </summary>
-    public class SimpleScalarValueChecker : IConvergenceChecker<Tuple<double[], double>>
+    public class SimpleScalarValueChecker : IRealConvergenceChecker
     {
 
-        #region Local Variables
-        /** Default relative thresholdd */
-        private static double DEFAULT_RELATIVE_THRESHOLD = 100 * Double.Epsilon; // MathUtils.EPSILON;
+        /// <summary>Default relative thresholdd */
+        private static double DEFAULT_RELATIVE_THRESHOLD = 100 * Math2.DoubleEpsilon;
 
-        /** Default absolute thresholdd */
-        private static double DEFAULT_ABSOLUTE_THRESHOLD = 100 * Double.MinValue; // MathUtils.SAFE_MIN;
+        /// <summary>Default absolute thresholdd */
+        private static double DEFAULT_ABSOLUTE_THRESHOLD = 100 * Math2.DoubleSafeMin;
 
-        /** Relative tolerance thresholdd */
+        /// <summary>Relative tolerance thresholdd */
         private double relativeThreshold;
 
-        /** Absolute tolerance thresholdd */
+        /// <summary>Absolute tolerance thresholdd */
         private double absoluteThreshold;
-        #endregion
 
-        #region Property
-
-        #endregion
-
-        #region Constructor
+        /// <summary>Build an instance with default threshold.
+        /// </summary>
         public SimpleScalarValueChecker()
         {
             this.relativeThreshold = DEFAULT_RELATIVE_THRESHOLD;
             this.absoluteThreshold = DEFAULT_ABSOLUTE_THRESHOLD;
         }
 
+        /// <summary>Build an instance with a specified threshold.
+        /// <p>
+        /// In order to perform only relative checks, the absolute tolerance
+        /// must be set to a negative valued In order to perform only absolute
+        /// checks, the relative tolerance must be set to a negative value.
+        /// </p>
+        /// </summary>
+        /// <param Name="relativeThreshold">relative tolerance threshold</param>
+        /// <param Name="absoluteThreshold">absolute tolerance threshold</param>
         public SimpleScalarValueChecker(double relativeThreshold, double absoluteThreshold)
         {
             this.relativeThreshold = relativeThreshold;
             this.absoluteThreshold = absoluteThreshold;
         }
 
-        #endregion
-
-        #region Implement Methods
-        public bool Converged(int iteration, Tuple<double[], double> previous, Tuple<double[], double> current)
+        /// <summary>{@inheritDoc} */
+        public Boolean Converged(int iteration, RealPointValuePair previous, RealPointValuePair current)
         {
-            double p = previous.Item2;
-            double c = current.Item2;
+            double p = previous.Value;
+            double c = current.Value;
             double difference = System.Math.Abs(p - c);
             double size = System.Math.Max(System.Math.Abs(p), System.Math.Abs(c));
             return (difference <= (size * relativeThreshold)) || (difference <= absoluteThreshold);
         }
-
-        #endregion
-
-        #region Local Public Methods
-
-        #endregion
-
-        #region Local Private Methods
-
-        #endregion
-
     }
 }

@@ -24,7 +24,6 @@ using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Threading.Tasks;
-using OpenGamma.Utility;
 using Mercury.Language.Exception;
 using NodaTime;
 using NodaTime.Text;

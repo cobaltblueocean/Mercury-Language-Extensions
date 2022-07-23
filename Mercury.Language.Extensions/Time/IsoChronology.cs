@@ -22,7 +22,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using OpenGamma.Utility;
 using Mercury.Language.Exception;
 using Mercury.Language.Time;
 using NodaTime;

@@ -30,7 +30,7 @@ namespace Mercury.Language.Math.Analysis.Solver
     /// <summary>
     /// BaseAbstractUnivariateSolver Description
     /// </summary>
-    public abstract class BaseAbstractUnivariateSolver : IBaseUnivariateSolver
+    public abstract class BaseAbstractUnivariateSolver<T> : IUnivariateRealSolver<T> where T : struct, IEquatable<T>, IFormattable
     {
 
         #region Local Variables
@@ -58,6 +58,16 @@ namespace Mercury.Language.Math.Analysis.Solver
         protected double searchStart;
         /** Function to solved */
         protected IUnivariateRealFunction function;
+
+        /** Indicates where a root has been computed. */
+        protected Boolean resultComputed = false;
+
+        /** The last computed root. */
+        protected double result;
+
+        /** Value of the function at the last computed result. */
+        protected double functionValue;
+
         #endregion
 
         #region Property
@@ -142,6 +152,36 @@ namespace Mercury.Language.Math.Analysis.Solver
             }
         }
 
+
+        /** Check if a result has been computed.
+         * @exception IllegalStateException if no result has been computed
+         */
+        protected void checkResultComputed()
+        {
+            if (!resultComputed)
+            {
+                throw new InvalidOperationException(LocalizedResources.Instance().NO_RESULT_AVAILABLE);
+            }
+        }
+
+        public double Result
+        {
+            get
+            {
+                checkResultComputed();
+                return result;
+            }
+        }
+
+        public double FunctionValue
+        {
+            get
+            {
+                checkResultComputed();
+                return functionValue;
+            }
+        }
+
         #endregion
 
         #endregion
@@ -183,28 +223,34 @@ namespace Mercury.Language.Math.Analysis.Solver
 
         #region Implement Methods
 
-        public virtual double Solve(IUnivariateRealFunction f, Double[] values, double startValue)
+        public virtual T Solve(IUnivariateRealFunction f, double startValue)
         {
-            return Solve(f, values, Double.NaN, Double.NaN, startValue);
+            return Solve(f, Double.NaN, Double.NaN, startValue);
         }
 
-        public virtual double Solve(IUnivariateRealFunction f, Double[] values, double min, double max)
+        public virtual T Solve(IUnivariateRealFunction f, double min, double max)
         {
-            return Solve(f, values, min, max, min + 0.5 * (max - min));
+            return Solve(f, min, max, min + 0.5 * (max - min));
         }
 
-        public virtual double Solve(IUnivariateRealFunction f, Double[] values, double min, double max, double startValue)
+        public virtual T Solve(IUnivariateRealFunction f, double min, double max, double startValue)
         {
             // Initialization.
-            Setup(f, values, min, max, startValue);
+            Setup(f, min, max, startValue);
 
             // Perform computation.
             return DoSolve();
         }
+
+        public void ResetFunctionValueAccuracy()
+        {
+            functionValueAccuracy = DEFAULT_FUNCTION_VALUE_ACCURACY;
+        }
+
         #endregion
 
         #region Local Public Methods
-        protected void Setup(IUnivariateRealFunction f, Double[] values, double min, double max, double startValue)
+        protected void Setup(IUnivariateRealFunction f, double min, double max, double startValue)
         {
             // Checks.
             // ArgumentChecker.NotNull(f, "f");
@@ -216,19 +262,6 @@ namespace Mercury.Language.Math.Analysis.Solver
             function = f;
             //evaluations.setMaximalCount(maxEval);
             //evaluations.resetCount();
-        }
-
-        protected void Setup(int maxEval, IUnivariateRealFunction f, Double[] values, double min, double max, double startValue)
-        {
-            // Checks.
-            // ArgumentChecker.NotNull(f, "f");
-
-            // Reset.
-            searchMin = min;
-            searchMax = max;
-            searchStart = startValue;
-            function = f;
-            //evaluations = evaluations.withMaximalCount(maxEval).withStart(0);
         }
 
         protected double ComputeObjectiveValue(double point)
@@ -253,8 +286,7 @@ namespace Mercury.Language.Math.Analysis.Solver
             return (start < mid) && (mid < end);
         }
 
-        protected void VerifyInterval(double lower,
-                              double upper)
+        protected void VerifyInterval(double lower, double upper)
         {
             if (lower >= upper)
             {
@@ -262,16 +294,13 @@ namespace Mercury.Language.Math.Analysis.Solver
             }
         }
 
-        protected void VerifySequence(double lower,
-                              double initial,
-                              double upper)
+        protected void VerifySequence(double lower, double initial, double upper)
         {
             VerifyInterval(lower, initial);
             VerifyInterval(initial, upper);
         }
 
-        protected void VerifyBracketing(double lower,
-                                double upper)
+        protected void VerifyBracketing(double lower, double upper)
         {
             VerifyBracketing(function, lower, upper);
         }
@@ -291,7 +320,7 @@ namespace Mercury.Language.Math.Analysis.Solver
 
         #region Local Protected Methods
 
-        protected abstract double DoSolve();
+        protected abstract T DoSolve();
 
         #endregion
 

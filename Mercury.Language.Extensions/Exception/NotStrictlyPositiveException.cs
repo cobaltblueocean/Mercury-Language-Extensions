@@ -29,7 +29,7 @@ namespace Mercury.Language.Exception
     /// <summary>
     /// Exception to be thrown when the argument is not greater than 0.
     /// </summary>
-    public class NotStrictlyPositiveException : NumberTooSmallException
+    public class NotStrictlyPositiveException : NumberIsTooSmallException
     {
         /// <summary>
         /// Construct the exception.

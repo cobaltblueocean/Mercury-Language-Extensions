@@ -31,7 +31,7 @@ namespace Mercury.Language.Math.Analysis.Function
     /// </summary>
     public class MultivariateRealFunction : IMultivariateRealFunction
     {
-        public Func<Double?[], Double?> function;
+        public Func<Double[], Double> function;
         private double[] _paramValue;
 
         public double[] ParamValue
@@ -44,7 +44,7 @@ namespace Mercury.Language.Math.Analysis.Function
 
         }
 
-        public MultivariateRealFunction(Func<Double?[], Double?> f, double[] value)
+        public MultivariateRealFunction(Func<Double[], Double> f, double[] value)
         {
             this._paramValue = value;
             this.function = f;
@@ -52,7 +52,7 @@ namespace Mercury.Language.Math.Analysis.Function
 
         public double Value(double[] x)
         {
-            return function(x.ToNullableArray()).Value;
+            return function(x);
         }
     }
 }

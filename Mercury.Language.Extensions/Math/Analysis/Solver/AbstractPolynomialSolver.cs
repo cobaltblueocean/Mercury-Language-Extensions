@@ -30,7 +30,7 @@ namespace Mercury.Language.Math.Analysis.Solver
     /// <summary>
     /// AbstractPolynomialSolver Description
     /// </summary>
-    public abstract class AbstractPolynomialSolver : BaseAbstractUnivariateSolver
+    public abstract class AbstractPolynomialSolver<T> : BaseAbstractUnivariateSolver<T> where T : struct, IEquatable<T>, IFormattable
     {
         private PolynomialFunction polynomialFunction;
         private double[] coefficients;
@@ -52,7 +52,7 @@ namespace Mercury.Language.Math.Analysis.Solver
 
         protected void Setup(int maxEval, PolynomialFunction f, double[] values, double min, double max, double startValue)
         {
-            base.Setup(maxEval, f, values, min, max, startValue);
+            base.Setup(f, min, max, startValue);
             coefficients = GetCoefficients(values);
             polynomialFunction = f;
         }

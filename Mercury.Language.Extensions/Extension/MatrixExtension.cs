@@ -9,6 +9,7 @@ using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Double;
 using Mercury.Language.Exception;
 using Mercury.Language;
+using Mercury.Language.Math.Matrix;
 
 namespace MathNet.Numerics.LinearAlgebra
 {
@@ -61,5 +62,33 @@ namespace MathNet.Numerics.LinearAlgebra
 
             return _temp;
         }
+
+
+        public static Vector<T> GetRow<T>(this Matrix<T> matrix, int Index) where T : struct, IEquatable<T>, IFormattable
+        {
+            T[] data = new T[matrix.ColumnCount];
+
+            for (int i = 0; i < matrix.ColumnCount; i++)
+                data[i] = matrix[Index, i];
+
+            return MatrixUtility.CreateVector(data);
+        }
+
+
+        public static void SetRow<T>(this Matrix<T> matrix, int Index, Vector<T> value) where T : struct, IEquatable<T>, IFormattable
+        {
+            if (matrix.ColumnCount == value.Count)
+            {
+                for (int i = 0; i < matrix.ColumnCount; i++)
+                {
+                    matrix[Index, i] = value[i];
+                }
+            }
+            else
+            {
+                throw new IndexOutOfRangeException(LocalizedResources.Instance().Utility_Extension_Array_SetRow_TheValueArrayMustBeSameLengthOfTheTargetArraysRow);
+            }
+        }
+
     }
 }

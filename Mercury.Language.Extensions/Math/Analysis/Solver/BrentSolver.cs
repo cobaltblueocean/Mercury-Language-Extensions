@@ -30,7 +30,7 @@ namespace Mercury.Language.Math.Analysis.Solver
     /// <summary>
     /// BrentSolver Description
     /// </summary>
-    public class BrentSolver : AbstractUnivariateSolver
+    public class BrentSolver : AbstractUnivariateSolver<Double>
     {
 
         #region Local Variables
@@ -92,22 +92,6 @@ namespace Mercury.Language.Math.Analysis.Solver
         #endregion
 
         #region Implement Methods
-
-        public override double Solve(IUnivariateRealFunction f, double[] values, double startValue)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override double Solve(IUnivariateRealFunction f, double[] values, double min, double max)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override Double Solve(IUnivariateRealFunction f, double[] values, double min, double max, double startValue)
-        {
-            throw new NotImplementedException();
-        }
-
         /// <summary>
         /// Find a zero in the given interval with an initial guess.
         /// <p>Throws <code>IllegalArgumentException</code> if the values of the
@@ -126,7 +110,7 @@ namespace Mercury.Language.Math.Analysis.Solver
         /// <exception cref="FunctionEvaluationException">if an error occurs evaluating  the function </exception>
         /// <exception cref="IllegalArgumentException">if initial is not between min and max </exception>
         /// (even if it <em>is</em> a root)
-        public double Solve(IUnivariateRealFunction f, double min, double max, double initial)
+        public override double Solve(IUnivariateRealFunction f, double min, double max, double initial)
         {
             return Solve(DEFAULT_MAXIMUM_ITERATIONS, f, min, max, initial);
         }

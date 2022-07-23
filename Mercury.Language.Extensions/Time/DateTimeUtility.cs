@@ -23,12 +23,11 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using OpenGamma.Utility;
 using Mercury.Language.Exception;
 using NodaTime;
 using NodaTime.Text;
 
-namespace OpenGamma.Utility
+namespace Mercury.Language.Time
 {
     /// <summary>
     /// DateTimeUtility Description

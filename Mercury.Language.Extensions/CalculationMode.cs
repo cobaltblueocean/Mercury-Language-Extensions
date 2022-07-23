@@ -22,10 +22,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using OpenGamma.Utility;
 using Mercury.Language.Exception;
 
-namespace OpenGamma.Utility
+namespace Mercury.Language.Extension
 {
     /// <summary>
     /// Enumeration of strict versus lenient calculation.

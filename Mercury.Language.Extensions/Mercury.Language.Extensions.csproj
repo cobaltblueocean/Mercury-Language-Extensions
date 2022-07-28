@@ -4,8 +4,8 @@
     <TargetFramework>netstandard2.1</TargetFramework>
     <RootNamespace>Mercury.Language</RootNamespace>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-    <AssemblyVersion>0.8.1.138</AssemblyVersion>
-    <FileVersion>0.8.1.138</FileVersion>
+    <AssemblyVersion>0.8.1.139</AssemblyVersion>
+    <FileVersion>0.8.1.139</FileVersion>
     <Description>This is a package to extended libraries to enhance C# programming, especially easier migrate from Java.</Description>
     <Copyright>Kei Nakai</Copyright>
     <PackageProjectUrl>https://github.com/cobaltblueocean/Mercury-Language-Extensions</PackageProjectUrl>
@@ -14,7 +14,7 @@
     <PackageId>Mercury.Language.Extensions</PackageId>
     <Authors>Kei Nakai</Authors>
     <Company />
-    <Version>0.8.1.138</Version>
+    <Version>0.8.1.139</Version>
     <PackageReleaseNotes>Added Decimal and DecimalComplec Matrix/Vector classes
 Fixed CloneExact() method
 Fixed AreObjectsEqual() method
@@ -50,7 +50,8 @@ Fixed BrentOptimizer
 Added Math2.DOUBLE_MINI_NORMAL as Java's Double.MIN_NORMAL value
 Refactored Mercury.Language.Math.Optimization classes
 Removed CalculationMode enum
-Updated Solvers</PackageReleaseNotes>
+Updated Solvers
+Updated Mercury.Language.Math.Analysis.Interloration/Polynominal classes</PackageReleaseNotes>
     <AssemblyName>Mercury.Language.Extensions</AssemblyName>
   </PropertyGroup>
 

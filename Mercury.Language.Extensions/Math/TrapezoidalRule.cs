@@ -46,7 +46,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Mercury.Language.Exception;
 using Mercury.Language.Math.Ranges;
-using Mercury.Language.Math.Integrator;
+using Mercury.Language.Math.Analysis.Integration;
 
 namespace Mercury.Language.Math
 {

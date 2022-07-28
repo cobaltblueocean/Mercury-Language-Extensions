@@ -1518,4 +1518,16 @@
   <data name="ZERO_PIVOT_ENCOUNTERED_ON_ROW_DURING_ILU_PROCESS" xml:space="preserve">
     <value>Zero pivot encountered on row {0} during ILU process.</value>
   </data>
+  <data name="DUPLICATED_ABSCISSA" xml:space="preserve">
+    <value>Abscissa {0} is duplicated at both indices {1} and {2}</value>
+  </data>
+  <data name="BANDWIDTH_OUT_OF_INTERVAL" xml:space="preserve">
+    <value>bandwidth must be in the interval [0,1], but got {0}</value>
+  </data>
+  <data name="NEGATIVE_ROBUSTNESS_ITERATIONS" xml:space="preserve">
+    <value>the number of robustness iterations must be non-negative, but got {0}</value>
+  </data>
+  <data name="TOO_SMALL_BANDWIDTH" xml:space="preserve">
+    <value>the bandwidth must be large enough to accomodate at least 2 points. There are {0}  data points, and bandwidth must be at least {1}  but it is only {2}</value>
+  </data>
 </root>

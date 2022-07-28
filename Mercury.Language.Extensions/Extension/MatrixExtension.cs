@@ -63,7 +63,6 @@ namespace MathNet.Numerics.LinearAlgebra
             return _temp;
         }
 
-
         public static Vector<T> GetRow<T>(this Matrix<T> matrix, int Index) where T : struct, IEquatable<T>, IFormattable
         {
             T[] data = new T[matrix.ColumnCount];
@@ -73,7 +72,6 @@ namespace MathNet.Numerics.LinearAlgebra
 
             return MatrixUtility.CreateVector(data);
         }
-
 
         public static void SetRow<T>(this Matrix<T> matrix, int Index, Vector<T> value) where T : struct, IEquatable<T>, IFormattable
         {

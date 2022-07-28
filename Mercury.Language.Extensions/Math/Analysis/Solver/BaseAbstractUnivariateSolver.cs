@@ -38,6 +38,10 @@ namespace Mercury.Language.Math.Analysis.Solver
         protected static double DEFAULT_RELATIVE_ACCURACY = 1e-14;
         /** Default function value accuracyd */
         protected static double DEFAULT_FUNCTION_VALUE_ACCURACY = 1e-15;
+        /** Default absolute accuracyd */
+        protected static double DEFAULT_ABSOLUTE_ACCURACY = 1e-6;
+        /** Default maximal iteration count */
+        protected static int DEFAULT_MAXIMAL_ITERATION_COUNT = 100;
         /** Function value accuracyd */
         protected double functionValueAccuracy;
         /** Absolute accuracyd */
@@ -46,8 +50,6 @@ namespace Mercury.Language.Math.Analysis.Solver
         protected double relativeAccuracy;
         /** The last iteration count. */
         protected int iterationCount;
-        /** Maximum number of iterations. */
-        protected int maximalIterationCount;
         /** Evaluations counterd */
         protected Incrementor evaluations = new Incrementor();
         /** Lower end of search intervald */
@@ -107,6 +109,13 @@ namespace Mercury.Language.Math.Analysis.Solver
                 relativeAccuracy = value;
             }
         }
+
+        public virtual int MaximalIterationCount
+        {
+            get { return evaluations.MaximalCount; }
+            set { evaluations.MaximalCount = value; }
+        }
+
         #endregion
 
         #region Local Properties
@@ -153,10 +162,10 @@ namespace Mercury.Language.Math.Analysis.Solver
         }
 
 
-        /** Check if a result has been computed.
-         * @exception IllegalStateException if no result has been computed
-         */
-        protected void checkResultComputed()
+        /// <summary>
+        /// Check if a result has been computed.
+        /// </summary>
+        protected void CheckResultComputed()
         {
             if (!resultComputed)
             {
@@ -164,11 +173,20 @@ namespace Mercury.Language.Math.Analysis.Solver
             }
         }
 
+        /// <summary>
+        /// Convenience function for implementations.
+        /// </summary>
+        protected void ClearResult()
+        {
+            this.iterationCount = 0;
+            this.resultComputed = false;
+        }
+
         public double Result
         {
             get
             {
-                checkResultComputed();
+                CheckResultComputed();
                 return result;
             }
         }
@@ -177,16 +195,32 @@ namespace Mercury.Language.Math.Analysis.Solver
         {
             get
             {
-                checkResultComputed();
+                CheckResultComputed();
                 return functionValue;
             }
         }
 
         #endregion
 
+        /// <summary>
+        /// Compute the midpoint of two values.
+        /// </summary>
+        /// <param name="a">first value.</param>
+        /// <param name="b">second value.</param>
+        /// <returns>the midpoint.</returns>
+        public static double Midpoint(double a, double b)
+        {
+            return (a + b) * .5;
+        }
+
         #endregion
 
         #region Constructor
+
+        protected BaseAbstractUnivariateSolver(IUnivariateRealFunction f) : this(DEFAULT_RELATIVE_ACCURACY, DEFAULT_FUNCTION_VALUE_ACCURACY)
+        {
+            function = f;
+        }
 
         /// <summary>
         /// Construct a solver with given absolute accuracy.
@@ -205,6 +239,17 @@ namespace Mercury.Language.Math.Analysis.Solver
         protected BaseAbstractUnivariateSolver(double relativeAccuracy, double absoluteAccuracy) : this(relativeAccuracy, absoluteAccuracy, DEFAULT_FUNCTION_VALUE_ACCURACY)
         {
 
+        }
+
+
+        /// <summary>
+        /// Construct a solver with given accuracies.
+        /// </summary>
+        /// <param name="relativeAccuracy">Maximum relative error.</param>
+        /// <param name="absoluteAccuracy">Maximum absolute error.</param>
+        protected BaseAbstractUnivariateSolver(IUnivariateRealFunction f, double relativeAccuracy, double absoluteAccuracy, double functionValueAccuracy) : this(relativeAccuracy, absoluteAccuracy, functionValueAccuracy)
+        {
+            function = f;
         }
 
         /// <summary>
@@ -322,12 +367,40 @@ namespace Mercury.Language.Math.Analysis.Solver
 
         protected abstract T DoSolve();
 
+
+        /// <summary>
+        /// Convenience function for implementations.
+        /// 
+        /// </summary>
+        /// <param name="newResult">the result to set</param>
+        /// <param name="iterationCount">the iteration count to set</param>
+        protected void SetResult(double newResult, int iterationCount)
+        {
+            this.result = newResult;
+            this.iterationCount = iterationCount;
+            this.resultComputed = true;
+        }
+
+        /// <summary>
+        /// Convenience function for implementations.
+        /// 
+        /// </summary>
+        /// <param name="x">the result to set</param>
+        /// <param name="fx">the result to set</param>
+        /// <param name="iterationCount">the iteration count to set</param>
+        protected void SetResult(double x, double fx, int iterationCount)
+        {
+            this.result = x;
+            this.functionValue = fx;
+            this.iterationCount = iterationCount;
+            this.resultComputed = true;
+        }
         #endregion
 
 
         #region Local Private Methods
 
-        private void VerifyBracketing(IUnivariateRealFunction function, double lower, double upper)
+        protected void VerifyBracketing(IUnivariateRealFunction function, double lower, double upper)
         {
             if (function == null)
             {

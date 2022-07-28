@@ -23,7 +23,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Mercury.Language.Math.Integrator
+namespace Mercury.Language.Math.Analysis.Integration
 {
     /// <summary>
     ///   Common interface for numeric integration methods.

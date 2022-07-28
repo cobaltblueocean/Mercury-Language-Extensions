@@ -24,7 +24,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Mercury.Language.Exception;
-using Mercury.Language.Math.Polynomial;
+using Mercury.Language.Math.Analysis.Polynomial;
 using Mercury.Language.Math.Analysis.Function;
 
 namespace Mercury.Language.Math.Analysis.Solver
@@ -44,10 +44,18 @@ namespace Mercury.Language.Math.Analysis.Solver
     /// </summary>
     public class LaguerreSolver : AbstractPolynomialSolver<Complex>
     {
-        /** Default absolute accuracyd */
-        private static double DEFAULT_ABSOLUTE_ACCURACY = 1e-6;
         /** Complex solverd */
         private ComplexSolver complexSolver = new ComplexSolver();
+
+        public override int MaximalIterationCount
+        {
+            get { return complexSolver.MaximalIterationCount; }
+            set
+            {
+                base.MaximalIterationCount = value;
+                complexSolver.MaximalIterationCount = value;
+            }
+        }
 
         public LaguerreSolver() : this(DEFAULT_ABSOLUTE_ACCURACY)
         {
@@ -56,28 +64,31 @@ namespace Mercury.Language.Math.Analysis.Solver
 
         public LaguerreSolver(double absoluteAccuracy) : base(absoluteAccuracy)
         {
-
+            base.MaximalIterationCount = DEFAULT_MAXIMAL_ITERATION_COUNT;
+            complexSolver.MaximalIterationCount = DEFAULT_MAXIMAL_ITERATION_COUNT;
         }
 
         public LaguerreSolver(double relativeAccuracy, double absoluteAccuracy) : base(relativeAccuracy, absoluteAccuracy)
         {
-
+            base.MaximalIterationCount = DEFAULT_MAXIMAL_ITERATION_COUNT;
+            complexSolver.MaximalIterationCount = DEFAULT_MAXIMAL_ITERATION_COUNT;
         }
 
         public LaguerreSolver(double relativeAccuracy, double absoluteAccuracy, double functionValueAccuracy) : base(relativeAccuracy, absoluteAccuracy, functionValueAccuracy)
         {
-
+            base.MaximalIterationCount = DEFAULT_MAXIMAL_ITERATION_COUNT;
+            complexSolver.MaximalIterationCount = DEFAULT_MAXIMAL_ITERATION_COUNT;
         }
 
         #region Inherited Methods
         public override Complex Solve(IUnivariateRealFunction f, double startValue)
         {
-            throw new NotImplementedException();
+            return Solve(f, Min, Max, startValue);
         }
 
         public override Complex Solve(IUnivariateRealFunction f, double min, double max)
         {
-            throw new NotImplementedException();
+            return Solve(f, min, max, StartValue);
         }
 
         public override Complex Solve(IUnivariateRealFunction f, double min, double max, double startValue)
@@ -169,14 +180,8 @@ namespace Mercury.Language.Math.Analysis.Solver
 
         public Complex[] SolveAllComplex(double[] coefficients, double initial, int maxEval)
         {
-            Setup(maxEval,
-                  new PolynomialFunction(coefficients),
-                  coefficients,
-                  Double.NegativeInfinity,
-                  Double.PositiveInfinity,
-                  initial);
-            return complexSolver.SolveAll(coefficients.ConvertToComplex(),
-                                          new Complex(initial, 0d));
+            Setup(maxEval, new PolynomialFunction(coefficients), coefficients, Double.NegativeInfinity, Double.PositiveInfinity, initial);
+            return complexSolver.SolveAll(coefficients.ConvertToComplex(), new Complex(initial, 0d));
         }
 
         public Complex SolveComplex(double[] coefficients, double initial)
@@ -195,12 +200,9 @@ namespace Mercury.Language.Math.Analysis.Solver
         /// </summary>
         private class ComplexSolver : AbstractPolynomialSolver<Complex>
         {
-            /** Default absolute accuracyd */
-            private static double DEFAULT_ABSOLUTE_ACCURACY = 1e-6;
-
             public ComplexSolver() : base(DEFAULT_ABSOLUTE_ACCURACY)
             {
-
+                MaximalIterationCount = DEFAULT_MAXIMAL_ITERATION_COUNT;
             }
 
             /// <summary>
@@ -216,8 +218,7 @@ namespace Mercury.Language.Math.Analysis.Solver
                 if (IsSequence(min, z.Real, max))
                 {
                     double tolerance = System.Math.Max(RelativeAccuracy * Complex.Abs(z), AbsoluteAccuracy);
-                    return (System.Math.Abs(z.Imaginary) <= tolerance) ||
-                         (Complex.Abs(z) <= FunctionValueAccuracy);
+                    return (System.Math.Abs(z.Imaginary) <= tolerance) || (Complex.Abs(z) <= FunctionValueAccuracy);
                 }
                 return false;
             }
@@ -252,7 +253,7 @@ namespace Mercury.Language.Math.Analysis.Solver
 
                 // Solve individual roots successively.
                 Complex[] root = new Complex[n];
-                AutoParallel.AutoParallelFor(0, n, (i) =>
+                for (int i = 0; i < n; i++)
                 {
                     Complex[] subarray = new Complex[n - i + 1];
                     Array.Copy(c, 0, subarray, 0, subarray.Length);
@@ -260,15 +261,13 @@ namespace Mercury.Language.Math.Analysis.Solver
                     // Polynomial deflation using synthetic division.
                     Complex newc = c[n - i];
                     Complex oldc = 0;
-                    AutoParallel.AutoParallelFor(0, n - i - 1, (t) =>
+                    for (int j = n - i - 1; j >= 0; j--)
                     {
-                        int j = (n - i - 1) - t;
                         oldc = c[j];
                         c[j] = newc;
                         newc = Complex.Add(oldc, Complex.Multiply(newc, root[i]));
-                    });
-                });
-
+                    }
+                }
                 return root;
             }
 
@@ -284,65 +283,67 @@ namespace Mercury.Language.Math.Analysis.Solver
             /// <exception cref="DataNotFoundException">if the {@code coefficients} array is empty.</exception>
             public Complex Solve(Complex[] coefficients, Complex initial)
             {
-                if (coefficients == null)
-                {
-                    throw new ArgumentNullException();
-                }
-
                 int n = coefficients.Length - 1;
-                if (n == 0)
+                if (n < 1)
                 {
-                    throw new DataNotFoundException(LocalizedResources.Instance().POLYNOMIAL);
+                    throw new ArgumentException(String.Format(LocalizedResources.Instance().NON_POSITIVE_POLYNOMIAL_DEGREE, n));
                 }
+                Complex N = new Complex(n, 0.0);
+                Complex N1 = new Complex(n - 1, 0.0);
 
-                double absoluteAccuracy = AbsoluteAccuracy;
-                double relativeAccuracy = RelativeAccuracy;
-                double functionValueAccuracy = FunctionValueAccuracy;
-
-                Complex nC = new Complex(n, 0);
-                Complex n1C = new Complex(n - 1, 0);
-
+                int i = 1;
+                Complex pv = Complex.Zero;  //null;
+                Complex dv = Complex.Zero;  //null;
+                Complex d2v = Complex.Zero;  //null;
+                Complex G = Complex.Zero;  //null;
+                Complex G2 = Complex.Zero;  //null;
+                Complex H = Complex.Zero;  //null;
+                Complex delta = Complex.Zero;  // null;
+                Complex denominator = Complex.Zero;  // null;
                 Complex z = initial;
-                Complex oldz = new Complex(Double.PositiveInfinity,
-                                           Double.PositiveInfinity);
+                Complex oldz = new Complex(Double.PositiveInfinity, Double.PositiveInfinity);
                 while (true)
                 {
                     // Compute pv (polynomial value), dv (derivative value), and
                     // d2v (second derivative value) simultaneously.
-                    Complex pv = coefficients[n];
-                    Complex dv = Complex.Zero;
-                    Complex d2v = Complex.Zero;
-                    AutoParallel.AutoParallelFor(0, n - 1, (i) =>
-                   {
-                       int j = (n - 1) - i;
-                       d2v = Complex.Add(dv, Complex.Multiply(z, d2v));
-                       dv = Complex.Add(pv, Complex.Multiply(z, dv));
-                       pv = Complex.Add(coefficients[j], Complex.Multiply(z, pv));
-                   });
+                    pv = coefficients[n];
+                    dv = Complex.Zero;
+                    d2v = Complex.Zero;
+                    //AutoParallel.AutoParallelFor(n - 1, 0, (j) =>
+                    for (int j = n - 1; j >= 0; j--)
+                    {
+                        d2v = Complex.Add(dv, Complex.Multiply(z, d2v));
+                        dv = Complex.Add(pv, Complex.Multiply(z, dv));
+                        pv = Complex.Add(coefficients[j], Complex.Multiply(z, pv));
+                    }
+                    //}, true);
                     d2v = Complex.Multiply(d2v, new Complex(2.0, 0.0));
 
-                    // Check for convergence.
-                    double tolerance = System.Math.Max(relativeAccuracy * Complex.Abs(z),
-                                                          absoluteAccuracy);
-                    if (Complex.Abs((Complex.Subtract(z, oldz))) <= tolerance)
+                    // check for convergence
+                    double tolerance = System.Math.Max(relativeAccuracy * Complex.Abs(z), absoluteAccuracy);
+                    if (Complex.Abs(Complex.Subtract(z, oldz)) <= tolerance)
                     {
+                        resultComputed = true;
+                        iterationCount = i;
                         return z;
                     }
                     if (Complex.Abs(pv) <= functionValueAccuracy)
                     {
+                        resultComputed = true;
+                        iterationCount = i;
                         return z;
                     }
 
-                    // Now pv != 0, calculate the new approximation.
-                    Complex G = Complex.Divide(dv, pv);
-                    Complex G2 = Complex.Multiply(G, G);
-                    Complex H = Complex.Subtract(G2, Complex.Divide(d2v, pv));
-                    Complex delta = Complex.Multiply(n1C, Complex.Subtract((Complex.Multiply(nC, H)), G2));
-                    // Choose a denominator larger in magnitude.
+                    // now pv != 0, calculate the new approximation
+                    G = Complex.Divide(dv, pv);
+                    G2 = Complex.Multiply(G, G);
+                    H = Complex.Subtract(G2, Complex.Divide(d2v, pv));
+                    delta = Complex.Multiply(N1, Complex.Subtract(Complex.Multiply(N, H), G2));
+                    // choose a denominator larger in magnitude
                     Complex deltaSqrt = Complex.Sqrt(delta);
                     Complex dplus = Complex.Add(G, deltaSqrt);
                     Complex dminus = Complex.Subtract(G, deltaSqrt);
-                    Complex denominator = Complex.Abs(dplus) > Complex.Abs(dminus) ? dplus : dminus;
+                    denominator = Complex.Abs(dplus) > Complex.Abs(dminus) ? dplus : dminus;
                     // Perturb z if denominator is zero, for instance,
                     // p(x) = x^3 + 1, z = 0.
                     if (denominator.Equals(new Complex(0.0, 0.0)))
@@ -354,16 +355,16 @@ namespace Mercury.Language.Math.Analysis.Solver
                     else
                     {
                         oldz = z;
-                        z = Complex.Subtract(z, Complex.Divide(nC, denominator));
+                        z = Complex.Subtract(z, Complex.Divide(N, denominator));
                     }
-
+                    i++;
                     IncrementEvaluationCount();
                 }
             }
 
             protected override Complex DoSolve()
             {
-                throw new NotImplementedException();
+                return Solve(function, Min, Max);
             }
         }
     }

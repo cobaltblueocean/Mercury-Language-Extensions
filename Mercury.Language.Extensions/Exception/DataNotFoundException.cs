@@ -12,10 +12,16 @@ namespace Mercury.Language.Exception
     /// </summary>
     public class DataNotFoundException : System.Exception
     {
-        
-        
 
-                /// <summary>
+        /// <summary>
+        /// Creates an exception with a default message.
+        /// </summary>
+        public DataNotFoundException() : base(LocalizedResources.Instance().NO_DATA)
+        { 
+        
+        }
+
+        /// <summary>
         /// Creates an exception with a message.
         /// </summary>
         /// <param name="message">the message, may be null</param>

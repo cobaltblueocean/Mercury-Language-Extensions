@@ -27,7 +27,7 @@ using Mercury.Language.Math.Analysis;
 using Mercury.Language.Math.Analysis.Differentiation;
 using Mercury.Language.Math.Analysis.Function;
 
-namespace Mercury.Language.Math.Polynomial
+namespace Mercury.Language.Math.Analysis.Polynomial
 {
     /// <summary>
     /// PolynomialFunction Description

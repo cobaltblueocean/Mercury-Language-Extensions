@@ -23,21 +23,36 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
-using Mercury.Language.Math.Analysis.Integration;
+using Mercury.Language.Math.Analysis.Function;
+using Mercury.Language.Math.Analysis.Solver;
 
-namespace Mercury.Language.Extensions.Test.Integrator
+namespace Mercury.Language.Extensions.Test.Solver
 {
     /// <summary>
-    /// IntegratorTest Description
+    /// RiddersSolverTest Description
     /// </summary>
-    public class IntegratorTest
+    public class RiddersSolverTest
     {
-        [Test]
-        public void RombergIntegratorTest()
-        {
-            RombergIntegrator _integrator = new RombergIntegrator();
+        private static int MAX_ITER = 10000;
+        private RiddersSolver _ridder = new RiddersSolver();
+        private static double EPS = 1e-9;
 
-            Assert.Pass();
+        [Test]
+        public void Test()
+        {
+            IUnivariateRealFunction F = new UnivariateRealFunction()
+            {
+                function = new Func<Double?, Double?>((x) =>
+                {
+                    return x * x * x - 4 * x * x + x + 6;
+                })
+            };
+
+            _ridder.MaximalIterationCount = MAX_ITER;
+
+            Assert.AreEqual(_ridder.Solve (F, 2.5, 3.5),  3, EPS);
+            Assert.AreEqual(_ridder.Solve(F, 1.5, 2.5), 2, EPS);
+            Assert.AreEqual(_ridder.Solve(F, -1.5, 0.5), -1, EPS);
         }
     }
 }

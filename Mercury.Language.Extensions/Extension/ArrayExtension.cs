@@ -740,6 +740,13 @@ namespace System
             return baseArray.AsEnumerable().GetEnumerator();
         }
 
+        public static byte[] ToByteArray(this int[] intArray)
+        {
+            byte[] result = new byte[intArray.Length * sizeof(int)];
+            Buffer.BlockCopy(intArray, 0, result, 0, result.Length);
+            return result;
+        }
+
         public static String[] ToStringArray<T>(this T[] baseArray)
         {
             return baseArray.OfType<object>().Select(o => o.ToString()).ToArray();

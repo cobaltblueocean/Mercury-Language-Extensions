@@ -42,7 +42,7 @@ using System.Threading.Tasks;
 using Mercury.Language.Math.Analysis;
 using Mercury.Language.Math.Analysis.Function;
 
-namespace Mercury.Language.Math.Integrator
+namespace Mercury.Language.Math.Analysis.Integration
 {
     /// <summary>
     /// Interface for univariate real integration algorithms.

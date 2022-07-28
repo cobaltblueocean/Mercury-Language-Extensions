@@ -23,9 +23,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Mercury.Language.Exception;
-using Mercury.Language.Math.Polynomial;
+using Mercury.Language.Math.Analysis.Polynomial;
 
-namespace Mercury.Language.Math.Interpolation
+namespace Mercury.Language.Math.Analysis.Interpolation
 {
     /// <summary>
     /// mplements the <a href="http://mathworld.wolfram.com/NevillesAlgorithm.html">

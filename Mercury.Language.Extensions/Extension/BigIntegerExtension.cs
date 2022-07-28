@@ -412,5 +412,285 @@ namespace System.Numerics
         {
             return new BigDecimal(i, scale);
         }
+
+        public static long BitLength(this BigInteger i)
+        {
+            long bitLength = 0;
+
+            while (i / 2 != 0)
+            {
+                i /= 2;
+                bitLength++;
+            }
+            bitLength += 1;
+
+            return bitLength;
+        }
+
+        private static int IntLength(this BigInteger value)
+        {
+            //(int)(UInt64.Parse(n.ToString()) >> 5);
+            return (int)(UInt64.Parse(value.BitLength().ToString()) >> 5) + 1;
+        }
+
+        public static int[] Magnitude(this BigInteger i)
+        {
+            sbyte[] val = (sbyte[])(Array)i.ToByteArray().Reverse().ToArray();
+            if (val[0] < 0)
+            {
+                return makePositive(val);
+            }
+            else
+            {
+                return stripLeadingZeroBytes(val);
+            }
+        }
+
+        public static int Signum(this BigInteger i)
+        {
+            sbyte[] val = (sbyte[])(Array)i.ToByteArray().Reverse().ToArray();
+            if (val[0] < 0)
+            {
+                return -1;
+            }
+            else
+            {
+                var mag = stripLeadingZeroBytes(val);
+                return (mag.Length == 0 ? 0 : 1);
+            }
+        }
+
+        /// <summary>
+        /// Returns a copy of the input array stripped of any leading zero bytes.
+        /// </summary>
+        private static int[] stripLeadingZeroBytes(sbyte[] a)
+        {
+            int byteLength = a.Length;
+            int keep;
+
+            // Find first nonzero byte
+            for (keep = 0; keep < byteLength && a[keep] == 0; keep++)
+                ;
+
+            // Allocate new array and copy relevant part of input array
+            int intLength = Math2.UnsignedRightBitShiftOperation(((byteLength - keep) + 3) , 2);
+            int[] result = new int[intLength];
+            int b = byteLength - 1;
+            for (int i = intLength - 1; i >= 0; i--)
+            {
+                result[i] = a[b--] & 0xff;
+                int bytesRemaining = b - keep + 1;
+                int bytesToTransfer = Math.Min(3, bytesRemaining);
+                for (int j = 8; j <= (bytesToTransfer << 3); j += 8)
+                    result[i] |= ((a[b--] & 0xff) << j);
+            }
+            return result;
+        }
+
+
+/// <summary>
+/// Takes an array a representing a negative 2's-complement number and
+/// returns the minimal (no leading zero bytes) unsigned whose value is -a.
+/// </summary>
+        private static int[] makePositive(sbyte[] a)
+        {
+            int keep, k;
+            int byteLength = a.Length;
+
+            // Find first non-sign (0xff) byte of input
+            for (keep = 0; keep < byteLength && a[keep] == -1; keep++)
+                ;
+
+
+            /* Allocate output array.  If all non-sign bytes are 0x00, we must
+             * allocate space for one extra output byte. */
+            for (k = keep; k < byteLength && a[k] == 0; k++)
+                ;
+
+            int extraByte = (k == byteLength) ? 1 : 0;
+            int intLength = Math2.UnsignedRightBitShiftOperation(((byteLength - keep + extraByte) + 3), 2);
+            int[] result = new int[intLength];
+
+            /* Copy one's complement of input into output, leaving extra
+             * byte (if it exists) == 0x00 */
+            int b = byteLength - 1;
+            for (int i = intLength - 1; i >= 0; i--)
+            {
+                result[i] = a[b--] & 0xff;
+                int numBytesToTransfer = Math.Min(3, b - keep + 1);
+                if (numBytesToTransfer < 0)
+                    numBytesToTransfer = 0;
+                for (int j = 8; j <= 8 * numBytesToTransfer; j += 8)
+                    result[i] |= ((a[b--] & 0xff) << j);
+
+                // Mask indicates which bits must be complemented
+                
+                int mask = (int)(UInt64.Parse("-1") >> (8 * (3 - numBytesToTransfer))); //-1 >>> (8 * (3 - numBytesToTransfer));
+                result[i] = ~result[i] & mask;
+            }
+
+            // Add one to one's complement to generate two's complement
+            for (int i = result.Length - 1; i >= 0; i--)
+            {
+                result[i] = (int)((result[i] & LONG_MASK) + 1);
+                if (result[i] != 0)
+                    break;
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Returns the specified int of the little-endian two's complement
+        /// representation (int 0 is the least significant).  The int number can
+        /// be arbitrarily high (values are logically preceded by infinitely many
+        /// sign ints).
+        /// </summary>
+        public static int GetInt(this BigInteger value, int n)
+        {
+            var mag = value.Magnitude();
+
+            if (n < 0)
+                return 0;
+            if (n >= mag.Length)
+                return value.SignInt();
+
+            int magInt = mag[mag.Length - n - 1];
+
+            return (value.Signum() >= 0 ? magInt :
+                    (n <= value.FirstNonzeroIntNum() ? -magInt : ~magInt));
+        }
+
+        private static int SignInt(this BigInteger value)
+        {
+            return value.Signum() < 0 ? -1 : 0;
+        }
+
+        private static int FirstNonzeroIntNum(this BigInteger value)
+        {
+            int fn = 0;
+            var mag = value.Magnitude();
+
+            // Search for the first nonzero int
+            int i;
+            int mlen = mag.Length;
+            for (i = mlen - 1; i >= 0 && mag[i] == 0; i--)
+                ;
+            fn = mlen - i - 1;
+            return fn;
+        }
+
+
+        /// <summary>
+        /// Returns a BigInteger whose value is equivalent to this BigInteger
+        /// with the designated bit flipped.
+        /// (Computes {@code (this ^ (1<<n))}.)
+        /// 
+        /// </summary>
+        /// <param name="">n index of bit to flip.</param>
+        /// <returns>{@code this ^ (1<<n)}</returns>
+        /// <exception cref="ArithmeticException">{@code n} is negative. </exception>
+        public static BigInteger FlipBit(this BigInteger value, int n)
+        {
+            if (n < 0)
+                throw new ArithmeticException("Negative bit address");
+
+            int intNum = Math2.UnsignedRightBitShiftOperation(n, 5);
+            int[] result = new int[Math.Max(value.IntLength(), intNum + 2)];
+
+            for (int i = 0; i < result.Length; i++)
+                result[result.Length - i - 1] = value.GetInt(i);
+
+            result[result.Length - intNum - 1] ^= (1 << (n & 31));
+
+            return new BigInteger(result.ToByteArray());
+        }
+
+        public static BigInteger GreatestCommonDivisor(this BigInteger left, BigInteger right)
+        {
+            return BigInteger.GreatestCommonDivisor(left, right);
+        }
+
+
+        #region Operator
+
+        /// <summary>
+        /// Returns a BigInteger whose value is {@code (this mod m}).  This method
+        /// differs from {@code remainder} in that it always returns a
+        /// <i>non-negative</i> BigInteger.
+        /// 
+        /// </summary>
+        /// <param name="">m the modulus.</param>
+        /// <returns>{@code this mod m}</returns>
+        /// <exception cref="ArithmeticException">{@code m} &le; 0 </exception>
+        /// <see cref="">  #remainder </see>
+        public static BigInteger Mod(this BigInteger m1, BigInteger m2)
+        {
+
+            if (m1.Sign <= 0) //(m.signum <= 0)
+                throw new ArithmeticException("BigInteger: modulus not positive");
+
+            BigInteger result = BigInteger.Remainder(m1, m2);
+            return (result.Sign >= 0 ? result : BigInteger.Add(result, m2));
+        }
+
+
+        public static BigInteger Abs(this BigInteger value)
+        {
+            return BigInteger.Abs(value);
+        }
+
+        public static BigInteger Add(this BigInteger left, BigInteger right)
+        {
+            return BigInteger.Add(left, right);
+        }
+
+        public static BigInteger Subtract(this BigInteger left, BigInteger right)
+        {
+            return BigInteger.Subtract(left, right);
+        }
+
+        public static BigInteger Divide(this BigInteger divident, BigInteger divider)
+        {
+            return BigInteger.Divide(divident, divider);
+        }
+
+        public static BigInteger Divide(this BigInteger divident, BigInteger divider, out BigInteger quotient)
+        {
+            return divident.DivRem(divider, out quotient);
+        }
+
+        public static int IntLen(this BigInteger value)
+        {
+            return value.Value().Length;
+        }
+
+        public static BigInteger Multiply(this BigInteger left, BigInteger right)
+        {
+            return BigInteger.Multiply(left, right);
+        }
+
+        public static BigInteger Pow(this BigInteger value, int exponent)
+        {
+            return BigInteger.Pow(value, exponent);
+        }
+
+        public static BigInteger Pow(this BigInteger value, BigInteger exponent, BigInteger modulus)
+        {
+            return BigInteger.ModPow(value, exponent, modulus);
+        }
+
+        public static BigInteger DivRem(this BigInteger dividient, BigInteger divisor, out BigInteger remainder)
+        {
+            return BigInteger.DivRem(dividient, divisor, out remainder);
+        }
+
+        public static BigInteger Negate(this BigInteger dividient)
+        {
+            return BigInteger.Negate(dividient);
+        }
+
+
+        #endregion
     }
 }

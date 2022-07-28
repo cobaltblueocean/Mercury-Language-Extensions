@@ -82,5 +82,22 @@ namespace MathNet.Numerics.LinearAlgebra
 
             return _temp;
         }
+
+        public static double Norm<T>(this MathNet.Numerics.LinearAlgebra.Vector<T> vector) where T : struct, IEquatable<T>, IFormattable
+        {
+            if (vector.Count > 0 && vector[0].IsNumber())
+            {
+                double sum = 0;
+                var it = vector;// sparseIterator();
+                for (int i = 0; i < vector.Count; i++)
+                {
+                    double value = double.Parse(vector[i].ToString());
+                    sum += value * value;
+
+                }
+                return System.Math.Sqrt(sum);
+            }
+            throw new NonConvergenceException();
+        }
     }
 }

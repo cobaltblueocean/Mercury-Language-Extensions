@@ -66,42 +66,5 @@ namespace Mercury.Language.Math.Analysis.Solver
         {
 
         }
-
-        /// <summary>
-        /// Convenience function for implementations.
-        /// 
-        /// </summary>
-        /// <param name="newResult">the result to set</param>
-        /// <param name="iterationCount">the iteration count to set</param>
-        protected void SetResult(double newResult, int iterationCount)
-        {
-            this.result = newResult;
-            this.iterationCount = iterationCount;
-            this.resultComputed = true;
-        }
-
-        /// <summary>
-        /// Convenience function for implementations.
-        /// 
-        /// </summary>
-        /// <param name="x">the result to set</param>
-        /// <param name="fx">the result to set</param>
-        /// <param name="iterationCount">the iteration count to set</param>
-        protected void SetResult(double x, double fx, int iterationCount)
-        {
-            this.result = x;
-            this.functionValue = fx;
-            this.iterationCount = iterationCount;
-            this.resultComputed = true;
-        }
-
-        /// <summary>
-        /// Convenience function for implementations.
-        /// </summary>
-        protected void ClearResult()
-        {
-            this.iterationCount = 0;
-            this.resultComputed = false;
-        }
     }
 }

@@ -23,7 +23,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Mercury.Language.Exception;
-using Mercury.Language.Math.Polynomial;
+using Mercury.Language.Math.Analysis.Function;
 
 namespace Mercury.Language.Math.Analysis.Solver
 {
@@ -32,8 +32,13 @@ namespace Mercury.Language.Math.Analysis.Solver
     /// </summary>
     public abstract class AbstractPolynomialSolver<T> : BaseAbstractUnivariateSolver<T> where T : struct, IEquatable<T>, IFormattable
     {
-        private PolynomialFunction polynomialFunction;
         private double[] coefficients;
+
+
+        public AbstractPolynomialSolver(IUnivariateRealFunction f) : base(f)
+        {
+            function = f;
+        }
 
         public AbstractPolynomialSolver(double absoluteAccuracy) : base(absoluteAccuracy)
         {
@@ -50,11 +55,18 @@ namespace Mercury.Language.Math.Analysis.Solver
 
         }
 
-        protected void Setup(int maxEval, PolynomialFunction f, double[] values, double min, double max, double startValue)
+        public AbstractPolynomialSolver(IUnivariateRealFunction f, double relativeAccuracy, double absoluteAccuracy, double functionValueAccuracy) : base(f, relativeAccuracy, absoluteAccuracy, functionValueAccuracy)
         {
+
+        }
+
+        protected void Setup(int maxEval, IUnivariateRealFunction f, double[] values, double min, double max, double startValue)
+        {
+            function = f;
+
             base.Setup(f, min, max, startValue);
             coefficients = GetCoefficients(values);
-            polynomialFunction = f;
+            MaximalIterationCount = maxEval;
         }
 
         protected double[] Coefficients

@@ -1518,4 +1518,16 @@
   <data name="ZERO_PIVOT_ENCOUNTERED_ON_ROW_DURING_ILU_PROCESS" xml:space="preserve">
     <value>ILUプロセスの途中で {0} 列目でゼロピボットに遭遇しました。</value>
   </data>
+  <data name="DUPLICATED_ABSCISSA" xml:space="preserve">
+    <value>横座標 {0} はインデックス {1} と {2} で重複しています。</value>
+  </data>
+  <data name="BANDWIDTH_OUT_OF_INTERVAL" xml:space="preserve">
+    <value>帯域幅は間隔 [0,1] でなければなりませんが、 {0} でした。</value>
+  </data>
+  <data name="NEGATIVE_ROBUSTNESS_ITERATIONS" xml:space="preserve">
+    <value>ロバスト反復の数は非負数でなければなりませんが、 {0} でした。</value>
+  </data>
+  <data name="TOO_SMALL_BANDWIDTH" xml:space="preserve">
+    <value>帯域幅は、少なくとも2ポイントを収容するのに十分な大きさである必要があります。 {0} のデータポイントがあり、帯域幅は少なくとも {1} である必要がありますが、それは {2} だけです。</value>
+  </data>
 </root>

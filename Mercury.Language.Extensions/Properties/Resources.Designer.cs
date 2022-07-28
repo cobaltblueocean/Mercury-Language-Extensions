@@ -259,6 +259,15 @@ namespace Mercury.Language.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to bandwidth must be in the interval [0,1], but got {0}.
+        /// </summary>
+        internal static string BANDWIDTH_OUT_OF_INTERVAL {
+            get {
+                return ResourceManager.GetString("BANDWIDTH_OUT_OF_INTERVAL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to base ({0}).
         /// </summary>
         internal static string BASE {
@@ -894,6 +903,15 @@ namespace Mercury.Language.Properties {
         internal static string DSCOMPLIER_NOT_POSITIVE {
             get {
                 return ResourceManager.GetString("DSCOMPLIER_NOT_POSITIVE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Abscissa {0} is duplicated at both indices {1} and {2}.
+        /// </summary>
+        internal static string DUPLICATED_ABSCISSA {
+            get {
+                return ResourceManager.GetString("DUPLICATED_ABSCISSA", resourceCulture);
             }
         }
         
@@ -2217,6 +2235,15 @@ namespace Mercury.Language.Properties {
         internal static string NEGATIVE_NUMBER_OF_TRIALS {
             get {
                 return ResourceManager.GetString("NEGATIVE_NUMBER_OF_TRIALS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to the number of robustness iterations must be non-negative, but got {0}.
+        /// </summary>
+        internal static string NEGATIVE_ROBUSTNESS_ITERATIONS {
+            get {
+                return ResourceManager.GetString("NEGATIVE_ROBUSTNESS_ITERATIONS", resourceCulture);
             }
         }
         
@@ -3639,6 +3666,15 @@ namespace Mercury.Language.Properties {
         internal static string TOO_MANY_REGRESSORS {
             get {
                 return ResourceManager.GetString("TOO_MANY_REGRESSORS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to the bandwidth must be large enough to accomodate at least 2 points. There are {0}  data points, and bandwidth must be at least {1}  but it is only {2}.
+        /// </summary>
+        internal static string TOO_SMALL_BANDWIDTH {
+            get {
+                return ResourceManager.GetString("TOO_SMALL_BANDWIDTH", resourceCulture);
             }
         }
         

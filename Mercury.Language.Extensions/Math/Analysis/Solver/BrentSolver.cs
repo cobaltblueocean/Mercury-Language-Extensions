@@ -66,7 +66,7 @@ namespace Mercury.Language.Math.Analysis.Solver
         /// <param name="absoluteAccuracy">Absolute accuracy.</param>
         public BrentSolver(double absoluteAccuracy) : base(absoluteAccuracy)
         {
-
+            MaximalIterationCount = DEFAULT_MAXIMUM_ITERATIONS;
         }
 
         /// <summary>
@@ -76,7 +76,7 @@ namespace Mercury.Language.Math.Analysis.Solver
         /// <param name="absoluteAccuracy">Absolute accuracy.</param>
         public BrentSolver(double relativeAccuracy, double absoluteAccuracy) : base(relativeAccuracy, absoluteAccuracy)
         {
-
+            MaximalIterationCount = DEFAULT_MAXIMUM_ITERATIONS;
         }
 
         /// <summary>
@@ -87,7 +87,7 @@ namespace Mercury.Language.Math.Analysis.Solver
         /// <param name="functionValueAccuracy">Function value accuracy.</param>
         public BrentSolver(double relativeAccuracy, double absoluteAccuracy, double functionValueAccuracy) : base(relativeAccuracy, absoluteAccuracy, functionValueAccuracy)
         {
-
+            MaximalIterationCount = DEFAULT_MAXIMUM_ITERATIONS;
         }
         #endregion
 
@@ -136,7 +136,7 @@ namespace Mercury.Language.Math.Analysis.Solver
         /// (even if it <em>is</em> a root)
         public double Solve(int maxEval, IUnivariateRealFunction f, double min, double max, double initial)
         {
-            maximalIterationCount = maxEval;
+            MaximalIterationCount = maxEval;
 
             ClearResult();
             VerifyInterval(min, max);

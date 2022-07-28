@@ -69,6 +69,24 @@ namespace System
             return (T)Convert.ChangeType((object)i, typeof(T));
         }
 
+        public static Boolean IsNumber<T>(this T value) where T : struct, IEquatable<T>, IFormattable
+        {
+            //return value is sbyte
+            //    || value is byte
+            //    || value is short
+            //    || value is ushort
+            //    || value is int
+            //    || value is uint
+            //    || value is long
+            //    || value is ulong
+            //    || value is float
+            //    || value is double
+            //    || value is decimal;
+
+            return double.TryParse(value.ToString(), out double num);
+        }
+
+
         public static double Arg(this System.Numerics.Complex z)
         {
             return Math2.Atan2(z.Imaginary, z.Real);

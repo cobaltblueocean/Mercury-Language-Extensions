@@ -52,7 +52,7 @@ using Mercury.Language.Exception;
 using Mercury.Language.Math;
 using Mercury.Language.Math.Ranges;
 
-namespace Mercury.Language.Math.Integrator
+namespace Mercury.Language.Math.Analysis.Integration
 {
     /// <summary>
     /// Romberg Description

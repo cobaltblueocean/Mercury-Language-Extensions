@@ -2,7 +2,7 @@
 //
 // Original project is developed and published by OpenGamma Inc.
 //
-// Copyright (C) 2012 - present by OpenGamma Inc. and the OpenGamma group of companies
+// Copyright (C) 2012 - present by OpenGamma Incd and the OpenGamma group of companies
 //
 // Please see distribution for license.
 //
@@ -22,22 +22,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using NUnit.Framework;
-using Mercury.Language.Math.Analysis.Integration;
 
-namespace Mercury.Language.Extensions.Test.Integrator
+namespace Mercury.Language.Utility
 {
     /// <summary>
-    /// IntegratorTest Description
+    /// _dummy Description
     /// </summary>
-    public class IntegratorTest
+    public class _dummy
     {
-        [Test]
-        public void RombergIntegratorTest()
-        {
-            RombergIntegrator _integrator = new RombergIntegrator();
 
-            Assert.Pass();
-        }
     }
 }

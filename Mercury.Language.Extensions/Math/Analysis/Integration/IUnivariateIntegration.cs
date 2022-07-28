@@ -46,7 +46,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Mercury.Language.Math.Ranges;
 
-namespace Mercury.Language.Math.Integrator
+namespace Mercury.Language.Math.Analysis.Integration
 {
     /// <summary>
     ///   Common interface for multidimensional integration methods.

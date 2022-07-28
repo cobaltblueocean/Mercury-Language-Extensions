@@ -8,7 +8,7 @@ using Mercury.Language.Exception;
 using Mercury.Language.Math.Analysis;
 using Mercury.Language.Math.Analysis.Function;
 
-namespace Mercury.Language.Math.Integrator
+namespace Mercury.Language.Math.Analysis.Integration
 {
     interface IUnivariateIntegrator: IConvergingAlgorithm
     {

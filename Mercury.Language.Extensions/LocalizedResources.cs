@@ -66,6 +66,22 @@ namespace Mercury.Language
 
         #endregion
 
+        public String BANDWIDTH_OUT_OF_INTERVAL
+        {
+            get { return Resources.BANDWIDTH_OUT_OF_INTERVAL; }
+        }
+        public String NEGATIVE_ROBUSTNESS_ITERATIONS
+        {
+            get { return Resources.NEGATIVE_ROBUSTNESS_ITERATIONS; }
+        }
+        public String TOO_SMALL_BANDWIDTH
+        {
+            get { return Resources.TOO_SMALL_BANDWIDTH; }
+        }
+        public String DUPLICATED_ABSCISSA
+        {
+            get { return Resources.DUPLICATED_ABSCISSA; }
+        }
         public String ARG_MUST_BE_PERIOD
         {
             get { return Resources.ARG_MUST_BE_PERIOD; }

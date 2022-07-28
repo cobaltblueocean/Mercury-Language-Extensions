@@ -2,7 +2,7 @@
 //
 // Original project is developed and published by OpenGamma Inc.
 //
-// Copyright (C) 2012 - present by OpenGamma Inc. and the OpenGamma group of companies
+// Copyright (C) 2012 - present by OpenGamma Incd and the OpenGamma group of companies
 //
 // Please see distribution for license.
 //
@@ -22,22 +22,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using NUnit.Framework;
-using Mercury.Language.Math.Analysis.Integration;
 
-namespace Mercury.Language.Extensions.Test.Integrator
+namespace Mercury.Language.Exception
 {
     /// <summary>
-    /// IntegratorTest Description
+    /// DuplicateSampleAbscissaException Description
     /// </summary>
-    public class IntegratorTest
+    public class DuplicateSampleAbscissaException : MathRuntimeException
     {
-        [Test]
-        public void RombergIntegratorTest()
+        /// <summary>
+        /// Construct an exception indicating the duplicate abscissa.
+        /// </summary>
+        /// <param Name="abscissa">duplicate abscissa</param>
+        /// <param Name="i1">index of one entry having the duplicate abscissa</param>
+        /// <param Name="i2">index of another entry having the duplicate abscissa</param>
+        public DuplicateSampleAbscissaException(double abscissa, int i1, int i2) : base(String.Format(LocalizedResources.Instance().DUPLICATED_ABSCISSA, abscissa, i1, i2))
         {
-            RombergIntegrator _integrator = new RombergIntegrator();
 
-            Assert.Pass();
         }
     }
 }

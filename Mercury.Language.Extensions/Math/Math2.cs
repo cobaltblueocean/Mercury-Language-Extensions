@@ -1838,7 +1838,524 @@ namespace System
 
         #endregion
 
+        #region Utility Methods
+
+        public static int UnsignedRightBitShiftOperation(long left, int right)
+        {
+            return (int)(UInt64.Parse(left.ToString()) >> right);
+        }
+
+        /// <summary>
+        /// Add two integers, checking for overflow.
+        /// 
+        /// </summary>
+        /// <param Name="x">an addend</param>
+        /// <param Name="y">an addend</param>
+        /// <returns>the sum <code>x+y</code></returns>
+        /// <exception cref="ArithmeticException">if the result can not be represented as an </exception>
+        ///         int
+        /// @since 1.1
+        public static int AddAndCheck(int x, int y)
+        {
+            long s = (long)x + (long)y;
+            if (s < Int32.MinValue || s > Int32.MaxValue)
+            {
+                throw new MathArithmeticException(String.Format(LocalizedResources.Instance().OVERFLOW_IN_ADDITION, x, y));
+            }
+            return (int)s;
+        }
+
+        /// <summary>
+        /// Add two long integers, checking for overflow.
+        /// 
+        /// </summary>
+        /// <param Name="a">an addend</param>
+        /// <param Name="b">an addend</param>
+        /// <returns>the sum <code>a+b</code></returns>
+        /// <exception cref="ArithmeticException">if the result can not be represented as an </exception>
+        ///         long
+        /// @since 1.2
+        public static long AddAndCheck(long a, long b)
+        {
+            return AddAndCheck(a, b, LocalizedResources.Instance().OVERFLOW_IN_ADDITION);
+        }
+
+        /// <summary>
+        /// Add two long integers, checking for overflow.
+        /// 
+        /// </summary>
+        /// <param Name="a">an addend</param>
+        /// <param Name="b">an addend</param>
+        /// <param Name="pattern">the pattern to use for any thrown exception.</param>
+        /// <returns>the sum <code>a+b</code></returns>
+        /// <exception cref="ArithmeticException">if the result can not be represented as an </exception>
+        ///         long
+        /// @since 1.2
+        private static long AddAndCheck(long a, long b, String pattern)
+        {
+            long ret;
+            if (a > b)
+            {
+                // use symmetry to reduce boundary cases
+                ret = AddAndCheck(b, a, pattern);
+            }
+            else
+            {
+                // assert a <= b
+
+                if (a < 0)
+                {
+                    if (b < 0)
+                    {
+                        // check for negative overflow
+                        if (long.MinValue - b <= a)
+                        {
+                            ret = a + b;
+                        }
+                        else
+                        {
+                            throw new MathArithmeticException(String.Format(pattern, a, b));
+                        }
+                    }
+                    else
+                    {
+                        // opposite sign addition is always safe
+                        ret = a + b;
+                    }
+                }
+                else
+                {
+                    // assert a >= 0
+                    // assert b >= 0
+
+                    // check for positive overflow
+                    if (a <= long.MaxValue - b)
+                    {
+                        ret = a + b;
+                    }
+                    else
+                    {
+                        throw new MathArithmeticException(String.Format(pattern, a, b));
+                    }
+                }
+            }
+            return ret;
+        }
+
+        /// <summary>
+        /// Subtract two integers, checking for overflow.
+        /// 
+        /// </summary>
+        /// <param Name="x">the minuend</param>
+        /// <param Name="y">the subtrahend</param>
+        /// <returns>the difference <code>x-y</code></returns>
+        /// <exception cref="ArithmeticException">if the result can not be represented as an </exception>
+        ///         int
+        /// @since 1.1
+        public static int SubAndCheck(int x, int y)
+        {
+            long s = (long)x - (long)y;
+            if (s < Int32.MinValue || s > Int32.MaxValue)
+            {
+                throw new MathArithmeticException(String.Format(LocalizedResources.Instance().OVERFLOW_IN_SUBTRACTION, x, y));
+            }
+            return (int)s;
+        }
+
+        /// <summary>
+        /// Subtract two long integers, checking for overflow.
+        /// 
+        /// </summary>
+        /// <param Name="a">first value</param>
+        /// <param Name="b">second value</param>
+        /// <returns>the difference <code>a-b</code></returns>
+        /// <exception cref="ArithmeticException">if the result can not be represented as an </exception>
+        ///         long
+        /// @since 1.2
+        public static long SubAndCheck(long a, long b)
+        {
+            long ret;
+            String msg = "overflow: subtract";
+            if (b == long.MinValue)
+            {
+                if (a < 0)
+                {
+                    ret = a - b;
+                }
+                else
+                {
+                    throw new ArithmeticException(msg);
+                }
+            }
+            else
+            {
+                // use additive inverse
+                ret = AddAndCheck(a, -b, LocalizedResources.Instance().OVERFLOW_IN_ADDITION);
+            }
+            return ret;
+        }
+
+        /// <summary>
+        /// <p>
+        /// Returns the least common multiple of the absolute value of two numbers,
+        /// using the formula <code>lcm(a,b) = (a / gcd(a,b)) * b</code>.
+        /// </p>
+        /// Special cases:
+        /// <ul>
+        /// <li>The invocations <code>lcm(Int32.MinValue, n)</code> and
+        /// <code>lcm(n, Int32.MinValue)</code>, where <code>Abs(n)</code> is a
+        /// power of 2, throw an <code>ArithmeticException</code>, because the result
+        /// would be 2^31, which is too large for an int value.</li>
+        /// <li>The result of <code>lcm(0, x)</code> and <code>lcm(x, 0)</code> is
+        /// <code>0</code> for any <code>x</code>.
+        /// </ul>
+        /// 
+        /// </summary>
+        /// <param Name="a">any number</param>
+        /// <param Name="b">any number</param>
+        /// <returns>the least common multiple, never negative</returns>
+        /// <exception cref="ArithmeticException"></exception>
+        ///             if the result cannot be represented as a nonnegative int
+        ///             value
+        /// @since 1.1
+        public static int LeastCommonMultiply(int a, int b)
+        {
+            if (a == 0 || b == 0)
+            {
+                return 0;
+            }
+            int lcm = Math.Abs(MultiplyAndCheck(a / GreatestCommonDivisor(a, b), b));
+            if (lcm == Int32.MinValue)
+            {
+                throw new MathArithmeticException(String.Format(                    LocalizedResources.Instance().LCM_OVERFLOW_32_BITS,                    a, b));
+            }
+            return lcm;
+        }
+
+        /// <summary>
+        /// <p>
+        /// Returns the least common multiple of the absolute value of two numbers,
+        /// using the formula <code>lcm(a,b) = (a / gcd(a,b)) * b</code>.
+        /// </p>
+        /// Special cases:
+        /// <ul>
+        /// <li>The invocations <code>lcm(Long.MinValue, n)</code> and
+        /// <code>lcm(n, Long.MinValue)</code>, where <code>Abs(n)</code> is a
+        /// power of 2, throw an <code>ArithmeticException</code>, because the result
+        /// would be 2^63, which is too large for an int value.</li>
+        /// <li>The result of <code>lcm(0L, x)</code> and <code>lcm(x, 0L)</code> is
+        /// <code>0L</code> for any <code>x</code>.
+        /// </ul>
+        /// 
+        /// </summary>
+        /// <param Name="a">any number</param>
+        /// <param Name="b">any number</param>
+        /// <returns>the least common multiple, never negative</returns>
+        /// <exception cref="ArithmeticException">if the result cannot be represented as a nonnegative long </exception>
+        /// value
+        /// @since 2.1
+        public static long LeastCommonMultiply(long a, long b)
+        {
+            if (a == 0 || b == 0)
+            {
+                return 0;
+            }
+            long lcm = Math.Abs(MultiplyAndCheck(a / GreatestCommonDivisor(a, b), b));
+            if (lcm == long.MinValue)
+            {
+                throw new MathArithmeticException(String.Format(LocalizedResources.Instance().LCM_OVERFLOW_64_BITS, a, b));
+            }
+            return lcm;
+        }
+
+        /// <summary>
+        /// <p>
+        /// Gets the greatest common divisor of the absolute value of two numbers,
+        /// using the "binary gcd" method which avoids division and modulo
+        /// operationsd See Knuth 4.5.2 algorithm Bd This algorithm is due to Josef
+        /// Stein (1961).
+        /// </p>
+        /// Special cases:
+        /// <ul>
+        /// <li>The invocations
+        /// <code>gcd(Int32.MinValue, Int32.MinValue)</code>,
+        /// <code>gcd(Int32.MinValue, 0)</code> and
+        /// <code>gcd(0, Int32.MinValue)</code> throw an
+        /// <code>ArithmeticException</code>, because the result would be 2^31, which
+        /// is too large for an int value.</li>
+        /// <li>The result of <code>gcd(x, x)</code>, <code>gcd(0, x)</code> and
+        /// <code>gcd(x, 0)</code> is the absolute value of <code>x</code>, except
+        /// for the special cases above.
+        /// <li>The invocation <code>gcd(0, 0)</code> is the only one which returns
+        /// <code>0</code>.</li>
+        /// </ul>
+        /// 
+        /// </summary>
+        /// <param Name="p">any number</param>
+        /// <param Name="q">any number</param>
+        /// <returns>the greatest common divisor, never negative</returns>
+        /// <exception cref="ArithmeticException">if the result cannot be represented as a </exception>
+        /// nonnegative int value
+        /// @since 1.1
+        public static int GreatestCommonDivisor(int p, int q)
+        {
+            int u = p;
+            int v = q;
+            if ((u == 0) || (v == 0))
+            {
+                if ((u == Int32.MinValue) || (v == Int32.MinValue))
+                {
+                    throw new MathArithmeticException(String.Format(LocalizedResources.Instance().GCD_OVERFLOW_32_BITS, p, q));
+                }
+                return Math.Abs(u) + Math.Abs(v);
+            }
+            // keep u and v negative, as negative integers range down to
+            // -2^31, while positive numbers can only be as large as 2^31-1
+            // (i.ed we can't necessarily negate a negative number without
+            // overflow)
+            /* assert u!=0 && v!=0; */
+            if (u > 0)
+            {
+                u = -u;
+            } // make u negative
+            if (v > 0)
+            {
+                v = -v;
+            } // make v negative
+              // B1d [Find power of 2]
+            int k = 0;
+            while ((u & 1) == 0 && (v & 1) == 0 && k < 31)
+            { // while u and v are
+              // both even...
+                u /= 2;
+                v /= 2;
+                k++; // cast out twos.
+            }
+            if (k == 31)
+            {
+                throw new MathArithmeticException(String.Format(LocalizedResources.Instance().GCD_OVERFLOW_32_BITS, p, q));
+            }
+            // B2d Initialize: u and v have been divided by 2^k and at least
+            // one is odd.
+            int t = ((u & 1) == 1) ? v : -(u / 2)/* B3 */;
+            // t negative: u was odd, v may be even (t replaces v)
+            // t positive: u was even, v is odd (t replaces u)
+            do
+            {
+                /* assert u<0 && v<0; */
+                // B4/B3: cast out twos from t.
+                while ((t & 1) == 0)
+                { // while t is even..
+                    t /= 2; // cast out twos
+                }
+                // B5 [reset max(u,v)]
+                if (t > 0)
+                {
+                    u = -t;
+                }
+                else
+                {
+                    v = t;
+                }
+                // B6/B3d at this point both u and v should be odd.
+                t = (v - u) / 2;
+                // |u| larger: t positive (replace u)
+                // |v| larger: t negative (replace v)
+            } while (t != 0);
+            return -u * (1 << k); // gcd is u*2^k
+        }
+
+        /// <summary>
+        /// <p>
+        /// Gets the greatest common divisor of the absolute value of two numbers,
+        /// using the "binary gcd" method which avoids division and modulo
+        /// operationsd See Knuth 4.5.2 algorithm Bd This algorithm is due to Josef
+        /// Stein (1961).
+        /// </p>
+        /// Special cases:
+        /// <ul>
+        /// <li>The invocations
+        /// <code>gcd(Long.MinValue, Long.MinValue)</code>,
+        /// <code>gcd(Long.MinValue, 0L)</code> and
+        /// <code>gcd(0L, Long.MinValue)</code> throw an
+        /// <code>ArithmeticException</code>, because the result would be 2^63, which
+        /// is too large for a long value.</li>
+        /// <li>The result of <code>gcd(x, x)</code>, <code>gcd(0L, x)</code> and
+        /// <code>gcd(x, 0L)</code> is the absolute value of <code>x</code>, except
+        /// for the special cases above.
+        /// <li>The invocation <code>gcd(0L, 0L)</code> is the only one which returns
+        /// <code>0L</code>.</li>
+        /// </ul>
+        /// 
+        /// </summary>
+        /// <param Name="p">any number</param>
+        /// <param Name="q">any number</param>
+        /// <returns>the greatest common divisor, never negative</returns>
+        /// <exception cref="ArithmeticException">if the result cannot be represented as a nonnegative long </exception>
+        /// value
+        /// @since 2.1
+        public static long GreatestCommonDivisor(long p, long q)
+        {
+            long u = p;
+            long v = q;
+            if ((u == 0) || (v == 0))
+            {
+                if ((u == long.MinValue) || (v == long.MinValue))
+                {
+                    throw new MathArithmeticException(String.Format(LocalizedResources.Instance().GCD_OVERFLOW_64_BITS, p, q));
+                }
+                return Math.Abs(u) + Math.Abs(v);
+            }
+            // keep u and v negative, as negative integers range down to
+            // -2^63, while positive numbers can only be as large as 2^63-1
+            // (i.ed we can't necessarily negate a negative number without
+            // overflow)
+            /* assert u!=0 && v!=0; */
+            if (u > 0)
+            {
+                u = -u;
+            } // make u negative
+            if (v > 0)
+            {
+                v = -v;
+            } // make v negative
+              // B1d [Find power of 2]
+            int k = 0;
+            while ((u & 1) == 0 && (v & 1) == 0 && k < 63)
+            { // while u and v are
+              // both even...
+                u /= 2;
+                v /= 2;
+                k++; // cast out twos.
+            }
+            if (k == 63)
+            {
+                throw new MathArithmeticException(String.Format(LocalizedResources.Instance().GCD_OVERFLOW_64_BITS, p, q));
+            }
+            // B2d Initialize: u and v have been divided by 2^k and at least
+            // one is odd.
+            long t = ((u & 1) == 1) ? v : -(u / 2)/* B3 */;
+            // t negative: u was odd, v may be even (t replaces v)
+            // t positive: u was even, v is odd (t replaces u)
+            do
+            {
+                /* assert u<0 && v<0; */
+                // B4/B3: cast out twos from t.
+                while ((t & 1) == 0)
+                { // while t is even..
+                    t /= 2; // cast out twos
+                }
+                // B5 [reset max(u,v)]
+                if (t > 0)
+                {
+                    u = -t;
+                }
+                else
+                {
+                    v = t;
+                }
+                // B6/B3d at this point both u and v should be odd.
+                t = (v - u) / 2;
+                // |u| larger: t positive (replace u)
+                // |v| larger: t negative (replace v)
+            } while (t != 0);
+            return -u * (1L << k); // gcd is u*2^k
+        }
+
+        /// <summary>
+        /// Multiply two integers, checking for overflow.
+        /// </summary>
+        /// <param name="x">a factor</param>
+        /// <param name="y">a factor</param>
+        /// <returns>the product <code>x*y</code></returns>
+        public static int MultiplyAndCheck(int x, int y)
+        {
+            long m = ((long)x) * ((long)y);
+            if (m < int.MinValue || m > int.MaxValue)
+            {
+                throw new ArithmeticException("overflow: mul");
+            }
+            return (int)m;
+        }
+
+        /// <summary>
+        /// Multiply two long integers, checking for overflow.
+        /// </summary>
+        /// <param name="a">first value</param>
+        /// <param name="b">second value</param>
+        /// <returns>the product <code>a * b</code></returns>
+        public static long MultiplyAndCheck(long a, long b)
+        {
+            long ret;
+            String msg = "overflow: multiply";
+            if (a > b)
+            {
+                // use symmetry to reduce boundary cases
+                ret = MultiplyAndCheck(b, a);
+            }
+            else
+            {
+                if (a < 0)
+                {
+                    if (b < 0)
+                    {
+                        // check for positive overflow with negative a, negative b
+                        if (a >= long.MaxValue / b)
+                        {
+                            ret = a * b;
+                        }
+                        else
+                        {
+                            throw new ArithmeticException(msg);
+                        }
+                    }
+                    else if (b > 0)
+                    {
+                        // check for negative overflow with negative a, positive b
+                        if (long.MinValue / b <= a)
+                        {
+                            ret = a * b;
+                        }
+                        else
+                        {
+                            throw new ArithmeticException(msg);
+
+                        }
+                    }
+                    else
+                    {
+                        // assert b == 0
+                        ret = 0;
+                    }
+                }
+                else if (a > 0)
+                {
+                    // assert a > 0
+                    // assert b > 0
+
+                    // check for positive overflow with positive a, positive b
+                    if (a <= long.MaxValue / b)
+                    {
+                        ret = a * b;
+                    }
+                    else
+                    {
+                        throw new ArithmeticException(msg);
+                    }
+                }
+                else
+                {
+                    // assert a == 0
+                    ret = 0;
+                }
+            }
+            return ret;
+        }
+
+        #endregion
+
         #region Exact Functions
+
         public static int AddExact(int a, int b)
         {
             // compute sum
@@ -1960,6 +2477,93 @@ namespace System
         #endregion
 
         /// <summary>
+        /// Specification of ordering direction.
+        /// </summary>
+        public enum OrderDirection
+        {
+            /// <summary>Constant for increasing directiond */
+            INCREASING,
+            /// <summary>Constant for decreasing directiond */
+            DECREASING
+        }
+
+        /// <summary>
+        /// Checks that the given array is sorted.
+        /// 
+        /// </summary>
+        /// <param Name="val">Values.</param>
+        /// <param Name="dir">Ordering direction.</param>
+        /// <param Name="strict">Whether the order should be strict.</param>
+        /// <exception cref="NonMonotonousSequenceException">if the array is not sortedd </exception>
+        /// @since 2.2
+        public static void CheckOrder(double[] val, OrderDirection dir, Boolean strict)
+        {
+            double previous = val[0];
+            Boolean ok = true;
+
+            int max = val.Length;
+            for (int i = 1; i < max; i++)
+            {
+                switch (dir)
+                {
+                    case OrderDirection.INCREASING:
+                        if (strict)
+                        {
+                            if (val[i] <= previous)
+                            {
+                                ok = false;
+                            }
+                        }
+                        else
+                        {
+                            if (val[i] < previous)
+                            {
+                                ok = false;
+                            }
+                        }
+                        break;
+                    case OrderDirection.DECREASING:
+                        if (strict)
+                        {
+                            if (val[i] >= previous)
+                            {
+                                ok = false;
+                            }
+                        }
+                        else
+                        {
+                            if (val[i] > previous)
+                            {
+                                ok = false;
+                            }
+                        }
+                        break;
+                    default:
+                        // Should never happen.
+                        throw new ArgumentException();
+                }
+
+                if (!ok)
+                {
+                    throw new NonMonotonousSequenceException(val[i], previous, i, dir, strict);
+                }
+                previous = val[i];
+            }
+        }
+
+        /// <summary>
+        /// Checks that the given array is sorted in strictly increasing order.
+        /// 
+        /// </summary>
+        /// <param Name="val">Values.</param>
+        /// <exception cref="NonMonotonousSequenceException">if the array is not sortedd </exception>
+        /// @since 2.2
+        public static void CheckOrder(double[] val)
+        {
+            CheckOrder(val, OrderDirection.INCREASING, true);
+        }
+
+        /// <summary>
         /// Compares two numbers given some amount of allowed error.
         /// </summary>
         /// <param name="x">the first number</param>
@@ -1983,6 +2587,7 @@ namespace System
             return 1;
         }
 
+        #region Common Functions
         public static int Abs(int x)
         {
             int i = (int)LogicalRightShift(x, 31); //x >>> 31
@@ -4274,7 +4879,8 @@ namespace System
             double intPartB;
             int intVal = (int)x;
 
-            /* Lookup exp(floor(x)).
+            /**
+             * Lookup exp(floor(x)).
              * intPartA will have the upper 22 bits, intPartB will have the lower
              * 52 bits.
              */
@@ -4342,26 +4948,32 @@ namespace System
             double fracPartA = ExpFracTable.GetInstance().EXP_FRAC_TABLE_A[intFrac];
             double fracPartB = ExpFracTable.GetInstance().EXP_FRAC_TABLE_B[intFrac];
 
-            /* epsilon is the difference in x from the nearest multiple of 2^-10d  It
+            /**
+             * epsilon is the difference in x from the nearest multiple of 2^-10d  It
              * has a value in the range 0 <= epsilon < 2^-10.
              * Do the subtraction from x as the last step to avoid possible loss of precision.
              */
             double epsilon = x - (intVal + intFrac / 1024.0);
 
-            /* Compute z = exp(epsilon) - 1.0 via a minimax polynomiald  z has
+            /**
+             * Compute z = exp(epsilon) - 1.0 via a minimax polynomiald  z has
            full double precision (52 bits)d  Since z < 2^-10, we will have
            62 bits of precision when combined with the constant 1d  This will be
-           used in the last addition below to get proper roundingd */
+           used in the last addition below to get proper roundingd
+            */
 
-            /* Remez generated polynomiald  Converges on the interval [0, 2^-10], error
-           is less than 0.5 ULP */
+            /**
+             * Remez generated polynomiald  Converges on the interval [0, 2^-10], error
+           is less than 0.5 ULP
+            */
             double z = 0.04168701738764507;
             z = z * epsilon + 0.1666666505023083;
             z = z * epsilon + 0.5000000000042687;
             z = z * epsilon + 1.0;
             z = z * epsilon + -3.940510424527919E-20;
 
-            /* Compute (intPartA+intPartB) * (fracPartA+fracPartB) by binomial
+            /** 
+             * Compute (intPartA+intPartB) * (fracPartA+fracPartB) by binomial
            expansion.
            tempA is exact since intPartA and intPartB only have 22 bits each.
            tempB will have 52 bits of precision.
@@ -4369,10 +4981,12 @@ namespace System
             double tempA = intPartA * fracPartA;
             double tempB = intPartA * fracPartB + intPartB * fracPartA + intPartB * fracPartB;
 
-            /* Compute the resultd  (1+z)(tempA+tempB)d  Order of operations is
+            /**
+             * Compute the resultd  (1+z)(tempA+tempB)d  Order of operations is
            importantd  For accuracy add by increasing sized  tempA is exact and
            much larger than the othersd  If there are extra bits specified from the
-           pow() function, use themd */
+           pow() function, use themd
+            */
             double tempC = tempB + tempA;
 
             // If tempC is positive infinite, the evaluation below could result in NaN,
@@ -5316,6 +5930,8 @@ namespace System
         {
             return (int)(((a % b) + b) % b);
         }
+        #endregion
+
         #region Inner use classes
 
         /// <summary>Class operator on double numbers split into one 26 bits number and one 27 bits numberd */

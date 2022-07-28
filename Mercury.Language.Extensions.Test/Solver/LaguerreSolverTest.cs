@@ -18,26 +18,32 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 using System;
+using System.Numerics;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
-using Mercury.Language.Math.Analysis.Integration;
+using Mercury.Language.Math.Analysis.Solver;
 
-namespace Mercury.Language.Extensions.Test.Integrator
+namespace Mercury.Language.Extensions.Test.Solver
 {
     /// <summary>
-    /// IntegratorTest Description
+    /// LaguerreSolverTest Description
     /// </summary>
-    public class IntegratorTest
+    public class LaguerreSolverTest
     {
-        [Test]
-        public void RombergIntegratorTest()
-        {
-            RombergIntegrator _integrator = new RombergIntegrator();
+        private static LaguerreSolver ROOT_FINDER = new LaguerreSolver();
 
-            Assert.Pass();
+        [Test]
+        public void Test()
+        {
+            Complex[] expected = new Complex[2] { new Complex(-3.0000000000000013, 0), new Complex(-3.9999999999999982, 0) };
+
+            Complex[] roots = ROOT_FINDER.SolveAllComplex(new double[] { 12, 7, 1 }, 0);
+
+            Assert.AreEqual(expected.Length, roots.Length);
+            Assert.AreEqual(expected, roots);
         }
     }
 }

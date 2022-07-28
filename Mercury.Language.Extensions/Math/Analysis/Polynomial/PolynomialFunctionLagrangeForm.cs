@@ -24,7 +24,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Mercury.Language.Exception;
 
-namespace Mercury.Language.Math.Polynomial
+namespace Mercury.Language.Math.Analysis.Polynomial
 {
     /// <summary>
     /// PolynomialFunctionLagrangeForm Description
@@ -176,6 +176,11 @@ namespace Mercury.Language.Math.Polynomial
             }
 
             coefficientsComputed = true;
+        }
+
+        public static Boolean VerifyInterpolationArray(double[] x, double[] y)
+        {
+            return VerifyInterpolationArray(x, y, false);
         }
 
         public static Boolean VerifyInterpolationArray(double[] x, double[] y, Boolean abort)

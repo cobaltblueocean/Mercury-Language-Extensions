@@ -120,7 +120,7 @@ namespace Mercury.Language.Math.Random
         /// </summary>
         /// <param Name="bytes">the non-null byte array in which to put the</param>
         /// random bytes
-        public void NextBytes(byte[] bytes)
+        public virtual void NextBytes(byte[] bytes)
         {
             int bytesOut = 0;
             while (bytesOut < bytes.Length)
@@ -155,7 +155,7 @@ namespace Mercury.Language.Math.Random
         /// </summary>
         /// <returns>the next pseudorandom, uniformly distributed {@code int}</returns>
         ///  value from this random number generator's sequence
-        public int NextInt()
+        public virtual int NextInt()
         {
             return (int)(NextDouble() * Int32.MaxValue);
         }
@@ -176,7 +176,7 @@ namespace Mercury.Language.Math.Random
         /// <returns> a pseudorandom, uniformly distributed {@code int}</returns>
         /// value between 0 (inclusive) and n (exclusive).
         /// <exception cref="NotStrictlyPositiveException">if {@code n <= 0}d </exception>
-        public int NextInt(int n)
+        public virtual int NextInt(int n)
         {
             if (n <= 0)
             {
@@ -200,7 +200,7 @@ namespace Mercury.Language.Math.Random
         /// </summary>
         /// <returns> the next pseudorandom, uniformly distributed {@code long} *value from this random number generator's sequence</returns>
 
-        public long NextLong()
+        public virtual long NextLong()
         {
             return (long)(NextDouble() * long.MaxValue);
         }
@@ -219,7 +219,7 @@ namespace Mercury.Language.Math.Random
         /// <returns> the next pseudorandom, uniformly distributed</returns>
         /// {@code Boolean} value from this random number generator's
         /// sequence
-        public Boolean NextBoolean()
+        public virtual Boolean NextBoolean()
         {
             return NextDouble() <= 0.5;
         }
@@ -238,7 +238,7 @@ namespace Mercury.Language.Math.Random
         /// <returns> the next pseudorandom, uniformly distributed {@code float}</returns>
         /// value between {@code 0.0} and {@code 1.0} from this
         /// random number generator's sequence
-        public float NextFloat()
+        public virtual float NextFloat()
         {
             return (float)NextDouble();
         }
@@ -280,7 +280,7 @@ namespace Mercury.Language.Math.Random
         /// {@code double} value with mean {@code 0.0} and
         /// standard deviation {@code 1.0} from this random number
         ///  generator's sequence
-        public double NextGaussian()
+        public virtual double NextGaussian()
         {
             if (!Double.IsNaN(cachedNormalDeviate))
             {

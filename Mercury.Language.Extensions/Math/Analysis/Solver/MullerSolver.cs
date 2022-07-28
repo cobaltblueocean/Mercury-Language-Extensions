@@ -25,6 +25,7 @@ using System.Threading.Tasks;
 using Mercury.Language.Math;
 using Mercury.Language.Math.Analysis;
 using Mercury.Language.Math.Analysis.Function;
+using Mercury.Language.Exception;
 
 namespace Mercury.Language.Math.Analysis.Solver
 {
@@ -42,18 +43,13 @@ namespace Mercury.Language.Math.Analysis.Solver
     /// @version $Revision: 1070725 $ $Date: 2011-02-15 02:31:12 +0100 (mard 15 févrd 2011) $
     /// @since 1.2
     /// </summary>
-    public class RiddersSolver : AbstractPolynomialSolver<Double>
+    public class MullerSolver : AbstractPolynomialSolver<Double>
     {
-        public IUnivariateRealFunction Function
-        {
-            set { base.function = value; }
-        }
-
         /// <summary>
         /// Construct a solver for the given function.
         /// </summary>
         /// <param Name="f">function to solve.</param>
-        public RiddersSolver(IUnivariateRealFunction f) : base(f, DEFAULT_MAXIMAL_ITERATION_COUNT, DEFAULT_ABSOLUTE_ACCURACY, DEFAULT_FUNCTION_VALUE_ACCURACY)
+        public MullerSolver(IUnivariateRealFunction f) : base(f, DEFAULT_MAXIMAL_ITERATION_COUNT, DEFAULT_ABSOLUTE_ACCURACY, DEFAULT_FUNCTION_VALUE_ACCURACY)
         {
         }
 
@@ -61,22 +57,22 @@ namespace Mercury.Language.Math.Analysis.Solver
         /// <summary>
         /// Construct a solver.
         /// </summary>
-        public RiddersSolver() : this(DEFAULT_ABSOLUTE_ACCURACY)
+        public MullerSolver() : this(DEFAULT_ABSOLUTE_ACCURACY)
         {
 
         }
 
-        public RiddersSolver(double absoluteAccuracy) : base(absoluteAccuracy)
-        {
-            base.MaximalIterationCount = DEFAULT_MAXIMAL_ITERATION_COUNT;
-        }
-
-        public RiddersSolver(double relativeAccuracy, double absoluteAccuracy) : base(relativeAccuracy, absoluteAccuracy)
+        public MullerSolver(double absoluteAccuracy) : base(absoluteAccuracy)
         {
             base.MaximalIterationCount = DEFAULT_MAXIMAL_ITERATION_COUNT;
         }
 
-        public RiddersSolver(double relativeAccuracy, double absoluteAccuracy, double functionValueAccuracy) : base(relativeAccuracy, absoluteAccuracy, functionValueAccuracy)
+        public MullerSolver(double relativeAccuracy, double absoluteAccuracy) : base(relativeAccuracy, absoluteAccuracy)
+        {
+            base.MaximalIterationCount = DEFAULT_MAXIMAL_ITERATION_COUNT;
+        }
+
+        public MullerSolver(double relativeAccuracy, double absoluteAccuracy, double functionValueAccuracy) : base(relativeAccuracy, absoluteAccuracy, functionValueAccuracy)
         {
             base.MaximalIterationCount = DEFAULT_MAXIMAL_ITERATION_COUNT;
         }
@@ -98,97 +94,97 @@ namespace Mercury.Language.Math.Analysis.Solver
 
         public override double Solve(IUnivariateRealFunction f, double min, double max)
         {
+            // [x0, x2] is the bracketing interval in each iteration
+            // x1 is the last approximation and an interpolation point in (x0, x2)
+            // x is the new root approximation and new x1 for next round
+            // d01, d12, d012 are divided differences
             base.function = f;
 
-            // [x1, x2] is the bracketing interval in each iteration
-            // x3 is the midpoint of [x1, x2]
-            // x is the new root approximation and an endpoint of the new interval
-            double x1 = min;
-            double y1 = ComputeObjectiveValue(x1);
+            double x0 = min;
+            double y0 = f.Value(x0);
             double x2 = max;
-            double y2 = ComputeObjectiveValue(x2);
+            double y2 = f.Value(x2);
+            double x1 = 0.5 * (x0 + x2);
+            double y1 = f.Value(x1);
 
             // check for zeros before verifying bracketing
-            if (y1 == 0)
+            if (y0 == 0.0)
             {
                 return min;
             }
-            if (y2 == 0)
+            if (y2 == 0.0)
             {
                 return max;
             }
-            VerifyBracketing(min, max);
-
-            double absoluteAccuracy = AbsoluteAccuracy;
-            double functionValueAccuracy = FunctionValueAccuracy;
-            double relativeAccuracy = RelativeAccuracy;
+            VerifyBracketing(f, min, max);
 
             double oldx = Double.PositiveInfinity;
-            int i = 1;
-            while (true)
+            for (int i = 1; i <= MaximalIterationCount; ++i)
             {
-                // calculate the new root approximation
-                double x3 = 0.5 * (x1 + x2);
-                double y3 = ComputeObjectiveValue(x3);
-                if (System.Math.Abs(y3) <= functionValueAccuracy)
-                {
-                    SetResult(x3, i);
-                    return x3;
-                }
-                double delta = 1 - (y1 * y2) / (y3 * y3);  // delta > 1 due to bracketing
-                double correction = (System.Math.Sign(y2) * System.Math.Sign(y3)) * (x3 - x1) / System.Math.Sqrt(delta);
-                double x = x3 - correction;                // correction != 0
-                double y = ComputeObjectiveValue(x);
+                // Muller's method employs quadratic interpolation through
+                // x0, x1, x2 and x is the zero of the interpolating parabola.
+                // Due to bracketing condition, this parabola must have two
+                // real roots and we choose one in [x0, x2] to be x.
+                double d01 = (y1 - y0) / (x1 - x0);
+                double d12 = (y2 - y1) / (x2 - x1);
+                double d012 = (d12 - d01) / (x2 - x0);
+                double c1 = d01 + (x1 - x0) * d012;
+                double delta = c1 * c1 - 4 * y1 * d012;
+                double xplus = x1 + (-2.0 * y1) / (c1 + System.Math.Sqrt(delta));
+                double xminus = x1 + (-2.0 * y1) / (c1 - System.Math.Sqrt(delta));
+                // xplus and xminus are two roots of parabola and at least
+                // one of them should lie in (x0, x2)
+                double x = IsSequence(x0, xplus, x2) ? xplus : xminus;
+                double y = f.Value(x);
 
                 // check for convergence
                 double tolerance = System.Math.Max(relativeAccuracy * System.Math.Abs(x), absoluteAccuracy);
                 if (System.Math.Abs(x - oldx) <= tolerance)
                 {
                     SetResult(x, i);
-                    return x;
+                    return result;
                 }
                 if (System.Math.Abs(y) <= functionValueAccuracy)
                 {
                     SetResult(x, i);
-                    return x;
+                    return result;
                 }
 
-                // prepare the new interval for next iteration
-                // Ridders' method guarantees x1 < x < x2
-                if (correction > 0.0)
-                {             // x1 < x < x3
-                    if (System.Math.Sign(y1) + System.Math.Sign(y) == 0.0)
-                    {
-                        x2 = x;
-                        y2 = y;
-                    }
-                    else
-                    {
-                        x1 = x;
-                        x2 = x3;
-                        y1 = y;
-                        y2 = y3;
-                    }
+                // Bisect if convergence is too slowd Bisection would waste
+                // our calculation of x, hopefully it won't happen often.
+                // the real number equality test x == x1 is intentional and
+                // completes the proximity tests above it
+                Boolean bisect = (x < x1 && (x1 - x0) > 0.95 * (x2 - x0)) ||
+                                 (x > x1 && (x2 - x1) > 0.95 * (x2 - x0)) ||
+                                 (x == x1);
+                // prepare the new bracketing interval for next iteration
+                if (!bisect)
+                {
+                    x0 = x < x1 ? x0 : x1;
+                    y0 = x < x1 ? y0 : y1;
+                    x2 = x > x1 ? x2 : x1;
+                    y2 = x > x1 ? y2 : y1;
+                    x1 = x; y1 = y;
+                    oldx = x;
                 }
                 else
-                {                            // x3 < x < x2
-                    if (System.Math.Sign(y2) + System.Math.Sign(y) == 0.0)
+                {
+                    double xm = 0.5 * (x0 + x2);
+                    double ym = f.Value(xm);
+                    if (System.Math.Sign(y0) + System.Math.Sign(ym) == 0.0)
                     {
-                        x1 = x;
-                        y1 = y;
+                        x2 = xm; y2 = ym;
                     }
                     else
                     {
-                        x1 = x3;
-                        x2 = x;
-                        y1 = y3;
-                        y2 = y;
+                        x0 = xm; y0 = ym;
                     }
+                    x1 = 0.5 * (x0 + x2);
+                    y1 = f.Value(x1);
+                    oldx = Double.PositiveInfinity;
                 }
-                oldx = x;
-                i++;
-                IncrementEvaluationCount();
             }
+            throw new TooManyEvaluationsException(MaximalIterationCount);
         }
 
 
@@ -198,3 +194,4 @@ namespace Mercury.Language.Math.Analysis.Solver
         }
     }
 }
+

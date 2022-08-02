@@ -1593,6 +1593,49 @@ namespace Mercury.Language.Math.Matrix
             return X;
         }
 
+        /// <summary>
+        /// Find the first singular vector/value of a matrix A based on the Power method.
+        /// </summary>
+        /// <see href="http://www.cs.yale.edu/homes/el327/datamining2013aFiles/07_singular_value_decomposition.pdf"/>
+        /// <see href="https://github.com/apache/incubator-hivemall/blob/master/core/src/main/java/hivemall/utils/math/MatrixUtils.java"/>
+        /// <param name="A">target matrix</param>
+        /// <param name="x0">initial vector</param>
+        /// <param name="nIter">number of iterations for the Power method</param>
+        /// <param name="u">1st left singular vector</param>
+        /// <param name="v">1st right singular vector</param>
+        /// <returns>1st singular value</returns>
+        [Obsolete("Deprecated, not getting correct value")]
+        public static double Power1(Matrix<Double> A, double[] x0, int nIter, double[] u, double[] v)
+        {
+            ArgumentChecker.IsTrue(A.ColumnCount == x0.Length, "Column size of A and length of x should be same");
+            ArgumentChecker.IsTrue(A.RowCount == u.Length, "Row size of A and length of u should be same");
+            ArgumentChecker.IsTrue(x0.Length == v.Length, "Length of x and u should be same");
+            ArgumentChecker.IsTrue(nIter >= 1, "Invalid number of iterations: " + nIter);
+
+            Matrix<Double> AtA = A.Transpose().Multiply(A);
+
+            Vector<Double> x = MatrixUtility.CreateRealVector(x0);
+            for (int i = 0; i < nIter; i++)
+            {
+                x = AtA.Operate(x);
+            }
+
+            double xNorm = x.Norm();
+            for (int i = 0, n = v.Length; i < n; i++)
+            {
+                v[i] = x[i] / xNorm;
+            }
+
+            Vector<Double> Av = MatrixUtility.CreateRealVector(A.Operate(v));
+            double s = Av.Norm();
+
+            for (int i = 0, n = u.Length; i < n; i++)
+            {
+                u[i] = Av[i] / s;
+            }
+
+            return s;
+        }
     }
 
     public enum MatrixOrder

@@ -415,9 +415,9 @@ namespace System
         /// <summary>
         /// Smallest positive number such that 1 - EPSILON is not numerically equal to 1.
         /// </summary>
-        public const double DoubleEpsilon = 1.0e-53;  //0x1.0p-53;
+        public const double DoubleEpsilon = 1.1102230246251565E-16;  //0x1.0p-53;
 
-        public const double DoubleSafeMin = 1.0e-1022;   //0x1.0p-1022;
+        public const double DoubleSafeMin = 2.2250738585072014E-308;   //0x1.0p-1022;
 
         #region "Decimal Math Helper Variables"
         /// <summary>

@@ -45,6 +45,7 @@ using Mercury.Language.Exception;
 using Mercury.Language.Math;
 using Mercury.Language.Math.Analysis;
 using Mercury.Language.Math.Analysis.Function;
+using Mercury.Language.Math.Matrix;
 
 
 /// <summary>This class converts {@link IMultivariateVectorialFunction vectorial
@@ -216,7 +217,7 @@ namespace Mercury.Language.Math.Optimization
             }
             else if (_scale != null)
             {
-                foreach (var yi in ((DenseMatrix)_scale).Operate(residuals))
+                foreach (var yi in ((DenseMatrix)_scale).Operate(MatrixUtility.CreateVector<double>(residuals)))
                 {
                     sumSquares += yi * yi;
                 }

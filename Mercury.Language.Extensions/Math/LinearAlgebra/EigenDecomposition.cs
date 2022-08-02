@@ -81,7 +81,7 @@ namespace Mercury.Language.Math.LinearAlgebra
         /// <summary>
         /// Eigenvectors.
         /// </summary>
-        private MathNet.Numerics.LinearAlgebra.Vector<Double>[] eigenvectors;
+        private MathNet.Numerics.LinearAlgebra.Vector<Double>[] eigenVectors;
 
         /// <summary>
         /// Cached value of V.
@@ -107,7 +107,7 @@ namespace Mercury.Language.Math.LinearAlgebra
 
         //public EigenDecomposition(Matrix<Double> matrix)
         //{
-        //    double symTol = 10 * matrix.RowCount * matrix.ColumnCount * System.Double.Epsilon;
+        //    double symTol = 10 * matrix.RowCount * matrix.ColumnCount * Math2.DoubleEpsilon;
 
         //    isSymmetric = matrix.IsSymmetric(symTol);
         //    if (isSymmetric) {
@@ -181,11 +181,11 @@ namespace Mercury.Language.Math.LinearAlgebra
 
             if (cachedV == null)
             {
-                int m = eigenvectors.Length;
+                int m = eigenVectors.Length;
                 DenseMatrix temp = new DenseMatrix(m, m);
                 for (int k = 0; k < m; ++k)
                 {
-                    temp.SetColumnVector(k, (DenseVector)eigenvectors[k]);
+                    temp.SetColumnVector(k, (DenseVector)eigenVectors[k]);
                 }
                 cachedV = temp;
             }
@@ -206,19 +206,7 @@ namespace Mercury.Language.Math.LinearAlgebra
             if (cachedD == null)
             {
                 // cache the matrix for subsequent calls
-                cachedD = Matrix<Double>.Build.Dense(realEigenvalues.Length, realEigenvalues.Length);
-
-                for (int i = 0; i < imagEigenvalues.Length; i++)
-                {
-                    if (Precision2.CompareTo(imagEigenvalues[i], 0.0, System.Double.Epsilon) > 0)
-                    {
-                        cachedD.At(i, i + 1, imagEigenvalues[i]);
-                    }
-                    else if (Precision2.CompareTo(imagEigenvalues[i], 0.0, System.Double.Epsilon) < 0)
-                    {
-                        cachedD.At(i, i - 1, imagEigenvalues[i]);
-                    }
-                }
+                cachedD = MatrixUtility.CreateRealDiagonalMatrix(realEigenvalues);
             }
             return cachedD;
         }
@@ -237,11 +225,11 @@ namespace Mercury.Language.Math.LinearAlgebra
 
             if (cachedVt == null)
             {
-                int m = eigenvectors.Length;
+                int m = eigenVectors.Length;
                 DenseMatrix temp = new DenseMatrix(m, m);
                 for (int k = 0; k < m; ++k)
                 {
-                    temp.SetRowVector(k, (DenseVector)eigenvectors[k]);
+                    temp.SetRowVector(k, (DenseVector)eigenVectors[k]);
                 }
 
                 cachedVt = temp;
@@ -251,22 +239,22 @@ namespace Mercury.Language.Math.LinearAlgebra
             return cachedVt;
         }
 
-        /// <summary>
-        /// Check if the Matrix has complex Eigenvalues or not
-        /// </summary>
-        /// <returns>True if the Matrix contins complex Eigenvalues, otherwise return False</returns>
-        public Boolean HasComplexEigenvalues()
-        {
+        ///// <summary>
+        ///// Check if the Matrix has complex Eigenvalues or not
+        ///// </summary>
+        ///// <returns>True if the Matrix contins complex Eigenvalues, otherwise return False</returns>
+        //public Boolean HasComplexEigenvalues()
+        //{
 
-            for (int i = 0; i < imagEigenvalues.Length; i++)
-            {
-                if (!imagEigenvalues[i].AlmostEqual(0.0, System.Double.Epsilon))
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
+        //    for (int i = 0; i < imagEigenvalues.Length; i++)
+        //    {
+        //        if (!imagEigenvalues[i].AlmostEqual(0.0, Math2.DoubleEpsilon))
+        //        {
+        //            return true;
+        //        }
+        //    }
+        //    return false;
+        //}
 
         /// <summary>
         /// Gets a copy of the real parts of the eigenvalues of the original matrix.
@@ -311,7 +299,7 @@ namespace Mercury.Language.Math.LinearAlgebra
         /// <returns>a copy of the i<sup>th</sup> eigenvector of the original matrix.</returns>
         public MathNet.Numerics.LinearAlgebra.Vector<Double> GetEigenvector(int i)
         {
-            return eigenvectors[i];
+            return eigenVectors[i];
         }
 
         /// <summary>
@@ -371,11 +359,11 @@ namespace Mercury.Language.Math.LinearAlgebra
         /// <returns>a solver.</returns>
         public IDecompositionSolver GetSolver()
         {
-            if (HasComplexEigenvalues())
-            {
-                throw new NotSupportedException();
-            }
-            return new Solver(realEigenvalues, imagEigenvalues, eigenvectors);
+            //if (HasComplexEigenvalues())
+            //{
+            //    throw new NotSupportedException();
+            //}
+            return new Solver(realEigenvalues, imagEigenvalues, eigenVectors);
         }
 
         /// <summary>
@@ -396,7 +384,8 @@ namespace Mercury.Language.Math.LinearAlgebra
         /// <param name="householderMatrix">A Matrix</param>
         private void FindEigenVectors(double[,] householderMatrix)
         {
-            double[,] z = householderMatrix;
+            double[,] z = new double[householderMatrix.Rows(), householderMatrix.Columns()];
+            householderMatrix.CopyTo(z);
             int n = main.Length;
             realEigenvalues = new double[n];
             imagEigenvalues = new double[n];
@@ -427,11 +416,11 @@ namespace Mercury.Language.Math.LinearAlgebra
             {
                 for (int i = 0; i < n; i++)
                 {
-                    if (System.Math.Abs(realEigenvalues[i]) <= System.Double.Epsilon * maxAbsoluteValue)
+                    if (System.Math.Abs(realEigenvalues[i]) <= Math2.DoubleEpsilon * maxAbsoluteValue)
                     {
                         realEigenvalues[i] = 0;
                     }
-                    if (System.Math.Abs(e[i]) <= System.Double.Epsilon * maxAbsoluteValue)
+                    if (System.Math.Abs(e[i]) <= Math2.DoubleEpsilon * maxAbsoluteValue)
                     {
                         e[i] = 0;
                     }
@@ -563,13 +552,13 @@ namespace Mercury.Language.Math.LinearAlgebra
             {
                 for (int i = 0; i < n; i++)
                 {
-                    if (System.Math.Abs(realEigenvalues[i]) < System.Double.Epsilon * maxAbsoluteValue)
+                    if (System.Math.Abs(realEigenvalues[i]) < Math2.DoubleEpsilon * maxAbsoluteValue)
                     {
                         realEigenvalues[i] = 0;
                     }
                 }
             }
-            eigenvectors = new MathNet.Numerics.LinearAlgebra.Vector<Double>[n];
+            eigenVectors = new MathNet.Numerics.LinearAlgebra.Vector<Double>[n];
             double[] tmp = new double[n];
             for (int i = 0; i < n; i++)
             {
@@ -577,7 +566,7 @@ namespace Mercury.Language.Math.LinearAlgebra
                 {
                     tmp[j] = z[j, i];
                 }
-                eigenvectors[i] = MatrixUtility.CreateRealVector(tmp);  
+                eigenVectors[i] = MatrixUtility.CreateRealVector(tmp);  
             }
         }
 
@@ -636,7 +625,7 @@ namespace Mercury.Language.Math.LinearAlgebra
         //    for (int i = 0; i < realEigenvalues.Length; i++)
         //    {
         //        if (i == (realEigenvalues.Length - 1) ||
-        //            Precision.AlmostEqual(matT[i + 1][i], 0.0, System.Double.Epsilon))
+        //            Precision.AlmostEqual(matT[i + 1][i], 0.0, Math2.DoubleEpsilon))
         //        {
         //            realEigenvalues[i] = matT[i][i];
         //        }
@@ -699,7 +688,7 @@ namespace Mercury.Language.Math.LinearAlgebra
         //    }
 
         //    // we can not handle a matrix with zero norm
-        //    if (Precision.AlmostEqual(norm, 0.0, System.Double.Epsilon))
+        //    if (Precision.AlmostEqual(norm, 0.0, Math2.DoubleEpsilon))
         //    {
         //        throw new MathArithmeticException(LocalizedResources.Instance().ZERO_NORM);
         //    }
@@ -728,7 +717,7 @@ namespace Mercury.Language.Math.LinearAlgebra
         //                {
         //                    r += matrixT[i][j] * matrixT[j][idx];
         //                }
-        //                if (Precision.CompareTo(imagEigenvalues[i], 0.0, System.Double.Epsilon) < 0)
+        //                if (Precision.CompareTo(imagEigenvalues[i], 0.0, Math2.DoubleEpsilon) < 0)
         //                {
         //                    z = w;
         //                    s = r;
@@ -744,7 +733,7 @@ namespace Mercury.Language.Math.LinearAlgebra
         //                        }
         //                        else
         //                        {
-        //                            matrixT[i][idx] = -r / (System.Double.Epsilon * norm);
+        //                            matrixT[i][idx] = -r / (Math2.DoubleEpsilon * norm);
         //                        }
         //                    }
         //                    else
@@ -768,7 +757,7 @@ namespace Mercury.Language.Math.LinearAlgebra
 
         //                    // Overflow control
         //                    double t2 = System.Math.Abs(matrixT[i][idx]);
-        //                    if ((System.Double.Epsilon * t2) * t2 > 1)
+        //                    if ((Math2.DoubleEpsilon * t2) * t2 > 1)
         //                    {
         //                        for (int j = i; j <= idx; j++)
         //                        {
@@ -811,7 +800,7 @@ namespace Mercury.Language.Math.LinearAlgebra
         //                }
         //                double w = matrixT[i][i] - p;
 
-        //                if (Precision.CompareTo(imagEigenvalues[i], 0.0, System.Double.Epsilon) < 0)
+        //                if (Precision.CompareTo(imagEigenvalues[i], 0.0, Math2.DoubleEpsilon) < 0)
         //                {
         //                    z = w;
         //                    r = ra;
@@ -836,7 +825,7 @@ namespace Mercury.Language.Math.LinearAlgebra
         //                        double vi = (realEigenvalues[i] - p) * 2.0 * q;
         //                        if (Precision.Equals(vr, 0.0) && Precision.Equals(vi, 0.0))
         //                        {
-        //                            vr = System.Double.Epsilon * norm *
+        //                            vr = Math2.DoubleEpsilon * norm *
         //                                 (System.Math.Abs(w) + System.Math.Abs(q) + System.Math.Abs(x) +
         //                                  System.Math.Abs(y) + System.Math.Abs(z));
         //                        }
@@ -864,7 +853,7 @@ namespace Mercury.Language.Math.LinearAlgebra
         //                    // Overflow control
         //                    double t = System.Math.Max(System.Math.Abs(matrixT[i][idx - 1]),
         //                                            System.Math.Abs(matrixT[i][idx]));
-        //                    if ((System.Double.Epsilon * t) * t > 1)
+        //                    if ((Math2.DoubleEpsilon * t) * t > 1)
         //                    {
         //                        for (int j = i; j <= idx; j++)
         //                        {
@@ -1043,7 +1032,7 @@ namespace Mercury.Language.Math.LinearAlgebra
                     {
                         // Looking for eigenvalues that are 0, where we consider anything much much smaller
                         // than the largest eigenvalue to be effectively 0.
-                        if (Precision2.AlmostEqual(EigenvalueNorm(i) / largestEigenvalueNorm, 0, System.Double.Epsilon))
+                        if (Precision2.AlmostEqual(EigenvalueNorm(i) / largestEigenvalueNorm, 0, Math2.DoubleEpsilon))
                         {
                             return false;
                         }

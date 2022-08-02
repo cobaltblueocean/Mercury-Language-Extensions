@@ -287,7 +287,7 @@ namespace Mercury.Language.Math.Fraction
             double r0 = value;
             long a0 = (long)System.Math.Floor(r0);
             if (a0 > overflow) {
-                throw new FractionConversionException(value, a0, 1l);
+                throw new FractionConversionException(value, a0, 1L);
             }
 
             // check AutoParallel.AutoParallelForEach(almost) integer arguments, which should not go

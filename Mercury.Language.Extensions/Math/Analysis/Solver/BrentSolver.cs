@@ -35,11 +35,6 @@ namespace Mercury.Language.Math.Analysis.Solver
 
         #region Local Variables
         /// <summary>
-        /// Default absolute accuracyd
-        /// </summary>
-        private static double DEFAULT_ABSOLUTE_ACCURACY = 1e-6;
-
-        /// <summary>
         /// Default maximum number of iterations
         /// </summary>
         public static int DEFAULT_MAXIMUM_ITERATIONS = 100;

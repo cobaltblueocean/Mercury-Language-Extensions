@@ -29,6 +29,7 @@ using Mercury.Language.Exception;
 using Mercury.Language.Math.Matrix;
 using Mercury.Language.Math.Analysis;
 using Mercury.Language.Math.Analysis.Solver;
+using Mercury.Language.Log;
 
 namespace Mercury.Language.Math.LinearAlgebra
 {
@@ -731,6 +732,7 @@ namespace Mercury.Language.Math.LinearAlgebra
                 }
                 catch (InvalidCastException cce)
                 {
+                    Logger.Information(cce.Message);
 
                     int m = pivot.Length;
                     if (b.Count != m)

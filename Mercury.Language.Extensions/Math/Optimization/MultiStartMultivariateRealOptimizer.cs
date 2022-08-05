@@ -44,6 +44,7 @@ using Mercury.Language.Exception;
 using Mercury.Language.Math.Analysis;
 using Mercury.Language.Math.Random;
 using Mercury.Language.Math.Analysis.Function;
+using Mercury.Language.Log;
 
 namespace Mercury.Language.Math.Optimization
 {
@@ -195,10 +196,12 @@ namespace Mercury.Language.Math.Optimization
                 }
                 catch (FunctionEvaluationException fee)
                 {
+                    Logger.Information(fee.Message);
                     _optima[i] = null;
                 }
                 catch (OptimizationException oe)
                 {
+                    Logger.Information(oe.Message);
                     _optima[i] = null;
                 }
 

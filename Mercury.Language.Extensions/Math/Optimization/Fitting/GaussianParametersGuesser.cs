@@ -40,6 +40,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Mercury.Language.Exception;
+using Mercury.Language.Log;
 
 namespace Mercury.Language.Math.Optimization.Fitting
 {
@@ -123,6 +124,7 @@ namespace Mercury.Language.Math.Optimization.Fitting
             }
             catch (IndexOutOfRangeException e)
             {
+                Logger.Information(e.Message);
                 fwhmApprox = points[points.Length - 1].X - points[0].X;
             }
             _params[3] = fwhmApprox / (2.0 * System.Math.Sqrt(2.0 * System.Math.Log(2.0)));

@@ -129,7 +129,7 @@ namespace Mercury.Language.Math.Optimization.Direct
         private double[][] _startConfiguration;
 
         /// <summary>Found optimad */
-        private RealPointValuePair[] _optima;
+        //private RealPointValuePair[] _optima;
 
         /// <summary>{@inheritDoc} */
         public int MaxIterations

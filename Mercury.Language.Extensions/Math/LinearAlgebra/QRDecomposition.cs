@@ -221,46 +221,7 @@ namespace Mercury.Language.Math.LinearAlgebra
         /// <exception cref="T:System.InvalidOperationException">Matrix is rank deficient.</exception>
         public Double[,] SolveTranspose(Double[,] value)
         {
-            if (value == null)
-                throw new ArgumentNullException("value", String.Format(LocalizedResources.Instance().MATRIX_CANNOT_BE_NULL, "value"));
-
-            if (value.Columns() != qrt.Rows())
-                throw new ArgumentException(LocalizedResources.Instance().MATRIX_ROW_DIMENSIONS_MUST_AGREE);
-
-            if (!this.FullRank)
-                throw new InvalidOperationException(LocalizedResources.Instance().MATRIX_IS_RANK_DEFICIENT);
-
-            // Copy right hand side
-            int count = value.Rows();
-            var X = value.Transpose();
-
-            // Compute Y = transpose(Q)*B
-            for (int k = 0; k < p; k++)
-            {
-                for (int j = 0; j < count; j++)
-                {
-                    Double s = 0;
-                    for (int i = k; i < n; i++)
-                        s += qrt[i, k] * X[i, j];
-
-                    s = -s / qrt[k, k];
-                    for (int i = k; i < n; i++)
-                        X[i, j] += s * qrt[i, k];
-                }
-            }
-
-            // Solve R*X = Y;
-            for (int k = m - 1; k >= 0; k--)
-            {
-                for (int j = 0; j < count; j++)
-                    X[k, j] /= rDiag[k];
-
-                for (int i = 0; i < k; i++)
-                    for (int j = 0; j < count; j++)
-                        X[i, j] -= X[k, j] * qrt[i, k];
-            }
-
-            return Mercury.Language.Math.Matrix.MatrixUtility.Create(count, p, X, transpose: true);
+            return ((Solver)GetSolver()).SolveTranspose(value);
         }
 
         /// <summary>Least squares solution of <c>A * X = B</c></summary>
@@ -270,40 +231,44 @@ namespace Mercury.Language.Math.LinearAlgebra
         /// <exception cref="T:System.InvalidOperationException">Matrix is rank deficient.</exception>
         public Double[] Solve(Double[] value)
         {
-            if (value == null)
-                throw new ArgumentNullException("value");
+            #region Old Code
+            //if (value == null)
+            //    throw new ArgumentNullException("value");
 
-            if (value.Length != qrt.Rows())
-                throw new ArgumentException(LocalizedResources.Instance().MATRIX_ROW_DIMENSIONS_MUST_AGREE);
+            //if (value.Length != qrt.Rows())
+            //    throw new ArgumentException(LocalizedResources.Instance().MATRIX_ROW_DIMENSIONS_MUST_AGREE);
 
-            if (!this.FullRank)
-                throw new InvalidOperationException(LocalizedResources.Instance().MATRIX_IS_RANK_DEFICIENT);
+            //if (!this.FullRank)
+            //    throw new InvalidOperationException(LocalizedResources.Instance().MATRIX_IS_RANK_DEFICIENT);
 
-            // Copy right hand side
-            var X = value.Copy();
+            //// Copy right hand side
+            //var X = value.Copy();
 
-            // Compute Y = transpose(Q)*B
-            for (int k = 0; k < p; k++)
-            {
-                Double s = 0;
-                for (int i = k; i < n; i++)
-                    s += qrt[i, k] * X[i];
+            //// Compute Y = transpose(Q)*B
+            //for (int k = 0; k < p; k++)
+            //{
+            //    Double s = 0;
+            //    for (int i = k; i < n; i++)
+            //        s += qrt[i, k] * X[i];
 
-                s = -s / qrt[k, k];
-                for (int i = k; i < n; i++)
-                    X[i] += s * qrt[i, k];
-            }
+            //    s = -s / qrt[k, k];
+            //    for (int i = k; i < n; i++)
+            //        X[i] += s * qrt[i, k];
+            //}
 
-            // Solve R*X = Y;
-            for (int k = p - 1; k >= 0; k--)
-            {
-                X[k] /= rDiag[k];
+            //// Solve R*X = Y;
+            //for (int k = p - 1; k >= 0; k--)
+            //{
+            //    X[k] /= rDiag[k];
 
-                for (int i = 0; i < k; i++)
-                    X[i] -= X[k] * qrt[i, k];
-            }
+            //    for (int i = 0; i < k; i++)
+            //        X[i] -= X[k] * qrt[i, k];
+            //}
 
-            return X.First(p);
+            //return X.First(p);
+            #endregion
+
+            return GetSolver().Solve(value);
         }
 
         /// <summary>Shows if the matrix <c>A</c> is of full rank.</summary>
@@ -543,7 +508,7 @@ namespace Mercury.Language.Math.LinearAlgebra
 
         public IDecompositionSolver GetSolver()
         {
-            return new Solver(qrt, rDiag);
+            return new Solver(qrt, rDiag, m, n, FullRank);
         }
 
         #region ICloneable Members
@@ -578,6 +543,9 @@ namespace Mercury.Language.Math.LinearAlgebra
         /// </summary>
         private class Solver : IDecompositionSolver
         {
+            private int n;
+            private int m;
+            private int p;
 
             /**
              * A packed TRANSPOSED representation of the QR decomposition.
@@ -590,35 +558,22 @@ namespace Mercury.Language.Math.LinearAlgebra
             /** The diagonal elements of R. */
             private double[] rDiag;
 
-            private bool? fullRank;
-
-
-            /// <summary>Shows if the matrix <c>A</c> is of full rank.</summary>
-            /// <value>The value is <see langword="true"/> if <c>R</c>, and hence <c>A</c>, has full rank.</value>
-            public bool FullRank
-            {
-                get
-                {
-                    if (this.fullRank.HasValue)
-                        return this.fullRank.Value;
-
-                    for (int i = 0; i < rDiag.Length; i++)
-                        if (this.rDiag[i] == 0)
-                            return (bool)(this.fullRank = false);
-
-                    return (bool)(this.fullRank = true);
-                }
-            }
+            private bool _fullRank;
 
             /**
              * Build a solver from decomposed matrix.
              * @param qrt packed TRANSPOSED representation of the QR decomposition
              * @param rDiag diagonal elements of R
              */
-            public Solver(double[,] qrt, double[] rDiag)
+            public Solver(double[,] qrt, double[] rDiag, int rows, int cols, bool fullRank)
             {
+                m = rows;
+                n = cols;
+
                 this.qrt = qrt;
                 this.rDiag = rDiag;
+                p = rDiag.Length;
+                _fullRank = fullRank;
             }
 
             public bool IsNonSingular
@@ -639,6 +594,15 @@ namespace Mercury.Language.Math.LinearAlgebra
             public Matrix<double> GetInverse()
             {
                 return Solve(MatrixUtility.CreateRealIdentityMatrix(rDiag.Length));
+            }
+
+            /// <summary>Least squares solution of <c>A * X = I</c></summary>
+            public Double[,] Inverse()
+            {
+                if (!this._fullRank)
+                    throw new InvalidOperationException(LocalizedResources.Instance().MATRIX_IS_RANK_DEFICIENT);
+
+                return Solve(Mercury.Language.Math.Matrix.MatrixUtility.Diagonal(n, n, (Double)1));
             }
 
             public double[] Solve(double[] b)
@@ -714,7 +678,7 @@ namespace Mercury.Language.Math.LinearAlgebra
                 if (value.Length != n)
                     throw new ArgumentException(LocalizedResources.Instance().MATRIX_ROW_DIMENSIONS_MUST_AGREE);
 
-                if (!this.FullRank)
+                if (!this._fullRank)
                     throw new InvalidOperationException(LocalizedResources.Instance().MATRIX_IS_RANK_DEFICIENT);
 
                 // Copy right hand side
@@ -753,6 +717,55 @@ namespace Mercury.Language.Math.LinearAlgebra
             public double[,] Solve(double[,] value)
             {
                 return Solve(value.ToJagged()).ToMultidimensional();
+            }
+
+            /// <summary>Least squares solution of <c>X * A = B</c></summary>
+            /// <param name="value">Right-hand-side matrix with as many columns as <c>A</c> and any number of rows.</param>
+            /// <returns>A matrix that minimized the two norm of <c>X * Q * R - B</c>.</returns>
+            /// <exception cref="T:System.ArgumentException">Matrix column dimensions must be the same.</exception>
+            /// <exception cref="T:System.InvalidOperationException">Matrix is rank deficient.</exception>
+            public Double[,] SolveTranspose(Double[,] value)
+            {
+                if (value == null)
+                    throw new ArgumentNullException("value", String.Format(LocalizedResources.Instance().MATRIX_CANNOT_BE_NULL, "value"));
+
+                if (value.Columns() != qrt.Rows())
+                    throw new ArgumentException(LocalizedResources.Instance().MATRIX_ROW_DIMENSIONS_MUST_AGREE);
+
+                if (!this._fullRank)
+                    throw new InvalidOperationException(LocalizedResources.Instance().MATRIX_IS_RANK_DEFICIENT);
+
+                // Copy right hand side
+                int count = value.Rows();
+                var X = value.Transpose();
+
+                // Compute Y = transpose(Q)*B
+                for (int k = 0; k < p; k++)
+                {
+                    for (int j = 0; j < count; j++)
+                    {
+                        Double s = 0;
+                        for (int i = k; i < n; i++)
+                            s += qrt[i, k] * X[i, j];
+
+                        s = -s / qrt[k, k];
+                        for (int i = k; i < n; i++)
+                            X[i, j] += s * qrt[i, k];
+                    }
+                }
+
+                // Solve R*X = Y;
+                for (int k = m - 1; k >= 0; k--)
+                {
+                    for (int j = 0; j < count; j++)
+                        X[k, j] /= rDiag[k];
+
+                    for (int i = 0; i < k; i++)
+                        for (int j = 0; j < count; j++)
+                            X[i, j] -= X[k, j] * qrt[i, k];
+                }
+
+                return Mercury.Language.Math.Matrix.MatrixUtility.Create(count, p, X, transpose: true);
             }
         }
     }

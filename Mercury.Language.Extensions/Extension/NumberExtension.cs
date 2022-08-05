@@ -630,19 +630,19 @@ namespace System
             return NTZ_TABLE[Math2.LogicalRightShift(((i & -i) * 0x0450FBAF), 26)];
         }
 
-        private static double SQRT_1_5 = 1.224744871391589; // Long bits 0x3ff3988e1409212eL.
-        private static double SQRT_2 = 1.4142135623730951; // Long bits 0x3ff6a09e667f3bcdL.
-        private static double SQRT_3 = 1.7320508075688772; // Long bits 0x3ffbb67ae8584caaL.
+        //private static double SQRT_1_5 = 1.224744871391589; // Long bits 0x3ff3988e1409212eL.
+        //private static double SQRT_2 = 1.4142135623730951; // Long bits 0x3ff6a09e667f3bcdL.
+        //private static double SQRT_3 = 1.7320508075688772; // Long bits 0x3ffbb67ae8584caaL.
         private static double EXP_LIMIT_H = 709.782712893384; // Long bits 0x40862e42fefa39efL.
-        private static double EXP_LIMIT_L = -745.1332191019411; // Long bits 0xc0874910d52d3051L.
-        private static double CP = 0.9617966939259756; // Long bits 0x3feec709dc3a03fdL.
-        private static double CP_H = 0.9617967009544373; // Long bits 0x3feec709e0000000L.
-        private static double CP_L = -7.028461650952758e-9; // Long bits 0xbe3e2fe0145b01f5L.
-        private static double LN2 = 0.6931471805599453; // Long bits 0x3fe62e42fefa39efL.
+        //private static double EXP_LIMIT_L = -745.1332191019411; // Long bits 0xc0874910d52d3051L.
+        //private static double CP = 0.9617966939259756; // Long bits 0x3feec709dc3a03fdL.
+        //private static double CP_H = 0.9617967009544373; // Long bits 0x3feec709e0000000L.
+        //private static double CP_L = -7.028461650952758e-9; // Long bits 0xbe3e2fe0145b01f5L.
+        //private static double LN2 = 0.6931471805599453; // Long bits 0x3fe62e42fefa39efL.
         private static double LN2_H = 0.6931471803691238; // Long bits 0x3fe62e42fee00000L.
         private static double LN2_L = 1.9082149292705877e-10; // Long bits 0x3dea39ef35793c76L.
         private static double INV_LN2 = 1.4426950408889634; // Long bits 0x3ff71547652b82feL.
-        private static double INV_LN2_H = 1.4426950216293335; // Long bits 0x3ff7154760000000L.
+        //private static double INV_LN2_H = 1.4426950216293335; // Long bits 0x3ff7154760000000L.
         private static double EXPM1_Q1 = -3.33333333333331316428e-02; // Long bits  0xbfa11111111110f4L
         private static double EXPM1_Q2 = 1.58730158725481460165e-03; // Long bits  0x3f5a01a019fe5585L
         private static double EXPM1_Q3 = -7.93650757867487942473e-05; // Long bits  0xbf14ce199eaadbb7L

@@ -45,5 +45,10 @@ namespace Mercury.Language.Exception
         {
             
         }
+
+        public OptimizationException(String message, System.Exception cause) : base(message, cause)
+        {
+
+        }
     }
 }

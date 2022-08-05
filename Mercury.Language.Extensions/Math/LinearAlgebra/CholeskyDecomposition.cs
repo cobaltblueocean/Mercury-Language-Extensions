@@ -29,6 +29,7 @@ using Mercury.Language;
 using Mercury.Language.Exception;
 using Mercury.Language.Math.Matrix;
 using Mercury.Language.Math.Analysis.Solver;
+using Mercury.Language.Log;
 
 namespace Mercury.Language.Math.LinearAlgebra
 {
@@ -76,7 +77,7 @@ namespace Mercury.Language.Math.LinearAlgebra
         private Double[,] leftTriangularFactor;
         private Double[,] upperTriangularFactor;
         private Double[,] diagonalMatrix;
-        private Double? determinant;
+        //private Double? determinant;
         private double? lndeterminant;
         private bool? nonsingular;
 
@@ -735,7 +736,7 @@ namespace Mercury.Language.Math.LinearAlgebra
             public double[] Solve(double[] b)
             {
 
-                int m = lTData.Length;
+                int m = lTData.Rows();
                 if (b.Length != m)
                 {
                     throw new ArgumentException(String.Format(LocalizedResources.Instance().VECTOR_LENGTH_MISMATCH, b.Length, m));
@@ -779,8 +780,9 @@ namespace Mercury.Language.Math.LinearAlgebra
                 }
                 catch (InvalidCastException cce)
                 {
+                    Logger.Information(cce.Message);
 
-                    int m = lTData.Length;
+                    int m = lTData.Rows();
                     if (b.Count != m)
                     {
                         throw new ArgumentException(String.Format(LocalizedResources.Instance().VECTOR_LENGTH_MISMATCH, b.Count, m));
@@ -899,7 +901,7 @@ namespace Mercury.Language.Math.LinearAlgebra
             /// <summary>{@inheritDoc} */
             public Matrix<Double> GetInverse()
             {
-                return Solve(MatrixUtility.CreateRealIdentityMatrix(lTData.Length));
+                return Solve(MatrixUtility.CreateRealIdentityMatrix(lTData.Rows()));
             }
         }
     }

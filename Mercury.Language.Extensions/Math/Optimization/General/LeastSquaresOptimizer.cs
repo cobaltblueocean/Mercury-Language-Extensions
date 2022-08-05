@@ -322,7 +322,7 @@ namespace Mercury.Language.Math.Optimization.General
             }
             catch (InvalidMatrixException ime)
             {
-                throw new OptimizationException(LocalizedResources.Instance().UNABLE_TO_COMPUTE_COVARIANCE_SINGULAR_PROBLEM);
+                throw new OptimizationException(LocalizedResources.Instance().UNABLE_TO_COMPUTE_COVARIANCE_SINGULAR_PROBLEM, ime);
             }
 
         }

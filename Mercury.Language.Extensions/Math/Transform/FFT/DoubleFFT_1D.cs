@@ -6208,7 +6208,7 @@ namespace Mercury.Language.Math.Transform.FFT
         {
             int i;
             int idiv4, m, nthreads;
-            int idx = 0;
+            //int idx = 0;
             nthreads = 2;
             idiv4 = 0;
             m = n >> 1;

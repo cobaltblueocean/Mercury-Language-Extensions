@@ -40,11 +40,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Mercury.Language.Math;
-
-
 using Mercury.Language.Math.Analysis.Function;
 using Mercury.Language.Exception;
 using Mercury.Language.Math.Random;
+using Mercury.Language.Log;
 
 namespace Mercury.Language.Math.Optimization
 {
@@ -278,11 +277,13 @@ namespace Mercury.Language.Math.Optimization
                 }
                 catch (FunctionEvaluationException fee)
                 {
+                    Logger.Information(fee.Message);
                     _optima[i] = Double.NaN;
                     _optimaValues[i] = Double.NaN;
                 }
                 catch (ConvergenceException ce)
                 {
+                    Logger.Information(ce.Message);
                     _optima[i] = Double.NaN;
                     _optimaValues[i] = Double.NaN;
                 }

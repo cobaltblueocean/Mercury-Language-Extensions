@@ -150,7 +150,7 @@ namespace Mercury.Language.Math.Optimization.General
                 }
                 catch (InvalidMatrixException e)
                 {
-                    throw new OptimizationException(LocalizedResources.Instance().UNABLE_TO_SOLVE_SINGULAR_PROBLEM);
+                    throw new OptimizationException(LocalizedResources.Instance().UNABLE_TO_SOLVE_SINGULAR_PROBLEM, e);
                 }
 
                 // check convergence

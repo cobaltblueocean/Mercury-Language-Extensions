@@ -75,7 +75,7 @@ namespace System.Numerics
             {
                 return Math2.Atan2(m_imaginary, m_real);
             }
-            
+
         }
 
         public Complex ToComplex()
@@ -286,22 +286,30 @@ namespace System.Numerics
             return (new DecimalComplex(value, 0.0M));
         }
         [CLSCompliant(false)]
+#pragma warning disable CS3021 // Type or member does not need a CLSCompliant attribute because the assembly does not have a CLSCompliant attribute
         public static implicit operator DecimalComplex(UInt16 value)
+#pragma warning restore CS3021 // Type or member does not need a CLSCompliant attribute because the assembly does not have a CLSCompliant attribute
         {
             return (new DecimalComplex(value, 0.0M));
         }
         [CLSCompliant(false)]
+#pragma warning disable CS3021 // Type or member does not need a CLSCompliant attribute because the assembly does not have a CLSCompliant attribute
         public static implicit operator DecimalComplex(UInt32 value)
+#pragma warning restore CS3021 // Type or member does not need a CLSCompliant attribute because the assembly does not have a CLSCompliant attribute
         {
             return (new DecimalComplex(value, 0.0M));
         }
         [CLSCompliant(false)]
+#pragma warning disable CS3021 // Type or member does not need a CLSCompliant attribute because the assembly does not have a CLSCompliant attribute
         public static implicit operator DecimalComplex(UInt64 value)
+#pragma warning restore CS3021 // Type or member does not need a CLSCompliant attribute because the assembly does not have a CLSCompliant attribute
         {
             return (new DecimalComplex(value, 0.0M));
         }
         [CLSCompliant(false)]
+#pragma warning disable CS3021 // Type or member does not need a CLSCompliant attribute because the assembly does not have a CLSCompliant attribute
         public static implicit operator DecimalComplex(SByte value)
+#pragma warning restore CS3021 // Type or member does not need a CLSCompliant attribute because the assembly does not have a CLSCompliant attribute
         {
             return (new DecimalComplex(value, 0.0M));
         }

@@ -11,36 +11,12 @@ using Mercury.Language.Exception;
 using Mercury.Language;
 using Mercury.Language.Math.Matrix;
 using Mercury.Language.Math.LinearAlgebra;
+using Mercury.Language.Log;
 
 namespace MathNet.Numerics.LinearAlgebra
 {
     public static class MatrixExtension
     {
-        public static DenseVector Operate(this DenseMatrix matrix, DenseVector v)
-        {
-            int nRows = matrix.RowCount;
-            int nCols = matrix.ColumnCount;
-            if (v.Count != nCols)
-            {
-                throw new DimensionMismatchException(v.Count, nCols);
-            }
-            double[] result = new double[nRows];
-            var data = matrix.ToArray();
-
-            AutoParallel.AutoParallelFor(0, nRows, (row) =>
-            {
-                double[] dataRow = data.GetRow(row);
-                double sum = 0;
-                AutoParallel.AutoParallelFor(0, nCols, (i) =>
-                {
-                    sum += dataRow[i] * v[i];
-                });
-                result[row] = sum;
-            });
-
-            return new DenseVector(result);
-        }
-
         public static void AddToEntry<T>(this Matrix<T> matrix, int row, int column, double increment) where T : struct, IEquatable<T>, IFormattable
         {
             try
@@ -174,6 +150,9 @@ namespace MathNet.Numerics.LinearAlgebra
             }
             catch (InvalidCastException cce)
             {
+                // Log what happened.
+                Logger.Information(cce.Message);
+
                 int nRows = matrix.RowCount;
                 int nCols = matrix.ColumnCount;
                 if (v.Count != nCols)
@@ -201,7 +180,7 @@ namespace MathNet.Numerics.LinearAlgebra
             double sum = 0;
             for (int i = 0; i < array.Length; i++)
             {
-                sum +=  array[i].CastType<double>() * d.CastType<double>();
+                sum += array[i].CastType<double>() * d.CastType<double>();
             }
 
             return sum.CastType<T>();
@@ -214,7 +193,7 @@ namespace MathNet.Numerics.LinearAlgebra
 
             for (int i = 0; i < matrix.RowCount; i++)
             {
-            _out[i] = data[i].Multiply(d);
+                _out[i] = data[i].Multiply(d);
             }
             return MatrixUtility.CreateVector<T>(_out);
         }

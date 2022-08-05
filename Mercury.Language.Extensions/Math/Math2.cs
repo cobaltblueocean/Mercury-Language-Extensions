@@ -3116,7 +3116,7 @@ namespace System
             // Deprecated
             //return Exp(x, 0.0, null);
 
-            if (x != x)
+            if  (Double.IsNaN(x)) //(x != x)
                 return x;
             if (x > EXP_LIMIT_H)
                 return Double.PositiveInfinity;

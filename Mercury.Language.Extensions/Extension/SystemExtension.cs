@@ -20,6 +20,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using Mercury.Language.Log;
 
 namespace System
 {
@@ -41,6 +42,10 @@ namespace System
             }
             catch (System.NotSupportedException ne)
             {
+
+                // Log if convert error happened
+                Logger.Information(ne.Message);
+
                 try
                 {
                     T ret = Core.CreateInstanceFromType(source.GetType());

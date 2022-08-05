@@ -65,10 +65,6 @@ namespace Mercury.Language.Math.LinearAlgebra
     public class SingularValueDecomposition : ISingularValueDecomposition
     {
         /// <summary>
-        /// Relative threshold for small singular valuesd
-        /// </summary>
-        private static double EPS = 2.22045E-16;    //0x1.0p-52
-        /// <summary>
         /// Absolute threshold for small singular valuesd
         /// </summary>
         private static double TINY = 1.6033E-291;  //0x1.0p-966;
@@ -119,11 +115,6 @@ namespace Mercury.Language.Math.LinearAlgebra
         /// Cached value of transposed V matrixd
         /// </summary>
         private Matrix<Double> cachedVt;
-        /// <summary>
-        /// Tolerance value for small singular values, calculated once we have
-        /// populated "singularValues".
-        /// </summary>
-        private double tol;
 
         /// <summary>
         /// Calculates the compact Singular Value Decomposition of the given matrix.
@@ -1502,15 +1493,16 @@ namespace Mercury.Language.Math.LinearAlgebra
         /// <returns>effective numerical matrix rank</returns>
         public int GetRank()
         {
-            int r = 0;
-            for (int i = 0; i < singularValues.Length; i++)
+            double threshold = System.Math.Max(m, n) * System.Math2.Ulp(singularValues[0]);
+
+            for (int i = singularValues.Length - 1; i >= 0; --i)
             {
-                if (singularValues[i] > tol)
+                if (singularValues[i] > threshold)
                 {
-                    r++;
+                    return i + 1;
                 }
             }
-            return r;
+            return 0;
         }
 
         /// <summary>
@@ -1519,7 +1511,7 @@ namespace Mercury.Language.Math.LinearAlgebra
         /// <returns>a solver</returns>
         public IDecompositionSolver GetSolver()
         {
-            return new Solver(singularValues, GetUT(), GetV(), GetRank() == System.Math.Max(m, n), tol);
+            return new Solver(singularValues, GetUT(), GetV(), GetRank() == System.Math.Max(m, n));
         }
 
         /// <summary>Specialized solverd */
@@ -1539,13 +1531,13 @@ namespace Mercury.Language.Math.LinearAlgebra
             /// <param Name="v">V matrix of the decomposition.</param>
             /// <param Name="nonSingular">Singularity indicator.</param>
             /// <param Name="tol">tolerance for singular values</param>
-            public Solver(double[] singularValues, Matrix<Double> uT, Matrix<Double> v, Boolean nonSingular, double tol)
+            public Solver(double[] singularValues, Matrix<Double> uT, Matrix<Double> v, Boolean nonSingular)
             {
                 double[][] suT = uT.ToArray().ToJagged();
                 for (int i = 0; i < singularValues.Length; i++)
                 {
                     double a;
-                    if (singularValues[i] > tol)
+                    if (singularValues[i] > 0)
                     {
                         a = 1 / singularValues[i];
                     }

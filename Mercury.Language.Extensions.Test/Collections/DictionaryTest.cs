@@ -82,5 +82,24 @@ namespace Mercury.Language.Extensions.Test.Collections
 
             Assert.IsTrue(data2 == null);
         }
+
+        [Test]
+        public void LinkedDictionaryTest()
+        {
+            IDictionary<Tuple<Double?, Double?>, Double?> XYZ_MAP = new LinkedDictionary<Tuple<Double?, Double?>, Double?>();
+            int n = 10;
+
+            for (int i = 0; i < n; i++)
+            {
+                double x = i < 5 ? i : i - 5;
+                double y = i < 5 ? 0 : 1;
+                double z = 4 * x;
+                Tuple<Double?, Double?> xy = new Tuple<Double?, Double?>(x, y);
+                XYZ_MAP.AddOrUpdate(xy, z);
+            }
+
+            XYZ_MAP = XYZ_MAP.Sort();
+
+        }
     }
 }

@@ -328,12 +328,39 @@ namespace System.Collections.Generic
 
         public void CopyTo(KeyValuePair<K, V>[] array, int arrayIndex)
         {
-            throw new NotImplementedException();
+            int j = 0;
+            int i = 0;
+
+            var entries = Entries;
+            foreach (var entry in entries)
+            {
+                if (j >= arrayIndex)
+                {
+                    array[i] = new KeyValuePair<K, V>(entry.Key, entry.Value);
+                    i++;
+                }
+                j++;
+
+                // If reach to end of LL, stop
+                if (j == entries.Count)
+                {
+                    break;
+                }
+            }
         }
 
         public bool Remove(KeyValuePair<K, V> item)
         {
-            throw new NotImplementedException();
+            var entries = Entries;
+            if (entries.Any(x => x.Key.Equals(item.Key) && x.Value.Equals(item.Value)))
+            {
+                Remove(item.Key);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         public IEnumerator<KeyValuePair<K, V>> GetEnumerator()

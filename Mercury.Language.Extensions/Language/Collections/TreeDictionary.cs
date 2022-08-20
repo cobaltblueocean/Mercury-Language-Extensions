@@ -43,7 +43,6 @@ namespace System.Collections.Generic
     /// </summary>    
     public sealed class TreeDictionary<TKey, TValue> : IDictionary<TKey, TValue>
     {
-
         private Node[] _nodes;
         private int _nodeCount = 0;
         private int[] _freeSlots = new int[InitSize];
@@ -51,9 +50,9 @@ namespace System.Collections.Generic
         private int _root = -1;
         private IComparer<TKey> _comparer;
         private int _sentinelParent = -1;
-
-
         private const int InitSize = 4;
+        private Boolean isIComparer = false;
+        private StringComparer _stringComparer = StringComparer.InvariantCulture;
 
         public TreeDictionary() :this (InitSize, null)
         {
@@ -62,6 +61,8 @@ namespace System.Collections.Generic
 
         public TreeDictionary(int initSize = InitSize, IComparer<TKey> comparer = null)
         {
+            isIComparer = typeof(TKey).IsComparable();
+
             if (comparer == null)
                 _comparer = Comparer<TKey>.Default;
             else
@@ -190,7 +191,14 @@ namespace System.Collections.Generic
         public bool ContainsKey(TKey key)
         {
             int index = _root;
-            return Find(ref index, key) == 0;
+            try
+            {
+                return Find(ref index, key) == 0;
+            }
+            catch
+            {
+                return _nodes.Any(x => x.Key.Equals(key));
+            }
         }
 
         /// <summary>
@@ -205,12 +213,12 @@ namespace System.Collections.Generic
         {
             int last = -1;
             int cmp = -1;
-
             init();
+
             do
             {
                 last = index;
-                cmp = _comparer.Compare(key, _nodes[index].Key);
+                cmp = CompareValue(key, _nodes[index].Key);
                 if (cmp == -1)
                     index = _nodes[index].Left;
                 else if (cmp == 1)
@@ -222,6 +230,15 @@ namespace System.Collections.Generic
             index = last;
             return cmp;
         }
+
+        private int CompareValue(TKey value1, TKey value2)
+        {
+            if (isIComparer)
+                return _comparer.Compare(value1, value2);
+            else
+                return _stringComparer.Compare(value1.ToString(), value2.ToString());
+        }
+
 
         /// <summary>
         /// 

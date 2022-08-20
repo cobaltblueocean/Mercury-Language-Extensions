@@ -29,7 +29,7 @@ namespace Mercury.Language.Money
     /// <summary>
     /// Currency Description
     /// </summary>
-    public sealed class Currency
+    public sealed class Currency :IComparable<Currency>
     {
         String _code;
 
@@ -501,6 +501,10 @@ namespace Mercury.Language.Money
             return s_instanceMap[currencyCode];
         }
 
+        public override String ToString()
+        {
+            return this.GetType().Name + ", CODE: " + _code;
+        }
 
         /// <summary>
         /// Compares this currency to another by alphabetical comparison of the code.

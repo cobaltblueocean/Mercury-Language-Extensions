@@ -99,7 +99,19 @@ namespace Mercury.Language.Extensions.Test.Collections
             }
 
             XYZ_MAP = XYZ_MAP.Sort();
+        }
 
+        [Test]
+        public void TreeDictionaryTest()
+        {
+            TreeDictionary<String, DummyObject> treeDictionary1 = new TreeDictionary<string, DummyObject>();
+            TreeDictionary<String, DummyObjectComparable> treeDictionary2 = new TreeDictionary<string, DummyObjectComparable>();
+
+            treeDictionary1.AddOrUpdate("Code1", new DummyObject() { Code = "Code1" });
+            treeDictionary1.AddOrUpdate("Code2", new DummyObject() { Code = "Code2" });
+
+            treeDictionary2.AddOrUpdate("Code1", new DummyObjectComparable() { Code = "Code1" });
+            treeDictionary2.AddOrUpdate("Code2", new DummyObjectComparable() { Code = "Code2" });
         }
     }
 }

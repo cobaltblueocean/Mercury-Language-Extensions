@@ -148,18 +148,18 @@ namespace Mercury.Language.Money
         }
 
         //-------------------------------------------------------------------------
-        /**
-         * Returns a copy of this {@code CurrencyAmount} with the specified amount added.
-         * <p>
-         * This adds the specified amount to this monetary amount, returning a new object.
-         * The addition simply uses standard {@code double} arithmetic.
-         * <p>
-         * This instance is immutable and unaffected by this methodd 
-         * 
-         * @param amountToAdd  the amount to add, in the same currency, not null
-         * @return an amount based on this with the specified amount added, not null
-         * @throws ArgumentException if the currencies are not equal
-         */
+        /// <summary>
+        /// Returns a copy of this {@code CurrencyAmount} with the specified amount added.
+        /// <p>
+        /// This adds the specified amount to this monetary amount, returning a new object.
+        /// The addition simply uses standard {@code double} arithmetic.
+        /// <p>
+        /// This instance is immutable and unaffected by this methodd
+        /// 
+        /// </summary>
+        /// <param name="amountToAdd"> the amount to add, in the same currency, not null</param>
+        /// <returns>an amount based on this with the specified amount added, not null</returns>
+        /// <exception cref="ArgumentException">if the currencies are not equal </exception>
         public CurrencyAmount Plus(CurrencyAmount amountToAdd)
         {
             // ArgumentChecker.NotNull(amountToAdd, "amountToAdd");
@@ -167,33 +167,33 @@ namespace Mercury.Language.Money
             return Plus(amountToAdd.Amount);
         }
 
-        /**
-         * Returns a copy of this {@code CurrencyAmount} with the specified amount added.
-         * <p>
-         * This adds the specified amount to this monetary amount, returning a new object.
-         * The addition simply uses standard {@code double} arithmetic.
-         * <p>
-         * This instance is immutable and unaffected by this methodd 
-         * 
-         * @param amountToAdd  the amount to add, in the same currency
-         * @return an amount based on this with the specified amount added, not null
-         */
+        /// <summary>
+        /// Returns a copy of this {@code CurrencyAmount} with the specified amount added.
+        /// <p>
+        /// This adds the specified amount to this monetary amount, returning a new object.
+        /// The addition simply uses standard {@code double} arithmetic.
+        /// <p>
+        /// This instance is immutable and unaffected by this methodd
+        /// 
+        /// </summary>
+        /// <param name="amountToAdd"> the amount to add, in the same currency</param>
+        /// <returns>an amount based on this with the specified amount added, not null</returns>
         public CurrencyAmount Plus(double amountToAdd)
         {
             return new CurrencyAmount(_currency, _amount + amountToAdd);
         }
 
-        /**
-         * Returns a copy of this {@code CurrencyAmount} with the amount multiplied.
-         * <p>
-         * This takes this amount and multiplies it by the specified value.
-         * The multiplication simply uses standard {@code double} arithmetic.
-         * <p>
-         * This instance is immutable and unaffected by this methodd 
-         * 
-         * @param valueToMultiplyBy  the scalar amount to multiply by
-         * @return an amount based on this with the amount multiplied, not null
-         */
+        /// <summary>
+        /// Returns a copy of this {@code CurrencyAmount} with the amount multiplied.
+        /// <p>
+        /// This takes this amount and multiplies it by the specified value.
+        /// The multiplication simply uses standard {@code double} arithmetic.
+        /// <p>
+        /// This instance is immutable and unaffected by this methodd
+        /// 
+        /// </summary>
+        /// <param name="valueToMultiplyBy"> the scalar amount to multiply by</param>
+        /// <returns>an amount based on this with the amount multiplied, not null</returns>
         public CurrencyAmount MultipliedBy(double valueToMultiplyBy)
         {
             return new CurrencyAmount(_currency, _amount * valueToMultiplyBy);

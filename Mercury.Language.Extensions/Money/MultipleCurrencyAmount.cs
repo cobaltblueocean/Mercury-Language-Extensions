@@ -188,7 +188,7 @@ namespace Mercury.Language.Money
             foreach (CurrencyAmount currencyAmount in currencyAmounts)
             {
                 // ArgumentChecker.NotNull(currencyAmount, "currencyAmount");
-                CurrencyAmount existing = map[currencyAmount.Currency];
+                CurrencyAmount existing = map.GetSafe(currencyAmount.Currency);
                 if (existing != null)
                 {
                     map.AddOrUpdate(currencyAmount.Currency, existing.Plus(currencyAmount));
@@ -300,7 +300,7 @@ namespace Mercury.Language.Money
             {
                 copy.AddOrUpdate(currencyAmountToAdd.Currency, currencyAmountToAdd);
             }
-            return new MultipleCurrencyAmount(copy);
+            return new MultipleCurrencyAmount(copy.Sort());
         }
 
         /// <summary>
@@ -336,7 +336,7 @@ namespace Mercury.Language.Money
             {
                 copy.AddOrUpdate(currency, CurrencyAmount.Parse(currency, amountToAdd));
             }
-            return new MultipleCurrencyAmount(copy);
+            return new MultipleCurrencyAmount(copy.Sort());
         }
 
         /// <summary>
@@ -429,10 +429,10 @@ namespace Mercury.Language.Money
             return _currencyAmountMap.Values.ToString();
         }
 
-        private MultipleCurrencyAmount(Dictionary<Currency, CurrencyAmount> currencyAmountMap)
+        private MultipleCurrencyAmount(IDictionary<Currency, CurrencyAmount> currencyAmountMap)
         {
             // ArgumentChecker.NotNull(currencyAmountMap, "currencyAmountMap");
-            this._currencyAmountMap = currencyAmountMap;
+            this._currencyAmountMap = new Dictionary<Currency, CurrencyAmount>(currencyAmountMap);
         }
 
         /// <summary>

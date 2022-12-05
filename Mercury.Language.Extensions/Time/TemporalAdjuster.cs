@@ -86,8 +86,10 @@ namespace Mercury.Language.Time
             DateTimeZone timeZone = ORIGINAL_TIME_ZONE;
             LocalDate t1 = now.InZone(timeZone).Date;
 
-            LocalDateTime local = new LocalDateTime(t1.Year, t1.Month, 1, 0, 0);
-            ZonedDateTime temp = new ZonedDateTime(local, timeZone, timeZone.GetUtcOffset(Instant.FromDateTimeUtc(System.DateTime.UtcNow)));
+            //LocalDateTime local = new LocalDateTime(t1.Year, t1.Month, 1, 0, 0);
+            //ZonedDateTime temp = new ZonedDateTime(local, timeZone, timeZone.GetUtcOffset(Instant.FromDateTimeUtc(System.DateTime.UtcNow)));
+
+            ZonedDateTime temp = NodaTimeUtility.GetZonedDateTime(t1.Year, t1.Month, 1, 0, 0, 0, timeZone);
 
             return DayTemporalAdjuster.Of(temp, DayTemporalAdjuster.DayOf.FirstDayOfMonth);
         }
@@ -118,8 +120,8 @@ namespace Mercury.Language.Time
             LocalDate t1 = now.InZone(timeZone).Date;
 
             t1.PlusMonths(1);
-            LocalDateTime local = new LocalDateTime(t1.Year, t1.Month, 1, 0, 0);
-            ZonedDateTime temp = new ZonedDateTime(local, timeZone, timeZone.GetUtcOffset(Instant.FromDateTimeUtc(System.DateTime.UtcNow)));
+            ZonedDateTime temp = NodaTimeUtility.GetZonedDateTime(t1.Year, t1.Month, 1, 0, 0, 0, timeZone);
+
             temp = temp.PlusDays(-1);
 
             return DayTemporalAdjuster.Of(temp, DayTemporalAdjuster.DayOf.LastDayOfMonth);

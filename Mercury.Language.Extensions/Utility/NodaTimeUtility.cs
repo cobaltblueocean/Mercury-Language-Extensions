@@ -144,12 +144,236 @@ namespace System
             return zdt.PlusNanoseconds(nanosecond);
         }
 
+        public static ZonedDateTime GetZonedDateTime(LocalDate date, LocalTime time, TimeZoneInfo info)
+        {
+            DateTimeZone zone = DateTimeZoneProviders.Bcl.GetZoneOrNull(info.Id);
+            return GetZonedDateTime(date.Year, date.Month, date.Day, time.Hour, time.Minute, time.Second, zone);
+        }
 
         public static ZonedDateTime GetZonedDateTimeNow()
         {
             DateTime now = DateTime.Now;
 
             return GetZonedDateTime(now.Year, now.Month, now.Day, now.Hour, now.Minute, now.Second, now.Millisecond);
+        }
+
+
+        public static String GetTimeZoneIdByOffsetString(String Id)
+        {
+            String TimeZoneIdString = "";
+
+            Id = Id.Replace("GMT", "UTC");
+            String time = Id.Replace("UTC", "");
+
+            switch (time)
+            {
+                case "-12":
+                    time = "-12:00";
+                    break;
+                case "-11":
+                    time = "-11:00";
+                    break;
+                case "-10":
+                    time = "-10:00";
+                    break;
+                case "-9":
+                    time = "-09:00";
+                    break;
+                case "-8":
+                    time = "-08:00";
+                    break;
+                case "-7":
+                    time = "-07:00";
+                    break;
+                case "-6":
+                    time = "-06:00";
+                    break;
+                case "-5":
+                    time = "-05:00";
+                    break;
+                case "-4":
+                    time = "-04:00";
+                    break;
+                case "-3":
+                    time = "-03:00";
+                    break;
+                case "-2":
+                    time = "-02:00";
+                    break;
+                case "-1":
+                    time = "-01:00";
+                    break;
+                case "+0":
+                    time = "+00:00";
+                    break;
+                case "+1":
+                    time = "+01:00";
+                    break;
+                case "+2":
+                    time = "+02:00";
+                    break;
+                case "+3":
+                    time = "+03:00";
+                    break;
+                case "+4":
+                    time = "+04:00";
+                    break;
+                case "+5":
+                    time = "+05:00";
+                    break;
+                case "+6":
+                    time = "+06:00";
+                    break;
+                case "+7":
+                    time = "+07:00";
+                    break;
+                case "+8":
+                    time = "+08:00";
+                    break;
+                case "+9":
+                    time = "+09:00";
+                    break;
+                case "+10":
+                    time = "+10:00";
+                    break;
+                case "+11":
+                    time = "+11:00";
+                    break;
+                case "+12":
+                    time = "+12:00";
+                    break;
+                case "+13":
+                    time = "+13:00";
+                    break;
+                case "+14":
+                    time = "+14:00";
+                    break;
+            }
+
+            Id = "UTC" + time;
+
+            switch (Id)
+            {
+                case "UTC-12:00":
+                    TimeZoneIdString = "Dateline Standard Time";
+                    break;
+                case "UTC-11:00":
+                    TimeZoneIdString = "UTC-11";
+                    break;
+                case "UTC-10:00":
+                    TimeZoneIdString = "Hawaiian Standard Time";
+                    break;
+                case "UTC-09:30":
+                    TimeZoneIdString = "Marquesas Standard Time";
+                    break;
+                case "UTC-09:00":
+                    TimeZoneIdString = "UTC-09";
+                    break;
+                case "UTC-08:00":
+                    TimeZoneIdString = "Pacific Standard Time";
+                    break;
+                case "UTC-07:00":
+                    TimeZoneIdString = "Mountain Standard Time";
+                    break;
+                case "UTC-06:00":
+                    TimeZoneIdString = "Central Standard Time";
+                    break;
+                case "UTC-05:00":
+                    TimeZoneIdString = "Eastern Standard Time";
+                    break;
+                case "UTC-04:00":
+                    TimeZoneIdString = "Atlantic Standard Time";
+                    break;
+                case "UTC-03:30":
+                    TimeZoneIdString = "Newfoundland Standard Time";
+                    break;
+                case "UTC-03:00":
+                    TimeZoneIdString = "Bahia Standard Time";
+                    break;
+                case "UTC-02:00":
+                    TimeZoneIdString = "UTC-02";
+                    break;
+                case "UTC-01:00":
+                    TimeZoneIdString = "Azores Standard Time";
+                    break;
+                case "UTC":
+                    TimeZoneIdString = "UTC";
+                    break;
+                case "UTC+00:00":
+                    TimeZoneIdString = "GMT Standard Time";
+                    break;
+                case "UTC+01:00":
+                    TimeZoneIdString = "W. Europe Standard Time";
+                    break;
+                case "UTC+02:00":
+                    TimeZoneIdString = "Israel Standard Time";
+                    break;
+                case "UTC+03:00":
+                    TimeZoneIdString = "Russian Standard Time";
+                    break;
+                case "UTC+03:30":
+                    TimeZoneIdString = "Iran Standard Time";
+                    break;
+                case "UTC+04:00":
+                    TimeZoneIdString = "Arabian Standard Time";
+                    break;
+                case "UTC+04:30":
+                    TimeZoneIdString = "Afghanistan Standard Time";
+                    break;
+                case "UTC+05:00":
+                    TimeZoneIdString = "Pakistan Standard Time";
+                    break;
+                case "UTC+05:30":
+                    TimeZoneIdString = "Chennai, Kolkata, Mumbai, New Delhi";
+                    break;
+                case "UTC+05:45":
+                    TimeZoneIdString = "India Standard Time";
+                    break;
+                case "UTC+06:00":
+                    TimeZoneIdString = "Central Asia Standard Time";
+                    break;
+                case "UTC+06:30":
+                    TimeZoneIdString = "Myanmar Standard Time";
+                    break;
+                case "UTC+07:00":
+                    TimeZoneIdString = "SE Asia Standard Time";
+                    break;
+                case "UTC+08:00":
+                    TimeZoneIdString = "China Standard Time";
+                    break;
+                case "UTC+08:45":
+                    TimeZoneIdString = "Aus Central W. Standard Time";
+                    break;
+                case "UTC+09:00":
+                    TimeZoneIdString = "Tokyo Standard Time";
+                    break;
+                case "UTC+09:30":
+                    TimeZoneIdString = "Cen. Australia Standard Time";
+                    break;
+                case "UTC+10:00":
+                    TimeZoneIdString = "AUS Eastern Standard Time";
+                    break;
+                case "UTC+10:30":
+                    TimeZoneIdString = "Lord Howe Standard Time";
+                    break;
+                case "UTC+11:00":
+                    TimeZoneIdString = "Central Pacific Standard Time";
+                    break;
+                case "UTC+12:00":
+                    TimeZoneIdString = "UTC+12";
+                    break;
+                case "UTC+12:45":
+                    TimeZoneIdString = "Chatham Islands Standard Time";
+                    break;
+                case "UTC+13:00":
+                    TimeZoneIdString = "UTC+13";
+                    break;
+                case "UTC+14:00":
+                    TimeZoneIdString = "Line Islands Standard Time";
+                    break;
+            }
+
+            return TimeZoneIdString;
         }
 
         public static LocalDate OfEpochDay(long epochDay)

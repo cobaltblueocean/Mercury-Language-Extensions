@@ -18,6 +18,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 using System;
+using System.Globalization;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -49,5 +50,28 @@ namespace Mercury.Language.Time
             return date.IsLeapYear();
         }
 
+        public static LocalDate ToLocalDate(String dateString)
+        {
+            DateTime dt = DateTime.Parse(dateString);
+            return dt.ToLocalDate();
+        }
+
+        public static LocalDate ToLocalDate(String dateString, String format)
+        {
+            DateTime dt = DateTime.ParseExact(dateString, format, CultureInfo.InvariantCulture);
+            return dt.ToLocalDate();
+        }
+
+        public static LocalDate ToLocalDate(String dateString, IFormatProvider provider)
+        {
+            DateTime dt = DateTime.Parse(dateString, provider);
+            return dt.ToLocalDate();
+        }
+
+        public static LocalDate ToLocalDate(String dateString, IFormatProvider provider, System.Globalization.DateTimeStyles styles)
+        {
+            DateTime dt = DateTime.Parse(dateString, provider, styles);
+            return dt.ToLocalDate();
+        }
     }
 }

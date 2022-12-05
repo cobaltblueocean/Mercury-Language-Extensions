@@ -4,8 +4,8 @@
     <TargetFramework>netstandard2.1</TargetFramework>
     <RootNamespace>Mercury.Language</RootNamespace>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-    <AssemblyVersion>0.8.1.163</AssemblyVersion>
-    <FileVersion>0.8.1.163</FileVersion>
+    <AssemblyVersion>0.8.1.167</AssemblyVersion>
+    <FileVersion>0.8.1.167</FileVersion>
     <Description>This is a package to extended libraries to enhance C# programming, especially easier migrate from Java.</Description>
     <Copyright>Kei Nakai</Copyright>
     <PackageProjectUrl>https://github.com/cobaltblueocean/Mercury-Language-Extensions</PackageProjectUrl>
@@ -14,8 +14,9 @@
     <PackageId>Mercury.Language.Extensions</PackageId>
     <Authors>Kei Nakai</Authors>
     <Company />
-    <Version>0.8.1.163</Version>
-    <PackageReleaseNotes>Added Decimal and DecimalComplec Matrix/Vector classes
+    <Version>0.8.1.167</Version>
+    <PackageReleaseNotes>Added DateTimeUtility.ToLocalDate() methods
+Added Decimal and DecimalComplec Matrix/Vector classes
 Fixed CloneExact() method
 Fixed AreObjectsEqual() method
 Fixed LUDecomposition
@@ -76,17 +77,17 @@ Updated referenced packages</PackageReleaseNotes>
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Cern.Colt.NET" Version="0.9.1.38" />
+    <PackageReference Include="Cern.Colt.NET" Version="0.9.1.41" />
     <PackageReference Include="MathNet.Numerics" Version="5.0.0" />
     <PackageReference Include="Mercury.Language.Core" Version="0.8.0.12" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
-    <PackageReference Include="NodaTime" Version="3.1.2" />
-    <PackageReference Include="System.Collections.Immutable" Version="6.0.0" />
-    <PackageReference Include="System.Configuration.ConfigurationManager" Version="6.0.0" />
-    <PackageReference Include="System.Diagnostics.EventLog" Version="6.0.0" />
-    <PackageReference Include="System.Drawing.Common" Version="6.0.0" />
+    <PackageReference Include="NodaTime" Version="3.1.6" />
+    <PackageReference Include="System.Collections.Immutable" Version="7.0.0" />
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="7.0.0" />
+    <PackageReference Include="System.Diagnostics.EventLog" Version="7.0.0" />
+    <PackageReference Include="System.Drawing.Common" Version="7.0.0" />
     <PackageReference Include="System.Runtime.Extensions" Version="4.3.1" />
-    <PackageReference Include="System.Text.Json" Version="6.0.5" />
+    <PackageReference Include="System.Text.Json" Version="7.0.0" />
   </ItemGroup>
 
   <ItemGroup>

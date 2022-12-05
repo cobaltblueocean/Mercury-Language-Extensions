@@ -1,5 +1,6 @@
 using NUnit.Framework;
 using System;
+using System.Linq;
 using Mercury.Language.Time;
 using NodaTime;
 using Mercury.Test.Utility;
@@ -93,6 +94,37 @@ namespace Mercury.Language.Extensions.Test
             BASE_DATE = BASE_DATE.Plus(period);
 
             Assert.AreEqual(TARGET_DATE, BASE_DATE);
+        }
+
+        [Test]
+        public void GetZonedDateTimeFromLocalDateAndTimeTest()
+        {
+            var ldt = DateTimeUtility.ToLocalDate("20150821", "yyyyMMdd");
+
+            var ldt2 = DateTimeUtility.ToLocalDate("08/21/2015", "MM/dd/yyyy");
+
+            Assert.AreEqual(ldt.Year, ldt2.Year);
+            Assert.AreEqual(ldt.Month, ldt2.Month);
+            Assert.AreEqual(ldt.Day, ldt2.Day);
+
+            var lt = new LocalTime(13, 11);
+
+            var zoneName = NodaTimeUtility.GetTimeZoneIdByOffsetString("GMT-4");
+
+            var info = TimeZoneInfo.FindSystemTimeZoneById(NodaTimeUtility.GetTimeZoneIdByOffsetString("GMT-4"));  // TimeZoneInfo.GetSystemTimeZones().First(x => x.DisplayName.Contains(zoneName)); 
+
+            //TimeZoneInfo.FindSystemTimeZoneById("Atlantic Standard Time")
+
+            var zdt = NodaTimeUtility.GetZonedDateTime(ldt, lt, info);
+
+            var dt = new DateTime(2015, 8, 21, 13, 11, 0);
+
+            Assert.AreEqual(zdt.Year, dt.Year);
+            Assert.AreEqual(zdt.Month, dt.Month);
+            Assert.AreEqual(zdt.Day, dt.Day);
+            Assert.AreEqual(zdt.Hour, dt.Hour);
+            Assert.AreEqual(zdt.Minute, dt.Minute);
+            Assert.AreEqual(zdt.Second, dt.Second);
         }
 
         [Test]

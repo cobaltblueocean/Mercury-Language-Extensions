@@ -213,22 +213,22 @@ namespace Mercury.Language.Amount
             var set2 = value2._data.Keys.ToHashSet();
             foreach (var p in set1)
             {
-                if (value2._data[p] == null && System.Math.Abs(value1._data[p].Value) > tolerance)
+                if (value2._data.GetSafe(p) == null && System.Math.Abs(value1._data.GetSafe(p).Value) > tolerance)
                 {
                     return false;
                 }
-                if (value2._data[p] != null && System.Math.Abs(value1._data[p].Value - value2._data[p].Value) > tolerance)
+                if (value2._data.GetSafe(p) != null && System.Math.Abs(value1._data.GetSafe(p).Value - value2._data.GetSafe(p).Value) > tolerance)
                 {
                     return false;
                 }
             }
             foreach (var p in set2)
             {
-                if (value1._data[p] == null && System.Math.Abs(value2._data[p].Value) > tolerance)
+                if (value1._data.GetSafe(p) == null && System.Math.Abs(value2._data.GetSafe(p).Value) > tolerance)
                 {
                     return false;
                 }
-                if (value1._data[p] != null && System.Math.Abs(value2._data[p].Value - value1._data[p].Value) > tolerance)
+                if (value1._data.GetSafe(p) != null && System.Math.Abs(value2._data.GetSafe(p).Value - value1._data.GetSafe(p).Value) > tolerance)
                 {
                     return false;
 

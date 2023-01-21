@@ -86,8 +86,30 @@ namespace Mercury.Language.Time
             DateTimeZone timeZone = ORIGINAL_TIME_ZONE;
             LocalDate t1 = now.InZone(timeZone).Date;
 
-            //LocalDateTime local = new LocalDateTime(t1.Year, t1.Month, 1, 0, 0);
-            //ZonedDateTime temp = new ZonedDateTime(local, timeZone, timeZone.GetUtcOffset(Instant.FromDateTimeUtc(System.DateTime.UtcNow)));
+            ZonedDateTime temp = NodaTimeUtility.GetZonedDateTime(t1.Year, t1.Month, 1, 0, 0, 0, timeZone);
+
+            return DayTemporalAdjuster.Of(temp, DayTemporalAdjuster.DayOf.FirstDayOfMonth);
+        }
+
+        /// <summary>
+        /// Returns the "first day of month" adjuster, which returns a new date set to
+        /// the first day of the current month.
+        /// <p>
+        /// The ISO calendar system behaves as follows:<br>
+        /// The input 2011-01-15 will return 2011-01-01.<br>
+        /// The input 2011-02-15 will return 2011-02-01.
+        /// <p>
+        /// The behavior is suitable for use with most calendar systems.
+        /// It is equivalent to:
+        /// <pre>
+        ///  temporal.with(DAY_OF_MONTH, 1);
+        /// </pre>
+        /// </summary>
+        /// <returns>the first day-of-month adjuster, not null</returns>
+        public static ITemporalAdjuster FirstDayOfMonth(DateTimeZone timeZone)
+        {
+            Instant now = SystemClock.Instance.GetCurrentInstant();
+            LocalDate t1 = now.InZone(timeZone).Date;
 
             ZonedDateTime temp = NodaTimeUtility.GetZonedDateTime(t1.Year, t1.Month, 1, 0, 0, 0, timeZone);
 
@@ -128,6 +150,38 @@ namespace Mercury.Language.Time
         }
 
         /// <summary>
+        /// Returns the "last day of month" adjuster, which returns a new date set to
+        /// the last day of the current month.
+        /// <p>
+        /// The ISO calendar system behaves as follows:<br>
+        /// The input 2011-01-15 will return 2011-01-31.<br>
+        /// The input 2011-02-15 will return 2011-02-28.<br>
+        /// The input 2012-02-15 will return 2012-02-29 (leap year).<br>
+        /// The input 2011-04-15 will return 2011-04-30.
+        /// <p>
+        /// The behavior is suitable for use with most calendar systems.
+        /// It is equivalent to:
+        /// <pre>
+        ///  long lastDay = temporal.range(DAY_OF_MONTH).getMaximum();
+        ///  temporal.with(DAY_OF_MONTH, lastDay);
+        /// </pre>
+        /// 
+        /// </summary>
+        /// <returns>the last day-of-month adjuster, not null</returns>
+        public static ITemporalAdjuster LastDayOfMonth(DateTimeZone timeZone)
+        {
+            Instant now = SystemClock.Instance.GetCurrentInstant();
+           LocalDate t1 = now.InZone(timeZone).Date;
+
+            t1.PlusMonths(1);
+            ZonedDateTime temp = NodaTimeUtility.GetZonedDateTime(t1.Year, t1.Month, 1, 0, 0, 0, timeZone);
+
+            temp = temp.PlusDays(-1);
+
+            return DayTemporalAdjuster.Of(temp, DayTemporalAdjuster.DayOf.LastDayOfMonth);
+        }
+
+        /// <summary>
         /// Returns the "first day of next month" adjuster, which returns a new date set to
         /// the first day of the next month.
         /// <p>
@@ -158,6 +212,35 @@ namespace Mercury.Language.Time
         }
 
         /// <summary>
+        /// Returns the "first day of next month" adjuster, which returns a new date set to
+        /// the first day of the next month.
+        /// <p>
+        /// The ISO calendar system behaves as follows:<br>
+        /// The input 2011-01-15 will return 2011-02-01.<br>
+        /// The input 2011-02-15 will return 2011-03-01.
+        /// <p>
+        /// The behavior is suitable for use with most calendar systems.
+        /// It is equivalent to:
+        /// <pre>
+        ///  temporal.with(DAY_OF_MONTH, 1).plus(1, MONTHS);
+        /// </pre>
+        /// </summary>
+        /// <returns>the first day of next month adjuster, not null</returns>
+        public static ITemporalAdjuster FirstDayOfNextMonth(DateTimeZone timeZone)
+        {
+            //ZonedDateTime t1 = new ZonedDateTime().AddMonths(1);
+            //ZonedDateTime temp = new ZonedDateTime(t1.Year, t1.Month, 1);
+            Instant now = SystemClock.Instance.GetCurrentInstant();
+            LocalDate t1 = now.InZone(timeZone).Date;
+
+            t1.PlusMonths(1);
+            LocalDateTime local = new LocalDateTime(t1.Year, t1.Month, 1, 0, 0);
+            ZonedDateTime temp = new ZonedDateTime(local, timeZone, timeZone.GetUtcOffset(Instant.FromDateTimeUtc(System.DateTime.UtcNow)));
+
+            return DayTemporalAdjuster.Of(temp, DayTemporalAdjuster.DayOf.FirstDayOfNextMonth);
+        }
+
+        /// <summary>
         /// Returns the "first day of year" adjuster, which returns a new date set to
         /// the first day of the current year.
         /// <p>
@@ -176,6 +259,31 @@ namespace Mercury.Language.Time
         {
             Instant now = SystemClock.Instance.GetCurrentInstant();
             DateTimeZone timeZone = ORIGINAL_TIME_ZONE;
+            LocalDate t1 = now.InZone(timeZone).Date;
+            LocalDateTime local = new LocalDateTime(t1.Year, 1, 1, 0, 0);
+            ZonedDateTime temp = new ZonedDateTime(local, timeZone, timeZone.GetUtcOffset(Instant.FromDateTimeUtc(System.DateTime.UtcNow)));
+
+            return DayTemporalAdjuster.Of(temp, DayTemporalAdjuster.DayOf.FirstDayOfYear);
+        }
+
+        /// <summary>
+        /// Returns the "first day of year" adjuster, which returns a new date set to
+        /// the first day of the current year.
+        /// <p>
+        /// The ISO calendar system behaves as follows:<br>
+        /// The input 2011-01-15 will return 2011-01-01.<br>
+        /// The input 2011-02-15 will return 2011-01-01.<br>
+        /// <p>
+        /// The behavior is suitable for use with most calendar systems.
+        /// It is equivalent to:
+        /// <pre>
+        ///  temporal.with(DAY_OF_YEAR, 1);
+        /// </pre>
+        /// </summary>
+        /// <returns>the first day-of-year adjuster, not null</returns>
+        public static ITemporalAdjuster FirstDayOfYear(DateTimeZone timeZone)
+        {
+            Instant now = SystemClock.Instance.GetCurrentInstant();
             LocalDate t1 = now.InZone(timeZone).Date;
             LocalDateTime local = new LocalDateTime(t1.Year, 1, 1, 0, 0);
             ZonedDateTime temp = new ZonedDateTime(local, timeZone, timeZone.GetUtcOffset(Instant.FromDateTimeUtc(System.DateTime.UtcNow)));
@@ -215,6 +323,36 @@ namespace Mercury.Language.Time
         }
 
         /// <summary>
+        /// Returns the "last day of year" adjuster, which returns a new date set to
+        /// the last day of the current year.
+        /// <p>
+        /// The ISO calendar system behaves as follows:<br>
+        /// The input 2011-01-15 will return 2011-12-31.<br>
+        /// The input 2011-02-15 will return 2011-12-31.<br>
+        /// <p>
+        /// The behavior is suitable for use with most calendar systems.
+        /// It is equivalent to:
+        /// <pre>
+        ///  long lastDay = temporal.range(DAY_OF_YEAR).getMaximum();
+        ///  temporal.with(DAY_OF_YEAR, lastDay);
+        /// </pre>
+        /// 
+        /// </summary>
+        /// <returns>the last day-of-year adjuster, not null</returns>
+        public static ITemporalAdjuster LastDayOfYear(DateTimeZone timeZone)
+        {
+            Instant now = SystemClock.Instance.GetCurrentInstant();
+            LocalDate t1 = now.InZone(timeZone).Date;
+
+            t1.PlusYears(1);
+            LocalDateTime local = new LocalDateTime(t1.Year, 1, 1, 0, 0);
+            ZonedDateTime temp = new ZonedDateTime(local, timeZone, timeZone.GetUtcOffset(Instant.FromDateTimeUtc(System.DateTime.UtcNow)));
+            temp = temp.PlusDays(-1);
+
+            return DayTemporalAdjuster.Of(temp, DayTemporalAdjuster.DayOf.LastDayOfYear);
+        }
+
+        /// <summary>
         /// Returns the "first day of next year" adjuster, which returns a new date set to
         /// the first day of the next year.
         /// <p>
@@ -232,6 +370,32 @@ namespace Mercury.Language.Time
         {
             Instant now = SystemClock.Instance.GetCurrentInstant();
             DateTimeZone timeZone = ORIGINAL_TIME_ZONE;
+            LocalDate t1 = now.InZone(timeZone).Date;
+
+            t1.PlusYears(1);
+            LocalDateTime local = new LocalDateTime(t1.Year, 1, 1, 0, 0);
+            ZonedDateTime temp = new ZonedDateTime(local, timeZone, timeZone.GetUtcOffset(Instant.FromDateTimeUtc(System.DateTime.UtcNow)));
+
+            return DayTemporalAdjuster.Of(temp, DayTemporalAdjuster.DayOf.FirstDayOfNextYear);
+        }
+
+        /// <summary>
+        /// Returns the "first day of next year" adjuster, which returns a new date set to
+        /// the first day of the next year.
+        /// <p>
+        /// The ISO calendar system behaves as follows:<br>
+        /// The input 2011-01-15 will return 2012-01-01.
+        /// <p>
+        /// The behavior is suitable for use with most calendar systems.
+        /// It is equivalent to:
+        /// <pre>
+        ///  temporal.with(DAY_OF_YEAR, 1).plus(1, YEARS);
+        /// </pre>
+        /// </summary>
+        /// <returns>the first day of next month adjuster, not null</returns>
+        public static ITemporalAdjuster FirstDayOfNextYear(DateTimeZone timeZone)
+        {
+            Instant now = SystemClock.Instance.GetCurrentInstant();
             LocalDate t1 = now.InZone(timeZone).Date;
 
             t1.PlusYears(1);

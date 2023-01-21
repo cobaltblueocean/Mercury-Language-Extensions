@@ -318,66 +318,102 @@ namespace NodaTime
                 isMinus = true;
 
             int absMonths = Math.Abs(months);
-
-            DateTimeZone zone = nodaTime.Zone;
             int y = (int)Math.Truncate(absMonths / 12d);
             int m = absMonths - y * 12;
-
-            int dateMonth;
+            DateTimeZone zone = nodaTime.Zone;
+            DateTime dt = new DateTime(nodaTime.Year, nodaTime.Month, nodaTime.Day, nodaTime.Hour, nodaTime.Minute, nodaTime.Second, nodaTime.Millisecond, DateTimeKind.Unspecified);
 
             if (!isMinus)
             {
-                dateMonth = nodaTime.Month + m;
-                if (dateMonth > 12)
+                if (y > 0)
                 {
-                    y++;
-                    dateMonth = dateMonth - 12;
+                    dt = dt.AddYears(y);
                 }
+                dt = dt.AddMonths(m);
             }
             else
             {
-                dateMonth = nodaTime.Month - m;
-                if (dateMonth < 0)
+                if (y > 0)
                 {
-                    y--;
-                    dateMonth = 12 - dateMonth;
+                    dt = dt.AddYears(-y);
                 }
-
-                y = y * -1;
+                dt = dt.AddMonths(-m);
             }
 
-            int dateYear = nodaTime.Year + y;
-            int dateDay = nodaTime.Day;
-
-            DateTime temp = new DateTime(dateYear, dateMonth, 1, 0, 0, 0, 0, DateTimeKind.Utc);
-            int lastDayOfheMonth = temp.AddMonths(1).AddDays(-1).Day;
-
-            if (dateDay > lastDayOfheMonth)
-                dateDay = lastDayOfheMonth;
-
-            int dateHour = nodaTime.Hour;
-            int dateMinute = nodaTime.Minute;
-            int dateSecond = nodaTime.Second;
-            int dateMillisecond = nodaTime.Millisecond;
-
-            return NodaTimeUtility.GetZonedDateTime(dateYear, dateMonth, dateDay, dateHour, dateMinute, dateSecond, dateMillisecond, 0, zone);
+            return NodaTimeUtility.GetZonedDateTime(dt.Year, dt.Month, dt.Day, dt.Hour, dt.Minute, dt.Second, dt.Millisecond, 0, zone);
         }
 
         public static ZonedDateTime PlusYears(this ZonedDateTime nodaTime, int years)
         {
-            DateTime nodaTimeUtc = nodaTime.ToDateTimeUtc();
+            DateTime dt = new DateTime(nodaTime.Year, nodaTime.Month, nodaTime.Day, nodaTime.Hour, nodaTime.Minute, nodaTime.Second, nodaTime.Millisecond, DateTimeKind.Unspecified);
             DateTimeZone zone = nodaTime.Zone;
 
-            int dateYear = nodaTimeUtc.Year + years;
-            int dateMonth = nodaTimeUtc.Month;
-            int dateDay = nodaTimeUtc.Day;
-            int dateHour = nodaTimeUtc.Hour;
-            int dateMinute = nodaTimeUtc.Minute;
-            int dateSecond = nodaTimeUtc.Second;
-            int dateMillisecond = nodaTimeUtc.Millisecond;
+            dt = dt.AddYears(years);
 
-            //return nodaTime.Plus(Duration.FromMilliseconds(years * NodaTimeUtility.MILLISECONDS_PER_YEAR));
-            return new ZonedDateTime(new DateTime(dateYear, dateMonth, dateDay, dateHour, dateMinute, dateSecond, dateMillisecond, DateTimeKind.Utc).ToInstant(), zone);
+            return NodaTimeUtility.GetZonedDateTime(dt.Year, dt.Month, dt.Day, dt.Hour, dt.Minute, dt.Second, dt.Millisecond, 0, zone);
+        }
+
+        public static ZonedDateTime PlusDateTimeValues(this ZonedDateTime nodaTime, int year, int month, int day, int hour, int minute, int second, int millisecond, int nanosecond)
+        {
+            if (year > 0)
+            {
+                Period py = Period.FromYears(year);
+                nodaTime.Plus(py.ToDuration());
+            }
+            else if(year < 0)
+            {
+                Period py = Period.FromYears(System.Math.Abs(year));
+                nodaTime.Minus(py.ToDuration());
+            }
+
+            if (month > 0)
+            {
+                Period pm = Period.FromMonths(month);
+                nodaTime.Plus(pm.ToDuration());
+            }
+            else if (month < 0)
+            {
+                Period pm = Period.FromMonths(System.Math.Abs(month));
+                nodaTime.Minus(pm.ToDuration());
+            }
+
+            if (day > 0)
+            {
+                Period pd = Period.FromDays(day);
+                nodaTime.Plus(pd.ToDuration());
+            }
+            else if (day < 0)
+            {
+                Period pd = Period.FromDays(System.Math.Abs(day));
+                nodaTime.Minus(pd.ToDuration());
+            }
+
+            if (hour != 0)
+            {
+                nodaTime.PlusHours(hour);
+            }
+
+            if (minute != 0)
+            {
+                nodaTime.PlusMinutes(minute);
+            }
+
+            if (second != 0)
+            {
+                nodaTime.PlusSeconds(second);
+            }
+
+            if (millisecond != 0)
+            {
+                nodaTime.PlusMilliseconds(millisecond);
+            }
+
+            if (nanosecond != 0)
+            {
+                nodaTime.PlusNanoseconds(nanosecond);
+            }
+
+            return nodaTime;
         }
 
         public static ZonedDateTime AsZonedDateTime(this Instant instant)
@@ -534,12 +570,12 @@ namespace NodaTime
         public static ZonedDateTime With(this ZonedDateTime now, MonthDay monthDay)
         {
             DateTimeZone timeZone = now.Zone;
-            return new ZonedDateTime(new DateTime(now.Year, monthDay.Month.Value, monthDay.Day).ToInstant(), NodaTimeUtility.ORIGINAL_TIME_ZONE);
+            return new ZonedDateTime(new DateTime(now.Year, monthDay.Month.Value, monthDay.Day).ToInstant(), now.Zone);
         }
 
         public static ZonedDateTime With(this ZonedDateTime now, LocalDate localDate)
         {
-            return new ZonedDateTime(localDate.ToDateTimeUnspecified().ToInstant(), NodaTimeUtility.ORIGINAL_TIME_ZONE);
+            return new ZonedDateTime(localDate.ToDateTimeUnspecified().ToInstant(), now.Zone);
         }
 
         public static ZonedDateTime With(this ZonedDateTime now, ITemporalField field, long newValue)
@@ -614,7 +650,7 @@ namespace NodaTime
                 return now;
             }
             
-            return new ZonedDateTime(new DateTime(now.Year, now.Month, now.Day, hour, now.Minute, now.Second).ToInstant(), NodaTimeUtility.ORIGINAL_TIME_ZONE);
+            return new ZonedDateTime(new DateTime(now.Year, now.Month, now.Day, hour, now.Minute, now.Second).ToInstant(), now.Zone);
         }
 
         public static ZonedDateTime WithMinute(this ZonedDateTime now, int minute)
@@ -624,7 +660,7 @@ namespace NodaTime
                 return now;
             }
             
-            return new ZonedDateTime(new DateTime(now.Year, now.Month, now.Day, now.Hour, minute, now.Second).ToInstant(), NodaTimeUtility.ORIGINAL_TIME_ZONE);
+            return new ZonedDateTime(new DateTime(now.Year, now.Month, now.Day, now.Hour, minute, now.Second).ToInstant(), now.Zone);
         }
 
         public static ZonedDateTime WithSecond(this ZonedDateTime now, int second)
@@ -634,7 +670,7 @@ namespace NodaTime
                 return now;
             }
             
-            return new ZonedDateTime(new DateTime(now.Year, now.Month, now.Day, now.Hour, now.Minute, second).ToInstant(), NodaTimeUtility.ORIGINAL_TIME_ZONE);
+            return new ZonedDateTime(new DateTime(now.Year, now.Month, now.Day, now.Hour, now.Minute, second).ToInstant(), now.Zone);
         }
 
         public static ZonedDateTime WithNano(this ZonedDateTime now, int nano)
@@ -644,7 +680,7 @@ namespace NodaTime
                 return now;
             }
             
-            return new ZonedDateTime(new DateTime(now.Year, now.Month, now.Day, now.Hour, now.Minute, now.Second).AddNanos(nano).ToInstant(), NodaTimeUtility.ORIGINAL_TIME_ZONE);
+            return new ZonedDateTime(new DateTime(now.Year, now.Month, now.Day, now.Hour, now.Minute, now.Second).AddNanos(nano).ToInstant(), now.Zone);
         }
 
         public static ZonedDateTime WithYear(this ZonedDateTime now, int year)
@@ -654,7 +690,7 @@ namespace NodaTime
                 return now;
             }
             
-            return new ZonedDateTime(new DateTime(year, now.Month, now.Day).ToInstant(), NodaTimeUtility.ORIGINAL_TIME_ZONE);
+            return new ZonedDateTime(new DateTime(year, now.Month, now.Day).ToInstant(), now.Zone);
         }
 
         public static ZonedDateTime WithMonth(this ZonedDateTime now, int month)
@@ -670,7 +706,7 @@ namespace NodaTime
             }
 
             
-            return new ZonedDateTime(new DateTime(now.Year, month, now.Day).ToInstant(), NodaTimeUtility.ORIGINAL_TIME_ZONE);
+            return new ZonedDateTime(new DateTime(now.Year, month, now.Day).ToInstant(), now.Zone);
         }
 
         public static ZonedDateTime WithDayOfMonth(this ZonedDateTime now, int dayOfMonth)
@@ -681,7 +717,7 @@ namespace NodaTime
             }
 
             
-            return new ZonedDateTime(new DateTime(now.Year, now.Month, dayOfMonth).ToInstant(), NodaTimeUtility.ORIGINAL_TIME_ZONE);
+            return new ZonedDateTime(new DateTime(now.Year, now.Month, dayOfMonth).ToInstant(), now.Zone);
         }
 
         public static ZonedDateTime WithDayOfYear(this ZonedDateTime now, int dayOfYear)
@@ -710,7 +746,7 @@ namespace NodaTime
             }
             int dom = dayOfYear - moy.firstDayOfYear(leap) + 1;
             
-            return new ZonedDateTime(new DateTime(year, moy.Value, dom).ToInstant(), NodaTimeUtility.ORIGINAL_TIME_ZONE);
+            return new ZonedDateTime(new DateTime(year, moy.Value, dom).ToInstant(), now.Zone);
         }
 
         public static ZonedDateTime OfEpochDay(this ZonedDateTime now, long epochDay)
@@ -747,7 +783,7 @@ namespace NodaTime
             // check year now we are certain it is correct
             int year = (int)ChronoField.YEAR.CheckValidIntValue(yearEst);
             
-            return new ZonedDateTime(new DateTime(year, month, dom).ToInstant(), NodaTimeUtility.ORIGINAL_TIME_ZONE);
+            return new ZonedDateTime(new DateTime(year, month, dom).ToInstant(), now.Zone);
         }
 
         public static int Get(this ZonedDateTime now, ITemporalField field)
@@ -2191,6 +2227,12 @@ namespace NodaTime
             return new ZonedDateTime(source.ToInstant(), NodaTimeUtility.ORIGINAL_TIME_ZONE);
         }
 
+        public static ZonedDateTime ToZonedDateTime(this LocalDateTime source, DateTimeZone zone)
+        {
+
+            return new ZonedDateTime(source.ToInstant(), zone);
+        }
+
         public static LocalDate ToLocalDate(this LocalDateTime now)
         {
             
@@ -3381,6 +3423,12 @@ namespace NodaTime
         {
             
             return new ZonedDateTime(source.ToInstant(), NodaTimeUtility.ORIGINAL_TIME_ZONE);
+        }
+
+        public static ZonedDateTime ToZonedDateTime(this LocalDate source, DateTimeZone zone)
+        {
+
+            return new ZonedDateTime(source.ToInstant(), zone);
         }
 
         public static double GetDifferenceInDays(this LocalDate startDate, LocalDate endDate)

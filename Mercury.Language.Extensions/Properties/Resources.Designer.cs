@@ -3463,6 +3463,15 @@ namespace Mercury.Language.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Set is a read only set..
+        /// </summary>
+        internal static string SET_IS_A_READ_ONLY {
+            get {
+                return ResourceManager.GetString("SET_IS_A_READ_ONLY", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to shape ({0}).
         /// </summary>
         internal static string SHAPE {

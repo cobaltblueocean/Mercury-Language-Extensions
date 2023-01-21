@@ -43,25 +43,29 @@ namespace Mercury.Language.Time
         private ZonedDateTime _zonedDateTime;
         private LocalDate _localDate;
 
-        private ValueType _valueType;
+        //private ValueType _valueType;
 
-        public ValueType Type{ get; private set; }
+        public ValueType Type
+        {
+            get;
+            private set; 
+        }
 
         public Temporal(ZonedDateTime zonedDateTime)
         {
-            _valueType = ValueType.ZonedDateTime;
+            this.Type = ValueType.ZonedDateTime;
             _zonedDateTime = zonedDateTime;
         }
 
         public Temporal(LocalDate localDate)
         {
-            _valueType = ValueType.LocalDate;
+            this.Type = ValueType.LocalDate;
             _localDate = localDate;
         }
 
         public dynamic GetOriginal()
         {
-            if (_valueType == ValueType.LocalDate)
+            if (this.Type == ValueType.LocalDate)
                 return _localDate;
             else
                 return _zonedDateTime;
@@ -693,7 +697,6 @@ namespace Mercury.Language.Time
                 return date.GetRange(field);
             }
             throw new InvalidCastException();
-
         }
     }
 }

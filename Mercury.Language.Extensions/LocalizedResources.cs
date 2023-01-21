@@ -2043,5 +2043,10 @@ namespace Mercury.Language
         {
             get { return Resources.THE_DESTINATION_MATRIX_MUST_BE_BIG_ENOUGH; }
         }
+
+        public String SET_IS_A_READ_ONLY
+        {
+            get { return Resources.SET_IS_A_READ_ONLY; }
+        }
     }
 }

@@ -147,8 +147,8 @@ namespace System
 
         public static ZonedDateTime ToZonedDateTime(this DateTime source, DateTimeZone timeZone)
         {
-            //Offset offset = timeZone.GetUtcOffset(Instant.FromDateTimeUtc(source.ToUniversalTime()));
-            return (new ZonedDateTime(source.ToInstant(), timeZone)); //.PlusSeconds(-offset.Seconds);
+            Offset offset = timeZone.GetUtcOffset(Instant.FromDateTimeUtc(source.ToUniversalTime()));
+            return (new ZonedDateTime(source.ToInstant(), timeZone)).PlusSeconds(-offset.Seconds);
         }
 
         public static LocalDate ToLocalDate(this DateTime source)
@@ -156,8 +156,9 @@ namespace System
             return LocalDate.FromDateTime(source);
         }
 
-        public static Instant ToInstant(this DateTime source)
+        public static Instant ToInstant(this DateTime now)
         {
+            DateTime source = new DateTime(now.Year, now.Month, now.Day, now.Hour, now.Minute, now.Second, now.Millisecond, DateTimeKind.Utc);
             return Instant.FromDateTimeUtc(source.ToUniversalTime());
         }
 

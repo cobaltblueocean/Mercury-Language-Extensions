@@ -1530,4 +1530,8 @@
   <data name="TOO_SMALL_BANDWIDTH" xml:space="preserve">
     <value>帯域幅は、少なくとも2ポイントを収容するのに十分な大きさである必要があります。 {0} のデータポイントがあり、帯域幅は少なくとも {1} である必要がありますが、それは {2} だけです。</value>
   </data>
+  <data name="SET_IS_A_READ_ONLY" xml:space="preserve">
+    <value>Set は読み取り専用です。</value>
+    <comment>_SET</comment>
+  </data>
 </root>

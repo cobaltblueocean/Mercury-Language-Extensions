@@ -4,8 +4,8 @@
     <TargetFramework>netstandard2.1</TargetFramework>
     <RootNamespace>Mercury.Language</RootNamespace>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-    <AssemblyVersion>0.8.1.169</AssemblyVersion>
-    <FileVersion>0.8.1.169</FileVersion>
+    <AssemblyVersion>0.8.1.182</AssemblyVersion>
+    <FileVersion>0.8.1.182</FileVersion>
     <Description>This is a package to extended libraries to enhance C# programming, especially easier migrate from Java.</Description>
     <Copyright>Kei Nakai</Copyright>
     <PackageProjectUrl>https://github.com/cobaltblueocean/Mercury-Language-Extensions</PackageProjectUrl>
@@ -14,8 +14,11 @@
     <PackageId>Mercury.Language.Extensions</PackageId>
     <Authors>Kei Nakai</Authors>
     <Company />
-    <Version>0.8.1.169</Version>
-    <PackageReleaseNotes>Fix of SurfaceValue.CompareTo() method
+    <Version>0.8.1.182</Version>
+    <PackageReleaseNotes>Fixed Temporal class
+Fixed PlusMonth() method for NodaTimeExtension
+Added ReadOnlySet class
+Fix of SurfaceValue.CompareTo() method
 Updated referenced object
 Added DateTimeUtility.ToLocalDate() methods
 Added Decimal and DecimalComplec Matrix/Vector classes
@@ -79,9 +82,9 @@ Updated referenced packages</PackageReleaseNotes>
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Cern.Colt.NET" Version="0.9.1.42" />
+    <PackageReference Include="Cern.Colt.NET" Version="0.9.1.44" />
     <PackageReference Include="MathNet.Numerics" Version="5.0.0" />
-    <PackageReference Include="Mercury.Language.Core" Version="0.8.0.13" />
+    <PackageReference Include="Mercury.Language.Core" Version="0.8.0.15" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="NodaTime" Version="3.1.6" />
     <PackageReference Include="System.Collections.Immutable" Version="7.0.0" />

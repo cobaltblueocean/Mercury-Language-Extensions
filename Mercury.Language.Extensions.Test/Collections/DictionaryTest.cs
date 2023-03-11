@@ -18,12 +18,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
 using Mercury.Test.Utility;
+using NodaTime;
 
 namespace Mercury.Language.Extensions.Test.Collections
 {
@@ -112,6 +115,46 @@ namespace Mercury.Language.Extensions.Test.Collections
 
             treeDictionary2.AddOrUpdate("Code1", new DummyObjectComparable() { Code = "Code1" });
             treeDictionary2.AddOrUpdate("Code2", new DummyObjectComparable() { Code = "Code2" });
+
+            var allFlows = new TreeDictionary<LocalDate, Object>();
+            allFlows.Add(new LocalDate(2012, 12, 1), new object());
+            allFlows.Add(new LocalDate(2013, 1, 1), new object());
+            allFlows.Add(new LocalDate(2013, 2, 1), new object());
+            LocalDate date = new LocalDate(2013, 1, 1);
+            var data = allFlows.Tail( date, true);
+
         }
+
+        public static IDictionary<TKey, TValue> Tail<TKey, TValue>(IDictionary<TKey, TValue> originalDictionary, TKey key, bool inclusive = false)
+        {
+            TKey[] array = Enumerable.ToArray(originalDictionary.Keys);
+            List<TKey> tmp = new List<TKey>();
+            Comparer comparer = new Comparer(CultureInfo.InvariantCulture);
+
+            int count = array.Count();
+            for (int i = 0; i < count; i++)
+            {
+                int result = comparer.Compare(array[i], key);
+                if ((result  > 0) || (inclusive && result == 0))
+                {
+                    tmp.Add(array[i]);
+                    continue;
+                }
+            }
+
+
+            var resultDictionary = originalDictionary.Clone();
+            resultDictionary.Clear();
+
+            foreach(var k in tmp)
+            {
+                TValue v;
+                _ = originalDictionary.TryGetValue(k, out v);
+                resultDictionary.Add(k, v);
+            }
+
+            return (IDictionary<TKey, TValue>)resultDictionary;//originalDictionary.Where(x => tmp.Contains(x.Key));
+        }
+
     }
 }

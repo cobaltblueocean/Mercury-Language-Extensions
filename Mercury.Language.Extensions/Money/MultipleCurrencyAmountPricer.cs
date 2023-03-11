@@ -49,7 +49,7 @@ namespace Mercury.Language.Money
         /// <param name="amount">the initial amount in the series of payments</param>
         public MultipleCurrencyAmountPricer(MultipleCurrencyAmount amount)
         {
-            // ArgumentChecker.NotNull(amount, "amount");
+            //ArgumentChecker.NotNull(amount, "amount");
             if (amount.Count > 0)
             {
                 // optimise the pricing of this currency by skipping intermediate MCA objects

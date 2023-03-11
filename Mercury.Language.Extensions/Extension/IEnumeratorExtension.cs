@@ -30,17 +30,17 @@ namespace System.Collections.Generic
     /// </summary>
     public static class IEnumeratorExtension
     {
-        public static T Next<T>(this IEnumerator<T> obj)
-        {
-            if (obj.MoveNext())
-            {
-                return obj.Current;
-            }
-            else
-            {
-                return default;
-            }
-        }
+        //public static T Next<T>(this IEnumerator<T> obj)
+        //{
+        //    if (obj.MoveNext())
+        //    {
+        //        return obj.Current;
+        //    }
+        //    else
+        //    {
+        //        return default;
+        //    }
+        //}
 
         public static int Count<T>(this IEnumerator<T> obj)
         {

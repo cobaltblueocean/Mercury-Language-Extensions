@@ -190,12 +190,11 @@ namespace Mercury.Language.Math.Analysis.Polynomial
 
             int n = c.Length;
             double value = a[n];
-            //for(int i = n - 1; i >= 0; i--) {
-            AutoParallel.AutoParallelFor(n - 1, 0, (i) =>
+            for (int i = n - 1; i >= 0; i--)
             {
+
                 value = a[i] + (z - c[i]) * value;
-            }, true);
-            //}
+            }
 
             return value;
         }
@@ -209,25 +208,20 @@ namespace Mercury.Language.Math.Analysis.Polynomial
             int n = Degree;
 
             coefficients = new double[n + 1];
-            //for(int i = 0; i <= n; i++)
-            AutoParallel.AutoParallelFor(0, n, (i) =>
+            for (int i = 0; i <= n; i++)
             {
                 coefficients[i] = 0.0;
-            }, true);
+            }
 
             coefficients[0] = a[n];
-            //for(int i = n - 1; i >= 0; i--)
-            //{
-            AutoParallel.AutoParallelFor(n - 1, 0, (i) =>
+            for (int i = n - 1; i >= 0; i--)
             {
-                //    for(int j = n - i; j > 0; j--)
-                //    {
-                AutoParallel.AutoParallelFor(n - i, 0, (j) =>
+                for (int j = n - i; j > 0; j--)
                 {
                     coefficients[j] = coefficients[j - 1] - c[i] * coefficients[j];
-                });
+                }
                 coefficients[0] = a[i] - c[i] * coefficients[0];
-            }, true);
+            }
 
             coefficientsComputed = true;
         }

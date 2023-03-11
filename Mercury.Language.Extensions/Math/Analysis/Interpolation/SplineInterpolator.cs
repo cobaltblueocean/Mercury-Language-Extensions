@@ -102,13 +102,13 @@ namespace Mercury.Language.Math.Analysis.Interpolation
             mu[0] = 0d;
             z[0] = 0d;
             double g = 0;
-            AutoParallel.AutoParallelFor(1, n, (i) =>
+            for(int i = 1; i < n; i++)
             {
                 g = 2d * (x[i + 1] - x[i - 1]) - h[i - 1] * mu[i - 1];
                 mu[i] = h[i] / g;
                 z[i] = (3d * (y[i + 1] * h[i - 1] - y[i] * (x[i + 1] - x[i - 1]) + y[i - 1] * h[i]) /
                         (h[i - 1] * h[i]) - h[i - 1] * z[i - 1]) / g;
-            });
+            }
 
             // cubic spline coefficients --  b is linear, c quadratic, d is cubic (original y's are constants)
             double[] b = new double[n];
@@ -118,14 +118,13 @@ namespace Mercury.Language.Math.Analysis.Interpolation
             z[n] = 0d;
             c[n] = 0d;
 
-            //for(int j = n - 1; j >= 0; j--)
-            AutoParallel.AutoParallelFor(n - 1, 0, (j) =>
-         {
-             c[j] = z[j] - mu[j] * c[j + 1];
-             b[j] = (y[j + 1] - y[j]) / h[j] - h[j] * (c[j + 1] + 2d * c[j]) / 3d;
-             d[j] = (c[j + 1] - c[j]) / (3d * h[j]);
-         }, true);
-            //}
+            for (int j = n - 1; j >= 0; j--)
+            {
+                c[j] = z[j] - mu[j] * c[j + 1];
+                b[j] = (y[j + 1] - y[j]) / h[j] - h[j] * (c[j + 1] + 2d * c[j]) / 3d;
+                d[j] = (c[j + 1] - c[j]) / (3d * h[j]);
+            }
+
             PolynomialFunction[] polynomials = new PolynomialFunction[n];
             double[] coefficients = new double[4];
             AutoParallel.AutoParallelFor(0, n, (i) =>

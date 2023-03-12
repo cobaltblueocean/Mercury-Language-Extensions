@@ -49,27 +49,6 @@ namespace System.Collections.Generic
             return originalDictionary;
         }
 
-        public static void RemoveAll<TKey, TValue>(this IDictionary<TKey, TValue> originalDictionary)
-        {
-            var keys = originalDictionary.Keys.ToList();
-            foreach (var key in keys)
-            {
-                originalDictionary.Remove(key);
-            }
-        }
-
-        public static TValue GetSafe<TKey, TValue>(this IDictionary<TKey, TValue> originalDictionary, TKey key)
-        {
-            try
-            {
-                return originalDictionary[key];
-            }
-            catch
-            {
-                return default(TValue);
-            }
-        }
-
         #endregion
     }
 }

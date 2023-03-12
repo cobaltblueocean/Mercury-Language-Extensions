@@ -22,6 +22,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Mercury.Language;
 using Mercury.Language.Exception;
 using Mercury.Language.Time;
 using NodaTime;
@@ -91,6 +92,90 @@ namespace NodaTime
         ///// </summary>
         //private static int MAX_VALUE = 999999999;
 
+
+        #region DateTime Operation
+
+        /// <summary>
+        /// The number of seconds in one day.
+        /// </summary>
+        public static long SECONDS_PER_DAY = 86400L;
+
+        /// <summary>
+        /// The number of days in one year (estimated as 365.25).
+        /// </summary>
+        //TODO change this to 365.2425 to be consistent with JSR-310
+        public static double DAYS_PER_YEAR = 365.25;
+
+        /// <summary>
+        /// The number of milliseconds in one day.
+        /// </summary>
+        public static long MILLISECONDS_PER_DAY = SECONDS_PER_DAY * 1000;
+
+        /// <summary>
+        /// The number of seconds in one year.
+        /// </summary>
+        public static long SECONDS_PER_YEAR = (long)(SECONDS_PER_DAY * DAYS_PER_YEAR);
+
+        /// <summary>
+        /// The number of milliseconds in one year.
+        /// </summary>
+        public static long MILLISECONDS_PER_YEAR = SECONDS_PER_YEAR * 1000;
+
+        /// <summary>
+        /// The number of milliseconds in one month.
+        /// </summary>
+        public static long MILLISECONDS_PER_MONTH = MILLISECONDS_PER_YEAR / 12L;
+
+
+        public static ZonedDateTime ToZonedDateTime(this DateTime source)
+        {
+            DateTimeZone timeZone = DateTimeZoneProviders.Bcl.GetSystemDefault();
+            return ToZonedDateTime(source, timeZone);
+        }
+
+
+        public static ZonedDateTime ToZonedDateTime(this DateTime source, string timeZoneId)
+        {
+            DateTimeZone timeZone = DateTimeZoneProviders.Tzdb[timeZoneId];
+            if (timeZone == null)
+            {
+                throw new TimeZoneNotFoundException();
+            }
+            return ToZonedDateTime(source, timeZone);
+        }
+
+
+        public static ZonedDateTime ToZonedDateTime(this DateTime source, DateTimeZone timeZone)
+        {
+            Offset offset = timeZone.GetUtcOffset(Instant.FromDateTimeUtc(source.ToUniversalTime()));
+            return (new ZonedDateTime(source.ToInstant(), timeZone)).PlusSeconds(-offset.Seconds);
+        }
+
+        public static LocalDate ToLocalDate(this DateTime source)
+        {
+            return LocalDate.FromDateTime(source);
+        }
+
+        public static Instant ToInstant(this DateTime now)
+        {
+            DateTime source = new DateTime(now.Year, now.Month, now.Day, now.Hour, now.Minute, now.Second, now.Millisecond, DateTimeKind.Utc);
+            return Instant.FromDateTimeUtc(source.ToUniversalTime());
+        }
+
+        public static double GetDifferenceInMonths(this Instant? startDate, Instant? endDate)
+        {
+            if (startDate == null)
+            {
+                throw new ArgumentNullException(LocalizedResources.Instance().START_DATE_WAS_NULL);
+            }
+            if (endDate == null)
+            {
+                throw new ArgumentNullException(LocalizedResources.Instance().END_DATE_WAS_NULL);
+            }
+
+            return (double)(Instant.Subtract(endDate.Value, startDate.Value).TotalMilliseconds) / MILLISECONDS_PER_MONTH;
+        }
+        #endregion
 
         #region Array
         #region ZonedDateTime

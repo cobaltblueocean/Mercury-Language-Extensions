@@ -33,7 +33,7 @@ using Mercury.Language.Math.Matrix;
 
 namespace System
 {
-    public static class ArrayExtension
+    public static class ArrayExtension2
     {
         /// <summary>
         ///   Directions for the General Comparer.
@@ -53,6 +53,7 @@ namespace System
             /// 
             Descending = -1
         };
+
 
         /// <summary>
         ///   Creates a range vector (like NumPy's arange function).
@@ -81,7 +82,6 @@ namespace System
             return r;
         }
 
-
         /// <summary>
         ///   Gets the indices that sort a vector.
         /// </summary>
@@ -92,35 +92,6 @@ namespace System
             int[] idx;
             values.Copy().Sort(out idx);
             return idx;
-        }
-
-        public static T[] Add<T>(this T[] array, int index, T value)
-        {
-            T[] target = new T[array.Length + 1];
-            int j = 0;
-
-            for (int i = 0; i < array.Length; i++)
-            {
-                if (i == index)
-                {
-                    target[j] = value;
-                    j++;
-                }
-                target[j] = array[i];
-                j++;
-            }
-
-            return target;
-        }
-
-
-        public static T[] Add<T>(this T[] array, T value)
-        {
-            T[] target = new T[array.Length + 1];
-            array.CopyTo(target, 0);
-            target[target.Length - 1] = value;
-
-            return target;
         }
 
         /// <summary>

@@ -4,7 +4,7 @@
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <Version>0.8.1.1</Version>
+    <Version>0.8.2.6</Version>
     <Title>Mercury Language Extension</Title>
     <Description>This is a package to extended libraries to enhance C# programming, especially easier migrate from Java.</Description>
     <Company>Mercury</Company>
@@ -62,14 +62,15 @@ Bug fixed SingularValueDecomposition
 Bug fixed of SingularValueDecomposition.GetRank() method
 Fixed QRDecompositions Solve methods
 Fixed CholeskyDecomposition
-Updated referenced packages</PackageReleaseNotes>
+Updated referenced packages
+Updated project for .NET 7.0</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Cern.Colt.NET" Version="0.9.2.2" />
+    <PackageReference Include="Cern.Colt.NET" Version="0.9.2.7" />
     <PackageReference Include="MathNet.Numerics" Version="5.0.0" />
-    <PackageReference Include="Mercury.Language.Core" Version="0.8.1.1" />
-    <PackageReference Include="Mercury.Test.Utility" Version="0.8.1.2" />
+    <PackageReference Include="Mercury.Language.Core" Version="0.8.1.7" />
+    <PackageReference Include="Mercury.Test.Utility" Version="0.8.1.6" />
     <PackageReference Include="NodaTime" Version="3.1.6" />
     <PackageReference Include="System.Collections.Immutable" Version="7.0.0" />
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="7.0.0" />

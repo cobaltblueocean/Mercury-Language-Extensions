@@ -23,7 +23,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
-using Mercury.Language.Exception;
+using Mercury.Language.Exceptions;
 
 namespace Mercury.Language.Math.Analysis.Differentiation
 {

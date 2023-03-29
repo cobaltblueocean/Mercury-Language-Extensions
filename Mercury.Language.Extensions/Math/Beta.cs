@@ -22,7 +22,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Mercury.Language.Exception;
+using Mercury.Language.Exceptions;
 using MathNet.Numerics.LinearAlgebra;
 
 namespace Mercury.Language.Math

@@ -40,10 +40,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Mercury.Language.Math;
 using Mercury.Language.Math.Analysis.Polynomial;
-using Mercury.Language.Math.Optimization;
-using Mercury.Language.Exception;
+using Mercury.Language.Exceptions;
+using Mercury.Language.Extensions;
 
 namespace Mercury.Language.Math.Optimization.Fitting
 {

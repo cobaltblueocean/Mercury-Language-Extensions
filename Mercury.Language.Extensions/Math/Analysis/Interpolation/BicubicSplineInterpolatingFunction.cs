@@ -23,10 +23,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Mercury.Language.Math;
-
 using Mercury.Language.Math.Analysis;
-using Mercury.Language.Exception;
-
+using Mercury.Language.Exceptions;
+using Mercury.Language.Extensions;
 using Mercury.Language.Math.Analysis.Function;
 
 namespace Mercury.Language.Math.Analysis.Interpolation
@@ -94,7 +93,7 @@ namespace Mercury.Language.Math.Analysis.Interpolation
         /// every grid point.
         /// <exception cref="DimensionMismatchException">if the various arrays do not contain </exception>
         /// the expected number of elements.
-        /// <exception cref="Mercury.Language.Exception.NonMonotonousSequenceException"></exception>
+        /// <exception cref="Mercury.Language.Exceptions.NonMonotonousSequenceException"></exception>
         /// if {@code x} or {@code y} are not strictly increasing.
         /// <exception cref="DataNotFoundException">if any of the arrays has zero lengthd </exception>
         public BicubicSplineInterpolatingFunction(double[] x,

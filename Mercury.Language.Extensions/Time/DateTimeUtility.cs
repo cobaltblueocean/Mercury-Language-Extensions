@@ -24,7 +24,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using Mercury.Language.Exception;
+using Mercury.Language.Exceptions;
 using NodaTime;
 using NodaTime.Text;
 

@@ -48,8 +48,8 @@ namespace Mercury.Language.Math.Analysis.Interpolation
         /// <param Name="fval">the values of the interpolation points on all the grid knots:</param>
         /// {@code fval[i][j][k] = f(xval[i], yval[j], zval[k])}.
         /// <returns>a function that interpolates the data set.</returns>
-        /// <exception cref="Mercury.Language.Exception.DataNotFoundException">if any of the arrays has zero lengthd </exception>
-        /// <exception cref="Mercury.Language.Exception.DimensionMismatchException">if the array lengths are inconsistentd </exception>
+        /// <exception cref="Mercury.Language.Exceptions.DataNotFoundException">if any of the arrays has zero lengthd </exception>
+        /// <exception cref="Mercury.Language.Exceptions.DimensionMismatchException">if the array lengths are inconsistentd </exception>
         /// <exception cref="MathArithmeticException">if arguments violate assumptions made by the </exception>
         ///         interpolation algorithm.
         ITrivariateRealFunction Interpolate(double[] xval, double[] yval, double[] zval, double[][][] fval);

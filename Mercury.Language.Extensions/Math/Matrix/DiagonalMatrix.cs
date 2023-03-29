@@ -38,7 +38,7 @@ using System.Linq;
 using MathNet.Numerics.Distributions;
 using MathNet.Numerics.LinearAlgebra.Storage;
 using MathNet.Numerics.Providers.LinearAlgebra;
-using Mercury.Language;
+using Mercury.Language.Extensions;
 using Mercury.Language.Threading;
 
 namespace MathNet.Numerics.LinearAlgebra.Decimal
@@ -577,7 +577,7 @@ namespace MathNet.Numerics.LinearAlgebra.Decimal
         {
             if (source.Length != _data.Length)
             {
-                throw new ArgumentException(Mercury.Language.LocalizedResources.Instance().THE_ARRAY_ARGUMENTS_MUST_HAVE_THE_SAME_LENGTH, nameof(source));
+                throw new ArgumentException(LocalizedResources.Instance().THE_ARRAY_ARGUMENTS_MUST_HAVE_THE_SAME_LENGTH, nameof(source));
             }
 
             Buffer.BlockCopy(source, 0, _data, 0, source.Length * Constants.SizeOfDouble);

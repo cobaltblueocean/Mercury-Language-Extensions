@@ -22,7 +22,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Mercury.Language.Exception;
+using Mercury.Language.Exceptions;
 using Mercury.Language.Math.Analysis.Polynomial;
 
 namespace Mercury.Language.Math.Analysis.Interpolation

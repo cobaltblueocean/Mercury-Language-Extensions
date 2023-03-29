@@ -16,7 +16,7 @@
 // limitations under the License.
 //
 using System;
-using Mercury.Language.Exception;
+using Mercury.Language.Exceptions;
 using Mercury.Language.Math.Analysis.Solver;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,6 +29,7 @@ using MathNet.Numerics.LinearAlgebra.Storage;
 using Mercury.Language.Math.Matrix;
 using SysMath = System.Math;
 using Mercury.Language.Log;
+using Mercury.Language.Extensions;
 
 namespace Mercury.Language.Math.LinearAlgebra
 {

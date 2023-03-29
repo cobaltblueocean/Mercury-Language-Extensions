@@ -4,7 +4,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Mercury.Language.Exception;
+using Mercury.Language.Exceptions;
 using Mercury.Language.Math.Analysis;
 using Mercury.Language.Math.Analysis.Function;
 

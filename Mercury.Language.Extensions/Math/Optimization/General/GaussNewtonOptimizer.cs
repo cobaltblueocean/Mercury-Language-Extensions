@@ -41,11 +41,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MathNet.Numerics.LinearAlgebra;
-using Mercury.Language.Math;
-using Mercury.Language.Exception;
+using Mercury.Language.Exceptions;
+using Mercury.Language.Extensions;
 using Mercury.Language.Math.LinearAlgebra;
 using Mercury.Language.Math.Analysis.Solver;
-using Mercury.Language.Math.Optimization;
 using Mercury.Language.Math.Matrix;
 
 namespace Mercury.Language.Math.Optimization.General

@@ -25,9 +25,9 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
-using Mercury.Language.Properties;
+using Mercury.Language.Extensions.Properties;
 
-namespace Mercury.Language.Properties
+namespace Mercury.Language.Extensions.Properties
 {
     internal class ResourceService : INotifyPropertyChanged
     {
@@ -43,7 +43,7 @@ namespace Mercury.Language.Properties
 
         private readonly Resources _resources = new Resources();
 
-        internal Mercury.Language.Properties.Resources Resources
+        internal Mercury.Language.Extensions.Properties.Resources Resources
         {
             get { return this._resources; }
         }

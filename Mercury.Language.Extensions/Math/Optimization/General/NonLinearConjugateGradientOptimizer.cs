@@ -40,13 +40,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Mercury.Language.Math;
-
-using Mercury.Language.Math.Analysis;
 using Mercury.Language.Math.Analysis.Solver;
 using Mercury.Language.Math.Analysis.Function;
-using Mercury.Language.Exception;
-using Mercury.Language.Math.Optimization;
+using Mercury.Language.Exceptions;
+using Mercury.Language.Extensions;
 using MathNet.Numerics;
 
 namespace Mercury.Language.Math.Optimization.General

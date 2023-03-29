@@ -23,7 +23,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Mercury.Language.Math.Analysis.Function;
-using Mercury.Language.Exception;
+using Mercury.Language.Exceptions;
+using Mercury.Language.Extensions;
 
 namespace Mercury.Language.Math.Analysis.Interpolation
 {

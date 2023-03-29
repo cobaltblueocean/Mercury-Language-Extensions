@@ -23,7 +23,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
-using Mercury.Language.Exception;
+using Mercury.Language.Exceptions;
 using Mercury.Language.Math;
 
 namespace Mercury.Language.Math.Analysis.Function

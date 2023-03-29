@@ -41,10 +41,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Mercury.Language.Math;
-using Mercury.Language.Exception;
+using Mercury.Language.Exceptions;
+using Mercury.Language.Extensions;
 using Mercury.Language.Math.Optimization;
-
-
 
 namespace Mercury.Language.Math.Optimization.Fitting
 {

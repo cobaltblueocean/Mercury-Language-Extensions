@@ -24,9 +24,8 @@ using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Threading.Tasks;
-using Mercury.Language.Exception;
+using Mercury.Language.Extensions;
 using NodaTime;
-using NodaTime.Text;
 
 namespace Mercury.Language.Time
 {

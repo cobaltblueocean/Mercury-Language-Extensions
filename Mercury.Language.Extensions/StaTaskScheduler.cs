@@ -28,7 +28,7 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
-using Mercury.Language.Exception;
+using Mercury.Language.Exceptions;
 
 namespace System.Threading.Tasks.Schedulers
 {

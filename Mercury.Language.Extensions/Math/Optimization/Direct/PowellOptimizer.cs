@@ -44,7 +44,7 @@ using System.Threading.Tasks;
 using Mercury.Language.Math.Analysis.Function;
 using Mercury.Language.Math.Optimization.General;
 using Mercury.Language.Math.Optimization.Univariate;
-using Mercury.Language.Exception;
+using Mercury.Language.Exceptions;
 
 namespace Mercury.Language.Math.Optimization.Direct
 {

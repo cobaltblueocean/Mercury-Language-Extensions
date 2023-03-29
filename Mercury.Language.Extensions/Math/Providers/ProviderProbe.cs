@@ -30,7 +30,7 @@
 using System;
 using System.Threading;
 using MathNet.Numerics;
-using MathNet.Numerics.Providers;
+using Mercury.Language.Extensions;
 
 namespace Mercury.Language.Math.Providers
 {

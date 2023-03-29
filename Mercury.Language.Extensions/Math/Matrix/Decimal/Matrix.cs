@@ -27,8 +27,8 @@ using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Decimal.Factorization;
 using MathNet.Numerics.LinearAlgebra.Factorization;
 using MathNet.Numerics.LinearAlgebra.Storage;
-using Mercury.Language;
-using Mercury.Language.Exception;
+using Mercury.Language.Extensions;
+using Mercury.Language.Exceptions;
 
 namespace MathNet.Numerics.LinearAlgebra.Decimal
 {

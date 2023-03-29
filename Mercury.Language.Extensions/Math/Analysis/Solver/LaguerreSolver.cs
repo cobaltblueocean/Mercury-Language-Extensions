@@ -23,7 +23,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Mercury.Language.Exception;
+using Mercury.Language.Exceptions;
+using Mercury.Language.Extensions;
 using Mercury.Language.Math.Analysis.Polynomial;
 using Mercury.Language.Math.Analysis.Function;
 

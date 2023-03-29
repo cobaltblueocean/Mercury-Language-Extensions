@@ -29,7 +29,7 @@
 
 using System;
 using MathNet.Numerics.Providers.LinearAlgebra;
-using Mercury.Language;
+using Mercury.Language.Extensions;
 
 namespace MathNet.Numerics.LinearAlgebra.DecimalComplex.Factorization
 {

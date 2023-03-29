@@ -21,7 +21,7 @@ using System.Collections.Generic;
 using System.Linq;
 using MathNet.Numerics;
 using MathNet.Numerics.LinearAlgebra;
-using Mercury.Language.Exception;
+using Mercury.Language.Exceptions;
 
 namespace System
 {

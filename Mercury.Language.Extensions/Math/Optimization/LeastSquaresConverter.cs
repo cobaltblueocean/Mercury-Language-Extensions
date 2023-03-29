@@ -41,9 +41,8 @@ using System.Text;
 using System.Threading.Tasks;
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Double;
-using Mercury.Language.Exception;
-using Mercury.Language.Math;
-using Mercury.Language.Math.Analysis;
+using Mercury.Language.Exceptions;
+using Mercury.Language.Extensions;
 using Mercury.Language.Math.Analysis.Function;
 using Mercury.Language.Math.Matrix;
 

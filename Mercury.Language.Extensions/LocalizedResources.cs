@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 using System.ComponentModel;
 using System.Globalization;
 using System.Runtime.CompilerServices;
-using Mercury.Language.Properties;
+using Mercury.Language.Extensions.Properties;
 
-namespace Mercury.Language
+namespace Mercury.Language.Extensions
 {
     public class LocalizedResources : INotifyPropertyChanged
     {

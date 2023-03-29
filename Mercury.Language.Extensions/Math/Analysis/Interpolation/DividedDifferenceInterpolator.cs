@@ -25,7 +25,7 @@ using System.Threading.Tasks;
 using Mercury.Language.Math;
 using Mercury.Language.Math.Analysis.Function;
 using Mercury.Language.Math.Analysis.Polynomial;
-using Mercury.Language.Exception;
+using Mercury.Language.Exceptions;
 
 namespace Mercury.Language.Math.Analysis.Interpolation
 {

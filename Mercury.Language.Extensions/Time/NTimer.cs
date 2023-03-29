@@ -23,7 +23,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NodaTime;
-using Mercury.Language.Exception;
+using Mercury.Language.Exceptions;
 
 namespace Mercury.Language.Time
 {

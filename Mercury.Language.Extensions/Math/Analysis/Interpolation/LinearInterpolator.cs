@@ -22,12 +22,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Mercury.Language.Exception;
+using Mercury.Language.Exceptions;
+using Mercury.Language.Extensions;
 using Mercury.Language.Math.Analysis.Function;
-
 using Mercury.Language.Math.Analysis.Polynomial;
-
-
 
 namespace Mercury.Language.Math.Analysis.Interpolation
 {
@@ -46,7 +44,7 @@ namespace Mercury.Language.Math.Analysis.Interpolation
         /// <returns>a function which interpolates the data set</returns>
         /// <exception cref="DimensionMismatchException">if {@code x} and {@code y} </exception>
         /// have different sizes.
-        /// <exception cref="Mercury.Language.Exception.NonMonotonousSequenceException"></exception>
+        /// <exception cref="Mercury.Language.Exceptions.NonMonotonousSequenceException"></exception>
         /// if {@code x} is not sorted in strict increasing order.
         /// <exception cref="NumberIsTooSmallException">if the size of {@code x} is smaller </exception>
         /// than 2d

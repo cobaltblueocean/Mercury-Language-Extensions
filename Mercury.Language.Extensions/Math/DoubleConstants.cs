@@ -24,7 +24,7 @@
 // or Visit www.oracle.com if you need additional information or have any
 // questions.
 using System;
-using Mercury.Language.Exception;
+using Mercury.Language.Exceptions;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;

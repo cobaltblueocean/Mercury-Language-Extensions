@@ -23,8 +23,9 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Mercury.Language;
-using Mercury.Language.Exception;
+using Mercury.Language.Extensions;
+using Mercury.Language.Exceptions;
+using Mercury.Language.Extensions;
 
 namespace Mercury.Language.Time
 {
@@ -94,25 +95,25 @@ namespace Mercury.Language.Time
             switch(era)
             {
                 case 1:
-                    return DateTime.Parse(Properties.JapaneseEra.Era1);
+                    return DateTime.Parse(Mercury.Language.Extensions.Properties.JapaneseEra.Era1);
                 case 2:
-                    return DateTime.Parse(Properties.JapaneseEra.Era2);
+                    return DateTime.Parse(Mercury.Language.Extensions.Properties.JapaneseEra.Era2);
                 case 3:
-                    return DateTime.Parse(Properties.JapaneseEra.Era3);
+                    return DateTime.Parse(Mercury.Language.Extensions.Properties.JapaneseEra.Era3);
                 case 4:
-                    return DateTime.Parse(Properties.JapaneseEra.Era4);
+                    return DateTime.Parse(Mercury.Language.Extensions.Properties.JapaneseEra.Era4);
                 case 5:
-                    return DateTime.Parse(Properties.JapaneseEra.Era5);
+                    return DateTime.Parse(Mercury.Language.Extensions.Properties.JapaneseEra.Era5);
                 case 6:
-                    return DateTime.Parse(Properties.JapaneseEra.Era6);
+                    return DateTime.Parse(Mercury.Language.Extensions.Properties.JapaneseEra.Era6);
                 case 7:
-                    return DateTime.Parse(Properties.JapaneseEra.Era7);
+                    return DateTime.Parse(Mercury.Language.Extensions.Properties.JapaneseEra.Era7);
                 case 8:
-                    return DateTime.Parse(Properties.JapaneseEra.Era8);
+                    return DateTime.Parse(Mercury.Language.Extensions.Properties.JapaneseEra.Era8);
                 case 9:
-                    return DateTime.Parse(Properties.JapaneseEra.Era9);
+                    return DateTime.Parse(Mercury.Language.Extensions.Properties.JapaneseEra.Era9);
                 case 10:
-                    return DateTime.Parse(Properties.JapaneseEra.Era10);
+                    return DateTime.Parse(Mercury.Language.Extensions.Properties.JapaneseEra.Era10);
             }
             throw new ArgumentOutOfRangeException();
         }
@@ -122,25 +123,25 @@ namespace Mercury.Language.Time
             switch (era)
             {
                 case 1:
-                    return DateTime.Parse(Properties.JapaneseEra.Era2).AddDays(-1);
+                    return DateTime.Parse(Mercury.Language.Extensions.Properties.JapaneseEra.Era2).AddDays(-1);
                 case 2:
-                    return DateTime.Parse(Properties.JapaneseEra.Era3).AddDays(-1);
+                    return DateTime.Parse(Mercury.Language.Extensions.Properties.JapaneseEra.Era3).AddDays(-1);
                 case 3:
-                    return DateTime.Parse(Properties.JapaneseEra.Era4).AddDays(-1);
+                    return DateTime.Parse(Mercury.Language.Extensions.Properties.JapaneseEra.Era4).AddDays(-1);
                 case 4:
-                    return DateTime.Parse(Properties.JapaneseEra.Era5).AddDays(-1);
+                    return DateTime.Parse(Mercury.Language.Extensions.Properties.JapaneseEra.Era5).AddDays(-1);
                 case 5:
-                    return DateTime.Parse(Properties.JapaneseEra.Era6).AddDays(-1);
+                    return DateTime.Parse(Mercury.Language.Extensions.Properties.JapaneseEra.Era6).AddDays(-1);
                 case 6:
-                    return DateTime.Parse(Properties.JapaneseEra.Era7).AddDays(-1);
+                    return DateTime.Parse(Mercury.Language.Extensions.Properties.JapaneseEra.Era7).AddDays(-1);
                 case 7:
-                    return DateTime.Parse(Properties.JapaneseEra.Era8).AddDays(-1);
+                    return DateTime.Parse(Mercury.Language.Extensions.Properties.JapaneseEra.Era8).AddDays(-1);
                 case 8:
-                    return DateTime.Parse(Properties.JapaneseEra.Era9).AddDays(-1);
+                    return DateTime.Parse(Mercury.Language.Extensions.Properties.JapaneseEra.Era9).AddDays(-1);
                 case 9:
-                    return DateTime.Parse(Properties.JapaneseEra.Era10).AddDays(-1);
+                    return DateTime.Parse(Mercury.Language.Extensions.Properties.JapaneseEra.Era10).AddDays(-1);
                 case 10:
-                    return DateTime.Parse(Properties.JapaneseEra.Era10).AddDays(-1);
+                    return DateTime.Parse(Mercury.Language.Extensions.Properties.JapaneseEra.Era10).AddDays(-1);
             }
             throw new ArgumentOutOfRangeException();
         }

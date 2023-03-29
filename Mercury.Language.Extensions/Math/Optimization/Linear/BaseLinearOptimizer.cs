@@ -24,7 +24,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Mercury.Language.Math;
 using Mercury.Language.Math.Optimization;
-using Mercury.Language.Exception;
+using Mercury.Language.Exceptions;
 
 
 namespace Mercury.Language.Math.Optimization.Linear

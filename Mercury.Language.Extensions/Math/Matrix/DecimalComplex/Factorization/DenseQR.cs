@@ -30,7 +30,8 @@
 using System;
 using MathNet.Numerics.LinearAlgebra.Factorization;
 using MathNet.Numerics.Providers.LinearAlgebra;
-using Mercury.Language;
+using Mercury.Language.Extensions;
+using Mercury.Language.Extensions;
 
 namespace MathNet.Numerics.LinearAlgebra.DecimalComplex.Factorization
 {

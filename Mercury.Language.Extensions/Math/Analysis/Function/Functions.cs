@@ -40,8 +40,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Mercury.Language.Exception;
+using Mercury.Language.Exceptions;
 using Mercury.Language.Math.Analysis.Differentiation;
+using Mercury.Language.Extensions;
 
 namespace Mercury.Language.Math.Analysis.Function
 {
@@ -252,7 +253,7 @@ namespace Mercury.Language.Math.Analysis.Function
                 if (x.Length == 0 ||
                     y.Length == 0)
                 {
-                    throw new DataNotFoundException(Mercury.Language.LocalizedResources.Instance().FUNCTION_GIVEN_DATA_IS_EMPTY);
+                    throw new DataNotFoundException(LocalizedResources.Instance().FUNCTION_GIVEN_DATA_IS_EMPTY);
                 }
                 if (y.Length != x.Length)
                 {

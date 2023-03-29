@@ -34,12 +34,13 @@
 using System;
 using System.Numerics;
 using System.Linq;
-using Mercury.Language;
+using Mercury.Language.Extensions;
 using Mercury.Language.Threading;
 using DecimalComplex = System.Numerics.DecimalComplex;
 using Complex = System.Numerics.Complex;
 using QRMethod = MathNet.Numerics.LinearAlgebra.Factorization.QRMethod;
 using static System.FormattableString;
+using Mercury.Language.Extensions;
 
 namespace MathNet.Numerics.Providers.LinearAlgebra
 {
@@ -701,12 +702,12 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
 
             if (data.Length != order * order)
             {
-                throw new ArgumentException(Mercury.Language.LocalizedResources.Instance().THE_ARRAY_ARGUMENTS_MUST_HAVE_THE_SAME_LENGTH, nameof(data));
+                throw new ArgumentException(LocalizedResources.Instance().THE_ARRAY_ARGUMENTS_MUST_HAVE_THE_SAME_LENGTH, nameof(data));
             }
 
             if (ipiv.Length != order)
             {
-                throw new ArgumentException(Mercury.Language.LocalizedResources.Instance().THE_ARRAY_ARGUMENTS_MUST_HAVE_THE_SAME_LENGTH, nameof(ipiv));
+                throw new ArgumentException(LocalizedResources.Instance().THE_ARRAY_ARGUMENTS_MUST_HAVE_THE_SAME_LENGTH, nameof(ipiv));
             }
 
             // Initialize the pivot matrix to the identity permutation.
@@ -794,7 +795,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
 
             if (a.Length != order * order)
             {
-                throw new ArgumentException(Mercury.Language.LocalizedResources.Instance().THE_ARRAY_ARGUMENTS_MUST_HAVE_THE_SAME_LENGTH, nameof(a));
+                throw new ArgumentException(LocalizedResources.Instance().THE_ARRAY_ARGUMENTS_MUST_HAVE_THE_SAME_LENGTH, nameof(a));
             }
 
             var ipiv = new int[order];
@@ -823,12 +824,12 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
 
             if (a.Length != order * order)
             {
-                throw new ArgumentException(Mercury.Language.LocalizedResources.Instance().THE_ARRAY_ARGUMENTS_MUST_HAVE_THE_SAME_LENGTH, nameof(a));
+                throw new ArgumentException(LocalizedResources.Instance().THE_ARRAY_ARGUMENTS_MUST_HAVE_THE_SAME_LENGTH, nameof(a));
             }
 
             if (ipiv.Length != order)
             {
-                throw new ArgumentException(Mercury.Language.LocalizedResources.Instance().THE_ARRAY_ARGUMENTS_MUST_HAVE_THE_SAME_LENGTH, nameof(ipiv));
+                throw new ArgumentException(LocalizedResources.Instance().THE_ARRAY_ARGUMENTS_MUST_HAVE_THE_SAME_LENGTH, nameof(ipiv));
             }
 
             var inverse = new DecimalComplex[a.Length];
@@ -863,12 +864,12 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
 
             if (a.Length != order * order)
             {
-                throw new ArgumentException(Mercury.Language.LocalizedResources.Instance().THE_ARRAY_ARGUMENTS_MUST_HAVE_THE_SAME_LENGTH, nameof(a));
+                throw new ArgumentException(LocalizedResources.Instance().THE_ARRAY_ARGUMENTS_MUST_HAVE_THE_SAME_LENGTH, nameof(a));
             }
 
             if (b.Length != order * columnsOfB)
             {
-                throw new ArgumentException(Mercury.Language.LocalizedResources.Instance().THE_ARRAY_ARGUMENTS_MUST_HAVE_THE_SAME_LENGTH, nameof(b));
+                throw new ArgumentException(LocalizedResources.Instance().THE_ARRAY_ARGUMENTS_MUST_HAVE_THE_SAME_LENGTH, nameof(b));
             }
 
             if (ReferenceEquals(a, b))
@@ -911,17 +912,17 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
 
             if (a.Length != order * order)
             {
-                throw new ArgumentException(Mercury.Language.LocalizedResources.Instance().THE_ARRAY_ARGUMENTS_MUST_HAVE_THE_SAME_LENGTH, nameof(a));
+                throw new ArgumentException(LocalizedResources.Instance().THE_ARRAY_ARGUMENTS_MUST_HAVE_THE_SAME_LENGTH, nameof(a));
             }
 
             if (ipiv.Length != order)
             {
-                throw new ArgumentException(Mercury.Language.LocalizedResources.Instance().THE_ARRAY_ARGUMENTS_MUST_HAVE_THE_SAME_LENGTH, nameof(ipiv));
+                throw new ArgumentException(LocalizedResources.Instance().THE_ARRAY_ARGUMENTS_MUST_HAVE_THE_SAME_LENGTH, nameof(ipiv));
             }
 
             if (b.Length != order * columnsOfB)
             {
-                throw new ArgumentException(Mercury.Language.LocalizedResources.Instance().THE_ARRAY_ARGUMENTS_MUST_HAVE_THE_SAME_LENGTH, nameof(b));
+                throw new ArgumentException(LocalizedResources.Instance().THE_ARRAY_ARGUMENTS_MUST_HAVE_THE_SAME_LENGTH, nameof(b));
             }
 
             if (ReferenceEquals(a, b))
@@ -1092,7 +1093,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
 
             if (b.Length != orderA * columnsB)
             {
-                throw new ArgumentException(Mercury.Language.LocalizedResources.Instance().THE_ARRAY_ARGUMENTS_MUST_HAVE_THE_SAME_LENGTH, nameof(b));
+                throw new ArgumentException(LocalizedResources.Instance().THE_ARRAY_ARGUMENTS_MUST_HAVE_THE_SAME_LENGTH, nameof(b));
             }
 
             if (ReferenceEquals(a, b))
@@ -1128,7 +1129,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
 
             if (b.Length != orderA * columnsB)
             {
-                throw new ArgumentException(Mercury.Language.LocalizedResources.Instance().THE_ARRAY_ARGUMENTS_MUST_HAVE_THE_SAME_LENGTH, nameof(b));
+                throw new ArgumentException(LocalizedResources.Instance().THE_ARRAY_ARGUMENTS_MUST_HAVE_THE_SAME_LENGTH, nameof(b));
             }
 
             if (ReferenceEquals(a, b))
@@ -1464,12 +1465,12 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
 
             if (a.Length != rows * columns)
             {
-                throw new ArgumentException(Mercury.Language.LocalizedResources.Instance().THE_ARRAY_ARGUMENTS_MUST_HAVE_THE_SAME_LENGTH, nameof(a));
+                throw new ArgumentException(LocalizedResources.Instance().THE_ARRAY_ARGUMENTS_MUST_HAVE_THE_SAME_LENGTH, nameof(a));
             }
 
             if (b.Length != rows * columnsB)
             {
-                throw new ArgumentException(Mercury.Language.LocalizedResources.Instance().THE_ARRAY_ARGUMENTS_MUST_HAVE_THE_SAME_LENGTH, nameof(b));
+                throw new ArgumentException(LocalizedResources.Instance().THE_ARRAY_ARGUMENTS_MUST_HAVE_THE_SAME_LENGTH, nameof(b));
             }
 
             if (rows < columns)
@@ -1479,7 +1480,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
 
             if (x.Length != columns * columnsB)
             {
-                throw new ArgumentException(Mercury.Language.LocalizedResources.Instance().THE_ARRAY_ARGUMENTS_MUST_HAVE_THE_SAME_LENGTH, nameof(x));
+                throw new ArgumentException(LocalizedResources.Instance().THE_ARRAY_ARGUMENTS_MUST_HAVE_THE_SAME_LENGTH, nameof(x));
             }
 
             var work = new DecimalComplex[rows * columns];
@@ -1665,17 +1666,17 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
 
             if (u.Length != rowsA * rowsA)
             {
-                throw new ArgumentException(Mercury.Language.LocalizedResources.Instance().THE_ARRAY_ARGUMENTS_MUST_HAVE_THE_SAME_LENGTH, nameof(u));
+                throw new ArgumentException(LocalizedResources.Instance().THE_ARRAY_ARGUMENTS_MUST_HAVE_THE_SAME_LENGTH, nameof(u));
             }
 
             if (vt.Length != columnsA * columnsA)
             {
-                throw new ArgumentException(Mercury.Language.LocalizedResources.Instance().THE_ARRAY_ARGUMENTS_MUST_HAVE_THE_SAME_LENGTH, nameof(vt));
+                throw new ArgumentException(LocalizedResources.Instance().THE_ARRAY_ARGUMENTS_MUST_HAVE_THE_SAME_LENGTH, nameof(vt));
             }
 
             if (s.Length != Math2.Min(rowsA, columnsA))
             {
-                throw new ArgumentException(Mercury.Language.LocalizedResources.Instance().THE_ARRAY_ARGUMENTS_MUST_HAVE_THE_SAME_LENGTH, nameof(s));
+                throw new ArgumentException(LocalizedResources.Instance().THE_ARRAY_ARGUMENTS_MUST_HAVE_THE_SAME_LENGTH, nameof(s));
             }
 
             var work = new DecimalComplex[rowsA];
@@ -2321,12 +2322,12 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
 
             if (b.Length != rowsA * columnsB)
             {
-                throw new ArgumentException(Mercury.Language.LocalizedResources.Instance().THE_ARRAY_ARGUMENTS_MUST_HAVE_THE_SAME_LENGTH, nameof(b));
+                throw new ArgumentException(LocalizedResources.Instance().THE_ARRAY_ARGUMENTS_MUST_HAVE_THE_SAME_LENGTH, nameof(b));
             }
 
             if (x.Length != columnsA * columnsB)
             {
-                throw new ArgumentException(Mercury.Language.LocalizedResources.Instance().THE_ARRAY_ARGUMENTS_MUST_HAVE_THE_SAME_LENGTH, nameof(b));
+                throw new ArgumentException(LocalizedResources.Instance().THE_ARRAY_ARGUMENTS_MUST_HAVE_THE_SAME_LENGTH, nameof(b));
             }
 
             var s = new DecimalComplex[Math2.Min(rowsA, columnsA)];
@@ -2379,27 +2380,27 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
 
             if (u.Length != rowsA * rowsA)
             {
-                throw new ArgumentException(Mercury.Language.LocalizedResources.Instance().THE_ARRAY_ARGUMENTS_MUST_HAVE_THE_SAME_LENGTH, nameof(u));
+                throw new ArgumentException(LocalizedResources.Instance().THE_ARRAY_ARGUMENTS_MUST_HAVE_THE_SAME_LENGTH, nameof(u));
             }
 
             if (vt.Length != columnsA * columnsA)
             {
-                throw new ArgumentException(Mercury.Language.LocalizedResources.Instance().THE_ARRAY_ARGUMENTS_MUST_HAVE_THE_SAME_LENGTH, nameof(vt));
+                throw new ArgumentException(LocalizedResources.Instance().THE_ARRAY_ARGUMENTS_MUST_HAVE_THE_SAME_LENGTH, nameof(vt));
             }
 
             if (s.Length != Math2.Min(rowsA, columnsA))
             {
-                throw new ArgumentException(Mercury.Language.LocalizedResources.Instance().THE_ARRAY_ARGUMENTS_MUST_HAVE_THE_SAME_LENGTH, nameof(s));
+                throw new ArgumentException(LocalizedResources.Instance().THE_ARRAY_ARGUMENTS_MUST_HAVE_THE_SAME_LENGTH, nameof(s));
             }
 
             if (b.Length != rowsA * columnsB)
             {
-                throw new ArgumentException(Mercury.Language.LocalizedResources.Instance().THE_ARRAY_ARGUMENTS_MUST_HAVE_THE_SAME_LENGTH, nameof(b));
+                throw new ArgumentException(LocalizedResources.Instance().THE_ARRAY_ARGUMENTS_MUST_HAVE_THE_SAME_LENGTH, nameof(b));
             }
 
             if (x.Length != columnsA * columnsB)
             {
-                throw new ArgumentException(Mercury.Language.LocalizedResources.Instance().THE_ARRAY_ARGUMENTS_MUST_HAVE_THE_SAME_LENGTH, nameof(b));
+                throw new ArgumentException(LocalizedResources.Instance().THE_ARRAY_ARGUMENTS_MUST_HAVE_THE_SAME_LENGTH, nameof(b));
             }
 
             var mn = Math2.Min(rowsA, columnsA);

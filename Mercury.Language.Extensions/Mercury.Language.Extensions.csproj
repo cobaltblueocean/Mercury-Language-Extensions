@@ -4,7 +4,7 @@
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <Version>0.8.2.6</Version>
+    <Version>0.8.2.20</Version>
     <Title>Mercury Language Extension</Title>
     <Description>This is a package to extended libraries to enhance C# programming, especially easier migrate from Java.</Description>
     <Company>Mercury</Company>
@@ -64,14 +64,20 @@ Fixed QRDecompositions Solve methods
 Fixed CholeskyDecomposition
 Updated referenced packages
 Updated project for .NET 7.0</PackageReleaseNotes>
+    <ApplicationIcon>Mercury.ico</ApplicationIcon>
+    <PackageIcon>Mercury.jpg</PackageIcon>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Cern.Colt.NET" Version="0.9.2.7" />
+    <Content Include="Mercury.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Cern.Colt.NET" Version="0.9.3.3" />
     <PackageReference Include="MathNet.Numerics" Version="5.0.0" />
-    <PackageReference Include="Mercury.Language.Core" Version="0.8.1.7" />
-    <PackageReference Include="Mercury.Test.Utility" Version="0.8.1.6" />
-    <PackageReference Include="NodaTime" Version="3.1.6" />
+    <PackageReference Include="Mercury.Language.Core" Version="0.8.1.9" />
+    <PackageReference Include="Mercury.Test.Utility" Version="0.8.1.8" />
+    <PackageReference Include="NodaTime" Version="3.1.8" />
     <PackageReference Include="System.Collections.Immutable" Version="7.0.0" />
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="7.0.0" />
     <PackageReference Include="System.Diagnostics.EventLog" Version="7.0.0" />
@@ -93,6 +99,13 @@ Updated project for .NET 7.0</PackageReleaseNotes>
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Mercury.jpg">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>

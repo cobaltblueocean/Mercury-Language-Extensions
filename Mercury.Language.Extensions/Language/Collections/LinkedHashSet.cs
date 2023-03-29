@@ -23,7 +23,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Mercury.Language.Exception;
+using Mercury.Language.Exceptions;
+using Mercury.Language.Extensions;
 
 namespace System.Collections.Generic
 {
@@ -86,7 +87,7 @@ namespace System.Collections.Generic
         {
             if (other == null)
             {
-                throw new ArgumentNullException(Mercury.Language.LocalizedResources.Instance().LINKEDHASHSET_OTHER_CANNOT_BE_NULL);
+                throw new ArgumentNullException(LocalizedResources.Instance().LINKEDHASHSET_OTHER_CANNOT_BE_NULL);
             }
             foreach (T t in other)
             {
@@ -98,7 +99,7 @@ namespace System.Collections.Generic
         {
             if (other == null)
             {
-                throw new ArgumentNullException(Mercury.Language.LocalizedResources.Instance().LINKEDHASHSET_OTHER_CANNOT_BE_NULL);
+                throw new ArgumentNullException(LocalizedResources.Instance().LINKEDHASHSET_OTHER_CANNOT_BE_NULL);
             }
             T[] ts = new T[Count];
             CopyTo(ts, 0);
@@ -115,7 +116,7 @@ namespace System.Collections.Generic
         {
             if (other == null)
             {
-                throw new ArgumentNullException(Mercury.Language.LocalizedResources.Instance().LINKEDHASHSET_OTHER_CANNOT_BE_NULL);
+                throw new ArgumentNullException(LocalizedResources.Instance().LINKEDHASHSET_OTHER_CANNOT_BE_NULL);
             }
             int contains = 0;
             int noContains = 0;
@@ -137,7 +138,7 @@ namespace System.Collections.Generic
         {
             if (other == null)
             {
-                throw new ArgumentNullException(Mercury.Language.LocalizedResources.Instance().LINKEDHASHSET_OTHER_CANNOT_BE_NULL);
+                throw new ArgumentNullException(LocalizedResources.Instance().LINKEDHASHSET_OTHER_CANNOT_BE_NULL);
             }
             int otherCount = System.Linq.Enumerable.Count(other);
             if (Count <= otherCount)
@@ -164,7 +165,7 @@ namespace System.Collections.Generic
         {
             if (other == null)
             {
-                throw new ArgumentNullException(Mercury.Language.LocalizedResources.Instance().LINKEDHASHSET_OTHER_CANNOT_BE_NULL);
+                throw new ArgumentNullException(LocalizedResources.Instance().LINKEDHASHSET_OTHER_CANNOT_BE_NULL);
             }
             foreach (T t in this)
             {
@@ -180,7 +181,7 @@ namespace System.Collections.Generic
         {
             if (other == null)
             {
-                throw new ArgumentNullException(Mercury.Language.LocalizedResources.Instance().LINKEDHASHSET_OTHER_CANNOT_BE_NULL);
+                throw new ArgumentNullException(LocalizedResources.Instance().LINKEDHASHSET_OTHER_CANNOT_BE_NULL);
             }
             foreach (T t in other)
             {
@@ -196,7 +197,7 @@ namespace System.Collections.Generic
         {
             if (other == null)
             {
-                throw new ArgumentNullException(Mercury.Language.LocalizedResources.Instance().LINKEDHASHSET_OTHER_CANNOT_BE_NULL);
+                throw new ArgumentNullException(LocalizedResources.Instance().LINKEDHASHSET_OTHER_CANNOT_BE_NULL);
             }
             foreach (T t in other)
             {
@@ -212,7 +213,7 @@ namespace System.Collections.Generic
         {
             if (other == null)
             {
-                throw new ArgumentNullException(Mercury.Language.LocalizedResources.Instance().LINKEDHASHSET_OTHER_CANNOT_BE_NULL);
+                throw new ArgumentNullException(LocalizedResources.Instance().LINKEDHASHSET_OTHER_CANNOT_BE_NULL);
             }
             int otherCount = System.Linq.Enumerable.Count(other);
             if (Count != otherCount)
@@ -226,7 +227,7 @@ namespace System.Collections.Generic
         {
             if (other == null)
             {
-                throw new ArgumentNullException(Mercury.Language.LocalizedResources.Instance().LINKEDHASHSET_OTHER_CANNOT_BE_NULL);
+                throw new ArgumentNullException(LocalizedResources.Instance().LINKEDHASHSET_OTHER_CANNOT_BE_NULL);
             }
             T[] ts = new T[Count];
             CopyTo(ts, 0);
@@ -249,7 +250,7 @@ namespace System.Collections.Generic
         {
             if (other == null)
             {
-                throw new ArgumentNullException(Mercury.Language.LocalizedResources.Instance().LINKEDHASHSET_OTHER_CANNOT_BE_NULL);
+                throw new ArgumentNullException(LocalizedResources.Instance().LINKEDHASHSET_OTHER_CANNOT_BE_NULL);
             }
             foreach (T t in other)
             {

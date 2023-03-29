@@ -22,7 +22,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Mercury.Language.Exception;
+using Mercury.Language.Exceptions;
 
 namespace Mercury.Language.Amount
 {
@@ -201,7 +201,14 @@ namespace Mercury.Language.Amount
             }
             foreach (var p in set1)
             {
-                if (System.Math.Abs(value1._data[p].Value - value2._data[p].Value) > tolerance)
+                if (value1._data[p].HasValue && value2._data[p].HasValue)
+                {
+                    if (System.Math.Abs(value1._data[p].Value - value2._data[p].Value) > tolerance)
+                    {
+                        return false;
+                    }
+                }
+                else
                 {
                     return false;
                 }

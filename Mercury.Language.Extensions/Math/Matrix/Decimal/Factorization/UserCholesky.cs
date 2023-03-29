@@ -24,8 +24,8 @@ using System.Text;
 using System.Threading.Tasks;
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Storage;
-using Mercury.Language.Exception;
-using Mercury.Language;
+using Mercury.Language.Exceptions;
+using Mercury.Language.Extensions;
 using Mercury.Language.Threading;
 
 namespace MathNet.Numerics.LinearAlgebra.Decimal.Factorization

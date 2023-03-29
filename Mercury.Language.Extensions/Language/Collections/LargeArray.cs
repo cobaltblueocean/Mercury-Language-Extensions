@@ -7,6 +7,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using Mercury.Language.Log;
+using Mercury.Language.Extensions;
 
 namespace System
 {
@@ -98,19 +99,19 @@ namespace System
         {
             if (srcPos < 0 || srcPos >= source.Capacity)
             {
-                throw new IndexOutOfRangeException(Mercury.Language.LocalizedResources.Instance().LARGEARRAY_SRCPOS_SIZE_ERROR);
+                throw new IndexOutOfRangeException(LocalizedResources.Instance().LARGEARRAY_SRCPOS_SIZE_ERROR);
             }
             if (destPos < 0 || destPos >= destination.Capacity)
             {
-                throw new IndexOutOfRangeException(Mercury.Language.LocalizedResources.Instance().LARGEARRAY_DESTPOS_SIZE_ERROR);
+                throw new IndexOutOfRangeException(LocalizedResources.Instance().LARGEARRAY_DESTPOS_SIZE_ERROR);
             }
             if (Length < 0)
             {
-                throw new ArgumentException(Mercury.Language.LocalizedResources.Instance().LARGEARRAY_LENGTH_ERROR);
+                throw new ArgumentException(LocalizedResources.Instance().LARGEARRAY_LENGTH_ERROR);
             }
             if (destination.IsConstant)
             {
-                throw new ArgumentException(Mercury.Language.LocalizedResources.Instance().LARGEARRAY_CONSTANT_ARRAYS_CANNOT_BE_MODIFIED);
+                throw new ArgumentException(LocalizedResources.Instance().LARGEARRAY_CONSTANT_ARRAYS_CANNOT_BE_MODIFIED);
             }
 
             int nthreads = Process.GetCurrentProcess().Threads.Count;

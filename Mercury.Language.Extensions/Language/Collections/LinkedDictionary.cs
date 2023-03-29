@@ -33,7 +33,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Mercury.Language.Exception;
+using Mercury.Language.Exceptions;
+using Mercury.Language.Extensions;
 
 namespace System.Collections.Generic
 {
@@ -186,7 +187,7 @@ namespace System.Collections.Generic
                 }
                 else
                 {
-                    throw new InvalidOperationException(Mercury.Language.LocalizedResources.Instance().LINKEDDICTIONARY_COULD_NOT_FIND_THE_KEY);
+                    throw new InvalidOperationException(LocalizedResources.Instance().LINKEDDICTIONARY_COULD_NOT_FIND_THE_KEY);
                 }
             }
             set
@@ -205,7 +206,7 @@ namespace System.Collections.Generic
                 }
                 else
                 {
-                    throw new InvalidOperationException(Mercury.Language.LocalizedResources.Instance().LINKEDDICTIONARY_COULD_NOT_FIND_THE_KEY);
+                    throw new InvalidOperationException(LocalizedResources.Instance().LINKEDDICTIONARY_COULD_NOT_FIND_THE_KEY);
                 }
             }
         }

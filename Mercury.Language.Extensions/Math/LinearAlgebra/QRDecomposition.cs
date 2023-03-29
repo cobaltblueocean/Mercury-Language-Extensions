@@ -48,13 +48,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Mercury.Language.Exception;
+using Mercury.Language.Exceptions;
 using MathNet.Numerics;
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Double;
 using MathNet.Numerics.LinearAlgebra.Storage;
 using Mercury.Language.Math.Analysis.Solver;
 using Mercury.Language.Math.Matrix;
+using Mercury.Language.Extensions;
 
 namespace Mercury.Language.Math.LinearAlgebra
 {

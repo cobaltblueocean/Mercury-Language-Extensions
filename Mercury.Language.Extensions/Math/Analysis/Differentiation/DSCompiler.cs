@@ -23,7 +23,8 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Mercury.Language.Exception;
+using Mercury.Language.Exceptions;
+using Mercury.Language.Extensions;
 
 namespace Mercury.Language.Math.Analysis.Differentiation
 {
@@ -2229,7 +2230,7 @@ namespace Mercury.Language.Math.Analysis.Differentiation
                         catch (NotStrictlyPositiveException e)
                         {
                             // this cannot happen
-                            throw new MathArithmeticException(Mercury.Language.LocalizedResources.Instance().DSCOMPLIER_NOT_POSITIVE, e);
+                            throw new MathArithmeticException(LocalizedResources.Instance().DSCOMPLIER_NOT_POSITIVE, e);
                         }
                     }
                 }

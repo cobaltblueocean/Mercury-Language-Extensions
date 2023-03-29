@@ -25,7 +25,8 @@ using System.Threading.Tasks;
 using Mercury.Language.Math;
 using Mercury.Language.Math.Analysis;
 using Mercury.Language.Math.Analysis.Function;
-using Mercury.Language.Exception;
+using Mercury.Language.Exceptions;
+using Mercury.Language.Extensions;
 
 namespace Mercury.Language.Math.Analysis.Polynomial
 {

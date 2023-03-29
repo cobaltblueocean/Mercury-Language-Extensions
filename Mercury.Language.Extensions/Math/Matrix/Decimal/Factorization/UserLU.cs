@@ -28,7 +28,7 @@
 // </copyright>
 
 using System;
-using Mercury.Language;
+using Mercury.Language.Extensions;
 
 namespace MathNet.Numerics.LinearAlgebra.Decimal.Factorization
 {

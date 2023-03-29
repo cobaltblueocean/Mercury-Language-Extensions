@@ -40,17 +40,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Mercury.Language.Math;
-
-
-
-using Mercury.Language.Math.Analysis;
 using Mercury.Language.Math.Analysis.Function;
-using Mercury.Language.Math.LinearAlgebra;
-
-using Mercury.Language.Exception;
-using Mercury.Language.Math.Optimization;
-
+using Mercury.Language.Exceptions;
+using Mercury.Language.Extensions;
 
 namespace Mercury.Language.Math.Optimization.Univariate
 {

@@ -26,7 +26,7 @@ using NUnit.Framework;
 using Mercury.Language.Log;
 using System.Threading;
 using MathNet.Numerics.LinearAlgebra;
-using Mercury.Language.Exception;
+using Mercury.Language.Exceptions;
 using Mercury.Language.Math.Analysis;
 using Mercury.Language.Math.Analysis.Function;
 using Mercury.Language.Math.Optimization;

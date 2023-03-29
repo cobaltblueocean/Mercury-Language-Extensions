@@ -31,7 +31,8 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Mercury.Language.Exception;
+using Mercury.Language.Exceptions;
+using Mercury.Language.Extensions;
 
 namespace System.Collections.Generic
 {
@@ -39,8 +40,8 @@ namespace System.Collections.Generic
     /// A generic dictionary implemented as a Red-Black Tree     
     /// Emphasis on performance 
     /// 
-    /// based on algorithms in  Cormen, Leiserson, Rivest & Stein, Introduction to Algorithms Third edition (MIT Press, 2009)  
-    /// </summary>    
+    /// based on algorithms in Cormen, Leiserson, Rivest & Stein, Introduction to Algorithms Third edition (MIT Press, 2009) 
+    /// </summary>  
     public sealed class TreeDictionary<TKey, TValue> : IDictionary<TKey, TValue>
     {
         private Node[] _nodes;
@@ -54,7 +55,7 @@ namespace System.Collections.Generic
         private Boolean isIComparer = false;
         private StringComparer _stringComparer = StringComparer.InvariantCulture;
 
-        public TreeDictionary() :this (InitSize, null)
+        public TreeDictionary() : this(InitSize, null)
         {
 
         }
@@ -162,7 +163,7 @@ namespace System.Collections.Generic
             if (array == null)
                 throw new ArgumentNullException("array");
             else if (array.Length < this.Count + arrayIndex)
-                throw new ArgumentException(Mercury.Language.LocalizedResources.Instance().TREEDICTIONARY_ARRAY_NOT_SUFFICIENT_SIZE);
+                throw new ArgumentException(LocalizedResources.Instance().TREEDICTIONARY_ARRAY_NOT_SUFFICIENT_SIZE);
 
             foreach (var item in this)
             {
@@ -197,7 +198,10 @@ namespace System.Collections.Generic
             }
             catch
             {
-                return _nodes.Any(x => x.Key.Equals(key));
+                if (_nodes is null)
+                    return false;
+                else
+                    return _nodes.Where(x => x.Key != null).Any(x => x.Key.Equals(key));
             }
         }
 
@@ -215,17 +219,20 @@ namespace System.Collections.Generic
             int cmp = -1;
             init();
 
-            do
+            if (index >= 0)
             {
-                last = index;
-                cmp = CompareValue(key, _nodes[index].Key);
-                if (cmp == -1)
-                    index = _nodes[index].Left;
-                else if (cmp == 1)
-                    index = _nodes[index].Right;
-                else
-                    return 0;
-            } while (index != -1);
+                do
+                {
+                    last = index;
+                    cmp = CompareValue(key, _nodes[index].Key);
+                    if (cmp == -1)
+                        index = _nodes[index].Left;
+                    else if (cmp == 1)
+                        index = _nodes[index].Right;
+                    else
+                        return 0;
+                } while (index != -1);
+            }
 
             index = last;
             return cmp;
@@ -296,7 +303,7 @@ namespace System.Collections.Generic
             if (_root == -1)
                 Add(key, value, -1, 0);
             else if ((cmp = Find(ref index, key)) == 0)
-                throw new ArgumentException(Mercury.Language.LocalizedResources.Instance().TREEDICTIONARY_AN_ELEMENT_WITH_THE_SAME_KEY_ALREADY_EXISTS);
+                throw new ArgumentException(LocalizedResources.Instance().TREEDICTIONARY_AN_ELEMENT_WITH_THE_SAME_KEY_ALREADY_EXISTS);
             else
                 Add(key, value, index, cmp);
         }
@@ -424,7 +431,6 @@ namespace System.Collections.Generic
             {
                 return false;
             }
-
         }
 
         public bool TryGetValue(TKey key, out TValue value)
@@ -452,7 +458,6 @@ namespace System.Collections.Generic
                 throw new KeyNotFoundException();
             return _nodes[index].Value;
         }
-
 
         public TValue this[TKey key]
         {
@@ -663,7 +668,6 @@ namespace System.Collections.Generic
                         x = _root;
                     }
                 }
-
             }
 
             SetColorSafe(x, Color.Black);
@@ -687,7 +691,6 @@ namespace System.Collections.Generic
             if (node != -1)
                 _nodes[node].Color = c;
         }
-
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void Transplant(int u, int v)

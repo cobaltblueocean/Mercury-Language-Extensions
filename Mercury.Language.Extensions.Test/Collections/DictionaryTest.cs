@@ -64,6 +64,32 @@ namespace Mercury.Language.Extensions.Test.Collections
         }
 
         [Test]
+        public void TreeDictionaryIterationTest()
+        {
+            var DICT = new TreeDictionary<int, string>();
+            var vals = new string[]{ "A", "B", "C"};
+
+            DICT.AddOrUpdate(0, "A");
+            DICT.AddOrUpdate(1, "B");
+            DICT.AddOrUpdate(2, "C");
+
+            int i = 0;
+
+            foreach(var item in DICT)
+            {
+                Assert.AreEqual(item.Value, vals[item.Key]);
+                i++;
+            }
+
+            Assert.AreEqual(i, 3);
+
+            var TEST = new TreeDictionary<int, string>();
+            TEST.AddRange(DICT);
+
+            Assert.AreEqual(3, TEST.Count);
+        }
+
+        [Test]
         public void DictionarySafeGetTest()
         {
             int N = 16;

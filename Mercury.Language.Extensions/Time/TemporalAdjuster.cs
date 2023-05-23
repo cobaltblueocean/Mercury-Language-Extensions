@@ -856,20 +856,23 @@ namespace Mercury.Language.Time
             {
                 int dowValue = _dayOfWeek.GetValue();
 
-            int calDow = temporal.Get(ChronoField.DAY_OF_WEEK);
-                if (_ordinal < 2 && calDow == dowValue)
+                if (_ordinal >= 0)
                 {
-                    return temporal;
-                }
-                if ((_ordinal & 1) == 0)
-                {
-                    int daysDiff = calDow - dowValue;
-                    return new Temporal(temporal.Plus(daysDiff >= 0 ? 7 - daysDiff : -daysDiff, ChronoUnit.DAYS));
+                    Temporal temp = new Temporal(temporal.With(ChronoField.DAY_OF_MONTH, 1));
+                    int curDow = temp.Get(ChronoField.DAY_OF_WEEK);
+                    int dowDiff = (dowValue - curDow + 7) % 7;
+                    dowDiff += (int)(((long)_ordinal - 1L) * 7L);  // safe from overflow
+                    return new Temporal(temp.Plus(dowDiff, ChronoUnit.DAYS));
                 }
                 else
                 {
-                    int daysDiff = dowValue - calDow;
-                    return new Temporal(temporal.Minus(daysDiff >= 0 ? 7 - daysDiff : -daysDiff, ChronoUnit.DAYS));
+                    long maximum = temporal.GetRange(ChronoField.DAY_OF_MONTH).MaxLargest;
+                    Temporal temp = new Temporal(temporal.With(ChronoField.DAY_OF_MONTH, maximum));
+                    int curDow = temp.Get(ChronoField.DAY_OF_WEEK);
+                    int daysDiff = dowValue - curDow;
+                    daysDiff = (daysDiff == 0 ? 0 : (daysDiff > 0 ? daysDiff - 7 : daysDiff));
+                    daysDiff -= (int)((-_ordinal - 1L) * 7L);  // safe from overflow
+                    return new Temporal(temp.Plus(daysDiff, ChronoUnit.DAYS));
                 }
             }
         }
@@ -929,23 +932,20 @@ namespace Mercury.Language.Time
             {
                 int dowValue = _dayOfWeek.GetValue();
 
-                if (_relative >= 0)
+                int calDow = temporal.Get(ChronoField.DAY_OF_WEEK);
+                if (_relative < 2 && calDow == dowValue)
                 {
-                    Temporal temp = temporal.With(ChronoField.DAY_OF_MONTH, 1);
-                    int curDow = temp.Get(ChronoField.DAY_OF_WEEK);
-                    int dowDiff = (dowValue - curDow + 7) % 7;
-                    dowDiff += (int)(((long)_relative - 1L) * 7L);  // safe from overflow
-                    return new Temporal(temp.Plus(dowDiff, ChronoUnit.DAYS));
+                    return temporal;
+                }
+                if ((_relative & 1) == 0)
+                {
+                    int daysDiff = calDow - dowValue;
+                    return new Temporal(temporal.Plus(daysDiff >= 0 ? 7 - daysDiff : -daysDiff, ChronoUnit.DAYS));
                 }
                 else
                 {
-                    long maximum = temporal.GetRange(ChronoField.DAY_OF_MONTH).MaxLargest;
-                    Temporal temp = temporal.With(ChronoField.DAY_OF_MONTH, maximum);
-                    int curDow = temp.Get(ChronoField.DAY_OF_WEEK);
-                    int daysDiff = dowValue - curDow;
-                    daysDiff = (daysDiff == 0 ? 0 : (daysDiff > 0 ? daysDiff - 7 : daysDiff));
-                    daysDiff -= (int)((-_relative - 1L) * 7L);  // safe from overflow
-                    return new Temporal(temp.Plus(daysDiff, ChronoUnit.DAYS));
+                    int daysDiff = dowValue - calDow;
+                    return new Temporal(temporal.Minus(daysDiff >= 0 ? 7 - daysDiff : -daysDiff, ChronoUnit.DAYS));
                 }
             }
         }

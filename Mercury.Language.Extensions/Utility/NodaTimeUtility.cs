@@ -144,10 +144,28 @@ namespace System
             return zdt.PlusNanoseconds(nanosecond);
         }
 
+        public static ZonedDateTime GetZonedDateTime(LocalDate date, LocalTime time)
+        {
+            return GetZonedDateTime(date.Year, date.Month, date.Day, time.Hour, time.Minute, time.Second, time.Millisecond, time.NanosecondOfSecond);
+        }
+
+        public static ZonedDateTime GetZonedDateTime(LocalDate date, LocalTime time, DateTimeZone zone)
+        {
+            return GetZonedDateTime(date.Year, date.Month, date.Day, time.Hour, time.Minute, time.Second, time.Millisecond, time.NanosecondOfSecond, zone);
+        }
+
         public static ZonedDateTime GetZonedDateTime(LocalDate date, LocalTime time, TimeZoneInfo info)
         {
-            DateTimeZone zone = DateTimeZoneProviders.Bcl.GetZoneOrNull(info.Id);
-            return GetZonedDateTime(date.Year, date.Month, date.Day, time.Hour, time.Minute, time.Second, zone);
+            var tz = DateTimeZoneProviders.Bcl.GetZoneOrNull(info.Id);
+            DateTimeZone zone;
+            if (tz == null)
+            {
+                zone = ORIGINAL_TIME_ZONE;
+            }else
+            {
+                zone = tz;
+            }
+            return GetZonedDateTime(date, time, zone);
         }
 
         public static ZonedDateTime GetZonedDateTimeNow()

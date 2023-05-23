@@ -2940,6 +2940,17 @@ namespace NodaTime
             return ret;
         }
 
+
+        public static ZonedDateTime AtTime(this LocalDate now, LocalTime time)
+        {
+            return NodaTimeUtility.GetZonedDateTime(now, time);
+        }
+
+        public static ZonedDateTime AtTime(this LocalDate now, LocalTime time, DateTimeZone zone)
+        {
+            return NodaTimeUtility.GetZonedDateTime(now, time, zone);
+        }
+
         public static ZonedDateTime AtZone(this LocalDate now, DateTimeZone zone)
         {
             return new ZonedDateTime(now.ToInstant(), zone);
@@ -3407,15 +3418,22 @@ namespace NodaTime
 
         public static long GetLong(this LocalDate now, ITemporalField field)
         {
-            if (field == ChronoField.EPOCH_DAY)
+            if (field is ChronoField)
             {
-                return now.ToEpochDay();
+                if (field == ChronoField.EPOCH_DAY)
+                {
+                    return now.ToEpochDay();
+                }
+                else
+                {
+                    return now.GetProlepticMonth();
+                }
             }
-            if (field == ChronoField.PROLEPTIC_MONTH)
+            else
             {
-                return now.GetProlepticMonth();
+                Temporal temp = new Temporal(now);
+                return field.GetFrom(temp);
             }
-            return Get0(now, field);
         }
 
         private static long Get0(LocalDate now, ITemporalField field)
@@ -4332,19 +4350,14 @@ namespace NodaTime
 
         #region Period Methods
 
-        public static Period Plus(this Period period, Period add)
+        public static Period Plus(this Period now, Period period)
         {
-
-            period = period.Normalize();
-            add = add.Normalize();
-
-            return period + add;
+           return now + period;
         }
 
         public static Period Minus(this Period now, Period period)
         {
-            var totalTicks = now.Ticks - period.Ticks;
-            return Period.FromTicks(totalTicks);
+            return now - period;
         }
 
         /// <summary>
@@ -4389,27 +4402,68 @@ namespace NodaTime
                 return period;
             }
 
-            if (period.Years != 0)
-                return Period.FromYears(Math2.SafeMultiply(period.Years, scalar));
-            else if (period.Months != 0)
-                return Period.FromMonths(Math2.SafeMultiply(period.Months, scalar));
-            else if (period.Weeks != 0)
-                return Period.FromWeeks(Math2.SafeMultiply(period.Weeks, scalar));
-            else if (period.Days != 0)
-                return Period.FromDays(Math2.SafeMultiply(period.Days, scalar));
-            else if (period.Hours != 0)
-                return Period.FromHours(Math2.SafeMultiply(period.Hours, scalar));
-            else if (period.Minutes != 0)
-                return Period.FromMinutes(Math2.SafeMultiply(period.Minutes, scalar));
-            else if (period.Seconds != 0)
-                return Period.FromSeconds(Math2.SafeMultiply(period.Seconds, scalar));
-            else if (period.Milliseconds != 0)
-                return Period.FromMilliseconds(Math2.SafeMultiply(period.Milliseconds, scalar));
-            else if (period.Nanoseconds != 0)
-                return Period.FromNanoseconds(Math2.SafeMultiply(period.Nanoseconds, scalar));
-            else
-                return Period.FromTicks(Math2.SafeMultiply(period.Ticks, scalar));
+            return Make(Math2.SafeMultiply(period.Years, scalar),
+                        Math2.SafeMultiply(period.Months, scalar),
+                        Math2.SafeMultiply(period.Weeks, scalar),
+                        Math2.SafeMultiply(period.Days, scalar),
+                        Math2.SafeMultiply(period.Hours, scalar),
+                        Math2.SafeMultiply(period.Minutes, scalar),
+                        Math2.SafeMultiply(period.Seconds, scalar),
+                        Math2.SafeMultiply(period.Milliseconds, scalar),
+                        Math2.SafeMultiply(period.Ticks, scalar),
+                        Math2.SafeMultiply(period.Nanoseconds, scalar));
         }
+
+        /// <summary>
+        /// Returns a new instance with each element in this period devided
+        /// by the specified scalar.
+        /// <p>
+        /// This simply multiplies each field, years, months, days and normalized time,
+        /// by the scalar. No normalization is performed.
+        /// 
+        /// </summary>
+        /// <param name="scalar"> the scalar to devide by, not null</param>
+        /// <returns>a {@code Period} based on this period with the amounts devided by the scalar, not null</returns>
+        /// <exception cref="ArithmeticException">if numeric overflow occurs </exception>
+        public static Period DevidedBy(this Period period, int scalar)
+        {
+            if (scalar == 0)
+                throw new ArgumentNullException();
+
+            if (period == Period.Zero || scalar == 1)
+            {
+                return period;
+            }
+
+            return Make((int)Math.Round((double)period.Years / scalar),
+                        (int)Math.Round((double)period.Months / scalar),
+                        (int)Math.Round((double)period.Weeks / scalar),
+                        (int)Math.Round((double)period.Days / scalar),
+                        (long)Math.Round((double)period.Hours / scalar),
+                        (long)Math.Round((double)period.Minutes / scalar),
+                        (long)Math.Round((double)period.Seconds / scalar),
+                        (long)Math.Round((double)period.Milliseconds / scalar),
+                        (long)Math.Round((double)period.Ticks / scalar),
+                        (long)Math.Round((double)period.Nanoseconds / scalar));
+        }
+
+        private static Period Make(int years, int months, int weeks, int days, long hours, long minutes, long seconds, long milliseconds, long ticks, long nanoseconds)
+        {
+            var tmp = Period.FromYears(years);
+            tmp = tmp.Plus(Period.FromMonths(months));
+            tmp = tmp.Plus(Period.FromWeeks(weeks));
+            tmp = tmp.Plus(Period.FromDays(days));
+            tmp = tmp.Plus(Period.FromHours(hours));
+            tmp = tmp.Plus(Period.FromMinutes(minutes));
+            tmp = tmp.Plus(Period.FromSeconds(seconds));
+            tmp = tmp.Plus(Period.FromMilliseconds(milliseconds));
+            tmp = tmp.Plus(Period.FromTicks(ticks));
+            tmp = tmp.Plus(Period.FromNanoseconds(nanoseconds));
+
+            return tmp;
+        }
+
+
 
         public static Duration ToDurationEX(this Period period)
         {

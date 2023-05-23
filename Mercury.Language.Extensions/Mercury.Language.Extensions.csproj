@@ -4,7 +4,7 @@
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <Version>0.8.2.20</Version>
+    <Version>0.8.2.25</Version>
     <Title>Mercury Language Extension</Title>
     <Description>This is a package to extended libraries to enhance C# programming, especially easier migrate from Java.</Description>
     <Company>Mercury</Company>
@@ -63,7 +63,12 @@ Bug fixed of SingularValueDecomposition.GetRank() method
 Fixed QRDecompositions Solve methods
 Fixed CholeskyDecomposition
 Updated referenced packages
-Updated project for .NET 7.0</PackageReleaseNotes>
+Updated project for .NET 7.0
+Bug fix for TemporalAdjuster
+Added AtTime method to NodaTimeExtension
+Bug fix for Plus/Minus method for Period class
+Bug fix for NodaTimeExtension, GetLong() method of LocalDate
+Bug fix for Period operation</PackageReleaseNotes>
     <ApplicationIcon>Mercury.ico</ApplicationIcon>
     <PackageIcon>Mercury.jpg</PackageIcon>
   </PropertyGroup>

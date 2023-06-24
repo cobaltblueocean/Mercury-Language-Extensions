@@ -24,7 +24,6 @@ using System.Text;
 using System.Threading.Tasks;
 using Mercury.Language.Extensions;
 using Mercury.Language.Exceptions;
-using Mercury.Language.Extensions;
 using Mercury.Language.Time;
 using NodaTime;
 using Range = Mercury.Language.Math.Ranges.Range;
@@ -3084,7 +3083,7 @@ namespace NodaTime
 
         public static ZonedDateTime ToZonedDateTimeUtc(this LocalDate now)
         {
-            return now.ToDateTimeUnspecified().ToUniversalTime().ToZonedDateTime();
+            return now.AtZone(DateTimeZone.Utc);
         }
 
         public static ZonedDateTime ToZonedDateTimeUnspecified(this LocalDate now)

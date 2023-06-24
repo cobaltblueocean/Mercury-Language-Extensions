@@ -4,7 +4,7 @@
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <Version>0.8.2.25</Version>
+    <Version>0.8.2.27</Version>
     <Title>Mercury Language Extension</Title>
     <Description>This is a package to extended libraries to enhance C# programming, especially easier migrate from Java.</Description>
     <Company>Mercury</Company>
@@ -68,7 +68,8 @@ Bug fix for TemporalAdjuster
 Added AtTime method to NodaTimeExtension
 Bug fix for Plus/Minus method for Period class
 Bug fix for NodaTimeExtension, GetLong() method of LocalDate
-Bug fix for Period operation</PackageReleaseNotes>
+Bug fix for Period operation
+Bug fix for LocalDate.ToZonedDateTimeUtc() method</PackageReleaseNotes>
     <ApplicationIcon>Mercury.ico</ApplicationIcon>
     <PackageIcon>Mercury.jpg</PackageIcon>
   </PropertyGroup>
@@ -78,17 +79,17 @@ Bug fix for Period operation</PackageReleaseNotes>
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Cern.Colt.NET" Version="0.9.3.3" />
+    <PackageReference Include="Cern.Colt.NET" Version="0.9.3.4" />
     <PackageReference Include="MathNet.Numerics" Version="5.0.0" />
-    <PackageReference Include="Mercury.Language.Core" Version="0.8.1.9" />
-    <PackageReference Include="Mercury.Test.Utility" Version="0.8.1.8" />
-    <PackageReference Include="NodaTime" Version="3.1.8" />
+    <PackageReference Include="Mercury.Language.Core" Version="0.8.1.10" />
+    <PackageReference Include="Mercury.Test.Utility" Version="0.8.1.9" />
+    <PackageReference Include="NodaTime" Version="3.1.9" />
     <PackageReference Include="System.Collections.Immutable" Version="7.0.0" />
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="7.0.0" />
     <PackageReference Include="System.Diagnostics.EventLog" Version="7.0.0" />
     <PackageReference Include="System.Drawing.Common" Version="7.0.0" />
     <PackageReference Include="System.Runtime.Extensions" Version="4.3.1" />
-    <PackageReference Include="System.Text.Json" Version="7.0.2" />
+    <PackageReference Include="System.Text.Json" Version="7.0.3" />
   </ItemGroup>
 
   <ItemGroup>

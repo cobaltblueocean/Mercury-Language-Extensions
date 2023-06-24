@@ -26,7 +26,6 @@ using System.Threading.Tasks;
 using Mercury.Language.Exceptions;
 using Mercury.Language.Math;
 using Mercury.Language.Extensions;
-using Mercury.Language.Extensions;
 
 namespace System
 {

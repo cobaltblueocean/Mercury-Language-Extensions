@@ -87,6 +87,10 @@ namespace Mercury.Language.Extensions.Test.Utility
             var dateLong = TRADE_DATE.GetLong(JulianField.MODIFIED_JULIAN_DAY);
 
             Assert.AreEqual(55725, dateLong);
+
+            ZonedDateTime zdt = TRADE_DATE.ToZonedDateTimeUtc();
+
+            Assert.AreEqual(DateTimeZone.Utc, zdt.Zone);
         }
     }
 }

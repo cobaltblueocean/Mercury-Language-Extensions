@@ -536,24 +536,24 @@ namespace NodaTime
 
         public static ZonedDateTime Plus(this ZonedDateTime now, Period period)
         {
-            try
-            {
-                return now.Plus(period.ToDuration());
-            }
-            catch
-            {
-                ZonedDateTime result;
-                result = now.PlusYears(period.Years);
-                result = result.PlusMonths(period.Months);
-                result = result.PlusDays(period.Days);
-                result = result.PlusHours((int)period.Hours);
-                result = result.PlusMinutes((int)period.Minutes);
-                result = result.PlusSeconds(period.Seconds);
-                result = result.PlusMilliseconds(period.Milliseconds);
-                result = result.PlusNanoseconds(period.Nanoseconds);
+            //try
+            //{
+            //    return now.Plus(period.ToDuration());
+            //}
+            //catch
+            //{
+            ZonedDateTime result;
+            result = now.PlusYears(period.Years);
+            result = result.PlusMonths(period.Months);
+            result = result.PlusDays(period.Days);
+            result = result.PlusHours((int)period.Hours);
+            result = result.PlusMinutes((int)period.Minutes);
+            result = result.PlusSeconds(period.Seconds);
+            result = result.PlusMilliseconds(period.Milliseconds);
+            result = result.PlusNanoseconds(period.Nanoseconds);
 
-                return result;
-            }
+            return result;
+            //}
         }
 
         public static IList<ZonedDateTime> SortList(this IList<ZonedDateTime> dates)
@@ -584,24 +584,24 @@ namespace NodaTime
 
         public static ZonedDateTime Minus(this ZonedDateTime now, Period period)
         {
-            try
-            {
-                return now.Plus(-period.ToDuration());
-            }
-            catch
-            {
-                ZonedDateTime result;
-                result = now.PlusYears(-period.Years);
-                result = result.PlusMonths(-period.Months);
-                result = result.PlusDays(-period.Days);
-                result = result.PlusHours(-(int)period.Hours);
-                result = result.PlusMinutes(-(int)period.Minutes);
-                result = result.PlusSeconds(-period.Seconds);
-                result = result.PlusMilliseconds(-period.Milliseconds);
-                result = result.PlusNanoseconds(-period.Nanoseconds);
+            //try
+            //{
+            //    return now.Plus(-period.ToDuration());
+            //}
+            //catch
+            //{
+            ZonedDateTime result;
+            result = now.PlusYears(-period.Years);
+            result = result.PlusMonths(-period.Months);
+            result = result.PlusDays(-period.Days);
+            result = result.PlusHours(-(int)period.Hours);
+            result = result.PlusMinutes(-(int)period.Minutes);
+            result = result.PlusSeconds(-period.Seconds);
+            result = result.PlusMilliseconds(-period.Milliseconds);
+            result = result.PlusNanoseconds(-period.Nanoseconds);
 
-                return result;
-            }
+            return result;
+            //}
         }
 
         public static ZonedDateTime Plus(this ZonedDateTime now, long amountToAdd, ITemporalUnit unit)

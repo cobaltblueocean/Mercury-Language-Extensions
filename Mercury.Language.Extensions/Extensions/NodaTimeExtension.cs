@@ -28,6 +28,10 @@ using Mercury.Language.Time;
 using NodaTime;
 using Range = Mercury.Language.Math.Ranges.Range;
 using System.Runtime.CompilerServices;
+using System.Net.Http.Headers;
+using static Mercury.Language.Math.Analysis.Function.Functions;
+using System.Diagnostics.Contracts;
+using System.Globalization;
 
 namespace NodaTime
 {
@@ -92,9 +96,6 @@ namespace NodaTime
         ///// </summary>
         //private static int MAX_VALUE = 999999999;
 
-
-        #region DateTime Operation
-
         /// <summary>
         /// The number of seconds in one day.
         /// </summary>
@@ -126,13 +127,61 @@ namespace NodaTime
         /// </summary>
         public static long MILLISECONDS_PER_MONTH = MILLISECONDS_PER_YEAR / 12L;
 
+        #region private utility methods
+        /// <summary>
+        /// Check if the year is Leap Year or not.
+        /// According to ISO 8601, the year 0 is a leap year.
+        /// This calculation is only available against the Gregorian calendar.
+        /// </summary>
+        /// <param name="year">Year to check if it is Leap Year or not</param>
+        /// <returns>Result</returns>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        /// <see href="https://stackoverflow.com/questions/52921032/java-says-the-year-0-is-a-leap-year-but-year-0-never-existed">Java says the year 0 is a leap year but year 0 never existed</see>
+        public static Boolean IsLeapYear(int year)
+        {
+            if ((0 < year) && (year < 10000))
+            {
+                return year % 4 == 0 && (year % 100 != 0 || year % 400 == 0);
+            }
+            else if (year == 0)
+            {
+                return true;
+            }
+            else
+            {
+                throw new ArgumentOutOfRangeException("year");
+            }
+        }
 
+        #endregion
+
+        #region DateTime Operation
+
+        public static double GetDifferenceInMonths(this DateTime startDate, DateTime endDate)
+        {
+            return GetDifferenceInMonths(startDate.ToInstant(), endDate.ToInstant());
+        }
+
+        public static double GetDifferenceInYears(this DateTime startDate, DateTime endDate)
+        {
+            return startDate.ToInstant().GetDifferenceInYears(endDate.ToInstant());
+        }
+
+        public static DateTime GetDateOffsetWithYearFraction(this DateTime? startDate, double yearFraction)
+        {
+            if (startDate == null)
+            {
+                throw new ArgumentNullException(LocalizedResources.Instance().DATE_WAS_NULL);
+            }
+            double nanos = System.Math.Round(1e9 * SECONDS_PER_YEAR * yearFraction);
+            return startDate.Value.AddNanos(nanos);
+        }
         public static ZonedDateTime ToZonedDateTime(this DateTime source)
         {
             DateTimeZone timeZone = DateTimeZoneProviders.Bcl.GetSystemDefault();
+
             return ToZonedDateTime(source, timeZone);
         }
-
 
         public static ZonedDateTime ToZonedDateTime(this DateTime source, string timeZoneId)
         {
@@ -144,11 +193,11 @@ namespace NodaTime
             return ToZonedDateTime(source, timeZone);
         }
 
-
         public static ZonedDateTime ToZonedDateTime(this DateTime source, DateTimeZone timeZone)
         {
-            Offset offset = timeZone.GetUtcOffset(Instant.FromDateTimeUtc(source.ToUniversalTime()));
-            return (new ZonedDateTime(source.ToInstant(), timeZone)).PlusSeconds(-offset.Seconds);
+            var ldt = new LocalDateTime(source.Year, source.Month, source.Day, source.Hour, source.Minute, source.Second, source.Millisecond);
+            ldt = ldt.PlusNanoseconds(source.Nanosecond);
+            return ldt.InZoneStrictly(timeZone);
         }
 
         public static LocalDate ToLocalDate(this DateTime source)
@@ -158,22 +207,12 @@ namespace NodaTime
 
         public static Instant ToInstant(this DateTime now)
         {
-            DateTime source = new DateTime(now.Year, now.Month, now.Day, now.Hour, now.Minute, now.Second, now.Millisecond, DateTimeKind.Utc);
-            return Instant.FromDateTimeUtc(source.ToUniversalTime());
-        }
+            var ldt = new LocalDateTime(now.Year, now.Month, now.Day, now.Hour, now.Minute, now.Second, now.Millisecond);
+            var tmp = ldt.InZoneStrictly(NodaTimeUtility.ORIGINAL_TIME_ZONE);
+            if (now.Kind == DateTimeKind.Utc)
+                tmp = ldt.InUtc();
 
-        public static double GetDifferenceInMonths(this Instant? startDate, Instant? endDate)
-        {
-            if (startDate == null)
-            {
-                throw new ArgumentNullException(LocalizedResources.Instance().START_DATE_WAS_NULL);
-            }
-            if (endDate == null)
-            {
-                throw new ArgumentNullException(LocalizedResources.Instance().END_DATE_WAS_NULL);
-            }
-
-            return (double)(Instant.Subtract(endDate.Value, startDate.Value).TotalMilliseconds) / MILLISECONDS_PER_MONTH;
+            return tmp.ToInstant();
         }
         #endregion
 
@@ -316,12 +355,12 @@ namespace NodaTime
 
         public static int CompareTo(this ZonedDateTime now, ZonedDateTime target)
         {
-            return DateTime.Compare(now.ToDateTimeUtc(), target.ToDateTimeUtc());
+            return now.ToInstant().CompareTo(target.ToInstant());
         }
 
         public static Boolean IsAfter(this ZonedDateTime now, ZonedDateTime target)
         {
-            if (DateTime.Compare(now.ToDateTimeUtc(), target.ToDateTimeUtc()) > 0)
+            if (now.CompareTo(target) > 0)
             {
                 return true;
             }
@@ -333,7 +372,7 @@ namespace NodaTime
 
         public static Boolean IsBefore(this ZonedDateTime now, ZonedDateTime target)
         {
-            if (DateTime.Compare(now.ToDateTimeUtc(), target.ToDateTimeUtc()) < 0)
+            if (now.CompareTo(target) < 0)
             {
                 return true;
             }
@@ -345,7 +384,7 @@ namespace NodaTime
 
         public static Boolean IsLeapYear(this ZonedDateTime now)
         {
-            return DateTime.IsLeapYear(now.Year);
+            return IsLeapYear(now.Year);
         }
 
         public static Boolean IsSupported(this ZonedDateTime now, ITemporalField field)
@@ -372,13 +411,15 @@ namespace NodaTime
 
         public static ZonedDateTime GetDateOffsetWithYearFraction(this ZonedDateTime startDate, double yearFraction)
         {
-            if (startDate == null)
-            {
-                throw new ArgumentNullException(LocalizedResources.Instance().DATE_WAS_NULL);
-            }
             long nanos = (long)System.Math.Round((decimal)1e9 * NodaTimeUtility.SECONDS_PER_YEAR * (decimal)yearFraction);
 
             return startDate.PlusNanoseconds(nanos);
+        }
+
+        private static int GetLastDayOfMonth(int year, int month)
+        {
+            LocalDate t1 = new LocalDate(year, month, 1);
+            return t1.PlusMonths(1).PlusDays(-1).Day;
         }
 
         public static ZonedDateTime PlusTime(this ZonedDateTime nodaTime, LocalTime time)
@@ -406,36 +447,70 @@ namespace NodaTime
             int y = (int)Math.Truncate(absMonths / 12d);
             int m = absMonths - y * 12;
             DateTimeZone zone = nodaTime.Zone;
-            DateTime dt = new DateTime(nodaTime.Year, nodaTime.Month, nodaTime.Day, nodaTime.Hour, nodaTime.Minute, nodaTime.Second, nodaTime.Millisecond, DateTimeKind.Unspecified);
+
+            var year = nodaTime.Year;
+            var month = nodaTime.Month;
+            var day = nodaTime.Day;
+            var hour = nodaTime.Hour;
+            var minute = nodaTime.Minute;
+            var second = nodaTime.Second;
+            var millisecond = nodaTime.Millisecond;
+            var nanosecond = nodaTime.NanosecondOfSecond;
 
             if (!isMinus)
             {
                 if (y > 0)
                 {
-                    dt = dt.AddYears(y);
+                    year = year + y;
                 }
-                dt = dt.AddMonths(m);
+                month = month + m;
+
+                if (month > 12)
+                {
+                    year = year + 1;
+                    month = month - 12;
+                }
             }
             else
             {
                 if (y > 0)
                 {
-                    dt = dt.AddYears(-y);
+                    year = year - y;
                 }
-                dt = dt.AddMonths(-m);
+                month = month - m;
+                if (month <= 0)
+                {
+                    year = year - 1;
+                    month = month + 12;
+                }
             }
 
-            return NodaTimeUtility.GetZonedDateTime(dt.Year, dt.Month, dt.Day, dt.Hour, dt.Minute, dt.Second, dt.Millisecond, 0, zone);
+            int lastDayOfMonth = GetLastDayOfMonth(year, month);
+            if (day > lastDayOfMonth)
+                day = lastDayOfMonth;
+
+            return NodaTimeUtility.GetZonedDateTime(year, month, day, hour, minute, second, millisecond, nanosecond, zone);
         }
 
         public static ZonedDateTime PlusYears(this ZonedDateTime nodaTime, int years)
         {
-            DateTime dt = new DateTime(nodaTime.Year, nodaTime.Month, nodaTime.Day, nodaTime.Hour, nodaTime.Minute, nodaTime.Second, nodaTime.Millisecond, DateTimeKind.Unspecified);
             DateTimeZone zone = nodaTime.Zone;
+            var year = nodaTime.Year;
+            var month = nodaTime.Month;
+            var day = nodaTime.Day;
+            var hour = nodaTime.Hour;
+            var minute = nodaTime.Minute;
+            var second = nodaTime.Second;
+            var millisecond = nodaTime.Millisecond;
+            var nanosecond = nodaTime.NanosecondOfSecond;
 
-            dt = dt.AddYears(years);
+            year = year + years;
 
-            return NodaTimeUtility.GetZonedDateTime(dt.Year, dt.Month, dt.Day, dt.Hour, dt.Minute, dt.Second, dt.Millisecond, 0, zone);
+            int lastDayOfMonth = GetLastDayOfMonth(year, month);
+            if (day > lastDayOfMonth)
+                day = lastDayOfMonth;
+
+            return NodaTimeUtility.GetZonedDateTime(year, month, day, hour, minute, second, millisecond, nanosecond, zone);
         }
 
         public static ZonedDateTime PlusDateTimeValues(this ZonedDateTime nodaTime, int year, int month, int day, int hour, int minute, int second, int millisecond, int nanosecond)
@@ -628,19 +703,19 @@ namespace NodaTime
                 }
                 else if (f == ChronoUnit.DECADES)
                 {
-                    return now.PlusYears((int)Math2.SafeMultiply(amountToAdd, 10));
+                    return now.PlusYears((int)QuickMath.SafeMultiply(amountToAdd, 10));
                 }
                 else if (f == ChronoUnit.CENTURIES)
                 {
-                    return now.PlusYears((int)Math2.SafeMultiply(amountToAdd, 100));
+                    return now.PlusYears((int)QuickMath.SafeMultiply(amountToAdd, 100));
                 }
                 else if (f == ChronoUnit.MILLENNIA)
                 {
-                    return now.PlusYears((int)Math2.SafeMultiply(amountToAdd, 1000));
+                    return now.PlusYears((int)QuickMath.SafeMultiply(amountToAdd, 1000));
                 }
                 else if (f == ChronoUnit.ERAS)
                 {
-                    return now.With(ChronoField.ERA, Math2.SafeAdd(now.GetLong(ChronoField.ERA), amountToAdd));
+                    return now.With(ChronoField.ERA, QuickMath.SafeAdd(now.GetLong(ChronoField.ERA), amountToAdd));
                 }
                 throw new NotSupportedException(String.Format(LocalizedResources.Instance().UNSUPPORTED_UNIT, unit));
             }
@@ -652,15 +727,22 @@ namespace NodaTime
             return (amountToSubtract == long.MinValue ? now.Plus(long.MaxValue, unit).Plus(1, unit) : now.Plus(-amountToSubtract, unit));
         }
 
+        public static Instant ToInstant(this ZonedDateTime source)
+        {
+            var tmp = source.ChangeToDifferentTimeZone(DateTimeZone.Utc);
+
+            var instant = Instant.FromUtc(tmp.Year, tmp.Month, tmp.Day, tmp.Hour, tmp.Minute, tmp.Second);
+            return instant.PlusMillis(tmp.Millisecond).PlusNanoseconds(tmp.NanosecondOfSecond);
+        }
+
         public static ZonedDateTime With(this ZonedDateTime now, MonthDay monthDay)
         {
-            DateTimeZone timeZone = now.Zone;
-            return new ZonedDateTime(new DateTime(now.Year, monthDay.Month.Value, monthDay.Day).ToInstant(), now.Zone);
+            return NodaTimeUtility.GetZonedDateTime(now.Year, monthDay.Month.Value, now.Day, now.Hour, now.Minute, now.Second, now.Millisecond, now.NanosecondOfSecond, now.Zone);
         }
 
         public static ZonedDateTime With(this ZonedDateTime now, LocalDate localDate)
         {
-            return new ZonedDateTime(localDate.ToDateTimeUnspecified().ToInstant(), now.Zone);
+            return NodaTimeUtility.GetZonedDateTime(localDate.Year, localDate.Month, localDate.Day, now.Hour, now.Minute, now.Second, now.Millisecond, now.NanosecondOfSecond, now.Zone);
         }
 
         public static ZonedDateTime With(this ZonedDateTime now, ITemporalField field, long newValue)
@@ -734,8 +816,8 @@ namespace NodaTime
             {
                 return now;
             }
-            
-            return new ZonedDateTime(new DateTime(now.Year, now.Month, now.Day, hour, now.Minute, now.Second).ToInstant(), now.Zone);
+
+            return NodaTimeUtility.GetZonedDateTime(now.Year, now.Month, now.Day, hour, now.Minute, now.Second, now.Millisecond, now.NanosecondOfSecond, now.Zone);
         }
 
         public static ZonedDateTime WithMinute(this ZonedDateTime now, int minute)
@@ -744,8 +826,8 @@ namespace NodaTime
             {
                 return now;
             }
-            
-            return new ZonedDateTime(new DateTime(now.Year, now.Month, now.Day, now.Hour, minute, now.Second).ToInstant(), now.Zone);
+
+            return NodaTimeUtility.GetZonedDateTime(now.Year, now.Month, now.Day, now.Hour, minute, now.Second, now.Millisecond, now.NanosecondOfSecond, now.Zone);
         }
 
         public static ZonedDateTime WithSecond(this ZonedDateTime now, int second)
@@ -754,8 +836,8 @@ namespace NodaTime
             {
                 return now;
             }
-            
-            return new ZonedDateTime(new DateTime(now.Year, now.Month, now.Day, now.Hour, now.Minute, second).ToInstant(), now.Zone);
+
+            return NodaTimeUtility.GetZonedDateTime(now.Year, now.Month, now.Day, now.Hour, now.Minute, second, now.Millisecond, now.NanosecondOfSecond, now.Zone);
         }
 
         public static ZonedDateTime WithNano(this ZonedDateTime now, int nano)
@@ -764,8 +846,8 @@ namespace NodaTime
             {
                 return now;
             }
-            
-            return new ZonedDateTime(new DateTime(now.Year, now.Month, now.Day, now.Hour, now.Minute, now.Second).AddNanos(nano).ToInstant(), now.Zone);
+
+            return NodaTimeUtility.GetZonedDateTime(now.Year, now.Month, now.Day, now.Hour, now.Minute, now.Second, now.Millisecond, nano, now.Zone);
         }
 
         public static ZonedDateTime WithYear(this ZonedDateTime now, int year)
@@ -774,8 +856,8 @@ namespace NodaTime
             {
                 return now;
             }
-            
-            return new ZonedDateTime(new DateTime(year, now.Month, now.Day).ToInstant(), now.Zone);
+
+            return NodaTimeUtility.GetZonedDateTime(year, now.Month, now.Day, now.Hour, now.Minute, now.Second, now.Millisecond, now.NanosecondOfSecond, now.Zone);
         }
 
         public static ZonedDateTime WithMonth(this ZonedDateTime now, int month)
@@ -790,8 +872,7 @@ namespace NodaTime
                 throw new ArgumentOutOfRangeException();
             }
 
-            
-            return new ZonedDateTime(new DateTime(now.Year, month, now.Day).ToInstant(), now.Zone);
+            return NodaTimeUtility.GetZonedDateTime(now.Year, month, now.Day, now.Hour, now.Minute, now.Second, now.Millisecond, now.NanosecondOfSecond, now.Zone);
         }
 
         public static ZonedDateTime WithDayOfMonth(this ZonedDateTime now, int dayOfMonth)
@@ -801,8 +882,7 @@ namespace NodaTime
                 return now;
             }
 
-            
-            return new ZonedDateTime(new DateTime(now.Year, now.Month, dayOfMonth).ToInstant(), now.Zone);
+            return NodaTimeUtility.GetZonedDateTime(now.Year, now.Month, dayOfMonth, now.Hour, now.Minute, now.Second, now.Millisecond, now.NanosecondOfSecond, now.Zone);
         }
 
         public static ZonedDateTime WithDayOfYear(this ZonedDateTime now, int dayOfYear)
@@ -830,8 +910,8 @@ namespace NodaTime
                 moy = moy.Plus(1);
             }
             int dom = dayOfYear - moy.firstDayOfYear(leap) + 1;
-            
-            return new ZonedDateTime(new DateTime(year, moy.Value, dom).ToInstant(), now.Zone);
+
+            return NodaTimeUtility.GetZonedDateTime(year, moy.Value, dom, now.Hour, now.Minute, now.Second, now.Millisecond, now.NanosecondOfSecond, now.Zone);
         }
 
         public static ZonedDateTime OfEpochDay(this ZonedDateTime now, long epochDay)
@@ -867,8 +947,8 @@ namespace NodaTime
 
             // check year now we are certain it is correct
             int year = (int)ChronoField.YEAR.CheckValidIntValue(yearEst);
-            
-            return new ZonedDateTime(new DateTime(year, month, dom).ToInstant(), now.Zone);
+
+            return NodaTimeUtility.GetZonedDateTime(year, month, dom, now.Hour, now.Minute, now.Second, now.Millisecond, now.NanosecondOfSecond, now.Zone);
         }
 
         public static int Get(this ZonedDateTime now, ITemporalField field)
@@ -951,7 +1031,29 @@ namespace NodaTime
 
         public static ZonedDateTime ToZonedDateTimeUtc(this ZonedDateTime now)
         {
-            return now.ToDateTimeUtc().ToZonedDateTime();
+            return now.ToDateTimeUtc().ToZonedDateTime(DateTimeZone.Utc);
+        }
+
+        public static DateTime ToDateTimeWithCalendar(this ZonedDateTime now, CultureInfo culture)
+        {
+            DateTime result;
+            CultureInfo currentCulture = System.Globalization.CultureInfo.CurrentCulture;
+
+            try
+            {
+                System.Threading.Thread.CurrentThread.CurrentCulture = culture;
+
+                result = new DateTime(now.Year, now.Month, now.Day, now.Hour, now.Minute, now.Second, now.Millisecond, culture.Calendar, DateTimeKind.Local);
+                return result;
+            }
+            catch (Exception e)
+            {
+                throw new ConvergenceException(String.Format("Couldn't convert to the culture, {0}.", culture.DisplayName), e);
+            }
+            finally
+            {
+                System.Threading.Thread.CurrentThread.CurrentCulture = currentCulture;
+            }
         }
 
         public static ZonedDateTime ToZonedFixingDateTimeUtc(this ZonedDateTime now)
@@ -1067,8 +1169,7 @@ namespace NodaTime
 
         public static long GetEpochSecond(this ZonedDateTime now)
         {
-            TimeSpan t = now.ToDateTimeUtc() - new DateTime(1970, 1, 1);
-            return (long)t.TotalSeconds;
+            return now.ToInstant().GetEpochSecond();
         }
 
         public static double GetExactDaysBetween(this ZonedDateTime startDate, ZonedDateTime endDate)
@@ -1140,20 +1241,20 @@ namespace NodaTime
                 }
                 else if (f == ChronoUnit.DECADES)
                 {
-                    return now.PlusYears((int)Math2.SafeMultiply(amountToAdd, 10));
+                    return now.PlusYears((int)QuickMath.SafeMultiply(amountToAdd, 10));
                 }
                 else if (f == ChronoUnit.CENTURIES)
                 {
-                    return now.PlusYears((int)Math2.SafeMultiply(amountToAdd, 100));
+                    return now.PlusYears((int)QuickMath.SafeMultiply(amountToAdd, 100));
                 }
                 else if (f == ChronoUnit.MILLENNIA)
                 {
-                    return now.PlusYears((int)Math2.SafeMultiply(amountToAdd, 1000));
+                    return now.PlusYears((int)QuickMath.SafeMultiply(amountToAdd, 1000));
 
                 }
                 else if (f == ChronoUnit.ERAS)
                 {
-                    return now.With(ChronoField.ERA, Math2.SafeAdd((int)now.GetLong(ChronoField.ERA), amountToAdd));
+                    return now.With(ChronoField.ERA, QuickMath.SafeAdd((int)now.GetLong(ChronoField.ERA), amountToAdd));
                 }
                 throw new NotSupportedException(String.Format(LocalizedResources.Instance().UNSUPPORTED_UNIT, unit));
 
@@ -1161,76 +1262,83 @@ namespace NodaTime
             return unit.AddTo(new Temporal(now), amountToAdd);
         }
 
+        /// <summary>
+        /// Convert to diffrent timezone with same date and time
+        /// </summary>
+        /// <param name="now">convert ZonedDateTime from</param>
+        /// <param name="zone">change to this TimeZone</param>
+        /// <returns>Converted ZonedDateTime</returns>
         public static ZonedDateTime ChangeToDifferentTimeZoneWithSameDateTime(this ZonedDateTime now, DateTimeZone zone)
         {
-            int dateYear = now.Year;
-            int dateMonth = now.Month;
-            int dateDay = now.Day;
-            int dateHour = now.Hour;
-            int dateMinute = now.Minute;
-            int dateSecond = now.Second;
-            int dateMillisecond = now.Millisecond;
+            var instant = SystemClock.Instance.GetCurrentInstant();
+            DateTimeZone tzLocal = DateTimeZoneProviders.Bcl.GetSystemDefault();
+            var tzToOffset = zone.GetUtcOffset(instant);
+            var nanosFromOffset = now.Offset.Nanoseconds;
 
-            DateTime current = new DateTime(dateYear, dateMonth, dateDay, dateHour, dateMinute, dateSecond, dateMillisecond, DateTimeKind.Utc);
-            if (now.IsDaylightSaving())
-            {
-                return new ZonedDateTime(current.AddMilliseconds(-zone.MaxOffset.Milliseconds).ToInstant(), zone);
-            }
-            else
-            {
-                return new ZonedDateTime(current.AddMilliseconds(-zone.MinOffset.Milliseconds).ToInstant(), zone);
-            }
+            var tmp = now.PlusNanoseconds(now.Offset.Nanoseconds);              // Subtract Offset Nanoseconds from UTC time, for example, Eastern Time will be added 4 hours in EDT/5 hours in EST, since the offset is negative.
+            var result = new ZonedDateTime(tmp.ToInstant(), zone);
+            result = result.PlusNanoseconds(-result.Offset.Nanoseconds);        // Add Offset Nanoseconds from UTC, for example, Tokyo is 9 hours ahead from UTC, will be added 9 hours.
+
+            return result;
         }
-
-        public static ZonedDateTime ChangeToDifferentTimeZone(this ZonedDateTime now, DateTimeZone zone)
-        {
-            DateTime nodaTimeUtc = now.ToDateTimeUtc();
-            int dateYear = nodaTimeUtc.Year;
-            int dateMonth = nodaTimeUtc.Month;
-            int dateDay = nodaTimeUtc.Day;
-
-            //DateTime temp = new DateTime(dateYear, dateMonth, 1, 0, 0, 0, 0, DateTimeKind.Unspecified);
-            //int lastDayOfheMonth = temp.AddMonths(1).AddDays(-1).Day;
-
-            //if (dateDay > lastDayOfheMonth)
-            //    dateDay = lastDayOfheMonth;
-
-            int dateHour = nodaTimeUtc.Hour;
-            int dateMinute = nodaTimeUtc.Minute;
-            int dateSecond = nodaTimeUtc.Second;
-            int dateMillisecond = nodaTimeUtc.Millisecond;
-
-            DateTime current = new DateTime(dateYear, dateMonth, dateDay, dateHour, dateMinute, dateSecond, dateMillisecond, DateTimeKind.Utc);
-            if (now.IsDaylightSaving())
-            {
-                return new ZonedDateTime(current.AddHours(1).ToInstant(), zone);
-             }
-            else
-            {
-                return new ZonedDateTime(current.ToInstant(), zone);
-            }
-        }
-
 
         /// <summary>
-        /// Find out this time zone is in Daylight Saving, now
+        /// Convert to diffrent timezone with same date and time
         /// </summary>
-        /// <param name="zone">DateTimeZone to find out</param>
-        /// <returns>Return true if the DateTimeZone is in Daylight Saving</returns>
-        /// <see cref="https://stackoverflow.com/questions/24373618/getting-daylight-savings-time-start-and-end-in-nodatime"/>
-        public static Boolean IsDaylightSaving(this ZonedDateTime now)
+        /// <param name="now">convert LocalDateTime from</param>
+        /// <param name="zone">change to this TimeZone</param>
+        /// <returns>Converted ZonedDateTime</returns>
+        public static ZonedDateTime ChangeToDifferentTimeZoneWithSameDateTime(this LocalDateTime now, DateTimeZone zone)
         {
-            DateTimeZone zone = now.Zone;
-            ZonedDateTime tmp = new ZonedDateTime(now.ToInstant(), zone);
-            DateTimeOffset dateTimeOffset = tmp.ToDateTimeOffset();
-            var timezone = "Europe/London"; //https://nodatime.org/TimeZones
-            DateTimeZone london = DateTimeZoneProviders.Tzdb[timezone];
-            ZonedDateTime timeInZone = dateTimeOffset.DateTime.ToInstant().InZone(london);
-            var instant = timeInZone.ToInstant();
-            var zoneInterval = timeInZone.Zone.GetZoneInterval(instant);
-            return zoneInterval.Savings != Offset.Zero;
+            return now.ToZonedDateTime().ChangeToDifferentTimeZoneWithSameDateTime(zone);
         }
 
+        /// <summary>
+        /// Convert to diffrent timezone
+        /// </summary>
+        /// <param name="now">convert LocalDateTime from</param>
+        /// <param name="zone">change to this TimeZone</param>
+        /// <returns>Converted ZonedDateTime</returns>
+        public static ZonedDateTime ChangeToDifferentTimeZone(this LocalDateTime now, DateTimeZone zone)
+        {
+            return now.ToZonedDateTime().ChangeToDifferentTimeZone(zone);
+        }
+
+        /// <summary>
+        /// Convert to diffrent timezone
+        /// </summary>
+        /// <param name="now">convert ZonedDateTime from</param>
+        /// <param name="zone">change to this TimeZone</param>
+        /// <returns>Converted ZonedDateTime</returns>
+        public static ZonedDateTime ChangeToDifferentTimeZone(this ZonedDateTime now, DateTimeZone zone)
+        {
+            var result = new ZonedDateTime(now.ToInstant(), zone);
+            return result;
+        }
+
+        /// <summary>
+        /// Return the difference of Standard Time and Daylight Saving Time in the TimeZone as Nanoseconds
+        /// </summary>
+        /// <param name="current">ZonedTime to get the difference from Daylight Saving Time</param>
+        /// <returns>Nanoseconds of the Offset difference</returns>
+        public static long GetOffsetDifferenceFromDaylightTime(this ZonedDateTime current)
+        {
+            if (current.IsDaylightSavingTime())
+            {
+                var curOffset = current.Offset;
+
+                int August = 8;
+                int month = current.Month;
+                int diff = August - month;
+                var refZDT = current.PlusMonths(diff);
+                var dstOffset = refZDT.Offset;
+                return (curOffset - dstOffset).Nanoseconds;
+            }
+            else
+            {
+                return 0;
+            }
+        }
 
         #endregion
 
@@ -1241,7 +1349,7 @@ namespace NodaTime
             if (now is null)
                 return false;
 
-            if (DateTime.Compare(now.Value.ToDateTimeUtc(), target.ToDateTimeUtc()) > 0)
+            if (now.Value.ToInstant().CompareTo(target.ToInstant()) > 0)
             {
                 return true;
             }
@@ -1264,7 +1372,7 @@ namespace NodaTime
             if (now is null)
                 return false;
 
-            if (DateTime.Compare(now.Value.ToDateTimeUtc(), target.ToDateTimeUtc()) < 0)
+            if (now.Value.ToInstant().CompareTo(target.ToInstant()) < 0)
             {
                 return true;
             }
@@ -1745,12 +1853,12 @@ namespace NodaTime
 
         public static int CompareTo(this LocalDateTime now, LocalDateTime target)
         {
-            return DateTime.Compare(now.ToDateTimeUnspecified(), target.ToDateTimeUnspecified());
+            return now.ToInstant().CompareTo(target.ToInstant());
         }
 
         public static Boolean IsAfter(this LocalDateTime now, LocalDateTime target)
         {
-            if (DateTime.Compare(now.ToDateTimeUnspecified(), target.ToDateTimeUnspecified()) > 0)
+            if (now.CompareTo(target) > 0)
             {
                 return true;
             }
@@ -1762,7 +1870,7 @@ namespace NodaTime
 
         public static Boolean IsBefore(this LocalDateTime now, LocalDateTime target)
         {
-            if (DateTime.Compare(now.ToDateTimeUnspecified(), target.ToDateTimeUnspecified()) < 0)
+            if (now.CompareTo(target) < 0)
             {
                 return true;
             }
@@ -1782,7 +1890,7 @@ namespace NodaTime
 
         public static Boolean IsLeapYear(this LocalDateTime now)
         {
-            return DateTime.IsLeapYear(now.Year);
+            return IsLeapYear(now.Year);
         }
 
         public static Boolean IsSupported(this LocalDateTime now, ITemporalField field)
@@ -2017,7 +2125,7 @@ namespace NodaTime
 
         public static LocalDateTime With(this LocalDateTime now, MonthDay monthDay)
         {
-            return LocalDateTime.FromDateTime(new DateTime(now.Year, monthDay.Month.Value, monthDay.Day));
+            return new LocalDateTime(now.Year, monthDay.Month.Value, monthDay.Day, now.Hour, now.Minute, now.Second, now.Millisecond).PlusNanoseconds(now.NanosecondOfSecond);
         }
 
         public static LocalDateTime With(this LocalDateTime now, LocalDate localDate)
@@ -2137,19 +2245,19 @@ namespace NodaTime
                 }
                 else if (f == ChronoUnit.DECADES)
                 {
-                    return now.PlusYears((int)Math2.SafeMultiply(amountToAdd, 10));
+                    return now.PlusYears((int)QuickMath.SafeMultiply(amountToAdd, 10));
                 }
                 else if (f == ChronoUnit.CENTURIES)
                 {
-                    return now.PlusYears((int)Math2.SafeMultiply(amountToAdd, 100));
+                    return now.PlusYears((int)QuickMath.SafeMultiply(amountToAdd, 100));
                 }
                 else if (f == ChronoUnit.MILLENNIA)
                 {
-                    return now.PlusYears((int)Math2.SafeMultiply(amountToAdd, 1000));
+                    return now.PlusYears((int)QuickMath.SafeMultiply(amountToAdd, 1000));
                 }
                 else if (f == ChronoUnit.ERAS)
                 {
-                    return now.With(ChronoField.ERA, Math2.SafeAdd(now.GetLong(ChronoField.ERA), amountToAdd));
+                    return now.With(ChronoField.ERA, QuickMath.SafeAdd(now.GetLong(ChronoField.ERA), amountToAdd));
                 }
                 throw new NotSupportedException(String.Format(LocalizedResources.Instance().UNSUPPORTED_UNIT, unit));
             }
@@ -2177,7 +2285,8 @@ namespace NodaTime
                 moy = moy.Plus(1);
             }
             int dom = dayOfYear - moy.firstDayOfYear(leap) + 1;
-            return LocalDateTime.FromDateTime(new DateTime(year, moy.Value, dom));
+            return new LocalDateTime(year, moy.Value, dom, now.Hour, now.Minute, now.Second, now.Millisecond).PlusNanoseconds(now.NanosecondOfSecond);
+
         }
 
         public static LocalDateTime OfEpochDay(this LocalDateTime now, long epochDay)
@@ -2303,18 +2412,26 @@ namespace NodaTime
 
         public static Instant ToInstant(this LocalDateTime source)
         {
-            return Instant.FromDateTimeUtc(source.ToDateTimeUnspecified());
+            return source.InZoneStrictly(NodaTimeUtility.ORIGINAL_TIME_ZONE).ToInstant();
         }
 
         public static ZonedDateTime ToZonedDateTime(this LocalDateTime source)
         {
-             
-            return new ZonedDateTime(source.ToInstant(), NodaTimeUtility.ORIGINAL_TIME_ZONE);
+            return source.InZoneStrictly(NodaTimeUtility.ORIGINAL_TIME_ZONE);
+        }
+
+        public static DateTime ToDateTime(this LocalDateTime source)
+        {
+            return new DateTime(source.Year, source.Month, source.Day, source.Hour, source.Minute, source.Second, source.Millisecond, DateTimeKind.Local);
+        }
+
+        public static DateTime ToDateTimeUTC(this LocalDateTime source)
+        {
+            return new DateTime(source.Year, source.Month, source.Day, source.Hour, source.Minute, source.Second, source.Millisecond, DateTimeKind.Utc);
         }
 
         public static ZonedDateTime ToZonedDateTime(this LocalDateTime source, DateTimeZone zone)
         {
-
             return new ZonedDateTime(source.ToInstant(), zone);
         }
 
@@ -2358,8 +2475,7 @@ namespace NodaTime
 
         public static long GetEpochSecond(this LocalDateTime now)
         {
-            TimeSpan t = now.ToDateTimeUnspecified() - new DateTime(1970, 1, 1);
-            return (long)t.TotalSeconds;
+            return now.ToInstant().GetEpochSecond();
         }
 
         public static double GetExactDaysBetween(this LocalDateTime startDate, LocalDateTime endDate)
@@ -2431,20 +2547,20 @@ namespace NodaTime
                 }
                 else if (f == ChronoUnit.DECADES)
                 {
-                    return now.PlusYears((int)Math2.SafeMultiply(amountToAdd, 10));
+                    return now.PlusYears((int)QuickMath.SafeMultiply(amountToAdd, 10));
                 }
                 else if (f == ChronoUnit.CENTURIES)
                 {
-                    return now.PlusYears((int)Math2.SafeMultiply(amountToAdd, 100));
+                    return now.PlusYears((int)QuickMath.SafeMultiply(amountToAdd, 100));
                 }
                 else if (f == ChronoUnit.MILLENNIA)
                 {
-                    return now.PlusYears((int)Math2.SafeMultiply(amountToAdd, 1000));
+                    return now.PlusYears((int)QuickMath.SafeMultiply(amountToAdd, 1000));
 
                 }
                 else if (f == ChronoUnit.ERAS)
                 {
-                    return now.With(ChronoField.ERA, Math2.SafeAdd((int)now.GetLong(ChronoField.ERA), amountToAdd));
+                    return now.With(ChronoField.ERA, QuickMath.SafeAdd((int)now.GetLong(ChronoField.ERA), amountToAdd));
                 }
                 throw new NotSupportedException(String.Format(LocalizedResources.Instance().UNSUPPORTED_UNIT, unit));
 
@@ -2955,14 +3071,9 @@ namespace NodaTime
             return new ZonedDateTime(now.ToInstant(), zone);
         }
 
-        public static int CompareTo(this LocalDate now, LocalDate target)
-        {
-            return DateTime.Compare(now.ToDateTimeUnspecified(), target.ToDateTimeUnspecified());
-        }
-
         public static Boolean IsAfter(this LocalDate now, LocalDate target)
         {
-            if (DateTime.Compare(now.ToDateTimeUnspecified(), target.ToDateTimeUnspecified()) > 0)
+            if (now.CompareTo(target) > 0)
             {
                 return true;
             }
@@ -2974,7 +3085,7 @@ namespace NodaTime
 
         public static Boolean IsBefore(this LocalDate now, LocalDate target)
         {
-            if (DateTime.Compare(now.ToDateTimeUnspecified(), target.ToDateTimeUnspecified()) < 0)
+            if (now.CompareTo(target) < 0)
             {
                 return true;
             }
@@ -2994,7 +3105,7 @@ namespace NodaTime
 
         public static Boolean IsLeapYear(this LocalDate now)
         {
-            return DateTime.IsLeapYear(now.Year);
+            return IsLeapYear(now.Year);
         }
 
         public static Boolean IsSupported(this LocalDate now, ITemporalField field)
@@ -3093,17 +3204,17 @@ namespace NodaTime
 
         public static ZonedDateTime ToZonedDateTime(this LocalDate now, LocalTime time)
         {
-            return (new DateTime(now.Year, now.Month, now.Day, time.Hour, time.Minute, time.Second, time.Millisecond, DateTimeKind.Local)).ToZonedDateTime();
+            return NodaTimeUtility.GetZonedDateTime(now.Year, now.Month, now.Day, time.Hour, time.Minute, time.Second, time.Millisecond, time.NanosecondOfSecond);
         }
 
         public static ZonedDateTime ToZonedDateTimeUtc(this LocalDate now, LocalTime time)
         {
-            return (new DateTime(now.Year, now.Month, now.Day, time.Hour, time.Minute, time.Second, time.Millisecond, DateTimeKind.Utc)).ToZonedDateTime();
+            return NodaTimeUtility.GetZonedDateTime(now.Year, now.Month, now.Day, time.Hour, time.Minute, time.Second, time.Millisecond, time.NanosecondOfSecond, DateTimeZone.Utc);
         }
 
         public static ZonedDateTime ToZonedDateTimeUnspecified(this LocalDate now, LocalTime time)
         {
-            return (new DateTime(now.Year, now.Month, now.Day, time.Hour, time.Minute, time.Second, time.Millisecond, DateTimeKind.Unspecified)).ToZonedDateTime();
+            return NodaTimeUtility.GetZonedDateTime(now.Year, now.Month, now.Day, time.Hour, time.Minute, time.Second, time.Millisecond, time.NanosecondOfSecond, NodaTimeUtility.Unspecified);
         }
 
         public static long ToEpochDay(this LocalDate now)
@@ -3254,7 +3365,7 @@ namespace NodaTime
 
         public static LocalDate With(this LocalDate now, MonthDay monthDay)
         {
-            return LocalDate.FromDateTime(new DateTime(now.Year, monthDay.Month.Value, monthDay.Day));
+            return new LocalDate(now.Year, monthDay.Month.Value, monthDay.Day);
         }
 
         public static LocalDate WithYear(this LocalDate now, int year)
@@ -3324,19 +3435,19 @@ namespace NodaTime
                 }
                 else if (f == ChronoUnit.DECADES)
                 {
-                    return now.PlusYears((int)Math2.SafeMultiply(amountToAdd, 10));
+                    return now.PlusYears((int)QuickMath.SafeMultiply(amountToAdd, 10));
                 }
                 else if (f == ChronoUnit.CENTURIES)
                 {
-                    return now.PlusYears((int)Math2.SafeMultiply(amountToAdd, 100));
+                    return now.PlusYears((int)QuickMath.SafeMultiply(amountToAdd, 100));
                 }
                 else if (f == ChronoUnit.MILLENNIA)
                 {
-                    return now.PlusYears((int)Math2.SafeMultiply(amountToAdd, 1000));
+                    return now.PlusYears((int)QuickMath.SafeMultiply(amountToAdd, 1000));
                 }
                 else if (f == ChronoUnit.ERAS)
                 {
-                    return now.With(ChronoField.ERA, Math2.SafeAdd(now.GetLong(ChronoField.ERA), amountToAdd));
+                    return now.With(ChronoField.ERA, QuickMath.SafeAdd(now.GetLong(ChronoField.ERA), amountToAdd));
                 }
                 throw new NotSupportedException(String.Format(LocalizedResources.Instance().UNSUPPORTED_UNIT, unit));
             }
@@ -3364,7 +3475,7 @@ namespace NodaTime
                 moy = moy.Plus(1);
             }
             int dom = dayOfYear - moy.firstDayOfYear(leap) + 1;
-            return LocalDate.FromDateTime(new DateTime(year, moy.Value, dom));
+            return new LocalDate(year, moy.Value, dom);
         }
 
         public static LocalDate OfEpochDay(this LocalDate now, long epochDay)
@@ -3509,8 +3620,41 @@ namespace NodaTime
 
         public static Instant ToInstant(this LocalDate source)
         {
-            return Instant.FromDateTimeUtc(source.ToDateTimeUTC());
+            return Instant.FromUtc(source.Year, source.Month, source.Day, 0, 0);
         }
+
+        private static long DateTimeToTicks(int year, int month, int day, int hour, int minute, int second, long millisecond)
+        {
+            if (year >= 1 && year <= 9999 && month >= 1 && month <= 12)
+            {
+                int[] days = checkIsLeapYear(year) ? DaysToMonth366 : DaysToMonth365;
+                if (day >= 1 && day <= days[month] - days[month - 1])
+                {
+                    int y = year - 1;
+                    int n = y * 365 + y / 4 - y / 100 + y / 400 + days[month - 1] + day - 1;
+                    return (n * NodaTimeUtility.TicksPerDay) + (hour * NodaTimeUtility.TicksPerHour) + (minute * NodaTimeUtility.TicksPerMinute) + (second * NodaTimeUtility.TicksPerSecond) + (millisecond * NodaTimeUtility.TicksPerMillisecond);
+                }
+            }
+            throw new ArgumentOutOfRangeException();
+        }
+        public static bool checkIsLeapYear(int year)
+        {
+            if (year < 1 || year > 9999)
+            {
+                throw new ArgumentOutOfRangeException();
+            }
+            return year % 4 == 0 && (year % 100 != 0 || year % 400 == 0);
+        }
+
+        private static readonly int[] DaysToMonth365 =
+        {
+            0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334, 365
+        };
+
+        private static readonly int[] DaysToMonth366 =
+        {
+            0, 31, 60, 91, 121, 152, 182, 213, 244, 274, 305, 335, 366
+        };
 
         public static DateTime ToDateTimeUTC(this LocalDate source)
         {
@@ -3551,8 +3695,7 @@ namespace NodaTime
 
         public static long GetEpochSecond(this LocalDate now)
         {
-            TimeSpan t = now.ToDateTimeUnspecified() - new DateTime(1970, 1, 1);
-            return (long)t.TotalSeconds;
+            return now.ToInstant().GetEpochSecond();
         }
 
         public static double GetExactDaysBetween(this LocalDate startDate, LocalDate endDate)
@@ -3624,20 +3767,20 @@ namespace NodaTime
                 }
                 else if (f == ChronoUnit.DECADES)
                 {
-                    return now.PlusYears((int)Math2.SafeMultiply(amountToAdd, 10));
+                    return now.PlusYears((int)QuickMath.SafeMultiply(amountToAdd, 10));
                 }
                 else if (f == ChronoUnit.CENTURIES)
                 {
-                    return now.PlusYears((int)Math2.SafeMultiply(amountToAdd, 100));
+                    return now.PlusYears((int)QuickMath.SafeMultiply(amountToAdd, 100));
                 }
                 else if (f == ChronoUnit.MILLENNIA)
                 {
-                    return now.PlusYears((int)Math2.SafeMultiply(amountToAdd, 1000));
+                    return now.PlusYears((int)QuickMath.SafeMultiply(amountToAdd, 1000));
 
                 }
                 else if (f == ChronoUnit.ERAS)
                 {
-                    return now.With(ChronoField.ERA, Math2.SafeAdd((int)now.GetLong(ChronoField.ERA), amountToAdd));
+                    return now.With(ChronoField.ERA, QuickMath.SafeAdd((int)now.GetLong(ChronoField.ERA), amountToAdd));
                 }
                 throw new NotSupportedException(String.Format(LocalizedResources.Instance().UNSUPPORTED_UNIT, unit));
 
@@ -4215,6 +4358,19 @@ namespace NodaTime
         #endregion
 
         #region Instant methods
+        public static double GetDifferenceInMonths(this Instant? startDate, Instant? endDate)
+        {
+            if (startDate == null)
+            {
+                throw new ArgumentNullException(LocalizedResources.Instance().START_DATE_WAS_NULL);
+            }
+            if (endDate == null)
+            {
+                throw new ArgumentNullException(LocalizedResources.Instance().END_DATE_WAS_NULL);
+            }
+
+            return (double)(Instant.Subtract(endDate.Value, startDate.Value).TotalMilliseconds) / MILLISECONDS_PER_MONTH;
+        }
 
         public static int GetNano(this Instant now)
         {
@@ -4223,11 +4379,14 @@ namespace NodaTime
 
         public static long GetEpochSecond(this Instant now)
         {
-            TimeSpan t = now.ToDateTimeUtc() - new DateTime(1970, 1, 1);
+            var zdtNow = new ZonedDateTime(now, DateTimeZone.Utc);
+            var zdtEpoch = NodaTimeUtility.GetUTCZonedDateTime(1970, 1, 1, 0, 0, 0);
+
+            var t = zdtNow - zdtEpoch;
             return (long)t.TotalSeconds;
         }
 
-        public static double GetDifferenceInDays(this Instant startDate, Instant endDate)
+        public static double GetDifferenceInDays(this Instant? startDate, Instant? endDate)
         {
             if (startDate == null)
             {
@@ -4238,24 +4397,20 @@ namespace NodaTime
                 throw new ArgumentNullException(LocalizedResources.Instance().END_DATE_WAS_NULL);
             }
 
+            return GetDifferenceInDays(startDate.Value, endDate.Value);
+        }
+
+        public static double GetDifferenceInDays(this Instant startDate, Instant endDate)
+        {
             return (double)(Instant.Subtract(endDate, startDate).TotalMilliseconds) / NodaTimeUtility.MILLISECONDS_PER_DAY;
         }
 
         public static double GetDifferenceInMonths(this Instant startDate, Instant endDate)
         {
-            if (startDate == null)
-            {
-                throw new ArgumentNullException(LocalizedResources.Instance().START_DATE_WAS_NULL);
-            }
-            if (endDate == null)
-            {
-                throw new ArgumentNullException(LocalizedResources.Instance().END_DATE_WAS_NULL);
-            }
-
             return (double)(Instant.Subtract(endDate, startDate).TotalMilliseconds) / NodaTimeUtility.MILLISECONDS_PER_MONTH;
         }
 
-        public static double GetDifferenceInYears(this Instant startDate, Instant endDate)
+        public static double GetDifferenceInYears(this Instant? startDate, Instant? endDate)
         {
             if (startDate == null)
             {
@@ -4266,6 +4421,11 @@ namespace NodaTime
                 throw new ArgumentNullException(LocalizedResources.Instance().END_DATE_WAS_NULL);
             }
 
+            return GetDifferenceInYears(startDate.Value, endDate.Value);
+        }
+
+        public static double GetDifferenceInYears(this Instant startDate, Instant endDate)
+        {
             return (double)(Instant.Subtract(endDate, startDate).TotalMilliseconds) / NodaTimeUtility.MILLISECONDS_PER_YEAR;
         }
 
@@ -4275,7 +4435,7 @@ namespace NodaTime
             return GetDateOffsetWithYearFraction(startDate.ToDateTimeUtc().ToZonedDateTime(), yearFraction).ToInstant();
         }
 
-        public static double GetExactDaysBetween(this Instant startDate, Instant endDate)
+        public static double GetExactDaysBetween(this Instant? startDate, Instant? endDate)
         {
             if (startDate == null)
             {
@@ -4285,19 +4445,30 @@ namespace NodaTime
             {
                 throw new ArgumentNullException(LocalizedResources.Instance().END_DATE_WAS_NULL);
             }
+            return GetExactDaysBetween(startDate.Value, endDate.Value);
+        }
+
+        public static double GetExactDaysBetween(this Instant startDate, Instant endDate)
+        {
             return (endDate.GetEpochSecond() - startDate.GetEpochSecond()) / (double)NodaTimeUtility.SECONDS_PER_DAY;
+        }
+
+        public static int GetDaysBetween(this Instant? startDate, Boolean includeStart, Instant? endDate, Boolean includeEnd)
+        {
+            if (startDate == null)
+            {
+                throw new ArgumentNullException(LocalizedResources.Instance().START_DATE_WAS_NULL);
+            }
+            if (endDate == null)
+            {
+                throw new ArgumentNullException(LocalizedResources.Instance().END_DATE_WAS_NULL);
+            }
+            
+            return GetDaysBetween(startDate.Value, includeStart, endDate.Value, includeEnd);
         }
 
         public static int GetDaysBetween(this Instant startDate, Boolean includeStart, Instant endDate, Boolean includeEnd)
         {
-            if (startDate == null)
-            {
-                throw new ArgumentNullException(LocalizedResources.Instance().START_DATE_WAS_NULL);
-            }
-            if (endDate == null)
-            {
-                throw new ArgumentNullException(LocalizedResources.Instance().END_DATE_WAS_NULL);
-            }
             int daysBetween = (int)Math.Abs(startDate.GetDifferenceInDays(endDate));
             if (includeStart && includeEnd)
             {
@@ -4401,16 +4572,16 @@ namespace NodaTime
                 return period;
             }
 
-            return Make(Math2.SafeMultiply(period.Years, scalar),
-                        Math2.SafeMultiply(period.Months, scalar),
-                        Math2.SafeMultiply(period.Weeks, scalar),
-                        Math2.SafeMultiply(period.Days, scalar),
-                        Math2.SafeMultiply(period.Hours, scalar),
-                        Math2.SafeMultiply(period.Minutes, scalar),
-                        Math2.SafeMultiply(period.Seconds, scalar),
-                        Math2.SafeMultiply(period.Milliseconds, scalar),
-                        Math2.SafeMultiply(period.Ticks, scalar),
-                        Math2.SafeMultiply(period.Nanoseconds, scalar));
+            return Make(QuickMath.SafeMultiply(period.Years, scalar),
+                        QuickMath.SafeMultiply(period.Months, scalar),
+                        QuickMath.SafeMultiply(period.Weeks, scalar),
+                        QuickMath.SafeMultiply(period.Days, scalar),
+                        QuickMath.SafeMultiply(period.Hours, scalar),
+                        QuickMath.SafeMultiply(period.Minutes, scalar),
+                        QuickMath.SafeMultiply(period.Seconds, scalar),
+                        QuickMath.SafeMultiply(period.Milliseconds, scalar),
+                        QuickMath.SafeMultiply(period.Ticks, scalar),
+                        QuickMath.SafeMultiply(period.Nanoseconds, scalar));
         }
 
         /// <summary>

@@ -613,14 +613,14 @@ namespace MathNet.Numerics.LinearAlgebra.Decimal
         /// <returns>The maximum absolute column sum of the matrix.</returns>
         public override double L1Norm()
         {
-            return _data.Aggregate(0d, (current, t) => (double) Math2.Max((decimal)current, Math2.Abs(t)));
+            return _data.Aggregate(0d, (current, t) => (double) QuickMath.Max((decimal)current, QuickMath.Abs(t)));
         }
 
         /// <summary>Calculates the induced L2 norm of the matrix.</summary>
         /// <returns>The largest singular value of the matrix.</returns>
         public override double L2Norm()
         {
-            return _data.Aggregate(0d, (current, t) => (double)Math2.Max((decimal)current, Math2.Abs(t)));
+            return _data.Aggregate(0d, (current, t) => (double)QuickMath.Max((decimal)current, QuickMath.Abs(t)));
         }
 
         /// <summary>Calculates the induced infinity norm of this matrix.</summary>
@@ -634,7 +634,7 @@ namespace MathNet.Numerics.LinearAlgebra.Decimal
         /// <returns>The square root of the sum of the squared values.</returns>
         public override double FrobeniusNorm()
         {
-            return (double)Math2.Sqrt(_data.Sum(t => t * t));
+            return (double)QuickMath.Sqrt(_data.Sum(t => t * t));
         }
 
         /// <summary>Calculates the condition number of this matrix.</summary>

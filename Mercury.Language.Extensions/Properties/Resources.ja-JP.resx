@@ -535,7 +535,7 @@
     <value>最大数 ({0})を超えました。</value>
   </data>
   <data name="MAX_ITERATIONS_EXCEEDED" xml:space="preserve">
-    <value>maximal number of iterations ({0}) exceeded</value>
+    <value>最大反復回数 ({0}) を超えました。</value>
   </data>
   <data name="MEAN" xml:space="preserve">
     <value>平均 ({0})</value>

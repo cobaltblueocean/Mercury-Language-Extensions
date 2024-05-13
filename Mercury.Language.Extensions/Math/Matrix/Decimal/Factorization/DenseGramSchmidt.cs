@@ -93,7 +93,7 @@ namespace MathNet.Numerics.LinearAlgebra.Decimal.Factorization
                     norm += q[(k * rowsQ) + i] * q[(k * rowsQ) + i];
                 }
 
-                norm = Math2.Sqrt(norm);
+                norm = QuickMath.Sqrt(norm);
                 if (norm == 0.0M)
                 {
                     throw new ArgumentException(LocalizedResources.Instance().MATRIX_MUST_NOT_BE_RANK_DEFICIENT);

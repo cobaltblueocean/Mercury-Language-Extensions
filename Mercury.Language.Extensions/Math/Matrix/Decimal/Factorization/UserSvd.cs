@@ -474,7 +474,7 @@ namespace MathNet.Numerics.LinearAlgebra.Decimal.Factorization
                         var shift = 0.0M;
                         if (b != 0.0M || c != 0.0M)
                         {
-                            shift = Math2.Sqrt((b * b) + c);
+                            shift = QuickMath.Sqrt((b * b) + c);
                             if (b < 0.0M)
                             {
                                 shift = -shift;
@@ -681,7 +681,7 @@ namespace MathNet.Numerics.LinearAlgebra.Decimal.Factorization
             {
                 var sda = da / scale;
                 var sdb = db / scale;
-                r = scale * Math2.Sqrt((sda * sda) + (sdb * sdb));
+                r = scale * QuickMath.Sqrt((sda * sda) + (sdb * sdb));
                 if (roe < 0.0M)
                 {
                     r = -r;
@@ -721,7 +721,7 @@ namespace MathNet.Numerics.LinearAlgebra.Decimal.Factorization
                 s += a.At(i, column) * a.At(i, column);
             }
 
-            return Math2.Sqrt(s);
+            return QuickMath.Sqrt(s);
         }
 
         /// <summary>
@@ -738,7 +738,7 @@ namespace MathNet.Numerics.LinearAlgebra.Decimal.Factorization
                 s += a[i] * a[i];
             }
 
-            return Math2.Sqrt(s);
+            return QuickMath.Sqrt(s);
         }
 
         /// <summary>

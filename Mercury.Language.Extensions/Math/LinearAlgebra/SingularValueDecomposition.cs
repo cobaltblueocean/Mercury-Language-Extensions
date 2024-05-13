@@ -162,7 +162,7 @@ namespace Mercury.Language.Math.LinearAlgebra
             //        singularValues[k] = 0;
             //        for (int i = k; i < m; i++)
             //        {
-            //            singularValues[k] = Math2.Hypot(singularValues[k], A[i][k]);
+            //            singularValues[k] = QuickMath.Hypot(singularValues[k], A[i][k]);
             //        }
             //        if (singularValues[k] != 0)
             //        {
@@ -216,7 +216,7 @@ namespace Mercury.Language.Math.LinearAlgebra
             //        e[k] = 0;
             //        for (int i = k + 1; i < n; i++)
             //        {
-            //            e[k] = Math2.Hypot(e[k], e[i]);
+            //            e[k] = QuickMath.Hypot(e[k], e[i]);
             //        }
             //        if (e[k] != 0)
             //        {
@@ -431,7 +431,7 @@ namespace Mercury.Language.Math.LinearAlgebra
             //                e[p - 2] = 0;
             //                for (int j = p - 2; j >= k; j--)
             //                {
-            //                    double t = Math2.Hypot(singularValues[j], f);
+            //                    double t = QuickMath.Hypot(singularValues[j], f);
             //                    double cs = singularValues[j] / t;
             //                    double sn = f / t;
             //                    singularValues[j] = t;
@@ -457,7 +457,7 @@ namespace Mercury.Language.Math.LinearAlgebra
             //                e[k - 1] = 0;
             //                for (int j = k; j < p; j++)
             //                {
-            //                    double t = Math2.Hypot(singularValues[j], f);
+            //                    double t = QuickMath.Hypot(singularValues[j], f);
             //                    double cs = singularValues[j] / t;
             //                    double sn = f / t;
             //                    singularValues[j] = t;
@@ -502,7 +502,7 @@ namespace Mercury.Language.Math.LinearAlgebra
             //                // Chase zeros.
             //                for (int j = k; j < p - 1; j++)
             //                {
-            //                    double t = Math2.Hypot(f, g);
+            //                    double t = QuickMath.Hypot(f, g);
             //                    double cs = f / t;
             //                    double sn = g / t;
             //                    if (j != k)
@@ -520,7 +520,7 @@ namespace Mercury.Language.Math.LinearAlgebra
             //                        V[i][j + 1] = -sn * V[i][j] + cs * V[i][j + 1];
             //                        V[i][j] = t;
             //                    }
-            //                    t = Math2.Hypot(f, g);
+            //                    t = QuickMath.Hypot(f, g);
             //                    cs = f / t;
             //                    sn = g / t;
             //                    singularValues[j] = t;
@@ -653,23 +653,23 @@ namespace Mercury.Language.Math.LinearAlgebra
             {
                 p = n;
                 // compute eigen decomposition of A^T*A
-                eigenDecomposition = new EigenDecomposition(MatrixUtility.CreateMatrix(matATA), 1.0);
+                eigenDecomposition = new EigenDecomposition(MathNetMatrixUtility.CreateMatrix(matATA), 1.0);
                 singularValues = eigenDecomposition.GetRealEigenvalues();
                 cachedV = eigenDecomposition.GetV();
                 // compute eigen decomposition of A*A^T
-                eigenDecomposition = new EigenDecomposition(MatrixUtility.CreateMatrix(matAAT), 1.0);
+                eigenDecomposition = new EigenDecomposition(MathNetMatrixUtility.CreateMatrix(matAAT), 1.0);
                 cachedU = eigenDecomposition.GetV().GetSubMatrix(0, m - 1, 0, p - 1);
             }
             else
             {
                 p = m;
                 // compute eigen decomposition of A*A^T
-                eigenDecomposition = new EigenDecomposition(MatrixUtility.CreateMatrix(matAAT), 1.0);
+                eigenDecomposition = new EigenDecomposition(MathNetMatrixUtility.CreateMatrix(matAAT), 1.0);
                 singularValues = eigenDecomposition.GetRealEigenvalues();
                 cachedU = eigenDecomposition.GetV();
 
                 // compute eigen decomposition of A^T*A
-                eigenDecomposition = new EigenDecomposition(MatrixUtility.CreateMatrix(matATA), 1.0);
+                eigenDecomposition = new EigenDecomposition(MathNetMatrixUtility.CreateMatrix(matATA), 1.0);
                 cachedV = eigenDecomposition.GetV().GetSubMatrix(0, n - 1, 0, p - 1);
             }
             for (int i = 0; i < p; i++)
@@ -834,8 +834,8 @@ namespace Mercury.Language.Math.LinearAlgebra
             int nu = System.Math.Min(m, n);
             int ni = System.Math.Min(m + 1, n);
             singularValues = new Double[ni];
-            cachedU = MatrixUtility.CreateMatrix<Double>(m, nu);
-            cachedV = MatrixUtility.CreateMatrix<Double>(n, n);
+            cachedU = MathNetMatrixUtility.CreateMatrix<Double>(m, nu);
+            cachedV = MathNetMatrixUtility.CreateMatrix<Double>(n, n);
 
             Double[] e = new Double[n];
             Double[] work = new Double[m];
@@ -859,7 +859,7 @@ namespace Mercury.Language.Math.LinearAlgebra
                     // Compute 2-norm of k-th column without under/overflow.
                     singularValues[k] = 0;
                     for (int i = k; i < a.Rows(); i++)
-                        singularValues[k] = Math2.Hypot(singularValues[k], a[i, k]);
+                        singularValues[k] = QuickMath.Hypot(singularValues[k], a[i, k]);
 
                     if (singularValues[k] != 0)
                     {
@@ -912,7 +912,7 @@ namespace Mercury.Language.Math.LinearAlgebra
                     // Compute 2-norm without under/overflow.
                     e[k] = 0;
                     for (int i = k + 1; i < e.Length; i++)
-                        e[k] = Math2.Hypot(e[k], e[i]);
+                        e[k] = QuickMath.Hypot(e[k], e[i]);
 
                     if (e[k] != 0)
                     {
@@ -1049,7 +1049,7 @@ namespace Mercury.Language.Math.LinearAlgebra
 
             int pp = p - 1;
             int iter = 0;
-            Double eps = Math2.DoubleEpsilon;
+            Double eps = QuickMath.DoubleEpsilon;
             while (p > 0)
             {
                 int k, kase;
@@ -1125,7 +1125,7 @@ namespace Mercury.Language.Math.LinearAlgebra
                             e[p - 2] = 0;
                             for (int j = p - 2; j >= k; j--)
                             {
-                                Double t = Math2.Hypot(singularValues[j], f);
+                                Double t = QuickMath.Hypot(singularValues[j], f);
                                 Double cs = singularValues[j] / t;
                                 Double sn = f / t;
                                 singularValues[j] = t;
@@ -1155,7 +1155,7 @@ namespace Mercury.Language.Math.LinearAlgebra
                             e[k - 1] = 0;
                             for (int j = k; j < p; j++)
                             {
-                                Double t = Math2.Hypot(singularValues[j], f);
+                                Double t = QuickMath.Hypot(singularValues[j], f);
                                 Double cs = singularValues[j] / t;
                                 Double sn = f / t;
                                 singularValues[j] = t;
@@ -1204,7 +1204,7 @@ namespace Mercury.Language.Math.LinearAlgebra
                             // Chase zeros.
                             for (int j = k; j < p - 1; j++)
                             {
-                                Double t = Math2.Hypot(f, g);
+                                Double t = QuickMath.Hypot(f, g);
                                 Double cs = f / t;
                                 Double sn = g / t;
 
@@ -1226,7 +1226,7 @@ namespace Mercury.Language.Math.LinearAlgebra
                                     }
                                 }
 
-                                t = Math2.Hypot(f, g);
+                                t = QuickMath.Hypot(f, g);
                                 cs = f / t;
                                 sn = g / t;
                                 singularValues[j] = t;
@@ -1364,7 +1364,7 @@ namespace Mercury.Language.Math.LinearAlgebra
             if (cachedS == null)
             {
                 // cache the matrix for subsequent calls
-                cachedS = MatrixUtility.CreateDenseDiagonalMatrix(singularValues);
+                cachedS = MathNetMatrixUtility.CreateDenseDiagonalMatrix(singularValues);
             }
             return cachedS;
         }
@@ -1447,7 +1447,7 @@ namespace Mercury.Language.Math.LinearAlgebra
                 }
             }
 
-            Matrix<Double> jv = MatrixUtility.CreateMatrix<Double>(data);
+            Matrix<Double> jv = MathNetMatrixUtility.CreateMatrix<Double>(data);
             return (Matrix<Double>)jv.Transpose().Multiply(jv);
         }
 
@@ -1494,7 +1494,7 @@ namespace Mercury.Language.Math.LinearAlgebra
         /// <returns>effective numerical matrix rank</returns>
         public int GetRank()
         {
-            double threshold = System.Math.Max(m, n) * System.Math2.Ulp(singularValues[0]);
+            double threshold = System.Math.Max(m, n) * System.QuickMath.Ulp(singularValues[0]);
 
             for (int i = singularValues.Length - 1; i >= 0; --i)
             {
@@ -1552,7 +1552,7 @@ namespace Mercury.Language.Math.LinearAlgebra
                         suTi[j] *= a;
                     }
                 }
-                pseudoInverse = (Matrix<Double>)v.Multiply(MatrixUtility.CreateMatrix<Double>(suT));
+                pseudoInverse = (Matrix<Double>)v.Multiply(MathNetMatrixUtility.CreateMatrix<Double>(suT));
                 this.nonSingular = nonSingular;
             }
 

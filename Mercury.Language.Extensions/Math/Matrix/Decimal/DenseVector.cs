@@ -680,9 +680,9 @@ namespace MathNet.Numerics.LinearAlgebra.Decimal
             var sum = 0M;
             for (var index = 0; index < _length; index++)
             {
-                sum += Math2.Pow(Math2.Abs(_values[index]), (decimal)p);
+                sum += QuickMath.Pow(QuickMath.Abs(_values[index]), (decimal)p);
             }
-            return (double)Math2.Pow(sum, 1.0M / (decimal)p);
+            return (double)QuickMath.Pow(sum, 1.0M / (decimal)p);
         }
 
         /// <summary>

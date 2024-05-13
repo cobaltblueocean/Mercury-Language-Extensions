@@ -2,12 +2,12 @@
 //
 // Original project is developed and published by OpenGamma Inc.
 //
-// <copyright file="DecimalComplexExtensions.cs" company="Math2.NET">
-// Math2.NET Numerics, part of the Math2.NET Project
+// <copyright file="DecimalComplexExtensions.cs" company="QuickMath.NET">
+// QuickMath.NET Numerics, part of the QuickMath.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 //
-// Copyright (c) 2009-2010 Math2.NET
+// Copyright (c) 2009-2010 QuickMath.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -32,12 +32,12 @@
 // </copyright>
 
 using System;
+using System.Globalization;
 using System.Numerics;
 using System.Linq;
 using System.Collections.Generic;
 using DecimalComplex = System.Numerics.DecimalComplex;
 using System.Runtime;
-using Mercury.Language.Extensions;
 using Mercury.Language.Math;
 using Mercury.Language.Exceptions;
 using Mercury.Language.Extensions;
@@ -267,23 +267,23 @@ namespace MathNet.Numerics
 
             if (DecimalComplex.IsRealNonNegative())
             {
-                return new DecimalComplex(Math2.Sqrt(DecimalComplex.Real), 0.0M);
+                return new DecimalComplex(QuickMath.Sqrt(DecimalComplex.Real), 0.0M);
             }
 
             DecimalComplex result;
 
-            var absReal = Math2.Abs(DecimalComplex.Real);
-            var absImag = Math2.Abs(DecimalComplex.Imaginary);
+            var absReal = QuickMath.Abs(DecimalComplex.Real);
+            var absImag = QuickMath.Abs(DecimalComplex.Imaginary);
             decimal w;
             if (absReal >= absImag)
             {
                 var ratio = DecimalComplex.Imaginary / DecimalComplex.Real;
-                w = Math2.Sqrt(absReal) * Math2.Sqrt(0.5M * (1.0M + Math2.Sqrt(1.0M + (ratio * ratio))));
+                w = QuickMath.Sqrt(absReal) * QuickMath.Sqrt(0.5M * (1.0M + QuickMath.Sqrt(1.0M + (ratio * ratio))));
             }
             else
             {
                 var ratio = DecimalComplex.Real / DecimalComplex.Imaginary;
-                w = Math2.Sqrt(absImag) * Math2.Sqrt(0.5M * (Math2.Abs(ratio) + Math2.Sqrt(1.0M + (ratio * ratio))));
+                w = QuickMath.Sqrt(absImag) * QuickMath.Sqrt(0.5M * (QuickMath.Abs(ratio) + QuickMath.Sqrt(1.0M + (ratio * ratio))));
             }
 
             if (DecimalComplex.Real >= 0.0M)
@@ -316,7 +316,7 @@ namespace MathNet.Numerics
         /// </summary>
         public static (DecimalComplex, DecimalComplex, DecimalComplex) CubicRoots(this DecimalComplex DecimalComplex)
         {
-            var r = Math2.Pow(DecimalComplex.Magnitude, 1M / 3M);
+            var r = QuickMath.Pow(DecimalComplex.Magnitude, 1M / 3M);
             var theta = DecimalComplex.Phase / 3;
             const decimal shift = (decimal)Constants.Pi2 / 3M;
             return (DecimalComplex.FromPolarCoordinates(r, theta),
@@ -799,7 +799,7 @@ namespace MathNet.Numerics
             //    return false;
             //}
 
-            return Math2.Abs(diff) < (decimal)maximumAbsoluteError;
+            return QuickMath.Abs(diff) < (decimal)maximumAbsoluteError;
         }
 
         /// <summary>

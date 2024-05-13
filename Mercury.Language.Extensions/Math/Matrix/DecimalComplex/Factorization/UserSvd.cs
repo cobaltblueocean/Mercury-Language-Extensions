@@ -1,9 +1,9 @@
-﻿// <copyright file="UserSvd.cs" company="Math2.NET">
-// Math2.NET Numerics, part of the Math2.NET Project
+﻿// <copyright file="UserSvd.cs" company="QuickMath.NET">
+// QuickMath.NET Numerics, part of the QuickMath.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 //
-// Copyright (c) 2009-2013 Math2.NET
+// Copyright (c) 2009-2013 QuickMath.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -61,7 +61,7 @@ namespace MathNet.Numerics.LinearAlgebra.DecimalComplex.Factorization
         /// <exception cref="NonConvergenceException"></exception>
         public static UserSvd Create(Matrix<DecimalComplex> matrix, bool computeVectors)
         {
-            var nm = Math2.Min(matrix.RowCount + 1, matrix.ColumnCount);
+            var nm = QuickMath.Min(matrix.RowCount + 1, matrix.ColumnCount);
             var matrixCopy = matrix.Clone();
 
             var s = Vector<DecimalComplex>.Build.SameAs(matrixCopy, nm);
@@ -80,9 +80,9 @@ namespace MathNet.Numerics.LinearAlgebra.DecimalComplex.Factorization
 
             // Reduce matrixCopy to bidiagonal form, storing the diagonal elements
             // In s and the super-diagonal elements in e.
-            var nct = Math2.Min(matrixCopy.RowCount - 1, matrixCopy.ColumnCount);
-            var nrt = Math2.Max(0, Math2.Min(matrixCopy.ColumnCount - 2, matrixCopy.RowCount));
-            var lu = Math2.Max(nct, nrt);
+            var nct = QuickMath.Min(matrixCopy.RowCount - 1, matrixCopy.ColumnCount);
+            var nrt = QuickMath.Max(0, QuickMath.Min(matrixCopy.ColumnCount - 2, matrixCopy.RowCount));
+            var lu = QuickMath.Max(nct, nrt);
             for (l = 0; l < lu; l++)
             {
                 lp1 = l + 1;
@@ -199,7 +199,7 @@ namespace MathNet.Numerics.LinearAlgebra.DecimalComplex.Factorization
             }
 
             // Set up the final bidiagonal matrixCopy or order m.
-            var m = Math2.Min(matrixCopy.ColumnCount, matrixCopy.RowCount + 1);
+            var m = QuickMath.Min(matrixCopy.ColumnCount, matrixCopy.RowCount + 1);
             var nctp1 = nct + 1;
             var nrtp1 = nrt + 1;
             if (nct < matrixCopy.ColumnCount)
@@ -472,11 +472,11 @@ namespace MathNet.Numerics.LinearAlgebra.DecimalComplex.Factorization
                     case 3:
                         // Calculate the shift.
                         var scale = 0.0M;
-                        scale = Math2.Max(scale, s[m - 1].Magnitude);
-                        scale = Math2.Max(scale, s[m - 2].Magnitude);
-                        scale = Math2.Max(scale, e[m - 2].Magnitude);
-                        scale = Math2.Max(scale, s[l].Magnitude);
-                        scale = Math2.Max(scale, e[l].Magnitude);
+                        scale = QuickMath.Max(scale, s[m - 1].Magnitude);
+                        scale = QuickMath.Max(scale, s[m - 2].Magnitude);
+                        scale = QuickMath.Max(scale, e[m - 2].Magnitude);
+                        scale = QuickMath.Max(scale, s[l].Magnitude);
+                        scale = QuickMath.Max(scale, e[l].Magnitude);
                         var sm = s[m - 1].Real/scale;
                         var smm1 = s[m - 2].Real/scale;
                         var emm1 = e[m - 2].Real/scale;
@@ -488,7 +488,7 @@ namespace MathNet.Numerics.LinearAlgebra.DecimalComplex.Factorization
 
                         if (b != 0.0M || c != 0.0M)
                         {
-                            shift = Math2.Sqrt((b*b) + c);
+                            shift = QuickMath.Sqrt((b*b) + c);
                             if (b < 0.0M)
                             {
                                 shift = -shift;
@@ -676,8 +676,8 @@ namespace MathNet.Numerics.LinearAlgebra.DecimalComplex.Factorization
             decimal r, z;
 
             var roe = db;
-            var absda = Math2.Abs(da);
-            var absdb = Math2.Abs(db);
+            var absda = QuickMath.Abs(da);
+            var absdb = QuickMath.Abs(db);
             if (absda > absdb)
             {
                 roe = da;
@@ -695,7 +695,7 @@ namespace MathNet.Numerics.LinearAlgebra.DecimalComplex.Factorization
             {
                 var sda = da/scale;
                 var sdb = db/scale;
-                r = scale*Math2.Sqrt((sda*sda) + (sdb*sdb));
+                r = scale*QuickMath.Sqrt((sda*sda) + (sdb*sdb));
                 if (roe < 0.0M)
                 {
                     r = -r;
@@ -735,7 +735,7 @@ namespace MathNet.Numerics.LinearAlgebra.DecimalComplex.Factorization
                 s += a.At(i, column).Magnitude*a.At(i, column).Magnitude;
             }
 
-            return Math2.Sqrt(s);
+            return QuickMath.Sqrt(s);
         }
 
         /// <summary>
@@ -752,7 +752,7 @@ namespace MathNet.Numerics.LinearAlgebra.DecimalComplex.Factorization
                 s += a[i].Magnitude*a[i].Magnitude;
             }
 
-            return Math2.Sqrt(s);
+            return QuickMath.Sqrt(s);
         }
 
         /// <summary>
@@ -826,7 +826,7 @@ namespace MathNet.Numerics.LinearAlgebra.DecimalComplex.Factorization
                 throw new ArgumentException(LocalizedResources.Instance().MATRIX_COLUMN_DIMENSIONS_MUST_AGREE);
             }
 
-            var mn = Math2.Min(U.RowCount, VT.ColumnCount);
+            var mn = QuickMath.Min(U.RowCount, VT.ColumnCount);
             var bn = input.ColumnCount;
 
             var tmp = new DecimalComplex[VT.ColumnCount];
@@ -887,7 +887,7 @@ namespace MathNet.Numerics.LinearAlgebra.DecimalComplex.Factorization
                 throw MatrixExceptionFactory.DimensionsDontMatch<ArgumentException>(VT.ColumnCount, result.Count);
             }
 
-            var mn = Math2.Min(U.RowCount, VT.ColumnCount);
+            var mn = QuickMath.Min(U.RowCount, VT.ColumnCount);
             var tmp = new DecimalComplex[VT.ColumnCount];
             for (var j = 0; j < VT.ColumnCount; j++)
             {

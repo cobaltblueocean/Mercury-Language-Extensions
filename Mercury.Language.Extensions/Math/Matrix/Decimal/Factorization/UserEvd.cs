@@ -2,12 +2,12 @@
 //
 // Original project is developed and published by OpenGamma Inc.
 //
-// <copyright file="UserEvd.cs" company="Math2.NET">
-// Math2.NET Numerics, part of the Math2.NET Project
+// <copyright file="UserEvd.cs" company="QuickMath.NET">
+// QuickMath.NET Numerics, part of the QuickMath.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 //
-// Copyright (c) 2009-2013 Math2.NET
+// Copyright (c) 2009-2013 QuickMath.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -160,7 +160,7 @@ namespace MathNet.Numerics.LinearAlgebra.Decimal.Factorization
 
                 for (var k = 0; k < i; k++)
                 {
-                    scale = scale + Math2.Abs(d[k]);
+                    scale = scale + QuickMath.Abs(d[k]);
                 }
 
                 if (scale == 0.0M)
@@ -183,7 +183,7 @@ namespace MathNet.Numerics.LinearAlgebra.Decimal.Factorization
                     }
 
                     var f = d[i - 1];
-                    var g = Math2.Sqrt(h);
+                    var g = QuickMath.Sqrt(h);
                     if (f > 0)
                     {
                         g = -g;
@@ -316,15 +316,15 @@ namespace MathNet.Numerics.LinearAlgebra.Decimal.Factorization
 
             var f = 0.0M;
             var tst1 = 0.0M;
-            var eps = Math2.DecimalPrecision;
+            var eps = QuickMath.DecimalPrecision;
             for (var l = 0; l < order; l++)
             {
                 // Find small subdiagonal element
-                tst1 = Math2.Max(tst1, Math2.Abs(d[l]) + Math2.Abs(e[l]));
+                tst1 = QuickMath.Max(tst1, QuickMath.Abs(d[l]) + QuickMath.Abs(e[l]));
                 var m = l;
                 while (m < order)
                 {
-                    if (Math2.Abs(e[m]) <= eps * tst1)
+                    if (QuickMath.Abs(e[m]) <= eps * tst1)
                     {
                         break;
                     }
@@ -403,7 +403,7 @@ namespace MathNet.Numerics.LinearAlgebra.Decimal.Factorization
                         {
                             throw new NonConvergenceException();
                         }
-                    } while (Math2.Abs(e[l]) > eps * tst1);
+                    } while (QuickMath.Abs(e[l]) > eps * tst1);
                 }
 
                 d[l] = d[l] + f;
@@ -458,7 +458,7 @@ namespace MathNet.Numerics.LinearAlgebra.Decimal.Factorization
                 var scale = 0.0M;
                 for (var i = m; i < order; i++)
                 {
-                    scale = scale + Math2.Abs(matrixH[i, m - 1]);
+                    scale = scale + QuickMath.Abs(matrixH[i, m - 1]);
                 }
 
                 if (scale != 0.0M)
@@ -471,7 +471,7 @@ namespace MathNet.Numerics.LinearAlgebra.Decimal.Factorization
                         h += ort[i] * ort[i];
                     }
 
-                    var g = Math2.Sqrt(h);
+                    var g = QuickMath.Sqrt(h);
                     if (ort[m] > 0)
                     {
                         g = -g;
@@ -570,7 +570,7 @@ namespace MathNet.Numerics.LinearAlgebra.Decimal.Factorization
         {
             // Initialize
             var n = order - 1;
-            var eps = Math2.DecimalPrecision;
+            var eps = QuickMath.DecimalPrecision;
             var exshift = 0.0M;
             decimal p = 0, q = 0, r = 0, s = 0, z = 0, w, x, y;
 
@@ -578,9 +578,9 @@ namespace MathNet.Numerics.LinearAlgebra.Decimal.Factorization
             var norm = 0.0M;
             for (var i = 0; i < order; i++)
             {
-                for (var j = Math2.Max(i - 1, 0); j < order; j++)
+                for (var j = QuickMath.Max(i - 1, 0); j < order; j++)
                 {
-                    norm = norm + Math2.Abs(matrixH[i, j]);
+                    norm = norm + QuickMath.Abs(matrixH[i, j]);
                 }
             }
 
@@ -592,14 +592,14 @@ namespace MathNet.Numerics.LinearAlgebra.Decimal.Factorization
                 var l = n;
                 while (l > 0)
                 {
-                    s = Math2.Abs(matrixH[l - 1, l - 1]) + Math2.Abs(matrixH[l, l]);
+                    s = QuickMath.Abs(matrixH[l - 1, l - 1]) + QuickMath.Abs(matrixH[l, l]);
 
                     if (s == 0.0M)
                     {
                         s = norm;
                     }
 
-                    if (Math2.Abs(matrixH[l, l - 1]) < eps * s)
+                    if (QuickMath.Abs(matrixH[l, l - 1]) < eps * s)
                     {
                         break;
                     }
@@ -624,7 +624,7 @@ namespace MathNet.Numerics.LinearAlgebra.Decimal.Factorization
                     w = matrixH[n, n - 1] * matrixH[n - 1, n];
                     p = (matrixH[n - 1, n - 1] - matrixH[n, n]) / 2.0M;
                     q = (p * p) + w;
-                    z = Math2.Sqrt(Math2.Abs(q));
+                    z = QuickMath.Sqrt(QuickMath.Abs(q));
                     matrixH[n, n] = matrixH[n, n] + exshift;
                     matrixH[n - 1, n - 1] = matrixH[n - 1, n - 1] + exshift;
                     x = matrixH[n, n];
@@ -652,10 +652,10 @@ namespace MathNet.Numerics.LinearAlgebra.Decimal.Factorization
                         e[n - 1] = 0.0M;
                         e[n] = 0.0M;
                         x = matrixH[n, n - 1];
-                        s = Math2.Abs(x) + Math2.Abs(z);
+                        s = QuickMath.Abs(x) + QuickMath.Abs(z);
                         p = x / s;
                         q = z / s;
-                        r = Math2.Sqrt((p * p) + (q * q));
+                        r = QuickMath.Sqrt((p * p) + (q * q));
                         p = p / r;
                         q = q / r;
 
@@ -719,7 +719,7 @@ namespace MathNet.Numerics.LinearAlgebra.Decimal.Factorization
                             matrixH[i, i] -= x;
                         }
 
-                        s = Math2.Abs(matrixH[n, n - 1]) + Math2.Abs(matrixH[n - 1, n - 2]);
+                        s = QuickMath.Abs(matrixH[n, n - 1]) + QuickMath.Abs(matrixH[n - 1, n - 2]);
                         x = y = 0.75M * s;
                         w = (-0.4375M) * s * s;
                     }
@@ -731,7 +731,7 @@ namespace MathNet.Numerics.LinearAlgebra.Decimal.Factorization
                         s = (s * s) + w;
                         if (s > 0)
                         {
-                            s = Math2.Sqrt(s);
+                            s = QuickMath.Sqrt(s);
                             if (y < x)
                             {
                                 s = -s;
@@ -760,7 +760,7 @@ namespace MathNet.Numerics.LinearAlgebra.Decimal.Factorization
                         p = (((r * s) - w) / matrixH[m + 1, m]) + matrixH[m, m + 1];
                         q = matrixH[m + 1, m + 1] - z - r - s;
                         r = matrixH[m + 2, m + 1];
-                        s = Math2.Abs(p) + Math2.Abs(q) + Math2.Abs(r);
+                        s = QuickMath.Abs(p) + QuickMath.Abs(q) + QuickMath.Abs(r);
                         p = p / s;
                         q = q / s;
                         r = r / s;
@@ -770,7 +770,7 @@ namespace MathNet.Numerics.LinearAlgebra.Decimal.Factorization
                             break;
                         }
 
-                        if (Math2.Abs(matrixH[m, m - 1]) * (Math2.Abs(q) + Math2.Abs(r)) < eps * (Math2.Abs(p) * (Math2.Abs(matrixH[m - 1, m - 1]) + Math2.Abs(z) + Math2.Abs(matrixH[m + 1, m + 1]))))
+                        if (QuickMath.Abs(matrixH[m, m - 1]) * (QuickMath.Abs(q) + QuickMath.Abs(r)) < eps * (QuickMath.Abs(p) * (QuickMath.Abs(matrixH[m - 1, m - 1]) + QuickMath.Abs(z) + QuickMath.Abs(matrixH[m + 1, m + 1]))))
                         {
                             break;
                         }
@@ -797,7 +797,7 @@ namespace MathNet.Numerics.LinearAlgebra.Decimal.Factorization
                             p = matrixH[k, k - 1];
                             q = matrixH[k + 1, k - 1];
                             r = notlast ? matrixH[k + 2, k - 1] : 0.0M;
-                            x = Math2.Abs(p) + Math2.Abs(q) + Math2.Abs(r);
+                            x = QuickMath.Abs(p) + QuickMath.Abs(q) + QuickMath.Abs(r);
                             if (x != 0.0M)
                             {
                                 p = p / x;
@@ -811,7 +811,7 @@ namespace MathNet.Numerics.LinearAlgebra.Decimal.Factorization
                             break;
                         }
 
-                        s = Math2.Sqrt((p * p) + (q * q) + (r * r));
+                        s = QuickMath.Sqrt((p * p) + (q * q) + (r * r));
                         if (p < 0)
                         {
                             s = -s;
@@ -851,7 +851,7 @@ namespace MathNet.Numerics.LinearAlgebra.Decimal.Factorization
                             }
 
                             // Column modification
-                            for (var i = 0; i <= Math2.Min(n, k + 3); i++)
+                            for (var i = 0; i <= QuickMath.Min(n, k + 3); i++)
                             {
                                 p = (x * matrixH[i, k]) + (y * matrixH[i, k + 1]);
 
@@ -939,7 +939,7 @@ namespace MathNet.Numerics.LinearAlgebra.Decimal.Factorization
                                 q = ((d[i] - p) * (d[i] - p)) + (e[i] * e[i]);
                                 t = ((x * s) - (z * r)) / q;
                                 matrixH[i, n] = t;
-                                if (Math2.Abs(x) > Math2.Abs(z))
+                                if (QuickMath.Abs(x) > QuickMath.Abs(z))
                                 {
                                     matrixH[i + 1, n] = (-r - (w * t)) / x;
                                 }
@@ -950,7 +950,7 @@ namespace MathNet.Numerics.LinearAlgebra.Decimal.Factorization
                             }
 
                             // Overflow control
-                            t = Math2.Abs(matrixH[i, n]);
+                            t = QuickMath.Abs(matrixH[i, n]);
                             if ((eps * t) * t > 1)
                             {
                                 for (var j = i; j <= n; j++)
@@ -968,7 +968,7 @@ namespace MathNet.Numerics.LinearAlgebra.Decimal.Factorization
                     var l = n - 1;
 
                     // Last vector component imaginary so matrix is triangular
-                    if (Math2.Abs(matrixH[n, n - 1]) > Math2.Abs(matrixH[n - 1, n]))
+                    if (QuickMath.Abs(matrixH[n, n - 1]) > QuickMath.Abs(matrixH[n - 1, n]))
                     {
                         matrixH[n - 1, n - 1] = q / matrixH[n, n - 1];
                         matrixH[n - 1, n] = (-(matrixH[n, n] - p)) / matrixH[n, n - 1];
@@ -1019,13 +1019,13 @@ namespace MathNet.Numerics.LinearAlgebra.Decimal.Factorization
                                 decimal vi = (d[i] - p) * 2.0M * q;
                                 if ((vr == 0.0M) && (vi == 0.0M))
                                 {
-                                    vr = eps * norm * (Math2.Abs(w) + Math2.Abs(q) + Math2.Abs(x) + Math2.Abs(y) + Math2.Abs(z));
+                                    vr = eps * norm * (QuickMath.Abs(w) + QuickMath.Abs(q) + QuickMath.Abs(x) + QuickMath.Abs(y) + QuickMath.Abs(z));
                                 }
 
                                 var res = Cdiv((x * r) - (z * ra) + (q * sa), (x * s) - (z * sa) - (q * ra), vr, vi);
                                 matrixH[i, n - 1] = res.Real;
                                 matrixH[i, n] = res.Imaginary;
-                                if (Math2.Abs(x) > (Math2.Abs(z) + Math2.Abs(q)))
+                                if (QuickMath.Abs(x) > (QuickMath.Abs(z) + QuickMath.Abs(q)))
                                 {
                                     matrixH[i + 1, n - 1] = (-ra - (w * matrixH[i, n - 1]) + (q * matrixH[i, n])) / x;
                                     matrixH[i + 1, n] = (-sa - (w * matrixH[i, n]) - (q * matrixH[i, n - 1])) / x;
@@ -1039,7 +1039,7 @@ namespace MathNet.Numerics.LinearAlgebra.Decimal.Factorization
                             }
 
                             // Overflow control
-                            t = Math2.Max(Math2.Abs(matrixH[i, n - 1]), Math2.Abs(matrixH[i, n]));
+                            t = QuickMath.Max(QuickMath.Abs(matrixH[i, n - 1]), QuickMath.Abs(matrixH[i, n]));
                             if ((eps * t) * t > 1)
                             {
                                 for (var j = i; j <= n; j++)
@@ -1079,7 +1079,7 @@ namespace MathNet.Numerics.LinearAlgebra.Decimal.Factorization
         /// <returns>Division result as a <see cref="DecimalComplex"/> number.</returns>
         static DecimalComplex Cdiv(decimal xreal, decimal ximag, decimal yreal, decimal yimag)
         {
-            if (Math2.Abs(yimag) < Math2.Abs(yreal))
+            if (QuickMath.Abs(yimag) < QuickMath.Abs(yreal))
             {
                 return new DecimalComplex((xreal + (ximag * (yimag / yreal))) / (yreal + (yimag * (yimag / yreal))), (ximag - (xreal * (yimag / yreal))) / (yreal + (yimag * (yimag / yreal))));
             }

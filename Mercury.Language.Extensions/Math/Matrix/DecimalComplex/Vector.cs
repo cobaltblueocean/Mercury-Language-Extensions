@@ -1,9 +1,9 @@
-﻿// <copyright file="Vector.cs" company="Math2.NET">
-// Math2.NET Numerics, part of the Math2.NET Project
+﻿// <copyright file="Vector.cs" company="QuickMath.NET">
+// QuickMath.NET Numerics, part of the QuickMath.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 //
-// Copyright (c) 2009-2015 Math2.NET
+// Copyright (c) 2009-2015 QuickMath.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -409,13 +409,13 @@ namespace MathNet.Numerics.LinearAlgebra.DecimalComplex
         protected override void DoPointwiseAbsoluteMinimum(DecimalComplex scalar, Vector<DecimalComplex> result)
         {
             decimal absolute = scalar.Magnitude;
-            Map(x => Math2.Min(absolute, x.Magnitude), result, Zeros.AllowSkip);
+            Map(x => QuickMath.Min(absolute, x.Magnitude), result, Zeros.AllowSkip);
         }
 
         protected override void DoPointwiseAbsoluteMaximum(DecimalComplex scalar, Vector<DecimalComplex> result)
         {
             decimal absolute = scalar.Magnitude;
-            Map(x => Math2.Max(absolute, x.Magnitude), result, Zeros.Include);
+            Map(x => QuickMath.Max(absolute, x.Magnitude), result, Zeros.Include);
         }
 
         protected override void DoPointwiseMinimum(Vector<DecimalComplex> other, Vector<DecimalComplex> result)
@@ -430,12 +430,12 @@ namespace MathNet.Numerics.LinearAlgebra.DecimalComplex
 
         protected override void DoPointwiseAbsoluteMinimum(Vector<DecimalComplex> other, Vector<DecimalComplex> result)
         {
-            Map2((x, y) => Math2.Min(x.Magnitude, y.Magnitude), other, result, Zeros.AllowSkip);
+            Map2((x, y) => QuickMath.Min(x.Magnitude, y.Magnitude), other, result, Zeros.AllowSkip);
         }
 
         protected override void DoPointwiseAbsoluteMaximum(Vector<DecimalComplex> other, Vector<DecimalComplex> result)
         {
-            Map2((x, y) => Math2.Max(x.Magnitude, y.Magnitude), other, result, Zeros.AllowSkip);
+            Map2((x, y) => QuickMath.Max(x.Magnitude, y.Magnitude), other, result, Zeros.AllowSkip);
         }
 
         /// <summary>
@@ -541,7 +541,7 @@ namespace MathNet.Numerics.LinearAlgebra.DecimalComplex
         /// <returns>The maximum absolute value.</returns>
         public override double InfinityNorm()
         {
-            return (double)CommonParallel.Aggregate(0, Count, i => At(i).Magnitude, Math2.Max, 0M);
+            return (double)CommonParallel.Aggregate(0, Count, i => At(i).Magnitude, QuickMath.Max, 0M);
         }
 
         /// <summary>
@@ -564,9 +564,9 @@ namespace MathNet.Numerics.LinearAlgebra.DecimalComplex
             var sum = 0M;
             for (var index = 0; index < Count; index++)
             {
-                sum += Math2.Pow(At(index).Magnitude, (decimal)p);
+                sum += QuickMath.Pow(At(index).Magnitude, (decimal)p);
             }
-            return (double)Math2.Pow(sum, 1.0M/(decimal)p);
+            return (double)QuickMath.Pow(sum, 1.0M/(decimal)p);
         }
 
         /// <summary>

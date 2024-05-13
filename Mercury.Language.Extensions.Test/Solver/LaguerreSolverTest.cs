@@ -25,6 +25,7 @@ using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
 using Mercury.Language.Math.Analysis.Solver;
+using Mercury.Test.Utility;
 
 namespace Mercury.Language.Extensions.Test.Solver
 {
@@ -42,8 +43,8 @@ namespace Mercury.Language.Extensions.Test.Solver
 
             Complex[] roots = ROOT_FINDER.SolveAllComplex(new double[] { 12, 7, 1 }, 0);
 
-            Assert.AreEqual(expected.Length, roots.Length);
-            Assert.AreEqual(expected, roots);
+            Assert2.AreEqual(expected.Length, roots.Length);
+            Assert2.AreEqual(expected, roots);
         }
     }
 }

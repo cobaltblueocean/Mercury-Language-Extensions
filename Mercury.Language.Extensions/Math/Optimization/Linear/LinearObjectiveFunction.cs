@@ -56,7 +56,7 @@ namespace Mercury.Language.Math.Optimization.Linear
         /// </summary>
         /// <param Name="coefficients">The coefficients for the linear equation being optimized</param>
         /// <param Name="constantTerm">The constant term of the linear equation</param>
-        public LinearObjectiveFunction(double[] coefficients, double constantTerm) : this(MatrixUtility.CreateRealVector(coefficients), constantTerm)
+        public LinearObjectiveFunction(double[] coefficients, double constantTerm) : this(MathNetMatrixUtility.CreateRealVector(coefficients), constantTerm)
         {
 
         }
@@ -96,7 +96,7 @@ namespace Mercury.Language.Math.Optimization.Linear
         /// <returns>value of the linear equation at the current point</returns>
         public double GetValue(double[] point)
         {
-            return coefficients.DotProduct(MatrixUtility.CreateRealVector(point)) + constantTerm;
+            return coefficients.DotProduct(MathNetMatrixUtility.CreateRealVector(point)) + constantTerm;
         }
 
         /// <summary>

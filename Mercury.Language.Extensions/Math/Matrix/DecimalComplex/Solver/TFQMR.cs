@@ -1,9 +1,9 @@
-// <copyright file="TFQMR.cs" company="Math2.NET">
-// Math2.NET Numerics, part of the Math2.NET Project
+// <copyright file="TFQMR.cs" company="QuickMath.NET">
+// QuickMath.NET Numerics, part of the QuickMath.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 //
-// Copyright (c) 2009-2013 Math2.NET
+// Copyright (c) 2009-2013 QuickMath.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -198,7 +198,7 @@ namespace MathNet.Numerics.LinearAlgebra.DecimalComplex.Solvers
 
                 // theta = ||pseudoResiduals||_2 / tau
                 theta = (decimal)(pseudoResiduals.L2Norm())/ (decimal)tau;
-                var c = 1/Math2.Sqrt(1 + (theta*theta));
+                var c = 1/QuickMath.Sqrt(1 + (theta*theta));
 
                 // tau = tau * theta * c
                 tau *= (double)(theta*c);

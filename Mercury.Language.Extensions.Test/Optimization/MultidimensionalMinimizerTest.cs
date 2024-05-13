@@ -51,14 +51,14 @@ namespace Mercury.Language.Extensions.Test.Optimization
         [Test]
         public void Test()
         {
-            var start = MatrixUtility.CreateRealVector(new double[] { -1.0, 1.0 });
+            var start = MathNetMatrixUtility.CreateRealVector(new double[] { -1.0, 1.0 });
             var Name = "Simplex - rosenbrock ";
 
             IMultivariateRealFunction commonsFunction = new MultivariateRealFunction()
             {
                 function = new Func<Double[], Double>((x) =>
                 {
-                    return System.Math2.Square(1 - x[0]) + 100 * System.Math2.Square(x[1] - System.Math2.Square(x[0]));
+                    return System.QuickMath.Square(1 - x[0]) + 100 * System.QuickMath.Square(x[1] - System.QuickMath.Square(x[0]));
                 })
             };
 

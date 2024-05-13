@@ -1,9 +1,9 @@
-﻿// <copyright file="LU.cs" company="Math2.NET">
-// Math2.NET Numerics, part of the Math2.NET Project
+﻿// <copyright file="LU.cs" company="QuickMath.NET">
+// QuickMath.NET Numerics, part of the QuickMath.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 //
-// Copyright (c) 2009-2013 Math2.NET
+// Copyright (c) 2009-2013 QuickMath.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -37,7 +37,7 @@ namespace MathNet.Numerics.LinearAlgebra.DecimalComplex.Factorization
     /// <para>A class which encapsulates the functionality of an LU factorization.</para>
     /// <para>For a matrix A, the LU factorization is a pair of lower triangular matrix L and
     /// upper triangular matrix U so that A = L*U.</para>
-    /// <para>In the Math2.NET implementation we also store a set of pivot elements for increased
+    /// <para>In the QuickMath.NET implementation we also store a set of pivot elements for increased
     /// numerical stability. The pivot elements encode a permutation matrix P such that P*A = L*U.</para>
     /// </summary>
     /// <remarks>

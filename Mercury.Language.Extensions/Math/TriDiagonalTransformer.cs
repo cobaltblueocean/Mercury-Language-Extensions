@@ -78,7 +78,7 @@ namespace Mercury.Language.Math
             if (cachedQt == null)
             {
                 int m = householderVectors.Rows();
-                cachedQt = (DenseMatrix)MatrixUtility.CreateMatrix<double>(m, m);
+                cachedQt = (DenseMatrix)MathNetMatrixUtility.CreateMatrix<double>(m, m);
 
                 // build up first part of the matrix by applying Householder transforms
                 for (int k = m - 1; k >= 1; --k)

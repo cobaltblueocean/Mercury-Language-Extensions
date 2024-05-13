@@ -65,7 +65,7 @@ namespace MathNet.Numerics.LinearAlgebra.Decimal.Factorization
 
                 if (tmpVal > 0.0M)
                 {
-                    tmpVal = Math2.Sqrt(tmpVal);
+                    tmpVal = QuickMath.Sqrt(tmpVal);
                     factor.At(ij, ij, tmpVal);
                     tmpColumn[ij] = tmpVal;
 

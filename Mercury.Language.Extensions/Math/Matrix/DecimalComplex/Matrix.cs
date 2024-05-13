@@ -1,9 +1,9 @@
-﻿// <copyright file="Matrix.cs" company="Math2.NET">
-// Math2.NET Numerics, part of the Math2.NET Project
+﻿// <copyright file="Matrix.cs" company="QuickMath.NET">
+// QuickMath.NET Numerics, part of the QuickMath.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 //
-// Copyright (c) 2009-2015 Math2.NET
+// Copyright (c) 2009-2015 QuickMath.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -532,7 +532,7 @@ namespace MathNet.Numerics.LinearAlgebra.DecimalComplex
             var svd = Svd(true);
             var w = svd.W;
             var s = svd.S;
-            double tolerance = Math2.Max(RowCount, ColumnCount) * svd.L2Norm * Precision.DoublePrecision;
+            double tolerance = QuickMath.Max(RowCount, ColumnCount) * svd.L2Norm * Precision.DoublePrecision;
 
             for (int i = 0; i < s.Count; i++)
             {
@@ -577,13 +577,13 @@ namespace MathNet.Numerics.LinearAlgebra.DecimalComplex
         protected override void DoPointwiseAbsoluteMinimum(DecimalComplex scalar, Matrix<DecimalComplex> result)
         {
             decimal absolute = scalar.Magnitude;
-            Map(x => Math2.Min(absolute, x.Magnitude), result, Zeros.AllowSkip);
+            Map(x => QuickMath.Min(absolute, x.Magnitude), result, Zeros.AllowSkip);
         }
 
         protected override void DoPointwiseAbsoluteMaximum(DecimalComplex scalar, Matrix<DecimalComplex> result)
         {
             decimal absolute = scalar.Magnitude;
-            Map(x => Math2.Max(absolute, x.Magnitude), result, Zeros.Include);
+            Map(x => QuickMath.Max(absolute, x.Magnitude), result, Zeros.Include);
         }
 
         protected override void DoPointwiseMinimum(Matrix<DecimalComplex> other, Matrix<DecimalComplex> result)
@@ -598,12 +598,12 @@ namespace MathNet.Numerics.LinearAlgebra.DecimalComplex
 
         protected override void DoPointwiseAbsoluteMinimum(Matrix<DecimalComplex> other, Matrix<DecimalComplex> result)
         {
-            Map2((x, y) => Math2.Min(x.Magnitude, y.Magnitude), other, result, Zeros.AllowSkip);
+            Map2((x, y) => QuickMath.Min(x.Magnitude, y.Magnitude), other, result, Zeros.AllowSkip);
         }
 
         protected override void DoPointwiseAbsoluteMaximum(Matrix<DecimalComplex> other, Matrix<DecimalComplex> result)
         {
-            Map2((x, y) => Math2.Max(x.Magnitude, y.Magnitude), other, result, Zeros.AllowSkip);
+            Map2((x, y) => QuickMath.Max(x.Magnitude, y.Magnitude), other, result, Zeros.AllowSkip);
         }
 
         /// <summary>Calculates the induced L1 norm of this matrix.</summary>
@@ -618,7 +618,7 @@ namespace MathNet.Numerics.LinearAlgebra.DecimalComplex
                 {
                     s += At(i, j).Magnitude;
                 }
-                norm = Math2.Max(norm, s);
+                norm = QuickMath.Max(norm, s);
             }
             return (double)norm;
         }
@@ -635,7 +635,7 @@ namespace MathNet.Numerics.LinearAlgebra.DecimalComplex
                 {
                     s += At(i, j).Magnitude;
                 }
-                norm = Math2.Max(norm, s);
+                norm = QuickMath.Max(norm, s);
             }
             return (double)norm;
         }
@@ -651,7 +651,7 @@ namespace MathNet.Numerics.LinearAlgebra.DecimalComplex
             {
                 norm += aat.At(i, i).Magnitude;
             }
-            return (double)Math2.Sqrt(norm);
+            return (double)QuickMath.Sqrt(norm);
         }
 
         /// <summary>
@@ -681,7 +681,7 @@ namespace MathNet.Numerics.LinearAlgebra.DecimalComplex
             else
             {
                 double invnorm = 1.0/norm;
-                Storage.FoldByRow(ret, (s, x) => s + Math.Pow((double)x.Magnitude, norm), (x, c) => Math2.Pow(x, invnorm), ret, Zeros.AllowSkip);
+                Storage.FoldByRow(ret, (s, x) => s + Math.Pow((double)x.Magnitude, norm), (x, c) => QuickMath.Pow(x, invnorm), ret, Zeros.AllowSkip);
             }
             return Vector<double>.Build.Dense(ret);
         }
@@ -713,7 +713,7 @@ namespace MathNet.Numerics.LinearAlgebra.DecimalComplex
             else
             {
                 double invnorm = 1.0/norm;
-                Storage.FoldByColumn(ret, (s, x) => s + Math.Pow((double)x.Magnitude, norm), (x, c) => Math2.Pow(x, invnorm), ret, Zeros.AllowSkip);
+                Storage.FoldByColumn(ret, (s, x) => s + Math.Pow((double)x.Magnitude, norm), (x, c) => QuickMath.Pow(x, invnorm), ret, Zeros.AllowSkip);
             }
             return Vector<double>.Build.Dense(ret);
         }

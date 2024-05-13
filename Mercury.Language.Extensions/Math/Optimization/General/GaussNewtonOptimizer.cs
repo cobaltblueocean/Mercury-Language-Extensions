@@ -134,7 +134,7 @@ namespace Mercury.Language.Math.Optimization.General
                 try
                 {
                     // solve the linearized least squares problem
-                    Matrix<Double> mA = MatrixUtility.CreateMatrix(a);
+                    Matrix<Double> mA = MathNetMatrixUtility.CreateMatrix(a);
                     IDecompositionSolver solver = useLU ?
                             new LUDecomposition(mA.AsArrayEx()).GetSolver() :
                             new QRDecomposition(mA.AsArrayEx()).GetSolver();

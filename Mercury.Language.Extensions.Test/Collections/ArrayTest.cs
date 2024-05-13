@@ -23,6 +23,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
+using Mercury.Test.Utility;
 
 namespace Mercury.Language.Extensions.Test.Collections
 {
@@ -45,7 +46,7 @@ namespace Mercury.Language.Extensions.Test.Collections
 
             for(int i = 0; i< data.Length; i++)
             {
-                Assert.AreEqual(data[i], result[0, i]);
+                Assert2.AreEqual(data[i], result[0, i]);
             }
 
             result.Fill(0);
@@ -54,7 +55,7 @@ namespace Mercury.Language.Extensions.Test.Collections
 
             for (int i = 0; i < length; i++)
             {
-                Assert.AreEqual(data[i + start], result[0, i + offset]);
+                Assert2.AreEqual(data[i + start], result[0, i + offset]);
             }
         }
     }

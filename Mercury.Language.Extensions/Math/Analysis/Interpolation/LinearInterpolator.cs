@@ -63,7 +63,7 @@ namespace Mercury.Language.Math.Analysis.Interpolation
             // Number of intervalsd  The number of data points is n + 1d
             int n = x.Length - 1;
 
-            Math2.CheckOrder(x);
+            QuickMath.CheckOrder(x);
 
             // Slope of the lines between the datapoints.
             double[] m = new double[n];

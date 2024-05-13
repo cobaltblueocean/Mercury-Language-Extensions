@@ -1,9 +1,9 @@
-﻿// <copyright file="DiagonalMatrix.cs" company="Math2.NET">
-// Math2.NET Numerics, part of the Math2.NET Project
+﻿// <copyright file="DiagonalMatrix.cs" company="QuickMath.NET">
+// QuickMath.NET Numerics, part of the QuickMath.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 //
-// Copyright (c) 2009-2015 Math2.NET
+// Copyright (c) 2009-2015 QuickMath.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -192,7 +192,7 @@ namespace MathNet.Numerics.LinearAlgebra.DecimalComplex
         /// </summary>
         public static DiagonalMatrix CreateRandom(int rows, int columns, IContinuousDistribution distribution)
         {
-            return new DiagonalMatrix(DiagonalMatrixStorage<DecimalComplex>.OfEnumerable(rows, columns, Generate2.RandomDecimalComplex(Math2.Min(rows, columns), distribution)));
+            return new DiagonalMatrix(DiagonalMatrixStorage<DecimalComplex>.OfEnumerable(rows, columns, Generate2.RandomDecimalComplex(QuickMath.Min(rows, columns), distribution)));
         }
 
         /// <summary>
@@ -314,7 +314,7 @@ namespace MathNet.Numerics.LinearAlgebra.DecimalComplex
         /// <param name="result">The result of the multiplication.</param>
         protected override void DoMultiply(Vector<DecimalComplex> rightSide, Vector<DecimalComplex> result)
         {
-            var d = Math2.Min(ColumnCount, RowCount);
+            var d = QuickMath.Min(ColumnCount, RowCount);
             if (d < RowCount)
             {
                 result.ClearSubVector(ColumnCount, RowCount - ColumnCount);
@@ -356,7 +356,7 @@ namespace MathNet.Numerics.LinearAlgebra.DecimalComplex
             {
                 var dense = denseOther.Data;
                 var diagonal = _data;
-                var d = Math2.Min(denseOther.RowCount, RowCount);
+                var d = QuickMath.Min(denseOther.RowCount, RowCount);
                 if (d < RowCount)
                 {
                     result.ClearSubMatrix(denseOther.RowCount, RowCount - denseOther.RowCount, 0, denseOther.ColumnCount);
@@ -381,7 +381,7 @@ namespace MathNet.Numerics.LinearAlgebra.DecimalComplex
             else
             {
                 result.Clear();
-                other.Storage.MapSubMatrixIndexedTo(result.Storage, (i, j, x) => x*_data[i], 0, 0, Math2.Min(RowCount, other.RowCount), 0, 0, other.ColumnCount, Zeros.AllowSkip, ExistingData.AssumeZeros);
+                other.Storage.MapSubMatrixIndexedTo(result.Storage, (i, j, x) => x*_data[i], 0, 0, QuickMath.Min(RowCount, other.RowCount), 0, 0, other.ColumnCount, Zeros.AllowSkip, ExistingData.AssumeZeros);
             }
         }
 
@@ -406,7 +406,7 @@ namespace MathNet.Numerics.LinearAlgebra.DecimalComplex
             {
                 var dense = denseOther.Data;
                 var diagonal = _data;
-                var d = Math2.Min(denseOther.ColumnCount, RowCount);
+                var d = QuickMath.Min(denseOther.ColumnCount, RowCount);
                 if (d < RowCount)
                 {
                     result.ClearSubMatrix(denseOther.ColumnCount, RowCount - denseOther.ColumnCount, 0, denseOther.RowCount);
@@ -449,7 +449,7 @@ namespace MathNet.Numerics.LinearAlgebra.DecimalComplex
             {
                 var dense = denseOther.Data;
                 var diagonal = _data;
-                var d = Math2.Min(denseOther.ColumnCount, RowCount);
+                var d = QuickMath.Min(denseOther.ColumnCount, RowCount);
                 if (d < RowCount)
                 {
                     result.ClearSubMatrix(denseOther.ColumnCount, RowCount - denseOther.ColumnCount, 0, denseOther.RowCount);
@@ -490,7 +490,7 @@ namespace MathNet.Numerics.LinearAlgebra.DecimalComplex
             {
                 var dense = denseOther.Data;
                 var diagonal = _data;
-                var d = Math2.Min(denseOther.RowCount, ColumnCount);
+                var d = QuickMath.Min(denseOther.RowCount, ColumnCount);
                 if (d < ColumnCount)
                 {
                     result.ClearSubMatrix(denseOther.RowCount, ColumnCount - denseOther.RowCount, 0, denseOther.ColumnCount);
@@ -547,7 +547,7 @@ namespace MathNet.Numerics.LinearAlgebra.DecimalComplex
                     conjugateDiagonal[i] = _data[i].Conjugate();
                 }
 
-                var d = Math2.Min(denseOther.RowCount, ColumnCount);
+                var d = QuickMath.Min(denseOther.RowCount, ColumnCount);
                 if (d < ColumnCount)
                 {
                     result.ClearSubMatrix(denseOther.RowCount, ColumnCount - denseOther.RowCount, 0, denseOther.ColumnCount);
@@ -575,7 +575,7 @@ namespace MathNet.Numerics.LinearAlgebra.DecimalComplex
         /// <param name="result">The result of the multiplication.</param>
         protected override void DoTransposeThisAndMultiply(Vector<DecimalComplex> rightSide, Vector<DecimalComplex> result)
         {
-            var d = Math2.Min(ColumnCount, RowCount);
+            var d = QuickMath.Min(ColumnCount, RowCount);
             if (d < ColumnCount)
             {
                 result.ClearSubVector(RowCount, ColumnCount - RowCount);
@@ -603,7 +603,7 @@ namespace MathNet.Numerics.LinearAlgebra.DecimalComplex
         /// <param name="result">The result of the multiplication.</param>
         protected override void DoConjugateTransposeThisAndMultiply(Vector<DecimalComplex> rightSide, Vector<DecimalComplex> result)
         {
-            var d = Math2.Min(ColumnCount, RowCount);
+            var d = QuickMath.Min(ColumnCount, RowCount);
             if (d < ColumnCount)
             {
                 result.ClearSubVector(RowCount, ColumnCount - RowCount);
@@ -753,14 +753,14 @@ namespace MathNet.Numerics.LinearAlgebra.DecimalComplex
         /// <returns>The maximum absolute column sum of the matrix.</returns>
         public override double L1Norm()
         {
-            return _data.Aggregate(0d, (current, t) => (double)Math2.Max((decimal)current, t.Magnitude));
+            return _data.Aggregate(0d, (current, t) => (double)QuickMath.Max((decimal)current, t.Magnitude));
         }
 
         /// <summary>Calculates the induced L2 norm of the matrix.</summary>
         /// <returns>The largest singular value of the matrix.</returns>
         public override double L2Norm()
         {
-            return _data.Aggregate(0d, (current, t) => (double)Math2.Max((decimal)current, t.Magnitude));
+            return _data.Aggregate(0d, (current, t) => (double)QuickMath.Max((decimal)current, t.Magnitude));
         }
 
         /// <summary>Calculates the induced infinity norm of this matrix.</summary>
@@ -774,7 +774,7 @@ namespace MathNet.Numerics.LinearAlgebra.DecimalComplex
         /// <returns>The Frobenius norm of this matrix.</returns>
         public override double FrobeniusNorm()
         {
-            return (double)Math2.Sqrt(_data.Sum(t => t.Magnitude * t.Magnitude));
+            return (double)QuickMath.Sqrt(_data.Sum(t => t.Magnitude * t.Magnitude));
         }
 
         /// <summary>Calculates the condition number of this matrix.</summary>

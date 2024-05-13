@@ -1,9 +1,9 @@
-﻿// <copyright file="DenseMatrix.cs" company="Math2.NET">
-// Math2.NET Numerics, part of the Math2.NET Project
+﻿// <copyright file="DenseMatrix.cs" company="QuickMath.NET">
+// QuickMath.NET Numerics, part of the QuickMath.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 //
-// Copyright (c) 2009-2013 Math2.NET
+// Copyright (c) 2009-2013 QuickMath.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -630,7 +630,7 @@ namespace MathNet.Numerics.LinearAlgebra.DecimalComplex
             if (other.Storage is DiagonalMatrixStorage<DecimalComplex> diagonalOther)
             {
                 var diagonal = diagonalOther.Data;
-                var d = Math2.Min(ColumnCount, other.ColumnCount);
+                var d = QuickMath.Min(ColumnCount, other.ColumnCount);
                 if (d < other.ColumnCount)
                 {
                     result.ClearSubMatrix(0, RowCount, ColumnCount, other.ColumnCount - ColumnCount);
@@ -677,7 +677,7 @@ namespace MathNet.Numerics.LinearAlgebra.DecimalComplex
             if (other.Storage is DiagonalMatrixStorage<DecimalComplex> diagonalOther)
             {
                 var diagonal = diagonalOther.Data;
-                var d = Math2.Min(ColumnCount, other.RowCount);
+                var d = QuickMath.Min(ColumnCount, other.RowCount);
                 if (d < other.RowCount)
                 {
                     result.ClearSubMatrix(0, RowCount, ColumnCount, other.RowCount - ColumnCount);
@@ -730,7 +730,7 @@ namespace MathNet.Numerics.LinearAlgebra.DecimalComplex
                     conjugateDiagonal[i] = diagonal[i].Conjugate();
                 }
 
-                var d = Math2.Min(ColumnCount, other.RowCount);
+                var d = QuickMath.Min(ColumnCount, other.RowCount);
                 if (d < other.RowCount)
                 {
                     result.ClearSubMatrix(0, RowCount, ColumnCount, other.RowCount - ColumnCount);
@@ -831,7 +831,7 @@ namespace MathNet.Numerics.LinearAlgebra.DecimalComplex
             if (other.Storage is DiagonalMatrixStorage<DecimalComplex> diagonalOther)
             {
                 var diagonal = diagonalOther.Data;
-                var d = Math2.Min(RowCount, other.ColumnCount);
+                var d = QuickMath.Min(RowCount, other.ColumnCount);
                 if (d < other.ColumnCount)
                 {
                     result.ClearSubMatrix(0, ColumnCount, RowCount, other.ColumnCount - RowCount);
@@ -879,7 +879,7 @@ namespace MathNet.Numerics.LinearAlgebra.DecimalComplex
             if (other.Storage is DiagonalMatrixStorage<DecimalComplex> diagonalOther)
             {
                 var diagonal = diagonalOther.Data;
-                var d = Math2.Min(RowCount, other.ColumnCount);
+                var d = QuickMath.Min(RowCount, other.ColumnCount);
                 if (d < other.ColumnCount)
                 {
                     result.ClearSubMatrix(0, ColumnCount, RowCount, other.ColumnCount - RowCount);

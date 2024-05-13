@@ -24,6 +24,7 @@ using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
 using Mercury.Language.Math.LinearAlgebra;
+using Mercury.Test.Utility;
 
 namespace Mercury.Language.Extensions.Test.Matrix
 {
@@ -47,7 +48,7 @@ namespace Mercury.Language.Extensions.Test.Matrix
             {
                 for (int j = 0; j < 7; j++)
                 {
-                    Assert.AreEqual(expResult[i, j], q[i, j]);
+                    Assert2.AreEqual(expResult[i, j], q[i, j]);
                 }
             }
         }

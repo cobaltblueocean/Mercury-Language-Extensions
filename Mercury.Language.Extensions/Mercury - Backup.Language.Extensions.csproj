@@ -4,7 +4,7 @@
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <Version>0.8.2.60</Version>
+    <Version>0.8.2.59</Version>
     <Title>Mercury Language Extension</Title>
     <Description>This is a package to extended libraries to enhance C# programming, especially easier migrate from Java.</Description>
     <Company>Mercury</Company>
@@ -122,9 +122,6 @@
 
 [0.8.2.59]
  - Added ValueEquals&lt;T&gt;() method to compare ISet&lt;T&gt; as irrespective of order.
-
-[0.8.2.60]
- - Restructured Class and Methods.  Ported out to Mercury.Language.Core for language base enhanced classes and extension methods.
 </PackageReleaseNotes>
     <ApplicationIcon>Mercury.ico</ApplicationIcon>
     <PackageIcon>Mercury.jpg</PackageIcon>
@@ -135,10 +132,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Cern.Colt.NET" Version="0.9.3.22" />
+    <PackageReference Include="Cern.Colt.NET" Version="0.9.3.19" />
     <PackageReference Include="MathNet.Numerics" Version="5.0.0" />
-    <PackageReference Include="Mercury.Language.Core" Version="0.8.2.3" />
-    <PackageReference Include="Mercury.Test.Utility" Version="0.8.1.34" />
+    <PackageReference Include="Mercury.Language.Core" Version="0.8.2" />
+    <PackageReference Include="Mercury.Test.Utility" Version="0.8.1.31" />
     <PackageReference Include="NodaTime" Version="3.1.11" />
     <PackageReference Include="System.Collections.Immutable" Version="8.0.0" />
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="8.0.0" />

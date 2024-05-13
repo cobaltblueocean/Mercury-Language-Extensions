@@ -473,7 +473,7 @@ namespace Mercury.Language.Time
             private int LocalizedDayOfWeek(LocalDate temporal, int sow)
             {
                 int isoDow = (int)temporal.Get(ChronoField.DAY_OF_WEEK);
-                return Math2.FloorMod(isoDow - sow, 7) + 1;
+                return QuickMath.FloorMod(isoDow - sow, 7) + 1;
             }
 
             private long LocalizedWeekOfMonth(LocalDate temporal, int dow)
@@ -494,7 +494,7 @@ namespace Mercury.Language.Time
             {
                 int sow = weekDef.FirstDayOfWeek.GetValue();
                 int isoDow = (int)temporal.Get(ChronoField.DAY_OF_WEEK);
-                int dow = Math2.FloorMod(isoDow - sow, 7) + 1;
+                int dow = QuickMath.FloorMod(isoDow - sow, 7) + 1;
                 long woy = LocalizedWeekOfYear(temporal, dow);
                 if (woy == 0)
                 {
@@ -519,7 +519,7 @@ namespace Mercury.Language.Time
             {
                 int sow = weekDef.FirstDayOfWeek.GetValue();
                 int isoDow = (int)temporal.Get(ChronoField.DAY_OF_WEEK);
-                int dow = Math2.FloorMod(isoDow - sow, 7) + 1;
+                int dow = QuickMath.FloorMod(isoDow - sow, 7) + 1;
                 int year = (int)temporal.Get(ChronoField.YEAR);
                 long woy = LocalizedWeekOfYear(temporal, dow);
                 if (woy == 0)
@@ -543,7 +543,7 @@ namespace Mercury.Language.Time
             private int LocalizedDayOfWeek(ZonedDateTime temporal, int sow)
             {
                 int isoDow = temporal.Get(ChronoField.DAY_OF_WEEK);
-                return Math2.FloorMod(isoDow - sow, 7) + 1;
+                return QuickMath.FloorMod(isoDow - sow, 7) + 1;
             }
 
             private long LocalizedWeekOfMonth(ZonedDateTime temporal, int dow)
@@ -564,7 +564,7 @@ namespace Mercury.Language.Time
             {
                 int sow = weekDef.FirstDayOfWeek.GetValue();
                 int isoDow = temporal.Get(ChronoField.DAY_OF_WEEK);
-                int dow = Math2.FloorMod(isoDow - sow, 7) + 1;
+                int dow = QuickMath.FloorMod(isoDow - sow, 7) + 1;
                 long woy = LocalizedWeekOfYear(temporal, dow);
                 if (woy == 0)
                 {
@@ -591,7 +591,7 @@ namespace Mercury.Language.Time
             {
                 int sow = weekDef.FirstDayOfWeek.GetValue();
                 int isoDow = temporal.Get(ChronoField.DAY_OF_WEEK);
-                int dow = Math2.FloorMod(isoDow - sow, 7) + 1;
+                int dow = QuickMath.FloorMod(isoDow - sow, 7) + 1;
                 int year = temporal.Get(ChronoField.YEAR);
                 long woy = LocalizedWeekOfYear(temporal, dow);
                 if (woy == 0)
@@ -621,7 +621,7 @@ namespace Mercury.Language.Time
             private int StartOfWeekOffset(int day, int dow)
             {
                 // offset of first day corresponding to the day of week in first 7 days (zero origin)
-                int weekStart = Math2.FloorMod(day - dow, 7);
+                int weekStart = QuickMath.FloorMod(day - dow, 7);
                 int offset = -weekStart;
                 if (weekStart + 1 > weekDef.MinimalDaysInFirstWeek)
                 {
@@ -747,7 +747,7 @@ namespace Mercury.Language.Time
                 // Offset the ISO DOW by the start of this week
                 int sow = weekDef.FirstDayOfWeek.GetValue();
                 int isoDow = temporal.Get(ChronoField.DAY_OF_WEEK);
-                int dow = Math2.FloorMod(isoDow - sow, 7) + 1;
+                int dow = QuickMath.FloorMod(isoDow - sow, 7) + 1;
 
                 int offset = StartOfWeekOffset(temporal.Get(field), dow);
                 Range fieldRange = temporal.GetRange(field);
@@ -758,7 +758,7 @@ namespace Mercury.Language.Time
             {
                 int sow = weekDef.FirstDayOfWeek.GetValue();
                 int isoDow = temporal.Get(ChronoField.DAY_OF_WEEK);
-                int dow = Math2.FloorMod(isoDow - sow, 7) + 1;
+                int dow = QuickMath.FloorMod(isoDow - sow, 7) + 1;
 
                 long woy = LocalizedWeekOfYear(temporal.GetOriginal(), dow);
                 if (woy == 0)
@@ -797,7 +797,7 @@ namespace Mercury.Language.Time
                 // Offset the ISO DOW by the start of this week
                 int sow = weekDef.FirstDayOfWeek.GetValue();
                 int isoDow = (int)temporal.Get(ChronoField.DAY_OF_WEEK);
-                int dow = Math2.FloorMod(isoDow - sow, 7) + 1;
+                int dow = QuickMath.FloorMod(isoDow - sow, 7) + 1;
 
                 if (this.RangeUnit == ChronoUnit.WEEKS)
                 {
@@ -834,7 +834,7 @@ namespace Mercury.Language.Time
                 // Offset the ISO DOW by the start of this week
                 int sow = weekDef.FirstDayOfWeek.GetValue();
                 int isoDow = temporal.Get(ChronoField.DAY_OF_WEEK);
-                int dow = Math2.FloorMod(isoDow - sow, 7) + 1;
+                int dow = QuickMath.FloorMod(isoDow - sow, 7) + 1;
 
                 if (this.RangeUnit == ChronoUnit.WEEKS)
                 {

@@ -83,7 +83,7 @@ namespace MathNet.Numerics.LinearAlgebra.Decimal.Factorization
                 var det = 0.0M;
                 for (var j = 0; j < Factor.RowCount; j++)
                 {
-                    det += 2 * Math2.Log(Factor.At(j, j));
+                    det += 2 * QuickMath.Log(Factor.At(j, j));
                 }
 
                 return det;

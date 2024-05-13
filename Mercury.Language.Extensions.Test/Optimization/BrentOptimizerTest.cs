@@ -26,6 +26,7 @@ using NUnit.Framework;
 using Mercury.Language.Math.Optimization.Univariate;
 using Mercury.Language.Math.Analysis.Function;
 using Mercury.Language.Math.Optimization;
+using Mercury.Test.Utility;
 
 namespace Mercury.Language.Extensions.Test.Optimization
 {
@@ -53,7 +54,7 @@ namespace Mercury.Language.Extensions.Test.Optimization
             };
 
             var result = OPTIMIZER.Optimize(commonsFunction, MINIMIZE, lowerBound, upperBound, startPosition);
-            Assert.AreEqual(result, -3.5, EPS);
+            Assert2.AreEqual(result, -3.5, EPS);
         }
     }
 }

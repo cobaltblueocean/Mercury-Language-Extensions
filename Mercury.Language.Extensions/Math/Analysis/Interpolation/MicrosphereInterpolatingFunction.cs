@@ -88,7 +88,7 @@ namespace Mercury.Language.Math.Analysis.Interpolation
             /// of the microsphere.
             public MicrosphereSurfaceElement(double[] n)
             {
-                _normal = MatrixUtility.CreateRealVector(n);
+                _normal = MathNetMatrixUtility.CreateRealVector(n);
             }
 
             /// <summary>
@@ -189,7 +189,7 @@ namespace Mercury.Language.Math.Analysis.Interpolation
                     throw new DimensionMismatchException(xvalI.Length, dimension);
                 }
 
-                samples.AddOrUpdate(MatrixUtility.CreateRealVector(xvalI), yval[i]);
+                samples.AddOrUpdate(MathNetMatrixUtility.CreateRealVector(xvalI), yval[i]);
             });
 
             microsphere = new List<MicrosphereSurfaceElement>(microsphereElements);
@@ -209,7 +209,7 @@ namespace Mercury.Language.Math.Analysis.Interpolation
         public double Value(double[] point)
         {
 
-            Vector<Double> p = MatrixUtility.CreateRealVector(point);
+            Vector<Double> p = MathNetMatrixUtility.CreateRealVector(point);
 
             // Reset.
             AutoParallel.AutoParallelForEach(microsphere, (md) =>
@@ -225,7 +225,7 @@ namespace Mercury.Language.Math.Analysis.Interpolation
                 Vector<Double> diff = sd.Key.Subtract(p);
                 double diffNorm = diff.Norm();
 
-                if (System.Math.Abs(diffNorm) < Math2.Ulp(1d))
+                if (System.Math.Abs(diffNorm) < QuickMath.Ulp(1d))
                 {
                     // No need to interpolate, as the interpolation point is
                     // actually (very close to) one of the sampled points.

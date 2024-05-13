@@ -54,8 +54,8 @@ namespace Mercury.Language.Math.Analysis.Interpolation
                 throw new DimensionMismatchException(xval.Length, fval.Length);
             }
 
-            Math2.CheckOrder(xval);
-            Math2.CheckOrder(yval);
+            QuickMath.CheckOrder(xval);
+            QuickMath.CheckOrder(yval);
 
             int xLen = xval.Length;
             int yLen = yval.Length;

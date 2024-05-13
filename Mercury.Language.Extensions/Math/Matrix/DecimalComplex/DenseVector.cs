@@ -1,9 +1,9 @@
-﻿// <copyright file="DenseVector.cs" company="Math2.NET">
-// Math2.NET Numerics, part of the Math2.NET Project
+﻿// <copyright file="DenseVector.cs" company="QuickMath.NET">
+// QuickMath.NET Numerics, part of the QuickMath.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 //
-// Copyright (c) 2009-2013 Math2.NET
+// Copyright (c) 2009-2013 QuickMath.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -581,7 +581,7 @@ namespace MathNet.Numerics.LinearAlgebra.DecimalComplex
         /// <returns>The maximum absolute value.</returns>
         public override double InfinityNorm()
         {
-            return (double)CommonParallel.Aggregate(_values, (i, v) => v.Magnitude, Math2.Max, 0M);
+            return (double)CommonParallel.Aggregate(_values, (i, v) => v.Magnitude, QuickMath.Max, 0M);
         }
 
         /// <summary>
@@ -600,9 +600,9 @@ namespace MathNet.Numerics.LinearAlgebra.DecimalComplex
             var sum = 0M;
             for (var i = 0; i < _length; i++)
             {
-                sum += Math2.Pow(_values[i].Magnitude, (decimal)p);
+                sum += QuickMath.Pow(_values[i].Magnitude, (decimal)p);
             }
-            return (double)Math2.Pow(sum, 1.0M / (decimal)p);
+            return (double)QuickMath.Pow(sum, 1.0M / (decimal)p);
         }
 
         /// <summary>

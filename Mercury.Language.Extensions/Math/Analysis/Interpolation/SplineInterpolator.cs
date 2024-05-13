@@ -87,7 +87,7 @@ namespace Mercury.Language.Math.Analysis.Interpolation
             // Number of intervalsd  The number of data points is n + 1d
             int n = x.Length - 1;
 
-            Math2.CheckOrder(x);
+            QuickMath.CheckOrder(x);
 
             // Differences between knot points
             double[] h = new double[n];

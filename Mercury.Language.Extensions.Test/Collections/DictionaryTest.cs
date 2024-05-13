@@ -77,16 +77,16 @@ namespace Mercury.Language.Extensions.Test.Collections
 
             foreach(var item in DICT)
             {
-                Assert.AreEqual(item.Value, vals[item.Key]);
+                Assert2.AreEqual(item.Value, vals[item.Key]);
                 i++;
             }
 
-            Assert.AreEqual(i, 3);
+            Assert2.AreEqual(i, 3);
 
             var TEST = new TreeDictionary<int, string>();
             TEST.AddRange(DICT);
 
-            Assert.AreEqual(3, TEST.Count);
+            Assert2.AreEqual(3, TEST.Count);
         }
 
         [Test]
@@ -109,7 +109,7 @@ namespace Mercury.Language.Extensions.Test.Collections
 
             var data2 = dummy.GetSafe(key);
 
-            Assert.IsTrue(data2 == null);
+            Assert2.IsTrue(data2 == null);
         }
 
         [Test]

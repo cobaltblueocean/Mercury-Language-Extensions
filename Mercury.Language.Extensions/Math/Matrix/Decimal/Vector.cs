@@ -1,13 +1,13 @@
 ﻿// Copyright (c) 2017 - presented by Kei Nakai
 //
-// Original project is developed and published by Math2.NET.
+// Original project is developed and published by QuickMath.NET.
 //
-// <copyright file="Vector.cs" company="Math2.NET">
-// Math2.NET Numerics, part of the Math2.NET Project
+// <copyright file="Vector.cs" company="QuickMath.NET">
+// QuickMath.NET Numerics, part of the QuickMath.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 //
-// Copyright (c) 2009-2015 Math2.NET
+// Copyright (c) 2009-2015 QuickMath.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -56,7 +56,7 @@ namespace MathNet.Numerics.LinearAlgebra.Decimal
         /// </summary>
         public override void CoerceZero(double threshold)
         {
-            MapInplace(x => Math2.Abs(x) < (decimal)threshold ? 0M : x, Zeros.AllowSkip);
+            MapInplace(x => QuickMath.Abs(x) < (decimal)threshold ? 0M : x, Zeros.AllowSkip);
         }
 
         /// <summary>
@@ -203,7 +203,7 @@ namespace MathNet.Numerics.LinearAlgebra.Decimal
         /// <param name="result">The vector to store the result of the pointwise power.</param>
         protected override void DoPointwisePower(decimal exponent, Vector<decimal> result)
         {
-            Map(x => Math2.Pow(x, exponent), result, exponent > 0.0M ? Zeros.AllowSkip : Zeros.Include);
+            Map(x => QuickMath.Pow(x, exponent), result, exponent > 0.0M ? Zeros.AllowSkip : Zeros.Include);
         }
 
         /// <summary>
@@ -213,7 +213,7 @@ namespace MathNet.Numerics.LinearAlgebra.Decimal
         /// <param name="result">The vector to store the result of the pointwise power.</param>
         protected override void DoPointwisePower(Vector<decimal> exponent, Vector<decimal> result)
         {
-            Map2(Math2.Pow, exponent, result, Zeros.Include);
+            Map2(QuickMath.Pow, exponent, result, Zeros.Include);
         }
 
         /// <summary>
@@ -244,7 +244,7 @@ namespace MathNet.Numerics.LinearAlgebra.Decimal
         /// <param name="result">The vector to store the result.</param>
         protected override void DoPointwiseExp(Vector<decimal> result)
         {
-            Map(Math2.Exp, result, Zeros.Include);
+            Map(QuickMath.Exp, result, Zeros.Include);
         }
 
         /// <summary>
@@ -253,80 +253,80 @@ namespace MathNet.Numerics.LinearAlgebra.Decimal
         /// <param name="result">The vector to store the result.</param>
         protected override void DoPointwiseLog(Vector<decimal> result)
         {
-            Map(Math2.Log, result, Zeros.Include);
+            Map(QuickMath.Log, result, Zeros.Include);
         }
 
         protected override void DoPointwiseAbs(Vector<decimal> result)
         {
-            Map(Math2.Abs, result, Zeros.AllowSkip);
+            Map(QuickMath.Abs, result, Zeros.AllowSkip);
         }
         protected override void DoPointwiseAcos(Vector<decimal> result)
         {
-            Map(Math2.Acos, result, Zeros.Include);
+            Map(QuickMath.Acos, result, Zeros.Include);
         }
         protected override void DoPointwiseAsin(Vector<decimal> result)
         {
-            Map(Math2.Asin, result, Zeros.AllowSkip);
+            Map(QuickMath.Asin, result, Zeros.AllowSkip);
         }
         protected override void DoPointwiseAtan(Vector<decimal> result)
         {
-            Map(Math2.Atan, result, Zeros.AllowSkip);
+            Map(QuickMath.Atan, result, Zeros.AllowSkip);
         }
         protected override void DoPointwiseAtan2(Vector<decimal> other, Vector<decimal> result)
         {
-            Map2(Math2.Atan2, other, result, Zeros.Include);
+            Map2(QuickMath.Atan2, other, result, Zeros.Include);
         }
         protected override void DoPointwiseAtan2(decimal scalar, Vector<decimal> result)
         {
-            Map(x => Math2.Atan2(x, scalar), result, Zeros.Include);
+            Map(x => QuickMath.Atan2(x, scalar), result, Zeros.Include);
         }
         protected override void DoPointwiseCeiling(Vector<decimal> result)
         {
-            Map(Math2.Ceiling, result, Zeros.AllowSkip);
+            Map(QuickMath.Ceiling, result, Zeros.AllowSkip);
         }
         protected override void DoPointwiseCos(Vector<decimal> result)
         {
-            Map(Math2.Cos, result, Zeros.Include);
+            Map(QuickMath.Cos, result, Zeros.Include);
         }
         protected override void DoPointwiseCosh(Vector<decimal> result)
         {
-            Map(Math2.Cosh, result, Zeros.Include);
+            Map(QuickMath.Cosh, result, Zeros.Include);
         }
         protected override void DoPointwiseFloor(Vector<decimal> result)
         {
-            Map(Math2.Floor, result, Zeros.AllowSkip);
+            Map(QuickMath.Floor, result, Zeros.AllowSkip);
         }
         protected override void DoPointwiseLog10(Vector<decimal> result)
         {
-            Map(Math2.Log10, result, Zeros.Include);
+            Map(QuickMath.Log10, result, Zeros.Include);
         }
         protected override void DoPointwiseRound(Vector<decimal> result)
         {
-            Map(Math2.Round, result, Zeros.AllowSkip);
+            Map(QuickMath.Round, result, Zeros.AllowSkip);
         }
         protected override void DoPointwiseSign(Vector<decimal> result)
         {
-            Map(x => Math2.Sign(x), result, Zeros.AllowSkip);
+            Map(x => QuickMath.Sign(x), result, Zeros.AllowSkip);
         }
         protected override void DoPointwiseSin(Vector<decimal> result)
         {
-            Map(Math2.Sin, result, Zeros.AllowSkip);
+            Map(QuickMath.Sin, result, Zeros.AllowSkip);
         }
         protected override void DoPointwiseSinh(Vector<decimal> result)
         {
-            Map(Math2.Sinh, result, Zeros.AllowSkip);
+            Map(QuickMath.Sinh, result, Zeros.AllowSkip);
         }
         protected override void DoPointwiseSqrt(Vector<decimal> result)
         {
-            Map(Math2.Sqrt, result, Zeros.AllowSkip);
+            Map(QuickMath.Sqrt, result, Zeros.AllowSkip);
         }
         protected override void DoPointwiseTan(Vector<decimal> result)
         {
-            Map(Math2.Tan, result, Zeros.AllowSkip);
+            Map(QuickMath.Tan, result, Zeros.AllowSkip);
         }
         protected override void DoPointwiseTanh(Vector<decimal> result)
         {
-            Map(Math2.Tanh, result, Zeros.AllowSkip);
+            Map(QuickMath.Tanh, result, Zeros.AllowSkip);
         }
 
         /// <summary>
@@ -400,44 +400,44 @@ namespace MathNet.Numerics.LinearAlgebra.Decimal
 
         protected override void DoPointwiseMinimum(decimal scalar, Vector<decimal> result)
         {
-            Map(x => Math2.Min(scalar, x), result, scalar >= 0M ? Zeros.AllowSkip : Zeros.Include);
+            Map(x => QuickMath.Min(scalar, x), result, scalar >= 0M ? Zeros.AllowSkip : Zeros.Include);
         }
 
         protected override void DoPointwiseMaximum(decimal scalar, Vector<decimal> result)
         {
-            Map(x => Math2.Max(scalar, x), result, scalar <= 0M ? Zeros.AllowSkip : Zeros.Include);
+            Map(x => QuickMath.Max(scalar, x), result, scalar <= 0M ? Zeros.AllowSkip : Zeros.Include);
         }
 
         protected override void DoPointwiseAbsoluteMinimum(decimal scalar, Vector<decimal> result)
         {
-            decimal absolute = Math2.Abs(scalar);
-            Map(x => Math2.Min(absolute, Math2.Abs(x)), result, Zeros.AllowSkip);
+            decimal absolute = QuickMath.Abs(scalar);
+            Map(x => QuickMath.Min(absolute, QuickMath.Abs(x)), result, Zeros.AllowSkip);
         }
 
         protected override void DoPointwiseAbsoluteMaximum(decimal scalar, Vector<decimal> result)
         {
-            decimal absolute = Math2.Abs(scalar);
-            Map(x => Math2.Max(absolute, Math2.Abs(x)), result, Zeros.Include);
+            decimal absolute = QuickMath.Abs(scalar);
+            Map(x => QuickMath.Max(absolute, QuickMath.Abs(x)), result, Zeros.Include);
         }
 
         protected override void DoPointwiseMinimum(Vector<decimal> other, Vector<decimal> result)
         {
-            Map2(Math2.Min, other, result, Zeros.AllowSkip);
+            Map2(QuickMath.Min, other, result, Zeros.AllowSkip);
         }
 
         protected override void DoPointwiseMaximum(Vector<decimal> other, Vector<decimal> result)
         {
-            Map2(Math2.Max, other, result, Zeros.AllowSkip);
+            Map2(QuickMath.Max, other, result, Zeros.AllowSkip);
         }
 
         protected override void DoPointwiseAbsoluteMinimum(Vector<decimal> other, Vector<decimal> result)
         {
-            Map2((x, y) => Math2.Min(Math2.Abs(x), Math2.Abs(y)), other, result, Zeros.AllowSkip);
+            Map2((x, y) => QuickMath.Min(QuickMath.Abs(x), QuickMath.Abs(y)), other, result, Zeros.AllowSkip);
         }
 
         protected override void DoPointwiseAbsoluteMaximum(Vector<decimal> other, Vector<decimal> result)
         {
-            Map2((x, y) => Math2.Max(Math2.Abs(x), Math2.Abs(y)), other, result, Zeros.AllowSkip);
+            Map2((x, y) => QuickMath.Max(QuickMath.Abs(x), QuickMath.Abs(y)), other, result, Zeros.AllowSkip);
         }
 
         /// <summary>
@@ -446,7 +446,7 @@ namespace MathNet.Numerics.LinearAlgebra.Decimal
         /// <returns>The value of the absolute minimum element.</returns>
         public override decimal AbsoluteMinimum()
         {
-            return Math2.Abs(At(AbsoluteMinimumIndex()));
+            return QuickMath.Abs(At(AbsoluteMinimumIndex()));
         }
 
         /// <summary>
@@ -456,10 +456,10 @@ namespace MathNet.Numerics.LinearAlgebra.Decimal
         public override int AbsoluteMinimumIndex()
         {
             var index = 0;
-            var min = Math2.Abs(At(index));
+            var min = QuickMath.Abs(At(index));
             for (var i = 1; i < Count; i++)
             {
-                var test = Math2.Abs(At(i));
+                var test = QuickMath.Abs(At(i));
                 if (test < min)
                 {
                     index = i;
@@ -476,7 +476,7 @@ namespace MathNet.Numerics.LinearAlgebra.Decimal
         /// <returns>The value of the absolute maximum element.</returns>
         public override decimal AbsoluteMaximum()
         {
-            return Math2.Abs(At(AbsoluteMaximumIndex()));
+            return QuickMath.Abs(At(AbsoluteMaximumIndex()));
         }
 
         /// <summary>
@@ -486,10 +486,10 @@ namespace MathNet.Numerics.LinearAlgebra.Decimal
         public override int AbsoluteMaximumIndex()
         {
             var index = 0;
-            var max = Math2.Abs(At(index));
+            var max = QuickMath.Abs(At(index));
             for (var i = 1; i < Count; i++)
             {
-                var test = Math2.Abs(At(i));
+                var test = QuickMath.Abs(At(i));
                 if (test > max)
                 {
                     index = i;
@@ -543,7 +543,7 @@ namespace MathNet.Numerics.LinearAlgebra.Decimal
         /// <returns>The maximum absolute value.</returns>
         public override double InfinityNorm()
         {
-            return (double)CommonParallel.Aggregate(0, Count, i => Math2.Abs(At(i)), Math2.Max, 0M);
+            return (double)CommonParallel.Aggregate(0, Count, i => QuickMath.Abs(At(i)), QuickMath.Max, 0M);
         }
 
         /// <summary>
@@ -565,9 +565,9 @@ namespace MathNet.Numerics.LinearAlgebra.Decimal
             var sum = 0M;
             for (var index = 0; index < Count; index++)
             {
-                sum += Math2.Pow(Math2.Abs(At(index)), (decimal)p);
+                sum += QuickMath.Pow(QuickMath.Abs(At(index)), (decimal)p);
             }
-            return (double)Math2.Pow(sum, 1.0M / (decimal)p);
+            return (double)QuickMath.Pow(sum, 1.0M / (decimal)p);
         }
 
         /// <summary>

@@ -1,13 +1,13 @@
 ﻿// Copyright (c) 2017 - presented by Kei Nakai
 //
-// Original project is developed and published by Math2.NET.
+// Original project is developed and published by QuickMath.NET.
 //
-// <copyright file="SparseMatrix.cs" company="Math2.NET">
-// Math2.NET Numerics, part of the Math2.NET Project
+// <copyright file="SparseMatrix.cs" company="QuickMath.NET">
+// QuickMath.NET Numerics, part of the QuickMath.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 //
-// Copyright (c) 2009-2013 Math2.NET
+// Copyright (c) 2009-2013 QuickMath.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -672,9 +672,9 @@ namespace MathNet.Numerics.LinearAlgebra.Decimal
                 var s = 0M;
                 for (var j = startIndex; j < endIndex; j++)
                 {
-                    s += Math2.Abs(values[j]);
+                    s += QuickMath.Abs(values[j]);
                 }
-                norm = (double)Math2.Max((decimal)norm, s);
+                norm = (double)QuickMath.Max((decimal)norm, s);
             }
             return norm;
         }
@@ -700,11 +700,11 @@ namespace MathNet.Numerics.LinearAlgebra.Decimal
                 {
                     if (i == aat.ColumnIndices[j])
                     {
-                        norm += Math2.Abs(aat.Values[j]);
+                        norm += QuickMath.Abs(aat.Values[j]);
                     }
                 }
             }
-            return (double)Math2.Sqrt(norm);
+            return (double)QuickMath.Sqrt(norm);
         }
 
         /// <summary>
@@ -906,7 +906,7 @@ namespace MathNet.Numerics.LinearAlgebra.Decimal
                 else
                 {
                     result.Storage.Clear();
-                    Storage.MapSubMatrixIndexedTo(result.Storage, (i, j, x) => x * diagonal[j], 0, 0, RowCount, 0, 0, Math2.Min(ColumnCount, other.ColumnCount), Zeros.AllowSkip, ExistingData.AssumeZeros);
+                    Storage.MapSubMatrixIndexedTo(result.Storage, (i, j, x) => x * diagonal[j], 0, 0, RowCount, 0, 0, QuickMath.Min(ColumnCount, other.ColumnCount), Zeros.AllowSkip, ExistingData.AssumeZeros);
                 }
                 return;
             }

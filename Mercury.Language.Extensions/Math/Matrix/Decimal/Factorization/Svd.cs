@@ -75,7 +75,7 @@ namespace MathNet.Numerics.LinearAlgebra.Decimal.Factorization
         /// Gets the two norm of the <see cref="Matrix{T}"/>.
         /// </summary>
         /// <returns>The 2-norm of the <see cref="Matrix{T}"/>.</returns>
-        public override double L2Norm => (double)Math2.Abs(S[0]);
+        public override double L2Norm => (double)QuickMath.Abs(S[0]);
 
         /// <summary>
         /// Gets the condition number <b>max(S) / min(S)</b>
@@ -106,7 +106,7 @@ namespace MathNet.Numerics.LinearAlgebra.Decimal.Factorization
                 foreach (var value in S)
                 {
                     det *= value;
-                    if (Math2.Abs(value).AlmostEqual(0.0M))
+                    if (QuickMath.Abs(value).AlmostEqual(0.0M))
                     {
                         return 0;
                     }

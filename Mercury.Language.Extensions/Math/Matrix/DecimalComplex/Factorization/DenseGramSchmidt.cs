@@ -1,9 +1,9 @@
-﻿// <copyright file="DenseGramSchmidt.cs" company="Math2.NET">
-// Math2.NET Numerics, part of the Math2.NET Project
+﻿// <copyright file="DenseGramSchmidt.cs" company="QuickMath.NET">
+// QuickMath.NET Numerics, part of the QuickMath.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 //
-// Copyright (c) 2009-2013 Math2.NET
+// Copyright (c) 2009-2013 QuickMath.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -90,7 +90,7 @@ namespace MathNet.Numerics.LinearAlgebra.DecimalComplex.Factorization
                     norm += q[(k * rowsQ) + i].Magnitude * q[(k * rowsQ) + i].Magnitude;
                 }
 
-                norm = Math2.Sqrt(norm);
+                norm = QuickMath.Sqrt(norm);
                 if (norm == 0.0M)
                 {
                     throw new ArgumentException(LocalizedResources.Instance().MATRIX_MUST_NOT_BE_RANK_DEFICIENT);

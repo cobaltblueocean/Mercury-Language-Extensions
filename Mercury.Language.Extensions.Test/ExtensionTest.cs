@@ -75,19 +75,19 @@ namespace Mercury.Language.Extensions.Test
             {
                 h[i] = (double)i;
             });
-            
+
             double[] a = h.CopyOf(2 * N);
 
-            Assert.AreEqual(h.Length * 2, a.Length);
+            Assert2.AreEqual(h.Length * 2, a.Length);
 
-            for(int i = 0; i < N; i++)
+            for (int i = 0; i < N; i++)
             {
-                Assert.AreEqual(h[i], a[i]);
+                Assert2.AreEqual(h[i], a[i]);
             }
 
             for (int i = N; i < N * 2; i++)
             {
-                Assert.AreEqual(a[i], 0);
+                Assert2.AreEqual(a[i], 0);
             }
         }
 
@@ -109,11 +109,32 @@ namespace Mercury.Language.Extensions.Test
 
             var data2 = dummy.GetSafe(N * 2);
 
-            Assert.IsTrue(data2 == null);
+            Assert2.IsTrue(data2 == null);
+        }
+
+        [Test]
+        public void GnericTypeTest()
+        {
+            var types = new Type[] { typeof(Dummy), typeof(String), typeof(Double) };
+            var genericDummy = new DummyGeneric<Dummy, String, Double>();
+            var genericDummy2 = new DummyGeneric<Dummy2, String, Double>();
+
+            Assert2.IsTrue(genericDummy.GetType().HasGenericTypeArguments(types));
+            Assert2.IsTrue(genericDummy2.GetType().HasGenericTypeArguments(types));
         }
     }
 
-public class Dummy
+    public class DummyGeneric<Dummy, String, Double>
+    {
+        public DummyGeneric() { }
+    }
+
+    public class Dummy2 : Dummy
+    {
+        public Dummy2(String name, Double value):base(name, value) { }
+    }
+
+    public class Dummy
     {
         private String _name;
         private double _value;

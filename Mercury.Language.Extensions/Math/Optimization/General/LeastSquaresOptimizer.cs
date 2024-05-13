@@ -314,7 +314,7 @@ namespace Mercury.Language.Math.Optimization.General
             try
             {
                 // compute the covariance matrix
-                Matrix<Double> inverse = new LUDecomposition(MatrixUtility.CreateMatrix(jTj).AsArrayEx()).GetSolver().GetInverse();
+                Matrix<Double> inverse = new LUDecomposition(MathNetMatrixUtility.CreateMatrix(jTj).AsArrayEx()).GetSolver().GetInverse();
                 return inverse.AsArrayEx().ToJagged();
             }
             catch (InvalidMatrixException ime)

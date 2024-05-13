@@ -27,7 +27,6 @@ using MathNet.Numerics.LinearAlgebra.Double;
 using MathNet.Numerics.LinearAlgebra.Storage;
 using Mercury.Language.Extensions;
 using Mercury.Language.Exceptions;
-using Mercury.Language.Extensions;
 using Mercury.Language.Math.Matrix;
 using Mercury.Language.Math.Analysis.Solver;
 using Mercury.Language.Log;
@@ -148,10 +147,10 @@ namespace Mercury.Language.Math.LinearAlgebra
                     double lIJ = lI[j];
                     double lJI = lJ[i];
                     double maxDelta =
-                        relativeSymmetryThreshold * System.Math.Max(Math2.Abs(lIJ), Math2.Abs(lJI));
-                    if (Math2.Abs(lIJ - lJI) > maxDelta)
+                        relativeSymmetryThreshold * System.Math.Max(QuickMath.Abs(lIJ), QuickMath.Abs(lJI));
+                    if (QuickMath.Abs(lIJ - lJI) > maxDelta)
                     {
-                        throw new NonSymmetricMatrixException(String.Format(LocalizedResources.Instance().NON_SYMMETRIC_MATRIX, i, j, Math2.Abs(lIJ - lJI) - maxDelta));
+                        throw new NonSymmetricMatrixException(String.Format(LocalizedResources.Instance().NON_SYMMETRIC_MATRIX, i, j, QuickMath.Abs(lIJ - lJI) - maxDelta));
                     }
                     lJ[i] = 0;
                 }
@@ -168,7 +167,7 @@ namespace Mercury.Language.Math.LinearAlgebra
                     throw new NonPositiveDefiniteMatrixException();
                 }
 
-                lTData[i][i] = Math2.SquareRoot(lTData[i][i]);
+                lTData[i][i] = QuickMath.SquareRoot(lTData[i][i]);
                 double inverse = 1.0 / ltI[i];
 
                 for (int q = order - 1; q > i; --q)
@@ -203,7 +202,7 @@ namespace Mercury.Language.Math.LinearAlgebra
 
             if (cachedLT == null)
             {
-                cachedLT = Matrix.MatrixUtility.CreateMatrix(lTData);
+                cachedLT = Matrix.MathNetMatrixUtility.CreateMatrix(lTData);
             }
 
             // return the cached matrix
@@ -309,7 +308,7 @@ namespace Mercury.Language.Math.LinearAlgebra
                     if (destroyed)
                         throw new InvalidOperationException(LocalizedResources.Instance().DECOMPOSITION_DESTROYED);
 
-                    diagonalMatrix = Mercury.Language.Math.Matrix.MatrixUtility.Diagonal<Double>(D);
+                    diagonalMatrix = MatrixUtility.Diagonal<Double>(D);
                 }
 
                 return diagonalMatrix;
@@ -472,7 +471,7 @@ namespace Mercury.Language.Math.LinearAlgebra
 
         public double[,] Inverse()
         {
-            return Solve(Mercury.Language.Math.Matrix.MatrixUtility.Identity<Double>(n));
+            return Solve(MatrixUtility.Identity<Double>(n));
         }
 
         /// <summary>
@@ -704,7 +703,7 @@ namespace Mercury.Language.Math.LinearAlgebra
         /// 
         public object Clone()
         {
-            return new CholeskyDecomposition(Matrix.MatrixUtility.CreateMatrix(lTData));
+            return new CholeskyDecomposition(Matrix.MathNetMatrixUtility.CreateMatrix(lTData));
         }
         #endregion
 
@@ -814,7 +813,7 @@ namespace Mercury.Language.Math.LinearAlgebra
                         }
                     }
 
-                    return MatrixUtility.CreateRealVector(x);
+                    return MathNetMatrixUtility.CreateRealVector(x);
 
                 }
             }
@@ -828,14 +827,14 @@ namespace Mercury.Language.Math.LinearAlgebra
             /// <exception cref="InvalidMatrixException">if decomposed matrix is singular </exception>
             public DenseVector Solve(DenseVector b)
             {
-                return (DenseVector)MatrixUtility.CreateRealVector(Solve(b.AsArrayEx()));
+                return (DenseVector)MathNetMatrixUtility.CreateRealVector(Solve(b.AsArrayEx()));
             }
 
             /// <summary>{@inheritDoc} */
             public Matrix<Double> Solve(Matrix<Double> value)
             {
 
-                return MatrixUtility.CreateMatrix<Double>(Solve(value.AsArrayEx()));
+                return MathNetMatrixUtility.CreateMatrix<Double>(Solve(value.AsArrayEx()));
 
             }
 
@@ -902,7 +901,7 @@ namespace Mercury.Language.Math.LinearAlgebra
             /// <summary>{@inheritDoc} */
             public Matrix<Double> GetInverse()
             {
-                return Solve(MatrixUtility.CreateRealIdentityMatrix(lTData.Rows()));
+                return Solve(MathNetMatrixUtility.CreateRealIdentityMatrix(lTData.Rows()));
             }
         }
     }

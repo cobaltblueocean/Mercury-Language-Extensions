@@ -196,7 +196,7 @@ namespace Mercury.Language.Math.Optimization.General
             setCostRelativeTolerance(1.0e-10);
             setParRelativeTolerance(1.0e-10);
             setOrthoTolerance(1.0e-10);
-            setQRRankingThreshold(Math2.DoubleSafeMin);
+            setQRRankingThreshold(QuickMath.DoubleSafeMin);
 
         }
 

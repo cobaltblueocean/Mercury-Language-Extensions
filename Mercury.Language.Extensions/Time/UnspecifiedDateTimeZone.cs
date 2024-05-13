@@ -17,23 +17,31 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+using Mercury.Language.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Mercury.Language.Exceptions;
+using NodaTime;
+using NodaTime.TimeZones;
+using Microsoft.VisualBasic;
+using System.Xml.Linq;
 
-namespace System
+namespace NodaTime
 {
     /// <summary>
-    /// EnumExtension Description
+    /// Represent of UnspecifiedDateTimeZone
     /// </summary>
-    public static class EnumExtension
+    public sealed class UnspecifiedDateTimeZone : DateTimeZone
     {
-        public static int Index(this Enum e)
+        public UnspecifiedDateTimeZone() : base("Unspecified", true, Offset.FromSeconds(0), Offset.FromSeconds(0))
         {
-            return Array.IndexOf(Enum.GetValues(e.GetType()), e);
+        }
+
+        public override ZoneInterval GetZoneInterval(Instant instant)
+        {
+            return new ZoneInterval("Unspecified", null, null, Offset.FromSeconds(0), Offset.FromSeconds(0));
         }
     }
 }

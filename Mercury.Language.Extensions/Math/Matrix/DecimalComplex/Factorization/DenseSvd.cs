@@ -1,9 +1,9 @@
-﻿// <copyright file="DenseSvd.cs" company="Math2.NET">
-// Math2.NET Numerics, part of the Math2.NET Project
+﻿// <copyright file="DenseSvd.cs" company="QuickMath.NET">
+// QuickMath.NET Numerics, part of the QuickMath.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 //
-// Copyright (c) 2009-2013 Math2.NET
+// Copyright (c) 2009-2013 QuickMath.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -62,7 +62,7 @@ namespace MathNet.Numerics.LinearAlgebra.DecimalComplex.Factorization
         /// <exception cref="ArgumentException">If SVD algorithm failed to converge with matrix <paramref name="matrix"/>.</exception>
         public static DenseSvd Create(DenseMatrix matrix, bool computeVectors)
         {
-            var nm = Math2.Min(matrix.RowCount, matrix.ColumnCount);
+            var nm = QuickMath.Min(matrix.RowCount, matrix.ColumnCount);
             var s = new DenseVector(nm);
             var u = new DenseMatrix(matrix.RowCount);
             var vt = new DenseMatrix(matrix.ColumnCount);

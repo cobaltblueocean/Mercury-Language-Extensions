@@ -38,7 +38,7 @@ namespace Mercury.Language.Math.LinearAlgebra
         /// <remarks>
         ///   Please keep in mind this is not one of the most reliable methods
         ///   for checking singularity of a matrix. For a more reliable method,
-        ///   please use <see cref="Mercury.Language.Math.Matrix.MatrixUtility.IsSingular"/> or the 
+        ///   please use <see cref="Mercury.Language.Math.Matrix.MathNetMatrixUtility.IsSingular"/> or the 
         ///   <see cref="SingularValueDecomposition"/>.
         /// </remarks>
         Boolean Nonsingular { get; }

@@ -1,9 +1,9 @@
-﻿// <copyright file="UserEvd.cs" company="Math2.NET">
-// Math2.NET Numerics, part of the Math2.NET Project
+﻿// <copyright file="UserEvd.cs" company="QuickMath.NET">
+// QuickMath.NET Numerics, part of the QuickMath.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 //
-// Copyright (c) 2009-2013 Math2.NET
+// Copyright (c) 2009-2013 QuickMath.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -153,7 +153,7 @@ namespace MathNet.Numerics.LinearAlgebra.DecimalComplex.Factorization
 
                 for (var k = 0; k < i; k++)
                 {
-                    scale = scale + Math2.Abs(matrixA[i, k].Real) + Math2.Abs(matrixA[i, k].Imaginary);
+                    scale = scale + QuickMath.Abs(matrixA[i, k].Real) + QuickMath.Abs(matrixA[i, k].Imaginary);
                 }
 
                 if (scale == 0.0M)
@@ -169,7 +169,7 @@ namespace MathNet.Numerics.LinearAlgebra.DecimalComplex.Factorization
                         h += matrixA[i, k].MagnitudeSquared();
                     }
 
-                    DecimalComplex g = Math2.Sqrt(h);
+                    DecimalComplex g = QuickMath.Sqrt(h);
                     e[i] = scale*g.Real;
 
                     DecimalComplex temp;
@@ -236,7 +236,7 @@ namespace MathNet.Numerics.LinearAlgebra.DecimalComplex.Factorization
 
                 hh = d[i];
                 d[i] = matrixA[i, i].Real;
-                matrixA[i, i] = new DecimalComplex(hh, scale*Math2.Sqrt(h));
+                matrixA[i, i] = new DecimalComplex(hh, scale*QuickMath.Sqrt(h));
             }
 
             hh = d[0];
@@ -270,15 +270,15 @@ namespace MathNet.Numerics.LinearAlgebra.DecimalComplex.Factorization
 
             var f = 0.0M;
             var tst1 = 0.0M;
-            var eps = Math2.DecimalPrecision;
+            var eps = QuickMath.DecimalPrecision;
             for (var l = 0; l < order; l++)
             {
                 // Find small subdiagonal element
-                tst1 = Math2.Max(tst1, Math2.Abs(d[l]) + Math2.Abs(e[l]));
+                tst1 = QuickMath.Max(tst1, QuickMath.Abs(d[l]) + QuickMath.Abs(e[l]));
                 var m = l;
                 while (m < order)
                 {
-                    if (Math2.Abs(e[m]) <= eps*tst1)
+                    if (QuickMath.Abs(e[m]) <= eps*tst1)
                     {
                         break;
                     }
@@ -357,7 +357,7 @@ namespace MathNet.Numerics.LinearAlgebra.DecimalComplex.Factorization
                         {
                             throw new NonConvergenceException();
                         }
-                    } while (Math2.Abs(e[l]) > eps*tst1);
+                    } while (QuickMath.Abs(e[l]) > eps*tst1);
                 }
 
                 d[l] = d[l] + f;
@@ -458,7 +458,7 @@ namespace MathNet.Numerics.LinearAlgebra.DecimalComplex.Factorization
                 var scale = 0.0M;
                 for (var i = m; i < order; i++)
                 {
-                    scale += Math2.Abs(matrixH[i, m - 1].Real) + Math2.Abs(matrixH[i, m - 1].Imaginary);
+                    scale += QuickMath.Abs(matrixH[i, m - 1].Real) + QuickMath.Abs(matrixH[i, m - 1].Imaginary);
                 }
 
                 if (scale != 0.0M)
@@ -471,7 +471,7 @@ namespace MathNet.Numerics.LinearAlgebra.DecimalComplex.Factorization
                         h += ort[i].MagnitudeSquared();
                     }
 
-                    var g = Math2.Sqrt(h);
+                    var g = QuickMath.Sqrt(h);
                     if (ort[m].Magnitude != 0)
                     {
                         h = h + (ort[m].Magnitude*g);
@@ -571,7 +571,7 @@ namespace MathNet.Numerics.LinearAlgebra.DecimalComplex.Factorization
                         matrixH[i, j] *= y.Conjugate();
                     }
 
-                    for (var j = 0; j <= Math2.Min(i + 1, order - 1); j++)
+                    for (var j = 0; j <= QuickMath.Min(i + 1, order - 1); j++)
                     {
                         matrixH[j, i] *= y;
                     }
@@ -599,7 +599,7 @@ namespace MathNet.Numerics.LinearAlgebra.DecimalComplex.Factorization
         {
             // Initialize
             var n = order - 1;
-            var eps = Math2.DecimalPrecision;
+            var eps = QuickMath.DecimalPrecision;
 
             decimal norm;
             DecimalComplex x, y, z, exshift = DecimalComplex.Zero;
@@ -612,8 +612,8 @@ namespace MathNet.Numerics.LinearAlgebra.DecimalComplex.Factorization
                 var l = n;
                 while (l > 0)
                 {
-                    var tst1 = Math2.Abs(matrixH[l - 1, l - 1].Real) + Math2.Abs(matrixH[l - 1, l - 1].Imaginary) + Math2.Abs(matrixH[l, l].Real) + Math2.Abs(matrixH[l, l].Imaginary);
-                    if (Math2.Abs(matrixH[l, l - 1].Real) < eps*tst1)
+                    var tst1 = QuickMath.Abs(matrixH[l - 1, l - 1].Real) + QuickMath.Abs(matrixH[l - 1, l - 1].Imaginary) + QuickMath.Abs(matrixH[l, l].Real) + QuickMath.Abs(matrixH[l, l].Imaginary);
+                    if (QuickMath.Abs(matrixH[l, l - 1].Real) < eps*tst1)
                     {
                         break;
                     }
@@ -655,7 +655,7 @@ namespace MathNet.Numerics.LinearAlgebra.DecimalComplex.Factorization
                     else
                     {
                         // Form exceptional shift
-                        s = Math2.Abs(matrixH[n, n - 1].Real) + Math2.Abs(matrixH[n - 1, n - 2].Real);
+                        s = QuickMath.Abs(matrixH[n, n - 1].Real) + QuickMath.Abs(matrixH[n - 1, n - 2].Real);
                     }
 
                     for (var i = 0; i <= n; i++)
@@ -749,7 +749,7 @@ namespace MathNet.Numerics.LinearAlgebra.DecimalComplex.Factorization
             {
                 for (var j = i; j < order; j++)
                 {
-                    norm = Math2.Max(norm, Math2.Abs(matrixH[i, j].Real) + Math2.Abs(matrixH[i, j].Imaginary));
+                    norm = QuickMath.Max(norm, QuickMath.Abs(matrixH[i, j].Real) + QuickMath.Abs(matrixH[i, j].Imaginary));
                 }
             }
 
@@ -785,7 +785,7 @@ namespace MathNet.Numerics.LinearAlgebra.DecimalComplex.Factorization
                     matrixH[i, n] = z/y;
 
                     // Overflow control
-                    var tr = Math2.Abs(matrixH[i, n].Real) + Math2.Abs(matrixH[i, n].Imaginary);
+                    var tr = QuickMath.Abs(matrixH[i, n].Real) + QuickMath.Abs(matrixH[i, n].Imaginary);
                     if ((eps*tr)*tr > 1)
                     {
                         for (var j = i; j <= n; j++)

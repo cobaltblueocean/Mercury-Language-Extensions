@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using NUnit.Framework;
+using Mercury.Test.Utility;
 
 namespace Mercury.Language.Extensions.Test.Core
 {
@@ -13,7 +14,7 @@ namespace Mercury.Language.Extensions.Test.Core
         {
             ValueObject v = CreateObject<ValueObject>(0.5);
 
-            Assert.AreEqual(v.Value, 0.5);
+            Assert2.AreEqual(v.Value, 0.5);
         }
 
         public T CreateObject<T>(double k)

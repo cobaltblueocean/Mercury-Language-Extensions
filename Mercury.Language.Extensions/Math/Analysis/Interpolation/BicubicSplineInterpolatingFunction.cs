@@ -128,8 +128,8 @@ namespace Mercury.Language.Math.Analysis.Interpolation
                 throw new DimensionMismatchException(xLen, d2FdXdY.Length);
             }
 
-            Math2.CheckOrder(x);
-            Math2.CheckOrder(y);
+            QuickMath.CheckOrder(x);
+            QuickMath.CheckOrder(y);
 
             xval = x.CloneExact();
             yval = y.CloneExact();

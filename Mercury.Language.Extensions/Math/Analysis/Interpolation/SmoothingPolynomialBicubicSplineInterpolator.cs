@@ -101,8 +101,8 @@ namespace Mercury.Language.Math.Analysis.Interpolation
                 }
             }
 
-            Math2.CheckOrder(xval);
-            Math2.CheckOrder(yval);
+            QuickMath.CheckOrder(xval);
+            QuickMath.CheckOrder(yval);
 
             // For each line y[j] (0 <= j < yLen), construct a polynomial, with
             // respect to variable x, fitting array fval[][j]

@@ -142,12 +142,12 @@ namespace MathNet.Numerics.LinearAlgebra.Decimal.Factorization
             }
 
             var norm = u.Sum(t => t * t);
-            norm = Math2.Sqrt(norm);
+            norm = QuickMath.Sqrt(norm);
 
             if (row == a.RowCount - 1 || norm == 0)
             {
                 a.At(row, column, -u[0]);
-                u[0] = Math2.DecimalSqrt2; //Constants.Sqrt2;
+                u[0] = QuickMath.DecimalSqrt2; //Constants.Sqrt2;
                 return u;
             }
 
@@ -165,7 +165,7 @@ namespace MathNet.Numerics.LinearAlgebra.Decimal.Factorization
             }
 
             u[0] += 1.0M;
-            var s = Math2.Sqrt(1.0M / u[0]);
+            var s = QuickMath.Sqrt(1.0M / u[0]);
 
             for (var i = 0; i < ru; i++)
             {

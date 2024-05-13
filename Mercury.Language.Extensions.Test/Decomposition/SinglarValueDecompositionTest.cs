@@ -42,12 +42,12 @@ namespace Mercury.Language.Extensions.Test.Decomposition
         [Test]
         public void Test()
         {
-            Matrix<Double> A = MatrixUtility.CreateMatrix(new double[][] { new double[] { 1, 2, 3 }, new double[] { 4, 5, 6 } });
+            Matrix<Double> A = MathNetMatrixUtility.CreateMatrix(new double[][] { new double[] { 1, 2, 3 }, new double[] { 4, 5, 6 } });
 
             double[] x = new double[3];
-            //x[0] = Math2.Random();
-            //x[1] = Math2.Random();
-            //x[2] = Math2.Random();
+            //x[0] = QuickMath.Random();
+            //x[1] = QuickMath.Random();
+            //x[2] = QuickMath.Random();
             x[0] = 0.40313338447982294;
             x[1] = 0.5215001209732417;
             x[2] = 0.11364736745315263;
@@ -55,13 +55,13 @@ namespace Mercury.Language.Extensions.Test.Decomposition
             double[] u = new double[2];
             double[] v = new double[3];
 
-            var rWtWRt = MatrixUtility.CreateMatrix<Double>(new double[,] { { 62081983946.74736, 60654260990.086517, 60617845313.867073, 59879654204.350334, 61922746873.988861 },
+            var rWtWRt = MathNetMatrixUtility.CreateMatrix<Double>(new double[,] { { 62081983946.74736, 60654260990.086517, 60617845313.867073, 59879654204.350334, 61922746873.988861 },
                                          { 60654260990.086548,59260098981.620117,59225251954.187042,58504717536.27533,60501517727.089394},
                                          { 60617845313.867073,59225251954.187042,59191161616.653465,58471744289.66951,60468043285.484619},
                                          { 59879654204.350327,58504717536.275314,58471744289.669518,57761740902.766129,59734394974.261719},
                                          { 61922746873.988869,60501517727.089371,60468043285.484604,59734394974.261719,61774947493.495926} });
 
-            var rWtWR = MatrixUtility.CreateRealVector(new double[] { -305156491329.04016, -298145847189.25842, -297974046459.86169, -294352251907.323, -304401650354.3205 });
+            var rWtWR = MathNetMatrixUtility.CreateRealVector(new double[] { -305156491329.04016, -298145847189.25842, -297974046459.86169, -294352251907.323, -304401650354.3205 });
 
             SingularValueDecomposition svdA = new SingularValueDecomposition(rWtWRt);
 
@@ -104,11 +104,11 @@ namespace Mercury.Language.Extensions.Test.Decomposition
                                             {-0.8308810600307643,-0.4568499903712133,0.31357691475735916,-0.050933966183992894},
                                             {-0.366490926092188,0.8716508238880994,0.31318724983336876,0.08844766163726105}};
 
-            var rWtWRt = MatrixUtility.CreateMatrix<Double>(new double[,]{{4.75,3,5.5,3.25},{3,3.125,2.75,4.25},{5.5,2.75,20.5,0},{3.25,4.25,0,17.75}});
+            var rWtWRt = MathNetMatrixUtility.CreateMatrix<Double>(new double[,]{{4.75,3,5.5,3.25},{3,3.125,2.75,4.25},{5.5,2.75,20.5,0},{3.25,4.25,0,17.75}});
 
             SingularValueDecomposition svdA = new SingularValueDecomposition(rWtWRt);
 
-            var rWtWR = MatrixUtility.CreateRealVector(new double[] { -26.165000000000003, -18.58, -63.815000000000005, -18 });
+            var rWtWR = MathNetMatrixUtility.CreateRealVector(new double[] { -26.165000000000003, -18.58, -63.815000000000005, -18 });
 
             var q = svdA.GetSolver().Solve(rWtWR);
 
@@ -418,10 +418,10 @@ namespace Mercury.Language.Extensions.Test.Decomposition
 
             #endregion
 
-            Matrix<Double> commonsMatrix = MatrixUtility.CreateMatrix(ma);
+            Matrix<Double> commonsMatrix = MathNetMatrixUtility.CreateMatrix(ma);
             SingularValueDecomposition svd = new SingularValueDecomposition(commonsMatrix);
 
-            var w = svd.GetSolver().Solve(MatrixUtility.CreateVector(mb));
+            var w = svd.GetSolver().Solve(MathNetMatrixUtility.CreateVector(mb));
 
             var m = 144;
             var n = 20;
@@ -437,7 +437,7 @@ namespace Mercury.Language.Extensions.Test.Decomposition
                 chiSq += FunctionUtility.Square(y[i] - temp) * invSigmaSqr[i];
             }
 
-            Assert.AreEqual(0.0, chiSq, 1e-15);
+            Assert2.AreEqual(0.0, chiSq, 1e-15);
         }
     }
 }

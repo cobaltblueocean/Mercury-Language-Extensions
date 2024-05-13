@@ -1206,7 +1206,7 @@ namespace Mercury.Language.Math.Analysis.Differentiation
             }
             else if (n == 3)
             {
-                function[0] = Math2.CubeRoot(operand[operandOffset]);
+                function[0] = QuickMath.CubeRoot(operand[operandOffset]);
                 xk = 1.0 / (3.0 * function[0] * function[0]);
             }
             else
@@ -1274,7 +1274,7 @@ namespace Mercury.Language.Math.Analysis.Differentiation
 
             // create the function value and derivatives
             double[] function = new double[1 + order];
-            function[0] = Math2.Expm1(operand[operandOffset]);
+            function[0] = QuickMath.Expm1(operand[operandOffset]);
             function.Fill(1, 1 + order, System.Math.Exp(operand[operandOffset]));
 
             // apply function composition
@@ -1338,7 +1338,7 @@ namespace Mercury.Language.Math.Analysis.Differentiation
 
             // create the function value and derivatives
             double[] function = new double[1 + order];
-            function[0] = Math2.Log1p(operand[operandOffset]);
+            function[0] = QuickMath.Log1p(operand[operandOffset]);
             if (order > 0)
             {
                 double inv = 1.0 / (1.0 + operand[operandOffset]);
@@ -1374,7 +1374,7 @@ namespace Mercury.Language.Math.Analysis.Differentiation
 
             // create the function value and derivatives
             double[] function = new double[1 + order];
-            function[0] = Math2.Log10(operand[operandOffset]);
+            function[0] = QuickMath.Log10(operand[operandOffset]);
             if (order > 0)
             {
                 double inv = 1.0 / operand[operandOffset];
@@ -1827,10 +1827,10 @@ namespace Mercury.Language.Math.Analysis.Differentiation
 
             // create the function value and derivatives
             double[] function = new double[1 + order];
-            function[0] = Math2.Cosh(operand[operandOffset]);
+            function[0] = QuickMath.Cosh(operand[operandOffset]);
             if (order > 0)
             {
-                function[1] = Math2.Sinh(operand[operandOffset]);
+                function[1] = QuickMath.Sinh(operand[operandOffset]);
                 for (int i = 2; i <= order; ++i)
                 {
                     function[i] = function[i - 2];
@@ -1862,10 +1862,10 @@ namespace Mercury.Language.Math.Analysis.Differentiation
 
             // create the function value and derivatives
             double[] function = new double[1 + order];
-            function[0] = Math2.Sinh(operand[operandOffset]);
+            function[0] = QuickMath.Sinh(operand[operandOffset]);
             if (order > 0)
             {
-                function[1] = Math2.Cosh(operand[operandOffset]);
+                function[1] = QuickMath.Cosh(operand[operandOffset]);
                 for (int i = 2; i <= order; ++i)
                 {
                     function[i] = function[i - 2];
@@ -1897,7 +1897,7 @@ namespace Mercury.Language.Math.Analysis.Differentiation
 
             // create the function value and derivatives
             double[] function = new double[1 + order];
-            double t = Math2.Tanh(operand[operandOffset]);
+            double t = QuickMath.Tanh(operand[operandOffset]);
             function[0] = t;
 
             if (order > 0)
@@ -1967,7 +1967,7 @@ namespace Mercury.Language.Math.Analysis.Differentiation
             // create the function value and derivatives
             double[] function = new double[1 + order];
             double x = operand[operandOffset];
-            function[0] = Math2.Acosh(x);
+            function[0] = QuickMath.Acosh(x);
             if (order > 0)
             {
                 // the nth order derivative of acosh has the form:
@@ -2038,7 +2038,7 @@ namespace Mercury.Language.Math.Analysis.Differentiation
             // create the function value and derivatives
             double[] function = new double[1 + order];
             double x = operand[operandOffset];
-            function[0] = Math2.Asinh(x);
+            function[0] = QuickMath.Asinh(x);
             if (order > 0)
             {
                 // the nth order derivative of asinh has the form:
@@ -2109,7 +2109,7 @@ namespace Mercury.Language.Math.Analysis.Differentiation
             // create the function value and derivatives
             double[] function = new double[1 + order];
             double x = operand[operandOffset];
-            function[0] = Math2.Atanh(x);
+            function[0] = QuickMath.Atanh(x);
             if (order > 0)
             {
                 // the nth order derivative of atanh has the form:

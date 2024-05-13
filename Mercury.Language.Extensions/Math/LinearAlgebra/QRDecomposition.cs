@@ -113,7 +113,7 @@ namespace Mercury.Language.Math.LinearAlgebra
         /// <param name="economy">True to perform the economy decomposition, where only
         ///.the information needed to solve linear systems is computed. If set to false,
         /// the full QR decomposition will be computed.</param>
-        public QRDecomposition(Double[,] value) : this(Matrix.MatrixUtility.CreateMatrix(value))
+        public QRDecomposition(Double[,] value) : this(Matrix.MathNetMatrixUtility.CreateMatrix(value))
         {
 
         }
@@ -363,7 +363,7 @@ namespace Mercury.Language.Math.LinearAlgebra
                 // R is supposed to be m x n
                 int n = qrt.GetLength(0);
                 int m = qrt.GetLength(1);
-                cachedR = Matrix.MatrixUtility.CreateMatrix(m, n);
+                cachedR = Matrix.MathNetMatrixUtility.CreateMatrix(m, n);
 
                 // copy the diagonal from rDiag and the upper triangle of qr
                 for (int row = System.Math.Min(m, n) - 1; row >= 0; row--)
@@ -385,7 +385,7 @@ namespace Mercury.Language.Math.LinearAlgebra
         {
             if (cachedQ == null)
             {
-                cachedQ = Matrix.MatrixUtility.CreateMatrix(GetQT().AsArrayEx().Transpose());
+                cachedQ = Matrix.MathNetMatrixUtility.CreateMatrix(GetQT().AsArrayEx().Transpose());
             }
             return cachedQ;
         }
@@ -400,7 +400,7 @@ namespace Mercury.Language.Math.LinearAlgebra
                 int m = qrt.GetLength(1);
                 //var _tmp = new Double[m, m];
 
-                cachedQT = Matrix.MatrixUtility.CreateMatrix(m, m);
+                cachedQT = Matrix.MathNetMatrixUtility.CreateMatrix(m, m);
 
                 /*
                  * Q = Q1 Q2 ... Q_m, so Q is formed by first constructing Q_m and then
@@ -447,7 +447,7 @@ namespace Mercury.Language.Math.LinearAlgebra
 
                 int n = qrt.GetLength(0);
                 int m = qrt.GetLength(1);
-                cachedH = Matrix.MatrixUtility.CreateMatrix(m, n);
+                cachedH = Matrix.MathNetMatrixUtility.CreateMatrix(m, n);
                 for (int i = 0; i < m; ++i)
                 {
                     for (int j = 0; j < System.Math.Min(i + 1, n); ++j)
@@ -482,7 +482,7 @@ namespace Mercury.Language.Math.LinearAlgebra
             if (!this.FullRank)
                 throw new InvalidOperationException(LocalizedResources.Instance().MATRIX_IS_RANK_DEFICIENT);
 
-            return Solve(Mercury.Language.Math.Matrix.MatrixUtility.Diagonal(n, n, (Double)1));
+            return Solve(MatrixUtility.Diagonal(n, n, (Double)1));
         }
 
         /// <summary>
@@ -594,7 +594,7 @@ namespace Mercury.Language.Math.LinearAlgebra
 
             public Matrix<double> GetInverse()
             {
-                return Solve(MatrixUtility.CreateRealIdentityMatrix(rDiag.Length));
+                return Solve(MathNetMatrixUtility.CreateRealIdentityMatrix(rDiag.Length));
             }
 
             /// <summary>Least squares solution of <c>A * X = I</c></summary>
@@ -603,7 +603,7 @@ namespace Mercury.Language.Math.LinearAlgebra
                 if (!this._fullRank)
                     throw new InvalidOperationException(LocalizedResources.Instance().MATRIX_IS_RANK_DEFICIENT);
 
-                return Solve(Mercury.Language.Math.Matrix.MatrixUtility.Diagonal(n, n, (Double)1));
+                return Solve(MatrixUtility.Diagonal(n, n, (Double)1));
             }
 
             public double[] Solve(double[] b)
@@ -659,12 +659,12 @@ namespace Mercury.Language.Math.LinearAlgebra
 
             public Vector<double> Solve(Vector<double> b)
             {
-                return MatrixUtility.CreateRealVector(Solve(b.AsArrayEx()));
+                return MathNetMatrixUtility.CreateRealVector(Solve(b.AsArrayEx()));
             }
 
             public Matrix<double> Solve(Matrix<double> value)
             {
-                return MatrixUtility.CreateMatrix<Double>(Solve(value.AsArrayEx()));
+                return MathNetMatrixUtility.CreateMatrix<Double>(Solve(value.AsArrayEx()));
             }
 
             public double[][] Solve(double[][] value)
@@ -766,7 +766,7 @@ namespace Mercury.Language.Math.LinearAlgebra
                             X[i, j] -= X[k, j] * qrt[i, k];
                 }
 
-                return Mercury.Language.Math.Matrix.MatrixUtility.Create(count, p, X, transpose: true);
+                return MatrixUtility.Create(count, p, X, transpose: true);
             }
         }
     }

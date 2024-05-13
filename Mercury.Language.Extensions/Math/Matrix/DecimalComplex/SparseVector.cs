@@ -1,9 +1,9 @@
-﻿// <copyright file="SparseVector.cs" company="Math2.NET">
-// Math2.NET Numerics, part of the Math2.NET Project
+﻿// <copyright file="SparseVector.cs" company="QuickMath.NET">
+// QuickMath.NET Numerics, part of the QuickMath.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 //
-// Copyright (c) 2009-2015 Math2.NET
+// Copyright (c) 2009-2015 QuickMath.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -737,7 +737,7 @@ namespace MathNet.Numerics.LinearAlgebra.DecimalComplex
         /// <returns>The maximum absolute value.</returns>
         public override double InfinityNorm()
         {
-            return (double)CommonParallel.Aggregate(0, _storage.ValueCount, i => _storage.Values[i].Magnitude, Math2.Max, 0M);
+            return (double)CommonParallel.Aggregate(0, _storage.ValueCount, i => _storage.Values[i].Magnitude, QuickMath.Max, 0M);
         }
 
         /// <summary>
@@ -761,9 +761,9 @@ namespace MathNet.Numerics.LinearAlgebra.DecimalComplex
             decimal sum = 0M;
             for (var index = 0; index < _storage.ValueCount; index++)
             {
-                sum += Math2.Pow(_storage.Values[index].Magnitude, (decimal)p);
+                sum += QuickMath.Pow(_storage.Values[index].Magnitude, (decimal)p);
             }
-            return (double)Math2.Pow(sum, 1.0M / (decimal)p);
+            return (double)QuickMath.Pow(sum, 1.0M / (decimal)p);
         }
 
         /// <summary>

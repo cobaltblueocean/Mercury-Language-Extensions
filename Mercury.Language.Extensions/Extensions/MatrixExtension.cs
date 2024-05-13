@@ -48,7 +48,7 @@ namespace MathNet.Numerics.LinearAlgebra
             for (int i = 0; i < matrix.ColumnCount; i++)
                 data[i] = matrix[Index, i];
 
-            return MatrixUtility.CreateVector(data);
+            return MathNetMatrixUtility.CreateVector(data);
         }
 
         public static void SetRow<T>(this Matrix<T> matrix, int Index, Vector<T> value) where T : struct, IEquatable<T>, IFormattable
@@ -77,12 +77,12 @@ namespace MathNet.Numerics.LinearAlgebra
         public static Vector<T> GetColumnVector<T>(this Matrix<T> matrix, int column) where T : struct, IEquatable<T>, IFormattable
 
         {
-            return MatrixUtility.CreateVector<T>(GetColumn(matrix, column));
+            return MathNetMatrixUtility.CreateVector<T>(GetColumn(matrix, column));
         }
 
         public static void SetColumnVector<T>(this Matrix<T> matrix, int column, Vector<T> vector) where T : struct, IEquatable<T>, IFormattable
         {
-            MatrixUtility.CheckColumnIndex(matrix, column);
+            MathNetMatrixUtility.CheckColumnIndex(matrix, column);
             int nRows = matrix.RowCount;
             if (vector.Count != nRows)
             {
@@ -107,7 +107,7 @@ namespace MathNet.Numerics.LinearAlgebra
         public static T[] GetColumn<T>(this Matrix<T> matrix, int column) where T : struct, IEquatable<T>, IFormattable
         {
 
-            MatrixUtility.CheckColumnIndex(matrix, column);
+            MathNetMatrixUtility.CheckColumnIndex(matrix, column);
             int nRows = matrix.RowCount;
             T[] _out = new T[nRows];
             for (int i = 0; i < nRows; ++i)
@@ -147,7 +147,7 @@ namespace MathNet.Numerics.LinearAlgebra
         {
             try
             {
-                return MatrixUtility.CreateVector<T>(matrix.Operate(((Vector<T>)v).AsArrayEx()));
+                return MathNetMatrixUtility.CreateVector<T>(matrix.Operate(((Vector<T>)v).AsArrayEx()));
             }
             catch (InvalidCastException cce)
             {
@@ -172,7 +172,7 @@ namespace MathNet.Numerics.LinearAlgebra
                     _out[row] = sum.CastType<T>();
                 }
 
-                return MatrixUtility.CreateVector<T>(_out);
+                return MathNetMatrixUtility.CreateVector<T>(_out);
             }
         }
 
@@ -196,15 +196,15 @@ namespace MathNet.Numerics.LinearAlgebra
             {
                 _out[i] = data[i].Multiply(d);
             }
-            return MatrixUtility.CreateVector<T>(_out);
+            return MathNetMatrixUtility.CreateVector<T>(_out);
         }
 
         public static Matrix<T> GetSubMatrix<T>(this Matrix<T> matrix, int startRow, int endRow, int startColumn, int endColumn) where T : struct, IEquatable<T>, IFormattable
         {
 
-            MatrixUtility.CheckSubMatrixIndex(matrix, startRow, endRow, startColumn, endColumn);
+            MathNetMatrixUtility.CheckSubMatrixIndex(matrix, startRow, endRow, startColumn, endColumn);
 
-            Matrix<T> subMatrix = MatrixUtility.CreateMatrix<T>(endRow - startRow + 1, endColumn - startColumn + 1);
+            Matrix<T> subMatrix = MathNetMatrixUtility.CreateMatrix<T>(endRow - startRow + 1, endColumn - startColumn + 1);
             for (int i = startRow; i <= endRow; ++i)
             {
                 for (int j = startColumn; j <= endColumn; ++j)
@@ -219,10 +219,10 @@ namespace MathNet.Numerics.LinearAlgebra
         {
 
             // safety checks
-            MatrixUtility.CheckSubMatrixIndex(matrix, selectedRows, selectedColumns);
+            MathNetMatrixUtility.CheckSubMatrixIndex(matrix, selectedRows, selectedColumns);
 
             // copy entries
-            Matrix<T> subMatrix = MatrixUtility.CreateMatrix<T>(selectedRows.Length, selectedColumns.Length);
+            Matrix<T> subMatrix = MathNetMatrixUtility.CreateMatrix<T>(selectedRows.Length, selectedColumns.Length);
             subMatrix.WalkInOptimizedOrder(new DefaultRealMatrixPreservingVisitor()
             {
                 visitfunc = new Func<int, int, double, double>((row, column, value) =>
@@ -240,7 +240,7 @@ namespace MathNet.Numerics.LinearAlgebra
         {
 
             // safety checks
-            MatrixUtility.CheckSubMatrixIndex(matrix, startRow, endRow, startColumn, endColumn);
+            MathNetMatrixUtility.CheckSubMatrixIndex(matrix, startRow, endRow, startColumn, endColumn);
             int rowsCount = endRow + 1 - startRow;
             int columnsCount = endColumn + 1 - startColumn;
             if ((destination.Length < rowsCount) || (destination[0].Length < columnsCount))
@@ -258,7 +258,7 @@ namespace MathNet.Numerics.LinearAlgebra
         {
 
             // safety checks
-            MatrixUtility.CheckSubMatrixIndex(matrix, selectedRows, selectedColumns);
+            MathNetMatrixUtility.CheckSubMatrixIndex(matrix, selectedRows, selectedColumns);
             if ((destination.Length < selectedRows.Length) ||
                 (destination[0].Length < selectedColumns.Length))
             {
@@ -300,10 +300,10 @@ namespace MathNet.Numerics.LinearAlgebra
                 }
             }
 
-            MatrixUtility.CheckRowIndex(matrix, row);
-            MatrixUtility.CheckColumnIndex(matrix, column);
-            MatrixUtility.CheckRowIndex(matrix, nRows + row - 1);
-            MatrixUtility.CheckColumnIndex(matrix, nCols + column - 1);
+            MathNetMatrixUtility.CheckRowIndex(matrix, row);
+            MathNetMatrixUtility.CheckColumnIndex(matrix, column);
+            MathNetMatrixUtility.CheckRowIndex(matrix, nRows + row - 1);
+            MathNetMatrixUtility.CheckColumnIndex(matrix, nCols + column - 1);
 
             for (int i = 0; i < nRows; ++i)
             {
@@ -354,7 +354,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /** {@inheritDoc} */
         public static double WalkInRowOrder<T>(this Matrix<T> matrix, IRealMatrixPreservingVisitor visitor, int startRow, int endRow, int startColumn, int endColumn) where T : struct, IEquatable<T>, IFormattable
         {
-            MatrixUtility.CheckSubMatrixIndex(matrix, startRow, endRow, startColumn, endColumn);
+            MathNetMatrixUtility.CheckSubMatrixIndex(matrix, startRow, endRow, startColumn, endColumn);
             visitor.Start(matrix.RowCount, matrix.ColumnCount,
                           startRow, endRow, startColumn, endColumn);
             for (int row = startRow; row <= endRow; ++row)

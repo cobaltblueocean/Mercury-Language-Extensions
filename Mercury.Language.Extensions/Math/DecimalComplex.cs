@@ -73,7 +73,7 @@ namespace System.Numerics
         {
             get
             {
-                return Math2.Atan2(m_imaginary, m_real);
+                return QuickMath.Atan2(m_imaginary, m_real);
             }
 
         }
@@ -117,7 +117,7 @@ namespace System.Numerics
 
         public static DecimalComplex FromPolarCoordinates(decimal magnitude, decimal phase) /* Factory method to take polar inputs and create a DecimalComplex object */
         {
-            return new DecimalComplex((magnitude * Math2.Cos(phase)), (magnitude * Math2.Sin(phase)));
+            return new DecimalComplex((magnitude * QuickMath.Cos(phase)), (magnitude * QuickMath.Sin(phase)));
         }
 
         public static DecimalComplex Negate(DecimalComplex value)
@@ -180,7 +180,7 @@ namespace System.Numerics
             decimal c = right.m_real;
             decimal d = right.m_imaginary;
 
-            if (Math2.Abs(d) < Math2.Abs(c))
+            if (QuickMath.Abs(d) < QuickMath.Abs(c))
             {
                 decimal doc = d / c;
                 return new DecimalComplex((a + b * doc) / (c + d * doc), (b - a * doc) / (c + d * doc));
@@ -208,13 +208,13 @@ namespace System.Numerics
             // Using the above we can factor out the square of the larger component to dodge overflow.
 
 
-            decimal c = Math2.Abs(value.m_real);
-            decimal d = Math2.Abs(value.m_imaginary);
+            decimal c = QuickMath.Abs(value.m_real);
+            decimal d = QuickMath.Abs(value.m_imaginary);
 
             if (c > d)
             {
                 decimal r = d / c;
-                return c * Math2.Sqrt(1.0M + r * r);
+                return c * QuickMath.Sqrt(1.0M + r * r);
             }
             else if (d == 0.0M)
             {
@@ -223,7 +223,7 @@ namespace System.Numerics
             else
             {
                 decimal r = c / d;
-                return d * Math2.Sqrt(1.0M + r * r);
+                return d * QuickMath.Sqrt(1.0M + r * r);
             }
         }
         public static DecimalComplex Conjugate(DecimalComplex value)
@@ -375,7 +375,7 @@ namespace System.Numerics
         {
             decimal a = value.m_real;
             decimal b = value.m_imaginary;
-            return new DecimalComplex(Math2.Sin(a) * Math2.Cosh(b), Math2.Cos(a) * Math2.Sinh(b));
+            return new DecimalComplex(QuickMath.Sin(a) * QuickMath.Cosh(b), QuickMath.Cos(a) * QuickMath.Sinh(b));
         }
 
         [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Sinh", Justification = "Microsoft: Existing Name")]
@@ -383,7 +383,7 @@ namespace System.Numerics
         {
             decimal a = value.m_real;
             decimal b = value.m_imaginary;
-            return new DecimalComplex(Math2.Sinh(a) * Math2.Cos(b), Math2.Cosh(a) * Math2.Sin(b));
+            return new DecimalComplex(QuickMath.Sinh(a) * QuickMath.Cos(b), QuickMath.Cosh(a) * QuickMath.Sin(b));
 
         }
         public static DecimalComplex Asin(DecimalComplex value) /* Arcsin */
@@ -395,7 +395,7 @@ namespace System.Numerics
         {
             decimal a = value.m_real;
             decimal b = value.m_imaginary;
-            return new DecimalComplex(Math2.Cos(a) * Math2.Cosh(b), -(Math2.Sin(a) * Math2.Sinh(b)));
+            return new DecimalComplex(QuickMath.Cos(a) * QuickMath.Cosh(b), -(QuickMath.Sin(a) * QuickMath.Sinh(b)));
         }
 
         [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Cosh", Justification = "Microsoft: Existing Name")]
@@ -403,7 +403,7 @@ namespace System.Numerics
         {
             decimal a = value.m_real;
             decimal b = value.m_imaginary;
-            return new DecimalComplex(Math2.Cosh(a) * Math2.Cos(b), Math2.Sinh(a) * Math2.Sin(b));
+            return new DecimalComplex(QuickMath.Cosh(a) * QuickMath.Cos(b), QuickMath.Sinh(a) * QuickMath.Sin(b));
         }
         public static DecimalComplex Acos(DecimalComplex value) /* Arccos */
         {
@@ -430,7 +430,7 @@ namespace System.Numerics
 
         public static DecimalComplex Log(DecimalComplex value) /* Log of the DecimalComplex number value to the base of 'e' */
         {
-            return (new DecimalComplex((Math2.Log(Abs(value))), (Math2.Atan2(value.m_imaginary, value.m_real))));
+            return (new DecimalComplex((QuickMath.Log(Abs(value))), (QuickMath.Atan2(value.m_imaginary, value.m_real))));
 
         }
         public static DecimalComplex Log(DecimalComplex value, decimal baseValue) /* Log of the DecimalComplex number to a the base of a decimal */
@@ -446,16 +446,16 @@ namespace System.Numerics
         }
         public static DecimalComplex Exp(DecimalComplex value) /* The DecimalComplex number raised to e */
         {
-            decimal temp_factor = Math2.Exp(value.m_real);
-            decimal result_re = temp_factor * Math2.Cos(value.m_imaginary);
-            decimal result_im = temp_factor * Math2.Sin(value.m_imaginary);
+            decimal temp_factor = QuickMath.Exp(value.m_real);
+            decimal result_re = temp_factor * QuickMath.Cos(value.m_imaginary);
+            decimal result_im = temp_factor * QuickMath.Sin(value.m_imaginary);
             return (new DecimalComplex(result_re, result_im));
         }
 
         [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Sqrt", Justification = "Microsoft: Existing Name")]
         public static DecimalComplex Sqrt(DecimalComplex value) /* Square root ot the DecimalComplex number */
         {
-            return DecimalComplex.FromPolarCoordinates(Math2.Sqrt(value.Magnitude), value.Phase / 2.0M);
+            return DecimalComplex.FromPolarCoordinates(QuickMath.Sqrt(value.Magnitude), value.Phase / 2.0M);
         }
 
         public static DecimalComplex Pow(DecimalComplex value, DecimalComplex power) /* A DecimalComplex number raised to another DecimalComplex number */
@@ -477,12 +477,12 @@ namespace System.Numerics
             decimal d = power.m_imaginary;
 
             decimal rho = DecimalComplex.Abs(value);
-            decimal theta = Math2.Atan2(b, a);
-            decimal newRho = c * theta + d * Math2.Log(rho);
+            decimal theta = QuickMath.Atan2(b, a);
+            decimal newRho = c * theta + d * QuickMath.Log(rho);
 
-            decimal t = Math2.Pow(rho, c) * Math2.Pow((decimal)Math2.E, -d * theta);
+            decimal t = QuickMath.Pow(rho, c) * QuickMath.Pow((decimal)QuickMath.E, -d * theta);
 
-            return new DecimalComplex(t * Math2.Cos(newRho), t * Math2.Sin(newRho));
+            return new DecimalComplex(t * QuickMath.Cos(newRho), t * QuickMath.Sin(newRho));
         }
 
         public static DecimalComplex Pow(DecimalComplex value, decimal power) // A DecimalComplex number raised to a real number 

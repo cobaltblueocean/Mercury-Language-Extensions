@@ -53,14 +53,14 @@ namespace MathNet.Numerics
             if (a.Magnitude > b.Magnitude)
             {
                 var r = b.Magnitude / a.Magnitude;
-                return a.Magnitude * Math2.Sqrt(1 + (r * r));
+                return a.Magnitude * QuickMath.Sqrt(1 + (r * r));
             }
 
             if (b != 0.0M)
             {
                 // NOTE (ruegg): not "!b.AlmostZero()" to avoid convergence issues (e.g. in SVD algorithm)
                 var r = a.Magnitude / b.Magnitude;
-                return b.Magnitude * Math2.Sqrt(1 + (r * r));
+                return b.Magnitude * QuickMath.Sqrt(1 + (r * r));
             }
 
             return 0M;
@@ -74,17 +74,17 @@ namespace MathNet.Numerics
         /// <returns>Returns <code>sqrt(a<sup>2</sup> + b<sup>2</sup>)</code> without underflow/overflow.</returns>
         public static decimal Hypotenuse(decimal a, decimal b)
         {
-            if (Math2.Abs(a) > Math2.Abs(b))
+            if (QuickMath.Abs(a) > QuickMath.Abs(b))
             {
                 decimal r = b / a;
-                return Math2.Abs(a) * Math2.Sqrt(1 + (r * r));
+                return QuickMath.Abs(a) * QuickMath.Sqrt(1 + (r * r));
             }
 
             if (b != 0.0M)
             {
                 // NOTE (ruegg): not "!b.AlmostZero()" to avoid convergence issues (e.g. in SVD algorithm)
                 decimal r = a / b;
-                return Math2.Abs(b) * Math2.Sqrt(1 + (r * r));
+                return QuickMath.Abs(b) * QuickMath.Sqrt(1 + (r * r));
             }
 
             return 0M;

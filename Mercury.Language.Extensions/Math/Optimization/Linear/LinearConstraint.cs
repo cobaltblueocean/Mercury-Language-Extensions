@@ -79,7 +79,7 @@ namespace Mercury.Language.Math.Optimization.Linear
         /// <param Name="coefficients">The coefficients of the constraint (left hand side)</param>
         /// <param Name="relationship">The type of (in)equality used in the constraint</param>
         /// <param Name="value">The value of the constraint (right hand side)</param>
-        public LinearConstraint(double[] coefficients, Relationship relationship, double value) : this(MatrixUtility.CreateRealVector(coefficients), relationship, value)
+        public LinearConstraint(double[] coefficients, Relationship relationship, double value) : this(MathNetMatrixUtility.CreateRealVector(coefficients), relationship, value)
         {
 
         }
@@ -131,7 +131,7 @@ namespace Mercury.Language.Math.Optimization.Linear
             {
                 sub[i] = lhsCoefficients[i] - rhsCoefficients[i];
             }
-            this.coefficients = MatrixUtility.CreateRealVector(sub);
+            this.coefficients = MathNetMatrixUtility.CreateRealVector(sub);
             this.relationship = relationship;
             this.value = rhsConstant - lhsConstant;
         }

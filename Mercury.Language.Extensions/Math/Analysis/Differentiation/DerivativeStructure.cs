@@ -735,7 +735,7 @@ namespace Mercury.Language.Math.Analysis.Differentiation
             DerivativeStructure ds = new DerivativeStructure(compiler);
             for (int i = 0; i < ds.data.Length; ++i)
             {
-                ds.data[i] = Math2.Scalb(data[i], n);
+                ds.data[i] = QuickMath.Scalb(data[i], n);
             }
             return ds;
         }
@@ -827,7 +827,7 @@ namespace Mercury.Language.Math.Analysis.Differentiation
             DerivativeStructure ds = new DerivativeStructure(compiler);
             for (int i = 0; i < ds.data.Length; ++i)
             {
-                ds.data[i] = Math2.ToDegrees(data[i]);
+                ds.data[i] = QuickMath.ToDegrees(data[i]);
             }
             return ds;
         }
@@ -840,7 +840,7 @@ namespace Mercury.Language.Math.Analysis.Differentiation
             DerivativeStructure ds = new DerivativeStructure(compiler);
             for (int i = 0; i < ds.data.Length; ++i)
             {
-                ds.data[i] = Math2.ToRadians(data[i]);
+                ds.data[i] = QuickMath.ToRadians(data[i]);
             }
             return ds;
         }
@@ -900,7 +900,7 @@ namespace Mercury.Language.Math.Analysis.Differentiation
         /// <returns>exponent for instance in IEEE754 representation, without bias</returns>
         public int GetExponent()
         {
-            return Math2.GetExponent(data[0]);
+            return QuickMath.GetExponent(data[0]);
         }
 
         /// <summary>Get a partial derivative.

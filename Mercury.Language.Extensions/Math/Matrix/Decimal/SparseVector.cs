@@ -776,7 +776,7 @@ namespace MathNet.Numerics.LinearAlgebra.Decimal
             var result = 0M;
             for (var i = 0; i < _storage.ValueCount; i++)
             {
-                result += Math2.Abs(_storage.Values[i]);
+                result += QuickMath.Abs(_storage.Values[i]);
             }
             return (double)result;
         }
@@ -787,7 +787,7 @@ namespace MathNet.Numerics.LinearAlgebra.Decimal
         /// <returns>The maximum absolute value.</returns>
         public override double InfinityNorm()
         {
-            return (double)CommonParallel.Aggregate(0, _storage.ValueCount, i => Math2.Abs(_storage.Values[i]), Math2.Max, 0M);
+            return (double)CommonParallel.Aggregate(0, _storage.ValueCount, i => QuickMath.Abs(_storage.Values[i]), QuickMath.Max, 0M);
         }
 
         /// <summary>
@@ -811,9 +811,9 @@ namespace MathNet.Numerics.LinearAlgebra.Decimal
             var sum = 0M;
             for (var index = 0; index < _storage.ValueCount; index++)
             {
-                sum += Math2.Pow(Math2.Abs(_storage.Values[index]), (decimal)p);
+                sum += QuickMath.Pow(QuickMath.Abs(_storage.Values[index]), (decimal)p);
             }
-            return (double)Math2.Pow(sum, 1.0M / (decimal)p);
+            return (double)QuickMath.Pow(sum, 1.0M / (decimal)p);
         }
 
         /// <summary>

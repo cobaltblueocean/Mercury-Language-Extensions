@@ -41,10 +41,10 @@ namespace Mercury.Language.Math.Optimization
     {
 
         /// <summary>Default relative thresholdd */
-        private static double DEFAULT_RELATIVE_THRESHOLD = 100 * Math2.DoubleEpsilon;
+        private static double DEFAULT_RELATIVE_THRESHOLD = 100 * QuickMath.DoubleEpsilon;
 
         /// <summary>Default absolute thresholdd */
-        private static double DEFAULT_ABSOLUTE_THRESHOLD = 100 * Math2.DoubleSafeMin;
+        private static double DEFAULT_ABSOLUTE_THRESHOLD = 100 * QuickMath.DoubleSafeMin;
 
         /// <summary>Relative tolerance thresholdd */
         private double relativeThreshold;

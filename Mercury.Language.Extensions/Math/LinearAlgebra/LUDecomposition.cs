@@ -222,15 +222,15 @@ namespace Mercury.Language.Math.LinearAlgebra
                     lu[row, col] = sum;
 
                     // maintain best permutation choice
-                    if (Math2.Abs(sum) > largest)
+                    if (QuickMath.Abs(sum) > largest)
                     {
-                        largest = Math2.Abs(sum);
+                        largest = QuickMath.Abs(sum);
                         max = row;
                     }
                 }
 
                 // Singularity check
-                if (Math2.Abs(lu[max, col]) < singularityThreshold)
+                if (QuickMath.Abs(lu[max, col]) < singularityThreshold)
                 {
                     singular = true;
                     return;
@@ -279,7 +279,7 @@ namespace Mercury.Language.Math.LinearAlgebra
             if ((cachedL == null) && !singular)
             {
                 int m = pivotVector.Length;
-                cachedL = Matrix.MatrixUtility.CreateMatrix(m, m);
+                cachedL = Matrix.MathNetMatrixUtility.CreateMatrix(m, m);
                 for (int i = 0; i < m; ++i)
                 {
                     double[] luI = lu.GetRow(i);
@@ -303,7 +303,7 @@ namespace Mercury.Language.Math.LinearAlgebra
             if ((cachedU == null) && !singular)
             {
                 int m = pivotVector.Length;
-                cachedU = Matrix.MatrixUtility.CreateMatrix(m, m);
+                cachedU = Matrix.MathNetMatrixUtility.CreateMatrix(m, m);
                 for (int i = 0; i < m; ++i)
                 {
                     double[] luI = lu.GetRow(i);
@@ -330,7 +330,7 @@ namespace Mercury.Language.Math.LinearAlgebra
             if ((cachedP == null) && !singular)
             {
                 int m = pivotVector.Length;
-                cachedP = Matrix.MatrixUtility.CreateMatrix(m, m);
+                cachedP = Matrix.MathNetMatrixUtility.CreateMatrix(m, m);
                 for (int i = 0; i < m; ++i)
                 {
                     cachedP[i, pivotVector[i]] = 1.0;
@@ -356,7 +356,7 @@ namespace Mercury.Language.Math.LinearAlgebra
         /// <remarks>
         ///   Please keep in mind this is not one of the most reliable methods
         ///   for checking singularity of a matrix. For a more reliable method,
-        ///   please use <see cref="Mercury.Language.Math.Matrix.MatrixUtility.IsSingular"/> or the 
+        ///   please use <see cref="Mercury.Language.Math.Matrix.MathNetMatrixUtility.IsSingular"/> or the 
         ///   <see cref="SingularValueDecomposition"/>.
         /// </remarks>
         public bool Nonsingular
@@ -774,7 +774,7 @@ namespace Mercury.Language.Math.LinearAlgebra
                         }
                     }
 
-                    return MatrixUtility.CreateRealVector(bp);
+                    return MathNetMatrixUtility.CreateRealVector(bp);
                 }
             }
 
@@ -787,13 +787,13 @@ namespace Mercury.Language.Math.LinearAlgebra
             /// <exception cref="InvalidMatrixException">if decomposed matrix is singular </exception>
             public DenseVector Solve(DenseVector b)
             {
-                return (DenseVector)MatrixUtility.CreateRealVector(Solve(b.AsArrayEx()));
+                return (DenseVector)MathNetMatrixUtility.CreateRealVector(Solve(b.AsArrayEx()));
             }
 
             /// <summary>{@inheritDoc} */
             public Matrix<Double> Solve(Matrix<Double> b)
             {
-                return MatrixUtility.CreateMatrix<Double>(Solve(b.AsArrayEx()));
+                return MathNetMatrixUtility.CreateMatrix<Double>(Solve(b.AsArrayEx()));
             }
 
             public double[][] Solve(double[][] value)
@@ -869,7 +869,7 @@ namespace Mercury.Language.Math.LinearAlgebra
             /// <summary>{@inheritDoc} */
             public Matrix<Double> GetInverse()
             {
-                return Solve(MatrixUtility.CreateRealIdentityMatrix(pivot.Length));
+                return Solve(MathNetMatrixUtility.CreateRealIdentityMatrix(pivot.Length));
             }
         }
     }

@@ -159,7 +159,7 @@ namespace Mercury.Language.Math.Optimization.Linear
             int width = numDecisionVariables + numSlackVariables +
             numArtificialVariables + NumObjectiveFunctions + 1; // + 1 is for RHS
             int height = constraints.Count + NumObjectiveFunctions;
-            var matrix = MatrixUtility.CreateMatrix<Double>(height, width);
+            var matrix = MathNetMatrixUtility.CreateMatrix<Double>(height, width);
 
             // initialize the objective function rows
             if (NumObjectiveFunctions == 2)
@@ -335,7 +335,7 @@ namespace Mercury.Language.Math.Optimization.Linear
             // positive cost non-artificial variables
             for (int i = NumObjectiveFunctions; i < ArtificialVariableOffset; i++)
             {
-                if (Math2.CompareTo(tableau[0, i], 0, epsilon) > 0)
+                if (QuickMath.CompareTo(tableau[0, i], 0, epsilon) > 0)
                 {
                     columnsToDrop.Add(i);
                 }
@@ -369,7 +369,7 @@ namespace Mercury.Language.Math.Optimization.Linear
                 columnLabels.RemoveAt((int)columnsToDrop[i]);
             }
 
-            this.tableau = MatrixUtility.CreateMatrix<Double>(matrix);
+            this.tableau = MathNetMatrixUtility.CreateMatrix<Double>(matrix);
             this.numArtificialVariables = 0;
         }
 
@@ -390,7 +390,7 @@ namespace Mercury.Language.Math.Optimization.Linear
         {
             for (int i = NumObjectiveFunctions; i < Width - 1; i++)
             {
-                if (Math2.CompareTo(tableau[0, i], 0, epsilon) < 0)
+                if (QuickMath.CompareTo(tableau[0, i], 0, epsilon) < 0)
                 {
                     return false;
                 }

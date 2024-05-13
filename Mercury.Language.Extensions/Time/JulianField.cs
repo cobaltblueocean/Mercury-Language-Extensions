@@ -116,7 +116,7 @@ namespace Mercury.Language.Time
             {
                 throw new DateTimeException(String.Format(LocalizedResources.Instance().INVALID_VALUE, Name, newValue));
             }
-            return (Temporal)temporal.With(ChronoField.EPOCH_DAY, Math2.SafeSubtract(newValue, _offset));
+            return (Temporal)temporal.With(ChronoField.EPOCH_DAY, QuickMath.SafeSubtract(newValue, _offset));
         }
 
         public Range RangeRefinedBy(Temporal temporal)

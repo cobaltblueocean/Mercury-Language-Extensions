@@ -108,7 +108,7 @@ namespace Mercury.Language.Math.LinearAlgebra
 
         //public EigenDecomposition(Matrix<Double> matrix)
         //{
-        //    double symTol = 10 * matrix.RowCount * matrix.ColumnCount * Math2.DoubleEpsilon;
+        //    double symTol = 10 * matrix.RowCount * matrix.ColumnCount * QuickMath.DoubleEpsilon;
 
         //    isSymmetric = matrix.IsSymmetric(symTol);
         //    if (isSymmetric) {
@@ -207,7 +207,7 @@ namespace Mercury.Language.Math.LinearAlgebra
             if (cachedD == null)
             {
                 // cache the matrix for subsequent calls
-                cachedD = MatrixUtility.CreateRealDiagonalMatrix(realEigenvalues);
+                cachedD = MathNetMatrixUtility.CreateRealDiagonalMatrix(realEigenvalues);
             }
             return cachedD;
         }
@@ -249,7 +249,7 @@ namespace Mercury.Language.Math.LinearAlgebra
 
         //    for (int i = 0; i < imagEigenvalues.Length; i++)
         //    {
-        //        if (!imagEigenvalues[i].AlmostEqual(0.0, Math2.DoubleEpsilon))
+        //        if (!imagEigenvalues[i].AlmostEqual(0.0, QuickMath.DoubleEpsilon))
         //        {
         //            return true;
         //        }
@@ -417,11 +417,11 @@ namespace Mercury.Language.Math.LinearAlgebra
             {
                 for (int i = 0; i < n; i++)
                 {
-                    if (System.Math.Abs(realEigenvalues[i]) <= Math2.DoubleEpsilon * maxAbsoluteValue)
+                    if (System.Math.Abs(realEigenvalues[i]) <= QuickMath.DoubleEpsilon * maxAbsoluteValue)
                     {
                         realEigenvalues[i] = 0;
                     }
-                    if (System.Math.Abs(e[i]) <= Math2.DoubleEpsilon * maxAbsoluteValue)
+                    if (System.Math.Abs(e[i]) <= QuickMath.DoubleEpsilon * maxAbsoluteValue)
                     {
                         e[i] = 0;
                     }
@@ -553,7 +553,7 @@ namespace Mercury.Language.Math.LinearAlgebra
             {
                 for (int i = 0; i < n; i++)
                 {
-                    if (System.Math.Abs(realEigenvalues[i]) < Math2.DoubleEpsilon * maxAbsoluteValue)
+                    if (System.Math.Abs(realEigenvalues[i]) < QuickMath.DoubleEpsilon * maxAbsoluteValue)
                     {
                         realEigenvalues[i] = 0;
                     }
@@ -567,7 +567,7 @@ namespace Mercury.Language.Math.LinearAlgebra
                 {
                     tmp[j] = z[j, i];
                 }
-                eigenVectors[i] = MatrixUtility.CreateRealVector(tmp);  
+                eigenVectors[i] = MathNetMatrixUtility.CreateRealVector(tmp);  
             }
         }
 
@@ -626,7 +626,7 @@ namespace Mercury.Language.Math.LinearAlgebra
         //    for (int i = 0; i < realEigenvalues.Length; i++)
         //    {
         //        if (i == (realEigenvalues.Length - 1) ||
-        //            Precision.AlmostEqual(matT[i + 1][i], 0.0, Math2.DoubleEpsilon))
+        //            Precision.AlmostEqual(matT[i + 1][i], 0.0, QuickMath.DoubleEpsilon))
         //        {
         //            realEigenvalues[i] = matT[i][i];
         //        }
@@ -689,7 +689,7 @@ namespace Mercury.Language.Math.LinearAlgebra
         //    }
 
         //    // we can not handle a matrix with zero norm
-        //    if (Precision.AlmostEqual(norm, 0.0, Math2.DoubleEpsilon))
+        //    if (Precision.AlmostEqual(norm, 0.0, QuickMath.DoubleEpsilon))
         //    {
         //        throw new MathArithmeticException(LocalizedResources.Instance().ZERO_NORM);
         //    }
@@ -718,7 +718,7 @@ namespace Mercury.Language.Math.LinearAlgebra
         //                {
         //                    r += matrixT[i][j] * matrixT[j][idx];
         //                }
-        //                if (Precision.CompareTo(imagEigenvalues[i], 0.0, Math2.DoubleEpsilon) < 0)
+        //                if (Precision.CompareTo(imagEigenvalues[i], 0.0, QuickMath.DoubleEpsilon) < 0)
         //                {
         //                    z = w;
         //                    s = r;
@@ -734,7 +734,7 @@ namespace Mercury.Language.Math.LinearAlgebra
         //                        }
         //                        else
         //                        {
-        //                            matrixT[i][idx] = -r / (Math2.DoubleEpsilon * norm);
+        //                            matrixT[i][idx] = -r / (QuickMath.DoubleEpsilon * norm);
         //                        }
         //                    }
         //                    else
@@ -758,7 +758,7 @@ namespace Mercury.Language.Math.LinearAlgebra
 
         //                    // Overflow control
         //                    double t2 = System.Math.Abs(matrixT[i][idx]);
-        //                    if ((Math2.DoubleEpsilon * t2) * t2 > 1)
+        //                    if ((QuickMath.DoubleEpsilon * t2) * t2 > 1)
         //                    {
         //                        for (int j = i; j <= idx; j++)
         //                        {
@@ -801,7 +801,7 @@ namespace Mercury.Language.Math.LinearAlgebra
         //                }
         //                double w = matrixT[i][i] - p;
 
-        //                if (Precision.CompareTo(imagEigenvalues[i], 0.0, Math2.DoubleEpsilon) < 0)
+        //                if (Precision.CompareTo(imagEigenvalues[i], 0.0, QuickMath.DoubleEpsilon) < 0)
         //                {
         //                    z = w;
         //                    r = ra;
@@ -826,7 +826,7 @@ namespace Mercury.Language.Math.LinearAlgebra
         //                        double vi = (realEigenvalues[i] - p) * 2.0 * q;
         //                        if (Precision.Equals(vr, 0.0) && Precision.Equals(vi, 0.0))
         //                        {
-        //                            vr = Math2.DoubleEpsilon * norm *
+        //                            vr = QuickMath.DoubleEpsilon * norm *
         //                                 (System.Math.Abs(w) + System.Math.Abs(q) + System.Math.Abs(x) +
         //                                  System.Math.Abs(y) + System.Math.Abs(z));
         //                        }
@@ -854,7 +854,7 @@ namespace Mercury.Language.Math.LinearAlgebra
         //                    // Overflow control
         //                    double t = System.Math.Max(System.Math.Abs(matrixT[i][idx - 1]),
         //                                            System.Math.Abs(matrixT[i][idx]));
-        //                    if ((Math2.DoubleEpsilon * t) * t > 1)
+        //                    if ((QuickMath.DoubleEpsilon * t) * t > 1)
         //                    {
         //                        for (int j = i; j <= idx; j++)
         //                        {
@@ -953,7 +953,7 @@ namespace Mercury.Language.Math.LinearAlgebra
                     }
                 }
 
-                return MatrixUtility.CreateRealVector(bp);
+                return MathNetMatrixUtility.CreateRealVector(bp);
             }
 
             /// <summary>
@@ -1033,7 +1033,7 @@ namespace Mercury.Language.Math.LinearAlgebra
                     {
                         // Looking for eigenvalues that are 0, where we consider anything much much smaller
                         // than the largest eigenvalue to be effectively 0.
-                        if (Precision2.AlmostEqual(EigenvalueNorm(i) / largestEigenvalueNorm, 0, Math2.DoubleEpsilon))
+                        if (Precision2.AlmostEqual(EigenvalueNorm(i) / largestEigenvalueNorm, 0, QuickMath.DoubleEpsilon))
                         {
                             return false;
                         }
@@ -1106,7 +1106,7 @@ namespace Mercury.Language.Math.LinearAlgebra
                 {
                     MathNet.Numerics.LinearAlgebra.Vector<Double> v = eigenvectors[i];
                     double[] vData = v.AsArrayEx();
-                    double s = v.DotProduct(MatrixUtility.CreateRealVector(b)) / realEigenvalues[i];
+                    double s = v.DotProduct(MathNetMatrixUtility.CreateRealVector(b)) / realEigenvalues[i];
                     for (int j = 0; j < m; ++j)
                     {
                         bp[j] += s * vData[j];

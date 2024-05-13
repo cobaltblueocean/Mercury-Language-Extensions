@@ -276,7 +276,7 @@ namespace Mercury.Language.Math.Fraction
                 den = -den;
             }
             // reduce numerator and denominator by greatest common denominator.
-            int d = Math2.GreatestCommonDivisor(num, den);
+            int d = QuickMath.GreatestCommonDivisor(num, den);
             if (d > 1)
             {
                 num /= d;
@@ -436,16 +436,16 @@ namespace Mercury.Language.Math.Fraction
             }
             // if denominators are randomly distributed, d1 will be 1 about 61%
             // of the time.
-            int d1 = Math2.GreatestCommonDivisor(denominator, fraction.denominator);
+            int d1 = QuickMath.GreatestCommonDivisor(denominator, fraction.denominator);
             if (d1 == 1)
             {
                 // result is ( (u*v' +/- u'v) / u'v')
-                int uvpi = Math2.MultiplyAndCheck(numerator, fraction.denominator);
-                int upvi = Math2.MultiplyAndCheck(fraction.numerator, denominator);
+                int uvpi = QuickMath.MultiplyAndCheck(numerator, fraction.denominator);
+                int upvi = QuickMath.MultiplyAndCheck(fraction.numerator, denominator);
                 return new Fraction
-                    (isAdd ? Math2.AddAndCheck(uvpi, upvi) :
-                     Math2.SubAndCheck(uvpi, upvi),
-                     Math2.MultiplyAndCheck(denominator, fraction.denominator));
+                    (isAdd ? QuickMath.AddAndCheck(uvpi, upvi) :
+                     QuickMath.SubAndCheck(uvpi, upvi),
+                     QuickMath.MultiplyAndCheck(denominator, fraction.denominator));
             }
             // the quantity 't' requires 65 bits of precision; see knuth 4.5.1
             // exercise 7d  we're going to use a BigInteger.
@@ -456,7 +456,7 @@ namespace Mercury.Language.Math.Fraction
             // but d2 doesn't need extra precision because
             // d2 = GreatestCommonDivisor(t,d1) = GreatestCommonDivisor(t mod d1, d1)
             int tmodd1 = (int)t.Mod(new BigInteger(d1));
-            long d2 = (tmodd1 == 0) ? d1 : Math2.GreatestCommonDivisor(tmodd1, d1);
+            long d2 = (tmodd1 == 0) ? d1 : QuickMath.GreatestCommonDivisor(tmodd1, d1);
 
             // result is (t/d2) / (u'/d1)(v'/d2)
             BigInteger w = BigInteger.Divide(t, new BigInteger(d2));
@@ -464,7 +464,7 @@ namespace Mercury.Language.Math.Fraction
             {
                 throw new MathArithmeticException(String.Format(LocalizedResources.Instance().NUMERATOR_OVERFLOW_AFTER_MULTIPLY, w));
             }
-            return new Fraction((int)w, Math2.MultiplyAndCheck(denominator / d1, fraction.denominator / (int)d2));
+            return new Fraction((int)w, QuickMath.MultiplyAndCheck(denominator / d1, fraction.denominator / (int)d2));
         }
 
         /// <summary>
@@ -489,11 +489,11 @@ namespace Mercury.Language.Math.Fraction
             }
             // knuth 4.5.1
             // make sure we don't overflow unless the result *must* overflow.
-            int d1 = Math2.GreatestCommonDivisor(numerator, fraction.denominator);
-            int d2 = Math2.GreatestCommonDivisor(fraction.numerator, denominator);
+            int d1 = QuickMath.GreatestCommonDivisor(numerator, fraction.denominator);
+            int d2 = QuickMath.GreatestCommonDivisor(fraction.numerator, denominator);
             return getReducedFraction
-            (Math2.MultiplyAndCheck(numerator / d1, fraction.numerator / d2),
-                    Math2.MultiplyAndCheck(denominator / d2, fraction.denominator / d1));
+            (QuickMath.MultiplyAndCheck(numerator / d1, fraction.numerator / d2),
+                    QuickMath.MultiplyAndCheck(denominator / d2, fraction.denominator / d1));
         }
 
         /// <summary>
@@ -576,7 +576,7 @@ namespace Mercury.Language.Math.Fraction
                 denominator = -denominator;
             }
             // simplify fraction.
-            int gcd = Math2.GreatestCommonDivisor(numerator, denominator);
+            int gcd = QuickMath.GreatestCommonDivisor(numerator, denominator);
             numerator /= gcd;
             denominator /= gcd;
             return new Fraction(numerator, denominator);

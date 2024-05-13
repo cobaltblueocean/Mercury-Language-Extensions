@@ -25,6 +25,7 @@ using System.Threading.Tasks;
 using NUnit.Framework;
 using Mercury.Language.Math.Analysis.Function;
 using Mercury.Language.Math.Analysis.Solver;
+using Mercury.Test.Utility;
 
 namespace Mercury.Language.Extensions.Test.Solver
 {
@@ -50,9 +51,9 @@ namespace Mercury.Language.Extensions.Test.Solver
 
             _ridder.MaximalIterationCount = MAX_ITER;
 
-            Assert.AreEqual(_ridder.Solve (F, 2.5, 3.5),  3, EPS);
-            Assert.AreEqual(_ridder.Solve(F, 1.5, 2.5), 2, EPS);
-            Assert.AreEqual(_ridder.Solve(F, -1.5, 0.5), -1, EPS);
+            Assert2.AreEqual(_ridder.Solve (F, 2.5, 3.5),  3, EPS);
+            Assert2.AreEqual(_ridder.Solve(F, 1.5, 2.5), 2, EPS);
+            Assert2.AreEqual(_ridder.Solve(F, -1.5, 0.5), -1, EPS);
         }
     }
 }

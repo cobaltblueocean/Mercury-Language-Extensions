@@ -1,9 +1,9 @@
-﻿// <copyright file="DenseQR.cs" company="Math2.NET">
-// Math2.NET Numerics, part of the Math2.NET Project
+﻿// <copyright file="DenseQR.cs" company="QuickMath.NET">
+// QuickMath.NET Numerics, part of the QuickMath.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 //
-// Copyright (c) 2009-2013 Math2.NET
+// Copyright (c) 2009-2013 QuickMath.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -68,7 +68,7 @@ namespace MathNet.Numerics.LinearAlgebra.DecimalComplex.Factorization
                 throw MatrixExceptionFactory.DimensionsDontMatch<ArgumentException>(matrix.RowCount, matrix.ColumnCount);
             }
 
-            var tau = new DecimalComplex[Math2.Min(matrix.RowCount, matrix.ColumnCount)];
+            var tau = new DecimalComplex[QuickMath.Min(matrix.RowCount, matrix.ColumnCount)];
             Matrix<DecimalComplex> q;
             Matrix<DecimalComplex> r;
 

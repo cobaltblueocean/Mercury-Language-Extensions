@@ -1,9 +1,9 @@
-﻿// <copyright file="UserQR.cs" company="Math2.NET">
-// Math2.NET Numerics, part of the Math2.NET Project
+﻿// <copyright file="UserQR.cs" company="QuickMath.NET">
+// QuickMath.NET Numerics, part of the QuickMath.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 //
-// Copyright (c) 2009-2013 Math2.NET
+// Copyright (c) 2009-2013 QuickMath.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -66,7 +66,7 @@ namespace MathNet.Numerics.LinearAlgebra.DecimalComplex.Factorization
             Matrix<DecimalComplex> q;
             Matrix<DecimalComplex> r;
 
-            var minmn = Math2.Min(matrix.RowCount, matrix.ColumnCount);
+            var minmn = QuickMath.Min(matrix.RowCount, matrix.ColumnCount);
             var u = new DecimalComplex[minmn][];
 
             if (method == QRMethod.Full)
@@ -146,7 +146,7 @@ namespace MathNet.Numerics.LinearAlgebra.DecimalComplex.Factorization
             if (row == a.RowCount - 1 || norm.Magnitude == 0)
             {
                 a.At(row, column, -u[0]);
-                u[0] = Math2.DecimalSqrt2; //Constants.Sqrt2;
+                u[0] = QuickMath.DecimalSqrt2; //Constants.Sqrt2;
                 return u;
             }
 

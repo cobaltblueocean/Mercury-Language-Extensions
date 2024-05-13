@@ -1,9 +1,9 @@
-// <copyright file="MlkBiCgStab.cs" company="Math2.NET">
-// Math2.NET Numerics, part of the Math2.NET Project
+// <copyright file="MlkBiCgStab.cs" company="QuickMath.NET">
+// QuickMath.NET Numerics, part of the QuickMath.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 //
-// Copyright (c) 2009-2013 Math2.NET
+// Copyright (c) 2009-2013 QuickMath.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -143,7 +143,7 @@ namespace MathNet.Numerics.LinearAlgebra.DecimalComplex.Solvers
         static int NumberOfStartingVectorsToCreate(int maximumNumberOfStartingVectors, int numberOfVariables)
         {
             // Create no more starting vectors than the size of the problem - 1
-            return Math2.Min(maximumNumberOfStartingVectors, (numberOfVariables - 1));
+            return QuickMath.Min(maximumNumberOfStartingVectors, (numberOfVariables - 1));
         }
 
         /// <summary>

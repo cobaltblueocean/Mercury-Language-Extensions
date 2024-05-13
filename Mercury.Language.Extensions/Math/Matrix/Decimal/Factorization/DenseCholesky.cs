@@ -99,7 +99,7 @@ namespace MathNet.Numerics.LinearAlgebra.Decimal.Factorization
             if (input is DenseMatrix dinput && result is DenseMatrix dresult)
             {
                 // Copy the contents of input to result.
-                Buffer.BlockCopy(dinput.Values, 0, dresult.Values, 0, dinput.Values.Length * Math2.SizeOfDecimal);
+                Buffer.BlockCopy(dinput.Values, 0, dresult.Values, 0, dinput.Values.Length * QuickMath.SizeOfDecimal);
 
                 // Cholesky solve by overwriting result.
                 var dfactor = (DenseMatrix)Factor;
@@ -131,7 +131,7 @@ namespace MathNet.Numerics.LinearAlgebra.Decimal.Factorization
             if (input is DenseVector dinput && result is DenseVector dresult)
             {
                 // Copy the contents of input to result.
-                Buffer.BlockCopy(dinput.Values, 0, dresult.Values, 0, dinput.Values.Length * Math2.SizeOfDecimal);
+                Buffer.BlockCopy(dinput.Values, 0, dresult.Values, 0, dinput.Values.Length * QuickMath.SizeOfDecimal);
 
                 // Cholesky solve by overwriting result.
                 var dfactor = (DenseMatrix)Factor;
@@ -168,7 +168,7 @@ namespace MathNet.Numerics.LinearAlgebra.Decimal.Factorization
                 var dfactor = (DenseMatrix)Factor;
 
                 // Overwrite the existing Factor matrix with the input.
-                Buffer.BlockCopy(dmatrix.Values, 0, dfactor.Values, 0, dmatrix.Values.Length * Math2.SizeOfDecimal);
+                Buffer.BlockCopy(dmatrix.Values, 0, dfactor.Values, 0, dmatrix.Values.Length * QuickMath.SizeOfDecimal);
 
                 // Perform factorization (while overwriting).
                 LinearAlgebraControl2.Provider.CholeskyFactor(dfactor.Values, dfactor.RowCount);

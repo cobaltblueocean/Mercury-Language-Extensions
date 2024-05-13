@@ -193,27 +193,50 @@ namespace Mercury.Language.Amount
 
         public static Boolean CompareTo(CubeValue value1, CubeValue value2, double tolerance)
         {
-            var set1 = value1._data.Keys.ToHashSet();
-            var set2 = value2._data.Keys.ToHashSet();
-            if (!set1.Equals(set2))
+            ArgumentChecker.NotNull(value1, "value1");
+            ArgumentChecker.NotNull(value2, "value2");
+            ArgumentChecker.NotNull(value1._data, "value1._data");
+            ArgumentChecker.NotNull(value2._data, "value2._data");
+            ArgumentChecker.NoNulls(value1._data, "value1._data");
+            ArgumentChecker.NoNulls(value2._data, "value2._data");
+
+            if ((value1._data != null) && (value2._data != null))
             {
-                return false;
-            }
-            foreach (var p in set1)
-            {
-                if (value1._data[p].HasValue && value2._data[p].HasValue)
+                var set1 = value1._data.Keys.ToHashSet();
+                var set2 = value2._data.Keys.ToHashSet();
+                if (!set1.Equals(set2))
                 {
-                    if (System.Math.Abs(value1._data[p].Value - value2._data[p].Value) > tolerance)
+                    return false;
+                }
+                foreach (var p in set1)
+                {
+                    if (value1._data[p].HasValue && value2._data[p].HasValue)
+                    {
+                        if ((value1._data[p] != null) && (value2._data[p] != null))
+                        {
+                            var d1 = value1._data[p].Value;
+                            var d2 = value2._data[p].Value;
+                            if (System.Math.Abs(d1 - d2) > tolerance)
+                            {
+                                return false;
+                            }
+                        }
+                        else
+                        {
+                            throw new ArgumentException();
+                        }
+                    }
+                    else
                     {
                         return false;
                     }
                 }
-                else
-                {
-                    return false;
-                }
+                return true;
             }
-            return true;
+            else
+            {
+                throw new ArgumentException();
+            }
         }
 
         /// <summary>
@@ -222,16 +245,29 @@ namespace Mercury.Language.Amount
         /// <returns>The value.</returns>
         public double ToSingleValue()
         {
-            double amount = 0;
-            foreach (var point in _data.Keys)
+            ArgumentChecker.NotNull(_data, "_data");
+            ArgumentChecker.NoNulls(_data, "_data");
+
+            if (_data != null)
             {
-                amount += _data[point].Value;
+                double amount = 0;
+                foreach (var point in _data.Keys)
+                {
+                    amount += _data[point].Value;
+                }
+                return amount;
             }
-            return amount;
+            else
+            {
+                throw new ArgumentException();
+            }
         }
 
         public override String ToString()
         {
+            ArgumentChecker.NotNull(_data, "_data");
+            ArgumentChecker.NoNulls(_data, "_data");
+
             return _data.ToString();
         }
     }

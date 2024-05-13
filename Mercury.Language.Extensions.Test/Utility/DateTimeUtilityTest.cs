@@ -22,6 +22,7 @@ using System;
 using System.Globalization;
 using Mercury.Language.Time;
 using NodaTime;
+using Mercury.Test.Utility;
 
 namespace Mercury.Language.Extensions.Test.Utility
 {
@@ -41,13 +42,13 @@ namespace Mercury.Language.Extensions.Test.Utility
             var ldt1 = DateTimeUtility.ToLocalDate(dateString1, format);
             var ldt2 = DateTimeUtility.ToLocalDate(dateString2);
 
-            Assert.IsTrue(date.Year == ldt1.Year);
-            Assert.IsTrue(date.Month == ldt1.Month);
-            Assert.IsTrue(date.Day == ldt1.Day);
+            Assert2.IsTrue(date.Year == ldt1.Year);
+            Assert2.IsTrue(date.Month == ldt1.Month);
+            Assert2.IsTrue(date.Day == ldt1.Day);
 
-            Assert.IsTrue(ldt1.Year == ldt2.Year);
-            Assert.IsTrue(ldt1.Month == ldt2.Month);
-            Assert.IsTrue(ldt1.Day == ldt2.Day);
+            Assert2.IsTrue(ldt1.Year == ldt2.Year);
+            Assert2.IsTrue(ldt1.Month == ldt2.Month);
+            Assert2.IsTrue(ldt1.Day == ldt2.Day);
         }
 
         [Test]
@@ -62,7 +63,7 @@ namespace Mercury.Language.Extensions.Test.Utility
             t1 = new Temporal(t1.Plus(3L, ChronoUnit.MONTHS));
             var t2 = t1.With(THIRD_WEDNESDAY);
 
-            Assert.AreEqual(expected, t2);
+            Assert2.AreEqual(expected, t2);
         }
 
         [Test]
@@ -73,11 +74,11 @@ namespace Mercury.Language.Extensions.Test.Utility
 
             var result = period1.Minus(period2);
 
-            Assert.AreEqual(result, period2);
+            Assert2.AreEqual(result, period2);
 
             result = result.Plus(period2);
 
-            Assert.AreEqual(result, period1);
+            Assert2.AreEqual(result, period1);
         }
 
         [Test]
@@ -86,11 +87,11 @@ namespace Mercury.Language.Extensions.Test.Utility
             LocalDate TRADE_DATE = new LocalDate(2011, Month.JUNE.Value, 13);
             var dateLong = TRADE_DATE.GetLong(JulianField.MODIFIED_JULIAN_DAY);
 
-            Assert.AreEqual(55725, dateLong);
+            Assert2.AreEqual(55725, dateLong);
 
             ZonedDateTime zdt = TRADE_DATE.ToZonedDateTimeUtc();
 
-            Assert.AreEqual(DateTimeZone.Utc, zdt.Zone);
+            Assert2.AreEqual(DateTimeZone.Utc, zdt.Zone);
         }
     }
 }

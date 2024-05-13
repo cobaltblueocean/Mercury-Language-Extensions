@@ -64,7 +64,7 @@ namespace Mercury.Language.Math.Analysis.Polynomial
         /// <exception cref="DataNotFoundException">if {@code c} is empty.</exception>
         public PolynomialFunction(double[] c) : base()
         {
-            Math2.CheckNotNull(c);
+            QuickMath.CheckNotNull(c);
             int n = c.Length;
             if (n == 0)
             {
@@ -121,7 +121,7 @@ namespace Mercury.Language.Math.Analysis.Polynomial
         /// <exception cref="ArgumentNullException">if {@code coefficients} is {@code null}.</exception>
         protected static double Evaluate(double[] coefficients, double argument)
         {
-            Math2.CheckNotNull(coefficients);
+            QuickMath.CheckNotNull(coefficients);
             int n = coefficients.Length;
             if (n == 0)
             {
@@ -144,7 +144,7 @@ namespace Mercury.Language.Math.Analysis.Polynomial
         /// <exception cref="ArgumentNullException">if {@code coefficients} is {@code null}.</exception>
         public DerivativeStructure Value(DerivativeStructure t)
         {
-            Math2.CheckNotNull(_coefficients);
+            QuickMath.CheckNotNull(_coefficients);
             int n = _coefficients.Length;
             if (n == 0)
             {
@@ -264,7 +264,7 @@ namespace Mercury.Language.Math.Analysis.Polynomial
         /// <exception cref="ArgumentNullException">if {@code coefficients} is {@code null}.</exception>
         protected static double[] Differentiate(double[] coefficients)
         {
-            Math2.CheckNotNull(coefficients);
+            QuickMath.CheckNotNull(coefficients);
             int n = coefficients.Length;
             if (n == 0)
             {

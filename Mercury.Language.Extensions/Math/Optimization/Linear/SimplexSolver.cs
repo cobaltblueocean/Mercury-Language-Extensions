@@ -69,7 +69,7 @@ namespace Mercury.Language.Math.Optimization.Linear
             Int32? minPos = null;
             for (int i = tableau.NumObjectiveFunctions; i < tableau.Width - 1; i++)
             {
-                if (Math2.CompareTo(tableau.GetEntry(0, i), minValue, epsilon) < 0)
+                if (QuickMath.CompareTo(tableau.GetEntry(0, i), minValue, epsilon) < 0)
                 {
                     minValue = tableau.GetEntry(0, i);
                     minPos = i;
@@ -93,7 +93,7 @@ namespace Mercury.Language.Math.Optimization.Linear
             {
                 double rhs = tableau.GetEntry(i, tableau.Width - 1);
                 double entry = tableau.GetEntry(i, col);
-                if (Math2.CompareTo(entry, 0, epsilon) > 0)
+                if (QuickMath.CompareTo(entry, 0, epsilon) > 0)
                 {
                     double ratio = rhs / entry;
                     if (ratio.AlmostEquals(minRatio, epsilon))

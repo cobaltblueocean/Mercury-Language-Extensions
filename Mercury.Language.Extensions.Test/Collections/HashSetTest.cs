@@ -23,6 +23,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
+using Mercury.Test.Utility;
+using Mercury.Test.Utility;
 
 namespace Mercury.Language.Extensions.Test.Collections
 {
@@ -58,8 +60,22 @@ namespace Mercury.Language.Extensions.Test.Collections
 
             for (int i = 0; i < PAIR_SET.Count; i++)
             {
-                Assert.AreEqual(PAIR_SET_SORTED.ElementAt(i), SORTED_SET.ElementAt(i));
+                Assert2.AreEqual(PAIR_SET_SORTED.ElementAt(i), SORTED_SET.ElementAt(i));
             }
+        }
+
+        [Test]
+        public void HashSetValueMatchTest()
+        {
+            ISet<String> val1 = new HashSet<String>() { "EUR", "GBP", "USD" };
+            ISet<String> val2 = new HashSet<String>() { "USD", "EUR", "GBP" };
+            Assert2.IsTrue(val1.ValueEquals(val2));
+
+            val2 = new HashSet<String>() { "USD", "EUR", "GBP", "JPY" };
+            Assert2.IsFalse(val1.ValueEquals(val2));
+
+            val2 = new HashSet<String>() { "USD", "EUR", "JPY" };
+            Assert2.IsFalse(val1.ValueEquals(val2));
         }
     }
 }

@@ -201,9 +201,9 @@ namespace Mercury.Language.Math.Analysis.Interpolation
                 throw new DimensionMismatchException(xLen, d3FdXdYdZ.Length);
             }
 
-            Math2.CheckOrder(x);
-            Math2.CheckOrder(y);
-            Math2.CheckOrder(z);
+            QuickMath.CheckOrder(x);
+            QuickMath.CheckOrder(y);
+            QuickMath.CheckOrder(z);
 
             xval = x.CloneExact();
             yval = y.CloneExact();

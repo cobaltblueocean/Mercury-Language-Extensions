@@ -147,7 +147,7 @@ namespace Mercury.Language.Math.Analysis.Function
             // @Override
             function = new Func<double, double>((d) =>
             {
-                return System.Math2.Expm1(d);
+                return System.QuickMath.Expm1(d);
             })
         };
 
@@ -256,7 +256,7 @@ namespace Mercury.Language.Math.Analysis.Function
             // @Override
             function = new Func<double, double>((d) =>
             {
-                return System.Math2.Log1p(d);
+                return System.QuickMath.Log1p(d);
             })
         };
 
@@ -322,7 +322,7 @@ namespace Mercury.Language.Math.Analysis.Function
             // @Override
             function = new Func<double, double>((d) =>
             {
-                return System.Math2.Ulp(d);
+                return System.QuickMath.Ulp(d);
             })
         };
 

@@ -1,9 +1,9 @@
-﻿// <copyright file="ManagedLinearAlgebraProvider.decimal.cs" company="Math2.NET">
-// Math2.NET Numerics, part of the Math2.NET Project
+﻿// <copyright file="ManagedLinearAlgebraProvider.decimal.cs" company="QuickMath.NET">
+// QuickMath.NET Numerics, part of the QuickMath.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 //
-// Copyright (c) 2009-2021 Math2.NET
+// Copyright (c) 2009-2021 QuickMath.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -360,7 +360,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
             {
                 for (int i = a; i < b; i++)
                 {
-                    result[i] = Math2.Pow(x[i], y[i]);
+                    result[i] = QuickMath.Pow(x[i], y[i]);
                 }
             });
         }
@@ -386,9 +386,9 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                         var s = 0.0M;
                         for (var i = 0; i < rows; i++)
                         {
-                            s += Math2.Abs(matrix[(j * rows) + i]);
+                            s += QuickMath.Abs(matrix[(j * rows) + i]);
                         }
-                        norm1 = (double)Math2.Max((decimal)norm1, s);
+                        norm1 = (double)QuickMath.Max((decimal)norm1, s);
                     }
                     return norm1;
                 case Norm.LargestAbsoluteValue:
@@ -397,7 +397,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                     {
                         for (var i = 0; i < rows; i++)
                         {
-                            normMax = (double)Math2.Max(Math2.Abs(matrix[(j * rows) + i]), (decimal)normMax);
+                            normMax = (double)QuickMath.Max(QuickMath.Abs(matrix[(j * rows) + i]), (decimal)normMax);
                         }
                     }
                     return normMax;
@@ -407,7 +407,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                     {
                         for (var i = 0; i < rows; i++)
                         {
-                            r[i] += Math2.Abs(matrix[(j * rows) + i]);
+                            r[i] += QuickMath.Abs(matrix[(j * rows) + i]);
                         }
                     }
                     // TODO: reuse
@@ -426,9 +426,9 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                     var normF = 0M;
                     for (var i = 0; i < rows; i++)
                     {
-                        normF += Math2.Abs(aat[(i * rows) + i]);
+                        normF += QuickMath.Abs(aat[(i * rows) + i]);
                     }
-                    return (double)Math2.Sqrt(normF);
+                    return (double)QuickMath.Sqrt(normF);
                 default:
                     throw new NotSupportedException();
             }
@@ -727,7 +727,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                 for (var i = 0; i < order; i++)
                 {
                     // Most of the time is spent in the following dot product.
-                    var kmax = Math2.Min(i, j);
+                    var kmax = QuickMath.Min(i, j);
                     var s = 0.0M;
                     for (var k = 0; k < kmax; k++)
                     {
@@ -741,7 +741,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                 var p = j;
                 for (var i = j + 1; i < order; i++)
                 {
-                    if (Math2.Abs(vecLUcolj[i]) > Math2.Abs(vecLUcolj[p]))
+                    if (QuickMath.Abs(vecLUcolj[i]) > QuickMath.Abs(vecLUcolj[p]))
                     {
                         p = i;
                     }
@@ -1002,7 +1002,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
 
                 if (tmpVal > 0.0M)
                 {
-                    tmpVal = Math2.Sqrt(tmpVal);
+                    tmpVal = QuickMath.Sqrt(tmpVal);
                     a[(ij * order) + ij] = tmpVal;
                     tmpColumn[ij] = tmpVal;
 
@@ -1206,7 +1206,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                 throw new ArgumentException(String.Format(LocalizedResources.Instance().THE_GIVEN_ARRAY_HAS_THE_WRONG_LENGTH, "rowsR", "columnsR"), nameof(r));
             }
 
-            if (tau.Length < Math2.Min(rowsR, columnsR))
+            if (tau.Length < QuickMath.Min(rowsR, columnsR))
             {
                 throw new ArgumentException(LocalizedResources.Instance().THE_GIVEN_ARRAY_IS_TOO_SMALL, nameof(tau));
             }
@@ -1225,7 +1225,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
             });
 
             var work = columnsR > rowsR ? new decimal[rowsR * rowsR] : new decimal[rowsR * columnsR];
-            var minmn = Math2.Min(rowsR, columnsR);
+            var minmn = QuickMath.Min(rowsR, columnsR);
             for (var i = 0; i < minmn; i++)
             {
                 GenerateColumn(work, r, rowsR, i, i);
@@ -1267,7 +1267,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                 throw new ArgumentException(String.Format(LocalizedResources.Instance().THE_GIVEN_ARRAY_HAS_THE_WRONG_LENGTH, "rowsR","columnsR"), nameof(a));
             }
 
-            if (tau.Length < Math2.Min(rowsA, columnsA))
+            if (tau.Length < QuickMath.Min(rowsA, columnsA))
             {
                 throw new ArgumentException(LocalizedResources.Instance().THE_GIVEN_ARRAY_IS_TOO_SMALL, nameof(tau));
             }
@@ -1279,7 +1279,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
 
             var work = new decimal[rowsA * columnsA];
 
-            var minmn = Math2.Min(rowsA, columnsA);
+            var minmn = QuickMath.Min(rowsA, columnsA);
             for (var i = 0; i < minmn; i++)
             {
                 GenerateColumn(work, a, rowsA, i, i);
@@ -1389,11 +1389,11 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                 norm += work[iindex] * work[iindex];
             }
 
-            norm = Math2.Sqrt(norm);
+            norm = QuickMath.Sqrt(norm);
             if (row == rowCount - 1 || norm == 0)
             {
                 a[index] = -work[tmp];
-                work[tmp] = Math2.DecimalSqrt2; //Constants.Sqrt2;
+                work[tmp] = QuickMath.DecimalSqrt2; //Constants.Sqrt2;
                 return;
             }
 
@@ -1413,7 +1413,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
             });
             work[tmp] += 1.0M;
 
-            var s = Math2.Sqrt(1.0M / work[tmp]);
+            var s = QuickMath.Sqrt(1.0M / work[tmp]);
             CommonParallel.For(0, rowCount - row, 4096, (u, v) =>
             {
                 for (int i = u; i < v; i++)
@@ -1568,7 +1568,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
             var sol = new decimal[b.Length];
 
             // Copy B matrix to "sol", so B data will not be changed
-            Buffer.BlockCopy(b, 0, sol, 0, b.Length * Math2.SizeOfDecimal);
+            Buffer.BlockCopy(b, 0, sol, 0, b.Length * QuickMath.SizeOfDecimal);
 
             // Compute Y = transpose(Q)*B
             var column = new decimal[rowsA];
@@ -1664,7 +1664,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                 throw new ArgumentException(LocalizedResources.Instance().THE_ARRAY_ARGUMENTS_MUST_HAVE_THE_SAME_LENGTH, nameof(vt));
             }
 
-            if (s.Length != Math2.Min(rowsA, columnsA))
+            if (s.Length != QuickMath.Min(rowsA, columnsA))
             {
                 throw new ArgumentException(LocalizedResources.Instance().THE_ARRAY_ARGUMENTS_MUST_HAVE_THE_SAME_LENGTH, nameof(s));
             }
@@ -1675,7 +1675,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
 
             var e = new decimal[columnsA];
             var v = new decimal[vt.Length];
-            var stemp = new decimal[Math2.Min(rowsA + 1, columnsA)];
+            var stemp = new decimal[QuickMath.Min(rowsA + 1, columnsA)];
 
             int i, j, l, lp1;
 
@@ -1685,9 +1685,9 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
 
             // Reduce matrix to bidiagonal form, storing the diagonal elements
             // in "s" and the super-diagonal elements in "e".
-            var nct = Math2.Min(rowsA - 1, columnsA);
-            var nrt = Math2.Max(0, Math2.Min(columnsA - 2, rowsA));
-            var lu = Math2.Max(nct, nrt);
+            var nct = QuickMath.Min(rowsA - 1, columnsA);
+            var nrt = QuickMath.Max(0, QuickMath.Min(columnsA - 2, rowsA));
+            var lu = QuickMath.Max(nct, nrt);
 
             for (l = 0; l < lu; l++)
             {
@@ -1702,13 +1702,13 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                         sum += a[(l * rowsA) + i1] * a[(l * rowsA) + i1];
                     }
 
-                    stemp[l] = Math2.Sqrt(sum);
+                    stemp[l] = QuickMath.Sqrt(sum);
 
                     if (stemp[l] != 0.0M)
                     {
                         if (a[(l * rowsA) + l] != 0.0M)
                         {
-                            stemp[l] = Math2.Abs(stemp[l]) * (a[(l * rowsA) + l] / Math2.Abs(a[(l * rowsA) + l]));
+                            stemp[l] = QuickMath.Abs(stemp[l]) * (a[(l * rowsA) + l] / QuickMath.Abs(a[(l * rowsA) + l]));
                         }
 
                         // A part of column "l" of Matrix A from row "l" to end multiply by 1.0M / s[l]
@@ -1771,12 +1771,12 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                     enorm += e[i] * e[i];
                 }
 
-                e[l] = Math2.Sqrt(enorm);
+                e[l] = QuickMath.Sqrt(enorm);
                 if (e[l] != 0.0M)
                 {
                     if (e[lp1] != 0.0M)
                     {
-                        e[l] = Math2.Abs(e[l]) * (e[lp1] / Math2.Abs(e[lp1]));
+                        e[l] = QuickMath.Abs(e[l]) * (e[lp1] / QuickMath.Abs(e[lp1]));
                     }
 
                     // Scale vector "e" from "lp1" by 1.0M / e[l]
@@ -1829,7 +1829,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
             }
 
             // Set up the final bidiagonal matrix or order m.
-            var m = Math2.Min(columnsA, rowsA + 1);
+            var m = QuickMath.Min(columnsA, rowsA + 1);
             var nctp1 = nct + 1;
             var nrtp1 = nrt + 1;
             if (nct < columnsA)
@@ -2016,8 +2016,8 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                 decimal test;
                 for (l = m - 2; l >= 0; l--)
                 {
-                    test = Math2.Abs(stemp[l]) + Math2.Abs(stemp[l + 1]);
-                    ztest = test + Math2.Abs(e[l]);
+                    test = QuickMath.Abs(stemp[l]) + QuickMath.Abs(stemp[l + 1]);
+                    ztest = test + QuickMath.Abs(e[l]);
                     if (ztest.AlmostEqualRelative(test, 15M))
                     {
                         e[l] = 0.0M;
@@ -2038,15 +2038,15 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                         test = 0.0M;
                         if (ls != m - 1)
                         {
-                            test = test + Math2.Abs(e[ls]);
+                            test = test + QuickMath.Abs(e[ls]);
                         }
 
                         if (ls != l + 1)
                         {
-                            test = test + Math2.Abs(e[ls - 1]);
+                            test = test + QuickMath.Abs(e[ls - 1]);
                         }
 
-                        ztest = test + Math2.Abs(stemp[ls]);
+                        ztest = test + QuickMath.Abs(stemp[ls]);
                         if (ztest.AlmostEqualRelative(test, 15))
                         {
                             stemp[ls] = 0.0M;
@@ -2140,11 +2140,11 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
 
                         // calculate the shift.
                         var scale = 0.0M;
-                        scale = Math2.Max(scale, Math2.Abs(stemp[m - 1]));
-                        scale = Math2.Max(scale, Math2.Abs(stemp[m - 2]));
-                        scale = Math2.Max(scale, Math2.Abs(e[m - 2]));
-                        scale = Math2.Max(scale, Math2.Abs(stemp[l]));
-                        scale = Math2.Max(scale, Math2.Abs(e[l]));
+                        scale = QuickMath.Max(scale, QuickMath.Abs(stemp[m - 1]));
+                        scale = QuickMath.Max(scale, QuickMath.Abs(stemp[m - 2]));
+                        scale = QuickMath.Max(scale, QuickMath.Abs(e[m - 2]));
+                        scale = QuickMath.Max(scale, QuickMath.Abs(stemp[l]));
+                        scale = QuickMath.Max(scale, QuickMath.Abs(e[l]));
                         var sm = stemp[m - 1] / scale;
                         var smm1 = stemp[m - 2] / scale;
                         var emm1 = e[m - 2] / scale;
@@ -2155,7 +2155,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                         var shift = 0.0M;
                         if (b != 0.0M || c != 0.0M)
                         {
-                            shift = Math2.Sqrt((b * b) + c);
+                            shift = QuickMath.Sqrt((b * b) + c);
                             if (b < 0.0M)
                             {
                                 shift = -shift;
@@ -2285,7 +2285,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
             // Copy stemp to s with size adjustment. We are using ported copy of linpack's svd code and it uses
             // a singular vector of length rows+1 when rows < columns. The last element is not used and needs to be removed.
             // We should port lapack's svd routine to remove this problem.
-            Buffer.BlockCopy(stemp, 0, s, 0, Math2.Min(rowsA, columnsA) * Math2.SizeOfDecimal);
+            Buffer.BlockCopy(stemp, 0, s, 0, QuickMath.Min(rowsA, columnsA) * QuickMath.SizeOfDecimal);
         }
 
         /// <summary>
@@ -2302,8 +2302,8 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
             decimal r, z;
 
             var roe = db;
-            var absda = Math2.Abs(da);
-            var absdb = Math2.Abs(db);
+            var absda = QuickMath.Abs(da);
+            var absdb = QuickMath.Abs(db);
             if (absda > absdb)
             {
                 roe = da;
@@ -2321,7 +2321,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
             {
                 var sda = da / scale;
                 var sdb = db / scale;
-                r = scale * Math2.Sqrt((sda * sda) + (sdb * sdb));
+                r = scale * QuickMath.Sqrt((sda * sda) + (sdb * sdb));
                 if (roe < 0.0M)
                 {
                     r = -r;
@@ -2380,12 +2380,12 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
             {
                 throw new ArgumentException(LocalizedResources.Instance().THE_ARRAY_ARGUMENTS_MUST_HAVE_THE_SAME_LENGTH, nameof(b));
             }
-            var s = new decimal[Math2.Min(rowsA, columnsA)];
+            var s = new decimal[QuickMath.Min(rowsA, columnsA)];
             var u = new decimal[rowsA * rowsA];
             var vt = new decimal[columnsA * columnsA];
 
             var clone = new decimal[a.Length];
-            Buffer.BlockCopy(a, 0, clone, 0, a.Length * Math2.SizeOfDecimal);
+            Buffer.BlockCopy(a, 0, clone, 0, a.Length * QuickMath.SizeOfDecimal);
             SingularValueDecomposition(true, clone, rowsA, columnsA, s, u, vt);
             SvdSolveFactored(rowsA, columnsA, s, u, vt, b, columnsB, x);
         }
@@ -2438,7 +2438,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                 throw new ArgumentException(LocalizedResources.Instance().THE_ARRAY_ARGUMENTS_MUST_HAVE_THE_SAME_LENGTH, nameof(vt));
             }
 
-            if (s.Length != Math2.Min(rowsA, columnsA))
+            if (s.Length != QuickMath.Min(rowsA, columnsA))
             {
                 throw new ArgumentException(LocalizedResources.Instance().THE_ARRAY_ARGUMENTS_MUST_HAVE_THE_SAME_LENGTH, nameof(s));
             }
@@ -2453,7 +2453,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                 throw new ArgumentException(LocalizedResources.Instance().THE_ARRAY_ARGUMENTS_MUST_HAVE_THE_SAME_LENGTH, nameof(b));
             }
 
-            var mn = Math2.Min(rowsA, columnsA);
+            var mn = QuickMath.Min(rowsA, columnsA);
             var tmp = new decimal[columnsA];
 
             for (var k = 0; k < columnsB; k++)
@@ -2544,7 +2544,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
 
             if (isSymmetric)
             {
-                Buffer.BlockCopy(matrix, 0, matrixEv, 0, matrix.Length * Math2.SizeOfDecimal);
+                Buffer.BlockCopy(matrix, 0, matrixEv, 0, matrix.Length * QuickMath.SizeOfDecimal);
                 var om1 = order - 1;
                 for (var i = 0; i < order; i++)
                 {
@@ -2557,7 +2557,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
             else
             {
                 var matrixH = new decimal[matrix.Length];
-                Buffer.BlockCopy(matrix, 0, matrixH, 0, matrix.Length * Math2.SizeOfDecimal);
+                Buffer.BlockCopy(matrix, 0, matrixH, 0, matrix.Length * QuickMath.SizeOfDecimal);
                 NonsymmetricReduceToHessenberg(matrixEv, matrixH, order);
                 NonsymmetricReduceHessenberToRealSchur(matrixEv, matrixH, d, e, order);
             }
@@ -2603,7 +2603,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
 
                 for (var k = 0; k < i; k++)
                 {
-                    scale = scale + Math2.Abs(d[k]);
+                    scale = scale + QuickMath.Abs(d[k]);
                 }
 
                 if (scale == 0.0M)
@@ -2626,7 +2626,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                     }
 
                     var f = d[i - 1];
-                    var g = Math2.Sqrt(h);
+                    var g = QuickMath.Sqrt(h);
                     if (f > 0)
                     {
                         g = -g;
@@ -2759,15 +2759,15 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
 
             var f = 0.0M;
             var tst1 = 0.0M;
-            var eps = Math2.DecimalPrecision;  //Precision.decimalPrecision;
+            var eps = QuickMath.DecimalPrecision;  //Precision.decimalPrecision;
             for (var l = 0; l < order; l++)
             {
                 // Find small subdiagonal element
-                tst1 = Math2.Max(tst1, Math2.Abs(d[l]) + Math2.Abs(e[l]));
+                tst1 = QuickMath.Max(tst1, QuickMath.Abs(d[l]) + QuickMath.Abs(e[l]));
                 var m = l;
                 while (m < order)
                 {
-                    if (Math2.Abs(e[m]) <= eps * tst1)
+                    if (QuickMath.Abs(e[m]) <= eps * tst1)
                     {
                         break;
                     }
@@ -2846,7 +2846,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                         {
                             throw new NonConvergenceException();
                         }
-                    } while (Math2.Abs(e[l]) > eps * tst1);
+                    } while (QuickMath.Abs(e[l]) > eps * tst1);
                 }
 
                 d[l] = d[l] + f;
@@ -2903,7 +2903,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                 var scale = 0.0M;
                 for (var i = m; i <= high; i++)
                 {
-                    scale += Math2.Abs(matrixH[mm1O + i]);
+                    scale += QuickMath.Abs(matrixH[mm1O + i]);
                 }
 
                 if (scale != 0.0M)
@@ -2916,7 +2916,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                         h += ort[i] * ort[i];
                     }
 
-                    var g = Math2.Sqrt(h);
+                    var g = QuickMath.Sqrt(h);
                     if (ort[m] > 0)
                     {
                         g = -g;
@@ -3023,7 +3023,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         {
             // Initialize
             var n = order - 1;
-            var eps = Math2.Pow(2.0M, -52.0M);
+            var eps = QuickMath.Pow(2.0M, -52.0M);
             var exshift = 0.0M;
             decimal p = 0, q = 0, r = 0, s = 0, z = 0;
             decimal w, x, y;
@@ -3032,9 +3032,9 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
             var norm = 0.0M;
             for (var i = 0; i < order; i++)
             {
-                for (var j = Math2.Max(i - 1, 0); j < order; j++)
+                for (var j = QuickMath.Max(i - 1, 0); j < order; j++)
                 {
-                    norm = norm + Math2.Abs(matrixH[j * order + i]);
+                    norm = norm + QuickMath.Abs(matrixH[j * order + i]);
                 }
             }
 
@@ -3048,14 +3048,14 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                 {
                     var lm1 = l - 1;
                     var lm1O = lm1 * order;
-                    s = Math2.Abs(matrixH[lm1O + lm1]) + Math2.Abs(matrixH[l * order + l]);
+                    s = QuickMath.Abs(matrixH[lm1O + lm1]) + QuickMath.Abs(matrixH[l * order + l]);
 
                     if (s == 0.0M)
                     {
                         s = norm;
                     }
 
-                    if (Math2.Abs(matrixH[lm1O + l]) < eps * s)
+                    if (QuickMath.Abs(matrixH[lm1O + l]) < eps * s)
                     {
                         break;
                     }
@@ -3086,7 +3086,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                     w = matrixH[nm1O + n] * matrixH[nO + nm1];
                     p = (matrixH[nm1O + nm1] - matrixH[nOn]) / 2.0M;
                     q = (p * p) + w;
-                    z = Math2.Sqrt(Math2.Abs(q));
+                    z = QuickMath.Sqrt(QuickMath.Abs(q));
 
                     matrixH[nOn] += exshift;
                     matrixH[nm1O + nm1] += exshift;
@@ -3115,10 +3115,10 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                         e[n - 1] = 0.0M;
                         e[n] = 0.0M;
                         x = matrixH[nm1O + n];
-                        s = Math2.Abs(x) + Math2.Abs(z);
+                        s = QuickMath.Abs(x) + QuickMath.Abs(z);
                         p = x / s;
                         q = z / s;
-                        r = Math2.Sqrt((p * p) + (q * q));
+                        r = QuickMath.Sqrt((p * p) + (q * q));
                         p = p / r;
                         q = q / r;
 
@@ -3191,7 +3191,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                             matrixH[i * order + i] -= x;
                         }
 
-                        s = Math2.Abs(matrixH[nm1O + n]) + Math2.Abs(matrixH[(n - 2) * order + nm1]);
+                        s = QuickMath.Abs(matrixH[nm1O + n]) + QuickMath.Abs(matrixH[(n - 2) * order + nm1]);
                         x = y = 0.75M * s;
                         w = (-0.4375M) * s * s;
                     }
@@ -3203,7 +3203,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                         s = (s * s) + w;
                         if (s > 0)
                         {
-                            s = Math2.Sqrt(s);
+                            s = QuickMath.Sqrt(s);
                             if (y < x)
                             {
                                 s = -s;
@@ -3242,7 +3242,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                         p = (((r * s) - w) / matrixH[mO + mp1]) + matrixH[mp1O + m];
                         q = matrixH[mp1O + mp1] - z - r - s;
                         r = matrixH[mp1O + (m + 2)];
-                        s = Math2.Abs(p) + Math2.Abs(q) + Math2.Abs(r);
+                        s = QuickMath.Abs(p) + QuickMath.Abs(q) + QuickMath.Abs(r);
                         p = p / s;
                         q = q / s;
                         r = r / s;
@@ -3252,7 +3252,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                             break;
                         }
 
-                        if (Math2.Abs(matrixH[mm1O + m]) * (Math2.Abs(q) + Math2.Abs(r)) < eps * (Math2.Abs(p) * (Math2.Abs(matrixH[mm1O + mm1]) + Math2.Abs(z) + Math2.Abs(matrixH[mp1O + mp1]))))
+                        if (QuickMath.Abs(matrixH[mm1O + m]) * (QuickMath.Abs(q) + QuickMath.Abs(r)) < eps * (QuickMath.Abs(p) * (QuickMath.Abs(matrixH[mm1O + mm1]) + QuickMath.Abs(z) + QuickMath.Abs(matrixH[mp1O + mp1]))))
                         {
                             break;
                         }
@@ -3286,7 +3286,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                             p = matrixH[km1O + k];
                             q = matrixH[km1O + kp1];
                             r = notlast ? matrixH[km1O + kp2] : 0.0M;
-                            x = Math2.Abs(p) + Math2.Abs(q) + Math2.Abs(r);
+                            x = QuickMath.Abs(p) + QuickMath.Abs(q) + QuickMath.Abs(r);
                             if (x == 0.0M)
                             {
                                 continue;
@@ -3297,7 +3297,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                             r = r / x;
                         }
 
-                        s = Math2.Sqrt((p * p) + (q * q) + (r * r));
+                        s = QuickMath.Sqrt((p * p) + (q * q) + (r * r));
 
                         if (p < 0)
                         {
@@ -3341,7 +3341,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                             }
 
                             // Column modification
-                            for (var i = 0; i <= Math2.Min(n, k + 3); i++)
+                            for (var i = 0; i <= QuickMath.Min(n, k + 3); i++)
                             {
                                 p = (x * matrixH[kO + i]) + (y * matrixH[kp1O + i]);
 
@@ -3437,7 +3437,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                                 q = ((d[i] - p) * (d[i] - p)) + (e[i] * e[i]);
                                 t = ((x * s) - (z * r)) / q;
                                 matrixH[nO + i] = t;
-                                if (Math2.Abs(x) > Math2.Abs(z))
+                                if (QuickMath.Abs(x) > QuickMath.Abs(z))
                                 {
                                     matrixH[nO + ip1] = (-r - (w * t)) / x;
                                 }
@@ -3448,7 +3448,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                             }
 
                             // Overflow control
-                            t = Math2.Abs(matrixH[nO + i]);
+                            t = QuickMath.Abs(matrixH[nO + i]);
                             if ((eps * t) * t > 1)
                             {
                                 for (var j = i; j <= n; j++)
@@ -3466,7 +3466,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                     var l = n - 1;
 
                     // Last vector component imaginary so matrix is triangular
-                    if (Math2.Abs(matrixH[nm1O + n]) > Math2.Abs(matrixH[nO + nm1]))
+                    if (QuickMath.Abs(matrixH[nm1O + n]) > QuickMath.Abs(matrixH[nO + nm1]))
                     {
                         matrixH[nm1O + nm1] = q / matrixH[nm1O + n];
                         matrixH[nO + nm1] = (-(matrixH[nO + n] - p)) / matrixH[nm1O + n];
@@ -3522,13 +3522,13 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                                 var vi = (d[i] - p) * 2.0M * q;
                                 if ((vr == 0.0M) && (vi == 0.0M))
                                 {
-                                    vr = eps * norm * (Math2.Abs(w) + Math2.Abs(q) + Math2.Abs(x) + Math2.Abs(y) + Math2.Abs(z));
+                                    vr = eps * norm * (QuickMath.Abs(w) + QuickMath.Abs(q) + QuickMath.Abs(x) + QuickMath.Abs(y) + QuickMath.Abs(z));
                                 }
 
                                 var res = Cdiv((x * r) - (z * ra) + (q * sa), (x * s) - (z * sa) - (q * ra), vr, vi);
                                 matrixH[nm1O + i] = res.Real;
                                 matrixH[nO + i] = res.Imaginary;
-                                if (Math2.Abs(x) > (Math2.Abs(z) + Math2.Abs(q)))
+                                if (QuickMath.Abs(x) > (QuickMath.Abs(z) + QuickMath.Abs(q)))
                                 {
                                     matrixH[nm1O + ip1] = (-ra - (w * matrixH[nm1O + i]) + (q * matrixH[nO + i])) / x;
                                     matrixH[nO + ip1] = (-sa - (w * matrixH[nO + i]) - (q * matrixH[nm1O + i])) / x;
@@ -3542,7 +3542,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                             }
 
                             // Overflow control
-                            t = Math2.Max(Math2.Abs(matrixH[nm1O + i]), Math2.Abs(matrixH[nO + i]));
+                            t = QuickMath.Max(QuickMath.Abs(matrixH[nm1O + i]), QuickMath.Abs(matrixH[nO + i]));
                             if ((eps * t) * t > 1)
                             {
                                 for (var j = i; j <= n; j++)
@@ -3583,7 +3583,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         /// <returns>Division result as a <see cref="DecimalComplex"/> number.</returns>
         static DecimalComplex Cdiv(decimal xreal, decimal ximag, decimal yreal, decimal yimag)
         {
-            if (Math2.Abs(yimag) < Math2.Abs(yreal))
+            if (QuickMath.Abs(yimag) < QuickMath.Abs(yreal))
             {
                 return new DecimalComplex((xreal + (ximag * (yimag / yreal))) / (yreal + (yimag * (yimag / yreal))), (ximag - (xreal * (yimag / yreal))) / (yreal + (yimag * (yimag / yreal))));
             }

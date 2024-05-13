@@ -1,9 +1,9 @@
-﻿// <copyright file="Svd.cs" company="Math2.NET">
-// Math2.NET Numerics, part of the Math2.NET Project
+﻿// <copyright file="Svd.cs" company="QuickMath.NET">
+// QuickMath.NET Numerics, part of the QuickMath.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 //
-// Copyright (c) 2009-2015 Math2.NET
+// Copyright (c) 2009-2015 QuickMath.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -67,7 +67,7 @@ namespace MathNet.Numerics.LinearAlgebra.DecimalComplex.Factorization
         {
             get
             {
-                decimal tolerance = Precision2.EpsilonOf(S.AbsoluteMaximum().Magnitude)*Math2.Max(U.RowCount, VT.RowCount);
+                decimal tolerance = Precision2.EpsilonOf(S.AbsoluteMaximum().Magnitude)*QuickMath.Max(U.RowCount, VT.RowCount);
                 return S.Count(t => t.Magnitude > tolerance);
             }
         }
@@ -86,7 +86,7 @@ namespace MathNet.Numerics.LinearAlgebra.DecimalComplex.Factorization
         {
             get
             {
-                var tmp = Math2.Min(U.RowCount, VT.ColumnCount) - 1;
+                var tmp = QuickMath.Min(U.RowCount, VT.ColumnCount) - 1;
                 return S[0].Magnitude / S[tmp].Magnitude;
             }
         }

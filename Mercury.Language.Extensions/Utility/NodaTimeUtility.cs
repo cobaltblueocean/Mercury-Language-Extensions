@@ -25,6 +25,7 @@ using System.Threading.Tasks;
 using Mercury.Language.Exceptions;
 using NodaTime;
 using Mercury.Language.Time;
+using System.Security.Policy;
 
 namespace System
 {
@@ -89,6 +90,68 @@ namespace System
         /// </summary>
         public static int MAX_VALUE = 999999999;
 
+        /// <summary>
+        /// Represents the number of ticks in 1 day. This field is constant.
+        /// </summary>
+        public static long TicksPerDay = 864000000000;
+
+        /// <summary>
+        /// Represents the number of ticks in 1 Hour. This field is constant.
+        /// </summary>
+        public static long TicksPerHour = 36000000000;
+
+        /// <summary>
+        /// Represents the number of ticks in 1 minute. This field is constant.
+        /// </summary>
+        public static long TicksPerMinute = 600000000;
+
+        /// <summary>
+        /// Represents the number of ticks in 1 Second. This field is constant.
+        /// </summary>
+        public static long TicksPerSecond = 10000000;
+
+        /// <summary>
+        /// Represents the number of ticks in 1 Millisecond. This field is constant.
+        /// </summary>
+        public static long TicksPerMillisecond = 10000;
+
+        public static DateTimeZone Unspecified = new UnspecifiedDateTimeZone();
+
+        public static LocalDateTime GetLocalDateTime(LocalDate localDate)
+        {
+            return GetLocalDateTime(localDate.Year, localDate.Month, localDate.Day);
+        }
+
+        public static LocalDateTime GetLocalDateTime(LocalDate localDate, LocalTime localTime)
+        {
+            return GetLocalDateTime(localDate.Year, localDate.Month, localDate.Day, localTime.Hour, localTime.Minute, localTime.Second, localTime.Millisecond);
+        }
+
+        public static LocalDateTime GetLocalDateTime(LocalDateTime localDateTime)
+        {
+            return GetLocalDateTime(localDateTime.Year, localDateTime.Month, localDateTime.Day, localDateTime.Hour, localDateTime.Minute, localDateTime.Second, localDateTime.Millisecond);
+        }
+
+        public static LocalDateTime GetLocalDateTime(LocalDateTime localDateTime, LocalTime localTime)
+        {
+            return GetLocalDateTime(localDateTime.Year, localDateTime.Month, localDateTime.Day, localTime.Hour, localTime.Minute, localTime.Second, localTime.Millisecond);
+        }
+
+        public static LocalDateTime GetLocalDateTime(int year, int month, int day)
+        {
+            return GetLocalDateTime(year, month, day, 0, 0, 0);
+        }
+
+        public static LocalDateTime GetLocalDateTime(int year, int month, int day, int hour, int minute, int second)
+        {
+            return GetLocalDateTime(year, month, day, hour, minute, second, 0);
+        }
+
+        public static LocalDateTime GetLocalDateTime(int year, int month, int day, int hour, int minute, int second, int millisecond)
+        {
+            return new LocalDateTime(year, month, day, hour, minute, second, millisecond);
+        }
+
         public static ZonedDateTime GetUTCDate(int year, int month, int day)
         {
             LocalDate localDate = new LocalDate(year, month, day);
@@ -102,8 +165,8 @@ namespace System
 
         public static ZonedDateTime GetUTCZonedDateTime(int year, int month, int day, int hour, int minute, int second, int millisecond, int nanosecond)
         {
-            DateTime localDate = new DateTime(year, month, day, hour, minute, second, millisecond, DateTimeKind.Utc);
-            ZonedDateTime zdt = new ZonedDateTime(localDate.ToInstant(), DateTimeZone.Utc);
+            var localDate = new LocalDateTime(year, month, day, hour, minute, second, millisecond);
+            ZonedDateTime zdt = localDate.ChangeToDifferentTimeZoneWithSameDateTime(DateTimeZone.Utc);
             zdt = zdt.PlusNanoseconds(nanosecond);
             return zdt;
         }
@@ -130,23 +193,15 @@ namespace System
 
         public static ZonedDateTime GetZonedDateTime(int year, int month, int day, int hour, int minute, int second, int millisecond, int nanosecond, DateTimeZone zone)
         {
-            ZonedDateTime zdt;
-            DateTime current = new DateTime(year, month, day, hour, minute, second, millisecond, DateTimeKind.Utc);
-            if (IsDaylightSaving(current, zone))
-            {
-                zdt = new ZonedDateTime(current.AddMilliseconds(-zone.MaxOffset.Milliseconds).ToInstant(), zone);
-            }
-            else
-            {
-                zdt = new ZonedDateTime(current.AddMilliseconds(-zone.MinOffset.Milliseconds).ToInstant(), zone);
-            }
+            var _tmp = new LocalDateTime(year, month, day, hour, minute, second, millisecond);
+            var result = _tmp.ChangeToDifferentTimeZoneWithSameDateTime(zone);
 
-            return zdt.PlusNanoseconds(nanosecond);
+            return result.PlusNanoseconds(nanosecond);
         }
 
         public static ZonedDateTime GetZonedDateTime(LocalDate date, LocalTime time)
         {
-            return GetZonedDateTime(date.Year, date.Month, date.Day, time.Hour, time.Minute, time.Second, time.Millisecond, time.NanosecondOfSecond);
+            return GetZonedDateTime(date.Year, date.Month, date.Day, time.Hour, time.Minute, time.Second, time.Millisecond, time.NanosecondOfSecond, ORIGINAL_TIME_ZONE);
         }
 
         public static ZonedDateTime GetZonedDateTime(LocalDate date, LocalTime time, DateTimeZone zone)
@@ -430,10 +485,10 @@ namespace System
             return new LocalDate(year, month, dom);
         }
 
-        public static Boolean IsDaylightSaving(DateTime now, DateTimeZone zone)
+        public static Boolean IsDaylightSavingTime(DateTime now, DateTimeZone zone)
         {
             ZonedDateTime zdt = new ZonedDateTime(now.ToInstant(), zone);
-            return zdt.IsDaylightSaving();
+            return zdt.IsDaylightSavingTime();
         }
     }
 }

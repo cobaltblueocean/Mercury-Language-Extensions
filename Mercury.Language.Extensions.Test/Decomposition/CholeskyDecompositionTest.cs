@@ -26,6 +26,7 @@ using NUnit.Framework;
 using Mercury.Language.Math.Matrix;
 using Mercury.Language.Math.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra;
+using Mercury.Test.Utility;
 
 namespace Mercury.Language.Extensions.Test.Decomposition
 {
@@ -40,7 +41,7 @@ namespace Mercury.Language.Extensions.Test.Decomposition
             Double[][] A = new double[][] { new double[] { 10.0, 2.0, -1.0 }, new double[] { 2.0, 5.0, -2.0 }, new double[] { -1.0, -2.0, 15.0 } };
             var expMatrix = new double[][]{new double[]{ 3.1622776601683795, 0.6324555320336759, -0.31622776601683794},new double[]{ 0.0, 2.1447610589527217, -0.8392543274162825},new double[]{ 0.0, 0.0, 3.7677117954951176}};
 
-            var matrix = MatrixUtility.CreateMatrix(A);
+            var matrix = MathNetMatrixUtility.CreateMatrix(A);
             var cholesky = new CholeskyDecomposition(matrix);
 
             var chMatrix = cholesky.GetLT().AsArrayEx();
@@ -49,7 +50,7 @@ namespace Mercury.Language.Extensions.Test.Decomposition
             {
                 for (int j = 0; j < 3; j++)
                 {
-                    Assert.AreEqual(chMatrix[i,j ], expMatrix[i][j]);
+                    Assert2.AreEqual(chMatrix[i,j ], expMatrix[i][j]);
                 }
             }
             Assert.Pass();

@@ -71,13 +71,13 @@ namespace MathNet.Numerics.LinearAlgebra.Decimal.Factorization
                 for (var i = 0; i < FullR.ColumnCount; i++)
                 {
                     det *= FullR.At(i, i);
-                    if (Math2.Abs(FullR.At(i, i)).AlmostEqual(0.0M))
+                    if (QuickMath.Abs(FullR.At(i, i)).AlmostEqual(0.0M))
                     {
                         return 0;
                     }
                 }
 
-                return Math2.Abs(det);
+                return QuickMath.Abs(det);
             }
         }
 
@@ -91,7 +91,7 @@ namespace MathNet.Numerics.LinearAlgebra.Decimal.Factorization
             {
                 for (var i = 0; i < FullR.ColumnCount; i++)
                 {
-                    if (Math2.Abs(FullR.At(i, i)).AlmostEqual(0.0M))
+                    if (QuickMath.Abs(FullR.At(i, i)).AlmostEqual(0.0M))
                     {
                         return false;
                     }

@@ -27,6 +27,7 @@ using NUnit.Framework;
 using MathNet.Numerics.LinearAlgebra;
 using Mercury.Language.Math.Matrix;
 using Mercury.Language.Math.LinearAlgebra;
+using Mercury.Test.Utility;
 
 namespace Mercury.Language.Extensions.Test.Decomposition
 {
@@ -40,10 +41,10 @@ namespace Mercury.Language.Extensions.Test.Decomposition
         {
             Double expDeterminant = -2.9999999999999982;
             Double[,] value = new double[,] { { 1, 2 }, { 2, 1 } };
-            var m = MatrixUtility.CreateMatrix(value);
+            var m = MathNetMatrixUtility.CreateMatrix(value);
             var eigen = new EigenDecomposition(m, 0.0);
 
-            Assert.AreEqual(expDeterminant, eigen.Determinant);
+            Assert2.AreEqual(expDeterminant, eigen.Determinant);
         }
     }
 }

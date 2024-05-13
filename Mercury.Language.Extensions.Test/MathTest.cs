@@ -50,7 +50,7 @@ namespace Mercury.Language.Extensions.Test
 
             for (int i = 0; i < res.Length; i++)
             {
-                Assert.AreEqual(a[i], res[i], eps);
+                Assert2.AreEqual(a[i], res[i], eps);
             }
         }
     }

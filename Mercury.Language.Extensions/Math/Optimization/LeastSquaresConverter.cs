@@ -216,7 +216,7 @@ namespace Mercury.Language.Math.Optimization
             }
             else if (_scale != null)
             {
-                foreach (var yi in ((DenseMatrix)_scale).Operate(MatrixUtility.CreateVector<double>(residuals)))
+                foreach (var yi in ((DenseMatrix)_scale).Operate(MathNetMatrixUtility.CreateVector<double>(residuals)))
                 {
                     sumSquares += yi * yi;
                 }

@@ -33,7 +33,7 @@ using System.Diagnostics;
 using System.Linq;
 using MathNet.Numerics.Distributions;
 using MathNet.Numerics.LinearAlgebra.Solvers;
-using Mercury.Language.Extensions;
+using Mercury.Language;
 
 namespace MathNet.Numerics.LinearAlgebra.DecimalComplex.Solvers
 {

@@ -29,7 +29,7 @@ using MathNet.Numerics.LinearAlgebra.Storage;
 using Mercury.Language.Math.Matrix;
 using SysMath = System.Math;
 using Mercury.Language.Log;
-using Mercury.Language.Extensions;
+using Mercury.Language;
 
 namespace Mercury.Language.Math.LinearAlgebra
 {

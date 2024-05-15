@@ -24,13 +24,13 @@ using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
 using Mercury.Test.Utility;
-using Mercury.Test.Utility;
 
 namespace Mercury.Language.Extensions.Test.Collections
 {
     /// <summary>
     /// HashSetTest Description
     /// </summary>
+    [Parallelizable(ParallelScope.ContextMask)]
     public class HashSetTest
     {
         [Test]

@@ -34,13 +34,13 @@
 using System;
 using System.Numerics;
 using System.Linq;
-using Mercury.Language.Extensions;
+using Mercury.Language;
 using Mercury.Language.Threading;
 using DecimalComplex = System.Numerics.DecimalComplex;
 using Complex = System.Numerics.Complex;
 using QRMethod = MathNet.Numerics.LinearAlgebra.Factorization.QRMethod;
 using static System.FormattableString;
-using Mercury.Language.Extensions;
+using Mercury.Language;
 
 namespace MathNet.Numerics.Providers.LinearAlgebra
 {

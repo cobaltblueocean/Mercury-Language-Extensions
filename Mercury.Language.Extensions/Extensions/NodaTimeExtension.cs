@@ -22,7 +22,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Mercury.Language.Extensions;
+using Mercury.Language;
 using Mercury.Language.Exceptions;
 using Mercury.Language.Time;
 using NodaTime;

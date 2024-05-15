@@ -33,6 +33,7 @@ namespace Mercury.Language.Extensions.Test.Collections
     /// <summary>
     /// DictionaryTest Description
     /// </summary>
+    [Parallelizable(ParallelScope.ContextMask)]
     public class DictionaryTest
     {
         [Test]

@@ -38,6 +38,7 @@ namespace Mercury.Language.Extensions.Test.Optimization
     /// <summary>
     /// MultidimensionalMinimizerTest Description
     /// </summary>
+    [Parallelizable(ParallelScope.ContextMask)]
     public class MultidimensionalMinimizerTest
     {
         private static int HOTSPOT_WARMUP_CYCLES = 0;

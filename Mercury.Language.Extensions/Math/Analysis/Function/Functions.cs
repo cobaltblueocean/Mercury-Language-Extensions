@@ -42,7 +42,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Mercury.Language.Exceptions;
 using Mercury.Language.Math.Analysis.Differentiation;
-using Mercury.Language.Extensions;
+using Mercury.Language;
 
 namespace Mercury.Language.Math.Analysis.Function
 {

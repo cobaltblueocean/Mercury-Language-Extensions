@@ -33,6 +33,7 @@ namespace Mercury.Language.Extensions.Test.Optimization
     /// <summary>
     /// BrentOptimizerTest Description
     /// </summary>
+    [Parallelizable(ParallelScope.ContextMask)]
     public class BrentOptimizerTest
     {
         private static double EPS = 1e-5;

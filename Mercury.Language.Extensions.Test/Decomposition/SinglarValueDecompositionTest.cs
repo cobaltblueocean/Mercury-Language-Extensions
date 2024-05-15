@@ -34,6 +34,7 @@ namespace Mercury.Language.Extensions.Test.Decomposition
     /// <summary>
     /// SingleValueDecompositionTest Description
     /// </summary>
+    [Parallelizable(ParallelScope.ContextMask)]
     public class SinglarValueDecompositionTest
     {
 

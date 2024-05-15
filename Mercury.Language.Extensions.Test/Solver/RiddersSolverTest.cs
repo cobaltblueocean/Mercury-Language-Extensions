@@ -32,6 +32,7 @@ namespace Mercury.Language.Extensions.Test.Solver
     /// <summary>
     /// RiddersSolverTest Description
     /// </summary>
+    [Parallelizable(ParallelScope.ContextMask)]
     public class RiddersSolverTest
     {
         private static int MAX_ITER = 10000;

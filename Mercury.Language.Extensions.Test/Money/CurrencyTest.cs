@@ -30,6 +30,7 @@ namespace Mercury.Language.Extensions.Test.Money
     /// <summary>
     /// CurrencyTest Description
     /// </summary>
+    [Parallelizable(ParallelScope.ContextMask)]
     public class CurrencyTest
     {
         [Test]

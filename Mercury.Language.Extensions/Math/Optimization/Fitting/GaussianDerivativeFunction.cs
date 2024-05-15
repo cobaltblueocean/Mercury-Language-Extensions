@@ -42,7 +42,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Mercury.Language.Math.Analysis;
 using Mercury.Language.Exceptions;
-using Mercury.Language.Extensions;
+using Mercury.Language;
 using Mercury.Language.Math.Analysis.Function;
 
 namespace Mercury.Language.Math.Optimization.Fitting

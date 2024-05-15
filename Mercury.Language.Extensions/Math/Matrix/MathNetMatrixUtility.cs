@@ -26,7 +26,7 @@ using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Double;
 using MathNet.Numerics.LinearAlgebra.Storage;
 using Mercury.Language.Exceptions;
-using Mercury.Language.Extensions;
+using Mercury.Language;
 
 namespace Mercury.Language.Math.Matrix
 {

@@ -55,7 +55,7 @@ using MathNet.Numerics.LinearAlgebra.Double;
 using MathNet.Numerics.LinearAlgebra.Storage;
 using Mercury.Language.Math.Analysis.Solver;
 using Mercury.Language.Math.Matrix;
-using Mercury.Language.Extensions;
+using Mercury.Language;
 
 namespace Mercury.Language.Math.LinearAlgebra
 {

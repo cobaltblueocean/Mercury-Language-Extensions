@@ -7,9 +7,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Double;
-using Mercury.Language.Extensions;
+using Mercury.Language;
 using Mercury.Language.Exceptions;
-using Mercury.Language.Extensions;
 using Mercury.Language.Math.Matrix;
 using Mercury.Language.Math.LinearAlgebra;
 using Mercury.Language.Log;
@@ -62,7 +61,7 @@ namespace MathNet.Numerics.LinearAlgebra
             }
             else
             {
-                throw new IndexOutOfRangeException(LocalizedResources.Instance().Utility_Extension_Array_SetRow_TheValueArrayMustBeSameLengthOfTheTargetArraysRow);
+                throw new IndexOutOfRangeException(LocalizedResources.Instance().THE_VALUE_ARRAY_MUST_BE_SAME_LENGTH_OF_THE_TARGET_ARRAYS_ROW);
             }
         }
 

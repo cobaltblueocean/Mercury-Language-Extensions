@@ -33,7 +33,7 @@ using Complex = System.Numerics.Complex;
 using DecimalComplex = System.Numerics.DecimalComplex;
 using QRMethod = MathNet.Numerics.LinearAlgebra.Factorization.QRMethod;
 using static System.FormattableString;
-using Mercury.Language.Extensions;
+using Mercury.Language;
 
 namespace MathNet.Numerics.Providers.LinearAlgebra
 {

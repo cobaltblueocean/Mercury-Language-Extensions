@@ -23,7 +23,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Mercury.Language.Exceptions;
-using Mercury.Language.Extensions;
+using Mercury.Language;
 using NodaTime;
 using Range = Mercury.Language.Math.Ranges.Range;
 

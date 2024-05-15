@@ -8,6 +8,7 @@ using Mercury.Test.Utility;
 
 namespace Mercury.Language.Extensions.Test.NodaTime
 {
+    [Parallelizable(ParallelScope.ContextMask)]
     public class NodaTimeExtensionTest
     {
         private static ZonedDateTime DATE_0 = NodaTimeUtility.GetUTCDate(2013, 9, 30);

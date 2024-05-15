@@ -23,7 +23,7 @@
 
 using System;
 using System.Linq;
-using Mercury.Language.Extensions;
+using Mercury.Language;
 
 namespace System.Numerics
 {

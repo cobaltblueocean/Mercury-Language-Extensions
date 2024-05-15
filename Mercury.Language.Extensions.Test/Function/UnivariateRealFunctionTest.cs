@@ -31,6 +31,7 @@ namespace Mercury.Language.Extensions.Test.Function
     /// <summary>
     /// UnivariateRealFunctionTest Description
     /// </summary>
+    [Parallelizable(ParallelScope.ContextMask)]
     public class UnivariateRealFunctionTest
     {
         [Test]

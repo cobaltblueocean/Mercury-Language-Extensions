@@ -40,7 +40,7 @@ using DecimalComplex = System.Numerics.DecimalComplex;
 using System.Runtime;
 using Mercury.Language.Math;
 using Mercury.Language.Exceptions;
-using Mercury.Language.Extensions;
+using Mercury.Language;
 
 namespace MathNet.Numerics
 {
@@ -458,7 +458,7 @@ namespace MathNet.Numerics
         /// </param>
         public static DecimalComplex ToDecimalComplex(this string value)
         {
-            return value.ToDecimalComplex(null);
+            return value.ToDecimalComplex(CultureInfo.CurrentCulture.NumberFormat);
         }
 
         /// <summary>
@@ -644,7 +644,7 @@ namespace MathNet.Numerics
         /// </returns>
         public static bool TryToDecimalComplex(this string value, out DecimalComplex result)
         {
-            return value.TryToDecimalComplex(null, out result);
+            return value.TryToDecimalComplex(CultureInfo.CurrentCulture.NumberFormat, out result);
         }
 
         /// <summary>

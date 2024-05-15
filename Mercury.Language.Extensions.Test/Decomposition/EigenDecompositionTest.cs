@@ -34,6 +34,7 @@ namespace Mercury.Language.Extensions.Test.Decomposition
     /// <summary>
     /// EigenDecompositionTest Description
     /// </summary>
+    [Parallelizable(ParallelScope.ContextMask)]
     public class EigenDecompositionTest
     {
         [Test]

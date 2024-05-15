@@ -31,6 +31,7 @@ namespace Mercury.Language.Extensions.Test
     /// <summary>
     /// MathTest Description
     /// </summary>
+    [Parallelizable(ParallelScope.ContextMask)]
     public class MathTest
     {
         [Test]

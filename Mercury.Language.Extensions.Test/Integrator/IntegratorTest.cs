@@ -30,6 +30,7 @@ namespace Mercury.Language.Extensions.Test.Integrator
     /// <summary>
     /// IntegratorTest Description
     /// </summary>
+    [Parallelizable(ParallelScope.ContextMask)]
     public class IntegratorTest
     {
         [Test]

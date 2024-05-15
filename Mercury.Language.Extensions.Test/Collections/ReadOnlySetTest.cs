@@ -8,6 +8,7 @@ using Mercury.Test.Utility;
 
 namespace Mercury.Language.Extensions.Test.Collections
 {
+    [Parallelizable(ParallelScope.ContextMask)]
     public class ReadOnlySetTest
     {
         [Test]

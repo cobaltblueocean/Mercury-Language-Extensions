@@ -38,7 +38,7 @@ using System.Linq;
 using MathNet.Numerics.Distributions;
 using MathNet.Numerics.LinearAlgebra.Storage;
 using MathNet.Numerics.Providers.LinearAlgebra;
-using Mercury.Language.Extensions;
+using Mercury.Language;
 using Mercury.Language.Threading;
 
 namespace MathNet.Numerics.LinearAlgebra.Decimal

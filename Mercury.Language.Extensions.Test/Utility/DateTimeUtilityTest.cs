@@ -29,6 +29,7 @@ namespace Mercury.Language.Extensions.Test.Utility
     /// <summary>
     /// DateTimeUtilityTest Description
     /// </summary>
+    [Parallelizable(ParallelScope.ContextMask)]
     public class DateTimeUtilityTest
     {
         [Test]

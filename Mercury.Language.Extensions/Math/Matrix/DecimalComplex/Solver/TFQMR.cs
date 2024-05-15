@@ -29,7 +29,7 @@
 
 using System;
 using MathNet.Numerics.LinearAlgebra.Solvers;
-using Mercury.Language.Extensions;
+using Mercury.Language;
 
 namespace MathNet.Numerics.LinearAlgebra.DecimalComplex.Solvers
 {

@@ -36,7 +36,7 @@ using System.Linq;
 using System.Numerics;
 
 using MathNet.Numerics.Providers.LinearAlgebra;
-using Mercury.Language.Extensions;
+using Mercury.Language;
 
 namespace MathNet.Numerics.LinearAlgebra.Decimal.Factorization
 {

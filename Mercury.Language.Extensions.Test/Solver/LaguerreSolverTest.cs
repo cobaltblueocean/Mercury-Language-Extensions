@@ -32,6 +32,7 @@ namespace Mercury.Language.Extensions.Test.Solver
     /// <summary>
     /// LaguerreSolverTest Description
     /// </summary>
+    [Parallelizable(ParallelScope.ContextMask)]
     public class LaguerreSolverTest
     {
         private static LaguerreSolver ROOT_FINDER = new LaguerreSolver();

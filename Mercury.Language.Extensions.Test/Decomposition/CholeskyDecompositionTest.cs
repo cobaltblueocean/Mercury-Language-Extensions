@@ -33,6 +33,7 @@ namespace Mercury.Language.Extensions.Test.Decomposition
     /// <summary>
     /// CholeskyDecompositionTest Description
     /// </summary>
+    [Parallelizable(ParallelScope.ContextMask)]
     public class CholeskyDecompositionTest
     {
         [Test]

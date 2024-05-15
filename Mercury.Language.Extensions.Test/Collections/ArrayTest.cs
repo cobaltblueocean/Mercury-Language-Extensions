@@ -30,6 +30,7 @@ namespace Mercury.Language.Extensions.Test.Collections
     /// <summary>
     /// ArrayTest Description
     /// </summary>
+    [Parallelizable(ParallelScope.ContextMask)]
     public class ArrayTest
     {
         [Test]

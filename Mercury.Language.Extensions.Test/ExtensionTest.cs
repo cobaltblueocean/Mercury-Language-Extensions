@@ -30,6 +30,7 @@ namespace Mercury.Language.Extensions.Test
     /// <summary>
     /// ExtensionTest Description
     /// </summary>
+    [Parallelizable(ParallelScope.ContextMask)]
     public class ExtensionTest
     {
         [Test]

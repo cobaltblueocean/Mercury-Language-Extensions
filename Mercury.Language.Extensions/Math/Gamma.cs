@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MathNet.Numerics.LinearAlgebra;
-using Mercury.Language.Extensions;
+using Mercury.Language;
 
 namespace Mercury.Language.Math
 {

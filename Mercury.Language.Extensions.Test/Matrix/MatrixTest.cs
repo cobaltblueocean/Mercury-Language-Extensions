@@ -31,6 +31,7 @@ namespace Mercury.Language.Extensions.Test.Matrix
     /// <summary>
     /// MatrixTest Description
     /// </summary>
+    [Parallelizable(ParallelScope.ContextMask)]
     public class MatrixTest
     {
         [Test]

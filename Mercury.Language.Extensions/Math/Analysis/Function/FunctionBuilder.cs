@@ -27,7 +27,7 @@ using Mercury.Language.Math.Analysis.Differentiation;
 using Mercury.Language.Math.Analysis.Function;
 using Mercury.Language.Exceptions;
 using Mercury.Language.Math.Analysis.Integration;
-using Mercury.Language.Extensions;
+using Mercury.Language;
 
 namespace Mercury.Language.Math.Analysis.Function
 {

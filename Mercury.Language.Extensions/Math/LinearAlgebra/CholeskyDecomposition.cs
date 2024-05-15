@@ -25,7 +25,7 @@ using System.Threading.Tasks;
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Double;
 using MathNet.Numerics.LinearAlgebra.Storage;
-using Mercury.Language.Extensions;
+using Mercury.Language;
 using Mercury.Language.Exceptions;
 using Mercury.Language.Math.Matrix;
 using Mercury.Language.Math.Analysis.Solver;

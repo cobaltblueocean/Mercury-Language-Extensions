@@ -42,7 +42,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MathNet.Numerics.LinearAlgebra;
 using Mercury.Language.Exceptions;
-using Mercury.Language.Extensions;
+using Mercury.Language;
 using Mercury.Language.Math.LinearAlgebra;
 using Mercury.Language.Math.Analysis.Solver;
 using Mercury.Language.Math.Matrix;

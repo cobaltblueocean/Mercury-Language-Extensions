@@ -4,7 +4,7 @@
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <Version>0.8.2.67</Version>
+    <Version>0.8.2.68</Version>
     <Title>Mercury Language Extension Package</Title>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <Description>This is a package to extended libraries to enhance C# programming, especially easier migrate from Java.</Description>
@@ -146,9 +146,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Cern.Colt.NET" Version="0.9.3.29" />
+    <PackageReference Include="Cern.Colt.NET" Version="0.9.3.30" />
     <PackageReference Include="MathNet.Numerics" Version="5.0.0" />
-    <PackageReference Include="Mercury.Language.Core" Version="0.8.2.10" />
+    <PackageReference Include="Mercury.Language.Core" Version="0.8.2.11" />
     <PackageReference Include="Mercury.Test.Utility" Version="0.8.1.38" />
     <PackageReference Include="NodaTime" Version="3.1.11" />
     <PackageReference Include="System.Collections.Immutable" Version="8.0.0" />

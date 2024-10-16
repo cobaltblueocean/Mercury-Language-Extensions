@@ -31,7 +31,7 @@ namespace Mercury.Language.Amount
     /// Used for different sensitivities (parallel Curve sensitivity,..d)d The objects stored as a HashMap(T, Double?).
     /// <summary>
     /// <typeparam name="T">The reference object.</typeparam>
-    public class ReferenceAmount<T>
+    public class ReferenceAmount<T> where T : notnull
     {
 
         /// <summary>

@@ -81,7 +81,7 @@ namespace Mercury.Language.Time
         }
 
         #region Implements Interface Methods
-        public int CompareTo(object obj)
+        public int CompareTo(object? obj)
         {
             if (obj == null) return 1;
 
@@ -91,12 +91,12 @@ namespace Mercury.Language.Time
                 throw new ArgumentException(LocalizedResources.Instance().OBJECT_IS_NOT_AN_INSTANT);
         }
 
-        int IComparable.CompareTo(object obj)
+        int IComparable.CompareTo(object? obj)
         {
             return CompareTo(obj);
         }
 
-        string IFormattable.ToString(string format, IFormatProvider formatProvider)
+        string IFormattable.ToString(string? format, IFormatProvider? formatProvider)
         {
             return _baseTime.ToString();
         }
@@ -108,89 +108,89 @@ namespace Mercury.Language.Time
 
         /// <returns>Not supported</returns>
         /// <exception cref="NotImplementedException">NotImplementedException</exception>
-        bool IConvertible.ToBoolean(IFormatProvider provider)
+        bool IConvertible.ToBoolean(IFormatProvider? provider)
         {
             throw new NotImplementedException();
         }
 
         /// <returns>Not supported</returns>
         /// <exception cref="NotImplementedException">NotImplementedException</exception>
-        byte IConvertible.ToByte(IFormatProvider provider)
+        byte IConvertible.ToByte(IFormatProvider? provider)
         {
             throw new NotImplementedException();
         }
 
         /// <returns>Not supported</returns>
         /// <exception cref="NotImplementedException">NotImplementedException</exception>
-        char IConvertible.ToChar(IFormatProvider provider)
+        char IConvertible.ToChar(IFormatProvider? provider)
         {
             throw new NotImplementedException();
         }
 
         /// <returns>Not supported</returns>
         /// <exception cref="NotImplementedException">NotImplementedException</exception>
-        DateTime IConvertible.ToDateTime(IFormatProvider provider)
+        DateTime IConvertible.ToDateTime(IFormatProvider? provider)
         {
             return _baseTime.ToDateTimeUtc();
         }
 
         /// <returns>Not supported</returns>
         /// <exception cref="NotImplementedException">NotImplementedException</exception>
-        decimal IConvertible.ToDecimal(IFormatProvider provider)
+        decimal IConvertible.ToDecimal(IFormatProvider? provider)
         {
             throw new NotImplementedException();
         }
 
         /// <returns>Not supported</returns>
         /// <exception cref="NotImplementedException">NotImplementedException</exception>
-        double IConvertible.ToDouble(IFormatProvider provider)
+        double IConvertible.ToDouble(IFormatProvider? provider)
         {
             throw new NotImplementedException();
         }
 
         /// <returns>Not supported</returns>
         /// <exception cref="NotImplementedException">NotImplementedException</exception>
-        short IConvertible.ToInt16(IFormatProvider provider)
+        short IConvertible.ToInt16(IFormatProvider? provider)
         {
             throw new NotImplementedException();
         }
 
         /// <returns>Not supported</returns>
         /// <exception cref="NotImplementedException">NotImplementedException</exception>
-        int IConvertible.ToInt32(IFormatProvider provider)
+        int IConvertible.ToInt32(IFormatProvider? provider)
         {
             throw new NotImplementedException();
         }
 
         /// <returns>Not supported</returns>
         /// <exception cref="NotImplementedException">NotImplementedException</exception>
-        long IConvertible.ToInt64(IFormatProvider provider)
+        long IConvertible.ToInt64(IFormatProvider? provider)
         {
             throw new NotImplementedException();
         }
 
         /// <returns>Not supported</returns>
         /// <exception cref="NotImplementedException">NotImplementedException</exception>
-        sbyte IConvertible.ToSByte(IFormatProvider provider)
+        sbyte IConvertible.ToSByte(IFormatProvider? provider)
         {
             throw new NotImplementedException();
         }
 
         /// <returns>Not supported</returns>
         /// <exception cref="NotImplementedException">NotImplementedException</exception>
-        float IConvertible.ToSingle(IFormatProvider provider)
+        float IConvertible.ToSingle(IFormatProvider? provider)
         {
             throw new NotImplementedException();
         }
 
-        string IConvertible.ToString(IFormatProvider provider)
+        string IConvertible.ToString(IFormatProvider? provider)
         {
             return _baseTime.ToString();
         }
 
         /// <returns>Not supported</returns>
         /// <exception cref="NotImplementedException">NotImplementedException</exception>
-        object IConvertible.ToType(Type conversionType, IFormatProvider provider)
+        object IConvertible.ToType(Type conversionType, IFormatProvider? provider)
         {
 
             throw new NotImplementedException();
@@ -198,21 +198,21 @@ namespace Mercury.Language.Time
 
         /// <returns>Not supported</returns>
         /// <exception cref="NotImplementedException">NotImplementedException</exception>
-        ushort IConvertible.ToUInt16(IFormatProvider provider)
+        ushort IConvertible.ToUInt16(IFormatProvider? provider)
         {
             throw new NotImplementedException();
         }
 
         /// <returns>Not supported</returns>
         /// <exception cref="NotImplementedException">NotImplementedException</exception>
-        uint IConvertible.ToUInt32(IFormatProvider provider)
+        uint IConvertible.ToUInt32(IFormatProvider? provider)
         {
             throw new NotImplementedException();
         }
 
         /// <returns>Not supported</returns>
         /// <exception cref="NotImplementedException">NotImplementedException</exception>
-        ulong IConvertible.ToUInt64(IFormatProvider provider)
+        ulong IConvertible.ToUInt64(IFormatProvider? provider)
         {
             throw new NotImplementedException();
         }

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace System
 {
-    internal static class ArgumentChecker
+    internal static class ArgumentCheckerLocal
     {
         /// <summary>
         /// Checks that the specified boolean is true.

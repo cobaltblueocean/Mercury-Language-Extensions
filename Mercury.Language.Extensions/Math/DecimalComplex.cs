@@ -260,7 +260,7 @@ namespace System.Numerics
 
         // --------------SECTION: Comparison operations (methods implementing IEquatable<DecimalComplexNumber>,IComparable<DecimalComplexNumber>) -------------- //
 
-        public override bool Equals(object obj)
+        public override readonly bool Equals(object obj)
         {
             if (!(obj is DecimalComplex)) return false;
             return this == ((DecimalComplex)obj);
@@ -352,7 +352,7 @@ namespace System.Numerics
             return (String.Format(provider, "({0}, {1})", this.m_real, this.m_imaginary));
         }
 
-        public String ToString(String format, IFormatProvider provider)
+        public String ToString(String? format, IFormatProvider? provider)
         {
             return (String.Format(provider, "({0}, {1})", this.m_real.ToString(format, provider), this.m_imaginary.ToString(format, provider)));
         }

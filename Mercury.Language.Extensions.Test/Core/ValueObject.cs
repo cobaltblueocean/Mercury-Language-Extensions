@@ -10,7 +10,7 @@ namespace Mercury.Language.Extensions.Test.Core
 
         public ValueObject(double value)
         {
-            ArgumentChecker.IsTrue(value >= 0 && value <= 1.0, "Delta must be in the range (0,1)");
+            ArgumentCheckerLocal.IsTrue(value >= 0 && value <= 1.0, "Delta must be in the range (0,1)");
             _value = value;
         }
 

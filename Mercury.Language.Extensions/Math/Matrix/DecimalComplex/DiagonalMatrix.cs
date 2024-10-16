@@ -36,7 +36,6 @@ using MathNet.Numerics.LinearAlgebra.Storage;
 using MathNet.Numerics.Providers.LinearAlgebra;
 using Mercury.Language;
 using Mercury.Language.Threading;
-using Mercury.Language;
 
 namespace MathNet.Numerics.LinearAlgebra.DecimalComplex
 {

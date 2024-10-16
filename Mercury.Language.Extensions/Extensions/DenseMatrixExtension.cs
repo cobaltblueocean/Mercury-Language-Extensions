@@ -25,7 +25,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Mercury.Language;
 using Mercury.Language.Exceptions;
-using Mercury.Language;
 
 namespace MathNet.Numerics.LinearAlgebra.Double
 {

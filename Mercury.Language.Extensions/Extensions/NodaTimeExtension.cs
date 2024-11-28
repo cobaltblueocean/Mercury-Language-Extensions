@@ -513,6 +513,56 @@ namespace NodaTime
             return NodaTimeUtility.GetZonedDateTime(year, month, day, hour, minute, second, millisecond, nanosecond, zone);
         }
 
+        public static ZonedDateTime MinusTime(this ZonedDateTime nodaTime, LocalTime time)
+        {
+            return nodaTime.PlusHours(-time.Hour).PlusMinutes(-time.Minute).PlusSeconds(-time.Second).PlusMilliseconds(-time.Millisecond);
+        }
+
+        public static ZonedDateTime MinusHours(this ZonedDateTime nodaTime, int hours)
+        {
+            return nodaTime.PlusHours(-hours);
+        }
+
+        public static ZonedDateTime MinusMinutes(this ZonedDateTime nodaTime, int minutes)
+        {
+            return nodaTime.PlusMinutes(-minutes);
+        }
+
+        public static ZonedDateTime MinusSeconds(this ZonedDateTime nodaTime, int seconds)
+        {
+            return nodaTime.PlusMinutes(-seconds);
+        }
+
+        public static ZonedDateTime MinusMilliseconds(this ZonedDateTime nodaTime, long millseconds)
+        {
+            return nodaTime.PlusMilliseconds(-millseconds);
+        }
+
+        public static ZonedDateTime MinusNanoseconds(this ZonedDateTime nodaTime, long nanoseconds)
+        {
+            return nodaTime.PlusNanoseconds(-nanoseconds);
+        }
+
+        public static ZonedDateTime MinusDays(this ZonedDateTime nodaTime, int days)
+        {
+            return nodaTime.Plus(Duration.FromDays(-days));
+        }
+
+        public static ZonedDateTime MinusWeeks(this ZonedDateTime nodaTime, int weeks)
+        {
+            return nodaTime.Plus(Duration.FromDays(-(weeks * 7)));
+        }
+
+        public static ZonedDateTime MinusMonths(this ZonedDateTime nodaTime, int months)
+        {
+            return nodaTime.PlusMonths(-months);
+        }
+
+        public static ZonedDateTime MinusYears(this ZonedDateTime nodaTime, int years)
+        {
+            return nodaTime.PlusYears(-years);
+        }
+
         public static ZonedDateTime PlusDateTimeValues(this ZonedDateTime nodaTime, int year, int month, int day, int hour, int minute, int second, int millisecond, int nanosecond)
         {
             if (year > 0)
@@ -606,6 +656,13 @@ namespace NodaTime
         public static ZonedDateTime WithZoneSameInstant(this ZonedDateTime now, DateTimeZone zone)
         {
             // ArgumentChecker.NotNull(zone, "zone");
+            return now.Zone == zone ? now : new ZonedDateTime(now.ToInstant(), zone);
+        }
+
+        public static ZonedDateTime WithZoneSameInstant(this ZonedDateTime now, String zoneId)
+        {
+            // ArgumentChecker.NotNull(zone, "zone");
+            DateTimeZone zone = NodaTimeUtility.GetTimeZoneByOffsetString(zoneId);
             return now.Zone == zone ? now : new ZonedDateTime(now.ToInstant(), zone);
         }
 
@@ -1438,6 +1495,46 @@ namespace NodaTime
             return nodaTime.Value.PlusTime(time);
         }
 
+        public static Nullable<ZonedDateTime> PlusHours(this Nullable<ZonedDateTime> nodaTime, int hours)
+        {
+            if (nodaTime is null)
+                return null;
+
+            return nodaTime.Value.PlusHours(-hours);
+        }
+
+        public static Nullable<ZonedDateTime> PlusMinutes(this Nullable<ZonedDateTime> nodaTime, int minutes)
+        {
+            if (nodaTime is null)
+                return null;
+
+            return nodaTime.Value.PlusMinutes(-minutes);
+        }
+
+        public static Nullable<ZonedDateTime> PlusSeconds(this Nullable<ZonedDateTime> nodaTime, int seconds)
+        {
+            if (nodaTime is null)
+                return null;
+
+            return nodaTime.Value.PlusMinutes(-seconds);
+        }
+
+        public static Nullable<ZonedDateTime> PlusMilliseconds(this Nullable<ZonedDateTime> nodaTime, long millseconds)
+        {
+            if (nodaTime is null)
+                return null;
+
+            return nodaTime.Value.PlusMilliseconds(-millseconds);
+        }
+
+        public static Nullable<ZonedDateTime> PlusNanoseconds(this Nullable<ZonedDateTime> nodaTime, long nanoseconds)
+        {
+            if (nodaTime is null)
+                return null;
+
+            return nodaTime.Value.PlusNanoseconds(-nanoseconds);
+        }
+
         public static Nullable<ZonedDateTime> PlusDays(this Nullable<ZonedDateTime> nodaTime, int days)
         {
             if (nodaTime is null)
@@ -1469,6 +1566,77 @@ namespace NodaTime
 
             return nodaTime.Value.PlusYears(years);
         }
+        public static Nullable<ZonedDateTime> MinusHours(this Nullable<ZonedDateTime> nodaTime, int hours)
+        {
+            if (nodaTime is null)
+                return null;
+
+            return nodaTime.PlusHours(-hours);
+        }
+
+        public static Nullable<ZonedDateTime> MinusMinutes(this Nullable<ZonedDateTime> nodaTime, int minutes)
+        {
+            if (nodaTime is null)
+                return null;
+
+            return nodaTime.PlusMinutes(-minutes);
+        }
+
+        public static Nullable<ZonedDateTime> MinusSeconds(this Nullable<ZonedDateTime> nodaTime, int seconds)
+        {
+            if (nodaTime is null)
+                return null;
+
+            return nodaTime.PlusMinutes(-seconds);
+        }
+
+        public static Nullable<ZonedDateTime> MinusMilliseconds(this Nullable<ZonedDateTime> nodaTime, long millseconds)
+        {
+            if (nodaTime is null)
+                return null;
+
+            return nodaTime.PlusMilliseconds(-millseconds);
+        }
+
+        public static Nullable<ZonedDateTime> MinusNanoseconds(this Nullable<ZonedDateTime> nodaTime, long nanoseconds)
+        {
+            if (nodaTime is null)
+                return null;
+
+            return nodaTime.PlusNanoseconds(-nanoseconds);
+        }
+
+        public static Nullable<ZonedDateTime> MinusDays(this Nullable<ZonedDateTime> nodaTime, int days)
+        {
+            if (nodaTime is null)
+                return null;
+
+            return nodaTime.PlusDays(-days);
+        }
+
+        public static Nullable<ZonedDateTime> MinusWeeks(this Nullable<ZonedDateTime> nodaTime, int weeks)
+        {
+            if (nodaTime is null)
+                return null;
+
+            return nodaTime.PlusWeeks(-weeks);
+        }
+
+        public static Nullable<ZonedDateTime> MinusMonths(this Nullable<ZonedDateTime> nodaTime, int months)
+        {
+            if (nodaTime is null)
+                return null;
+
+            return nodaTime.PlusMonths(-months);
+        }
+
+        public static Nullable<ZonedDateTime> MinusYears(this Nullable<ZonedDateTime> nodaTime, int years)
+        {
+            if (nodaTime is null)
+                return null;
+
+            return nodaTime.PlusYears(-years);
+        }
 
         public static Nullable<ZonedDateTime> With(this Nullable<ZonedDateTime> now, ITemporalAdjuster tmp)
         {
@@ -1492,6 +1660,14 @@ namespace NodaTime
                 return null;
 
             return now.Value.WithZoneSameInstant(zone);
+        }
+
+        public static Nullable<ZonedDateTime> WithZoneSameInstant(this Nullable<ZonedDateTime> now, String zoneId)
+        {
+            if (now is null)
+                return null;
+
+            return now.Value.WithZoneSameInstant(zoneId);
         }
 
         public static Nullable<ZonedDateTime> Plus(this Nullable<ZonedDateTime> now, Period period)
@@ -2268,6 +2444,49 @@ namespace NodaTime
         {
             return (amountToSubtract == long.MinValue ? now.Plus(long.MaxValue, unit).Plus(1, unit) : now.Plus(-amountToSubtract, unit));
         }
+        public static LocalDateTime MinusHours(this LocalDateTime nodaTime, int hours)
+        {
+            return nodaTime.PlusHours(-hours);
+        }
+
+        public static LocalDateTime MinusMinutes(this LocalDateTime nodaTime, int minutes)
+        {
+            return nodaTime.PlusMinutes(-minutes);
+        }
+
+        public static LocalDateTime MinusSeconds(this LocalDateTime nodaTime, int seconds)
+        {
+            return nodaTime.PlusMinutes(-seconds);
+        }
+
+        public static LocalDateTime MinusMilliseconds(this LocalDateTime nodaTime, long millseconds)
+        {
+            return nodaTime.PlusMilliseconds(-millseconds);
+        }
+        public static LocalDateTime MinusNanoseconds(this LocalDateTime nodaTime, long nanoseconds)
+        {
+            return nodaTime.PlusNanoseconds(-nanoseconds);
+        }
+
+        public static LocalDateTime MinusDays(this LocalDateTime nodaTime, int days)
+        {
+            return nodaTime.PlusDays(-days);
+        }
+
+        public static LocalDateTime MinusWeeks(this LocalDateTime nodaTime, int weeks)
+        {
+            return nodaTime.PlusWeeks(-weeks);
+        }
+
+        public static LocalDateTime MinusMonths(this LocalDateTime nodaTime, int months)
+        {
+            return nodaTime.PlusMonths(-months);
+        }
+
+        public static LocalDateTime MinusYears(this LocalDateTime nodaTime, int years)
+        {
+            return nodaTime.PlusYears(-years);
+        }
 
         public static LocalDateTime OfYearDay(this LocalDateTime now, int year, int dayOfYear)
         {
@@ -2647,6 +2866,45 @@ namespace NodaTime
 
             return now.Value.AdjustDayOfWeek(dayOfWeek);
         }
+        public static Nullable<LocalDateTime> PlusHours(this Nullable<LocalDateTime> nodaTime, int hours)
+        {
+            if (nodaTime is null)
+                return null;
+
+            return nodaTime.Value.PlusHours(-hours);
+        }
+
+        public static Nullable<LocalDateTime> PlusMinutes(this Nullable<LocalDateTime> nodaTime, int minutes)
+        {
+            if (nodaTime is null)
+                return null;
+
+            return nodaTime.Value.PlusMinutes(-minutes);
+        }
+
+        public static Nullable<LocalDateTime> PlusSeconds(this Nullable<LocalDateTime> nodaTime, int seconds)
+        {
+            if (nodaTime is null)
+                return null;
+
+            return nodaTime.Value.PlusMinutes(-seconds);
+        }
+
+        public static Nullable<LocalDateTime> PlusMilliseconds(this Nullable<LocalDateTime> nodaTime, long millseconds)
+        {
+            if (nodaTime is null)
+                return null;
+
+            return nodaTime.Value.PlusMilliseconds(-millseconds);
+        }
+
+        public static Nullable<LocalDateTime> PlusNanoseconds(this Nullable<LocalDateTime> nodaTime, long nanoseconds)
+        {
+            if (nodaTime is null)
+                return null;
+
+            return nodaTime.Value.PlusNanoseconds(-nanoseconds);
+        }
 
         public static Nullable<LocalDateTime> PlusDays(this Nullable<LocalDateTime> nodaTime, int days)
         {
@@ -2678,6 +2936,77 @@ namespace NodaTime
                 return null;
 
             return nodaTime.Value.PlusYears(years);
+        }
+        public static Nullable<LocalDateTime> MinusHours(this Nullable<LocalDateTime> nodaTime, int hours)
+        {
+            if (nodaTime is null)
+                return null;
+
+            return nodaTime.PlusHours(-hours);
+        }
+
+        public static Nullable<LocalDateTime> MinusMinutes(this Nullable<LocalDateTime> nodaTime, int minutes)
+        {
+            if (nodaTime is null)
+                return null;
+
+            return nodaTime.PlusMinutes(-minutes);
+        }
+
+        public static Nullable<LocalDateTime> MinusSeconds(this Nullable<LocalDateTime> nodaTime, int seconds)
+        {
+            if (nodaTime is null)
+                return null;
+
+            return nodaTime.PlusMinutes(-seconds);
+        }
+
+        public static Nullable<LocalDateTime> MinusMilliseconds(this Nullable<LocalDateTime> nodaTime, long millseconds)
+        {
+            if (nodaTime is null)
+                return null;
+
+            return nodaTime.PlusMilliseconds(-millseconds);
+        }
+
+        public static Nullable<LocalDateTime> MinusNanoseconds(this Nullable<LocalDateTime> nodaTime, long nanoseconds)
+        {
+            if (nodaTime is null)
+                return null;
+
+            return nodaTime.PlusNanoseconds(-nanoseconds);
+        }
+
+        public static Nullable<LocalDateTime> MinusDays(this Nullable<LocalDateTime> nodaTime, int days)
+        {
+            if (nodaTime is null)
+                return null;
+
+            return nodaTime.PlusDays(-days);
+        }
+
+        public static Nullable<LocalDateTime> MinusWeeks(this Nullable<LocalDateTime> nodaTime, int weeks)
+        {
+            if (nodaTime is null)
+                return null;
+
+            return nodaTime.PlusWeeks(-weeks);
+        }
+
+        public static Nullable<LocalDateTime> MinusMonths(this Nullable<LocalDateTime> nodaTime, int months)
+        {
+            if (nodaTime is null)
+                return null;
+
+            return nodaTime.PlusMonths(-months);
+        }
+
+        public static Nullable<LocalDateTime> MinusYears(this Nullable<LocalDateTime> nodaTime, int years)
+        {
+            if (nodaTime is null)
+                return null;
+
+            return nodaTime.PlusYears(-years);
         }
 
         public static Nullable<LocalDateTime> With(this Nullable<LocalDateTime> now, ITemporalAdjuster tmp)
@@ -3459,6 +3788,26 @@ namespace NodaTime
             return (amountToSubtract == long.MinValue ? now.Plus(long.MaxValue, unit).Plus(1, unit) : now.Plus(-amountToSubtract, unit));
         }
 
+        public static LocalDate MinusDays(this LocalDate nodaTime, int days)
+        {
+            return nodaTime.PlusDays(-days);
+        }
+
+        public static LocalDate MinusWeeks(this LocalDate nodaTime, int weeks)
+        {
+            return nodaTime.PlusWeeks(-weeks);
+        }
+
+        public static LocalDate MinusMonths(this LocalDate nodaTime, int months)
+        {
+            return nodaTime.PlusMonths(-months);
+        }
+
+        public static LocalDate MinusYears(this LocalDate nodaTime, int years)
+        {
+            return nodaTime.PlusYears(-years);
+        }
+
         public static LocalDate OfYearDay(this LocalDate now, int year, int dayOfYear)
         {
             ChronoField.YEAR.CheckValidValue(year);
@@ -4108,6 +4457,38 @@ namespace NodaTime
             return nodaTime.Value.PlusYears(years);
         }
 
+        public static Nullable<LocalDate> MinusDays(this Nullable<LocalDate> nodaTime, int days)
+        {
+            if (nodaTime is null)
+                return null;
+
+            return nodaTime.PlusDays(-days);
+        }
+
+        public static Nullable<LocalDate> MinusWeeks(this Nullable<LocalDate> nodaTime, int weeks)
+        {
+            if (nodaTime is null)
+                return null;
+
+            return nodaTime.PlusWeeks(-weeks);
+        }
+
+        public static Nullable<LocalDate> MinusMonths(this Nullable<LocalDate> nodaTime, int months)
+        {
+            if (nodaTime is null)
+                return null;
+
+            return nodaTime.PlusMonths(-months);
+        }
+
+        public static Nullable<LocalDate> MinusYears(this Nullable<LocalDate> nodaTime, int years)
+        {
+            if (nodaTime is null)
+                return null;
+
+            return nodaTime.PlusYears(-years);
+        }
+
         public static Nullable<LocalDate> With(this Nullable<LocalDate> now, ITemporalAdjuster tmp)
         {
             if (now is null)
@@ -4504,6 +4885,41 @@ namespace NodaTime
         public static Instant PlusMillis(this Instant now, long millis)
         {
             return now.Plus(Duration.FromMilliseconds(millis));
+        }
+
+        public static Instant MinusDays(this Instant now, int days)
+        {
+            return now.Plus(Duration.FromDays(-days));
+        }
+
+        public static Instant MinusHours(this Instant now, int hours)
+        {
+            return now.Plus(Duration.FromHours(-hours));
+        }
+
+        public static Instant MinusMinutes(this Instant now, int minutes)
+        {
+            return now.Plus(Duration.FromMinutes(-minutes));
+        }
+
+        public static Instant MinusSeconds(this Instant now, int seconds)
+        {
+            return now.Plus(Duration.FromSeconds(-seconds));
+        }
+
+        public static Instant MinusMillis(this Instant now, long millis)
+        {
+            return now.Plus(Duration.FromMilliseconds(-millis));
+        }
+
+        //public static Instant MinusNanos(this Instant now, long nanos)
+        //{
+        //    return now.Plus(Duration.FromNanoseconds(-nanos));
+        //}
+
+        public static Instant MinusTicks(this Instant now, long ticks)
+        {
+            return now.Plus(Duration.FromTicks(-ticks));
         }
 
         //public static Instant PlusNanos(this Instant now, long nanos)

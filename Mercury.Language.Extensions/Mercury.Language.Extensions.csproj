@@ -4,7 +4,7 @@
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <Version>0.8.2.71</Version>
+    <Version>0.8.2.75</Version>
     <Title>Mercury Language Extension Package</Title>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <Description>This is a package to extended libraries to enhance C# programming, especially easier migrate from Java.</Description>
@@ -135,7 +135,12 @@
 
 [0.8.2.65]
  - Added some more methods for AugumentChecker class, and messages, bug fix for DecimalComplexExtensions class
-</PackageReleaseNotes>
+
+[0.8.2.73]
+- Local Debug build
+
+[0.8.2.74]
+- Added 'Minus' methods to NodaTimeExtensions</PackageReleaseNotes>
     <ApplicationIcon>Mercury.ico</ApplicationIcon>
     <PackageIcon>Mercury.jpg</PackageIcon>
     <Product>Mercury Language Extension Package</Product>
@@ -149,7 +154,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="..\..\Fudge-CSharp\README.md">
+    <None Include="..\README.md">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
@@ -157,9 +162,8 @@
 
   <ItemGroup>
     <PackageReference Include="MathNet.Numerics" Version="5.0.0" />
-    <PackageReference Include="MercuryTech.Colt.Library" Version="0.9.3.33" />
-    <PackageReference Include="MercuryTech.Language.Core" Version="0.8.2.14" />
-    <PackageReference Include="MercuryTech.Test.Utility" Version="0.8.1.41" />
+    <PackageReference Include="Mercury.Colt.Library" Version="0.9.3.34" />
+    <PackageReference Include="Mercury.Language.Core" Version="0.8.2.15" />
     <PackageReference Include="NodaTime" Version="3.2.0" />
     <PackageReference Include="System.Collections.Immutable" Version="8.0.0" />
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="8.0.1" />

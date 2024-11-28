@@ -449,6 +449,11 @@ namespace System
             return TimeZoneIdString;
         }
 
+        public static DateTimeZone GetTimeZoneByOffsetString(String Id)
+        {
+            return DateTimeZoneProviders.Bcl[NodaTimeUtility.GetTimeZoneIdByOffsetString(Id)];
+        }
+
         public static LocalDate OfEpochDay(long epochDay)
         {
             ChronoField.EPOCH_DAY.CheckValidValue(epochDay);

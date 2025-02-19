@@ -4,7 +4,7 @@
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <Version>0.8.2.75</Version>
+    <Version>0.8.2.82</Version>
     <Title>Mercury Language Extension Package</Title>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <Description>This is a package to extended libraries to enhance C# programming, especially easier migrate from Java.</Description>
@@ -162,15 +162,15 @@
 
   <ItemGroup>
     <PackageReference Include="MathNet.Numerics" Version="5.0.0" />
-    <PackageReference Include="Mercury.Colt.Library" Version="0.9.3.34" />
-    <PackageReference Include="Mercury.Language.Core" Version="0.8.2.15" />
+    <PackageReference Include="Mercury.Colt.Library" Version="0.9.3.44" />
+    <PackageReference Include="Mercury.Language.Core" Version="0.8.2.17" />
     <PackageReference Include="NodaTime" Version="3.2.0" />
-    <PackageReference Include="System.Collections.Immutable" Version="8.0.0" />
-    <PackageReference Include="System.Configuration.ConfigurationManager" Version="8.0.1" />
-    <PackageReference Include="System.Diagnostics.EventLog" Version="8.0.1" />
-    <PackageReference Include="System.Drawing.Common" Version="8.0.10" />
+    <PackageReference Include="System.Collections.Immutable" Version="9.0.0" />
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="9.0.0" />
+    <PackageReference Include="System.Diagnostics.EventLog" Version="9.0.0" />
+    <PackageReference Include="System.Drawing.Common" Version="9.0.0" />
     <PackageReference Include="System.Runtime.Extensions" Version="4.3.1" />
-    <PackageReference Include="System.Text.Json" Version="8.0.5" />
+    <PackageReference Include="System.Text.Json" Version="9.0.0" />
   </ItemGroup>
 
   <ItemGroup>
